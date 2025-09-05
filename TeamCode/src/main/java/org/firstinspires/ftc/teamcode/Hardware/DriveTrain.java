@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
  */
 public class DriveTrain extends BaseHardware {
 
-    public DistanceSensor WallEway;  //auton wall distance sensor;
-    public DistanceSensor HumptyDumpty;  // there is another;
+    //public DistanceSensor WallEway;  //auton wall distance sensor;
+    //public DistanceSensor HumptyDumpty;  // there is another;
 
     private DcMotor LDM1 ;
     private DcMotor LDM2 ;
@@ -96,9 +96,6 @@ public class DriveTrain extends BaseHardware {
      * This method will be called once when the INIT button is pressed.
      */
     public void init() {
-        HumptyDumpty = hardwareMap.get(DistanceSensor.class,"HumptyDumpty");
-        WallEway = hardwareMap.get(DistanceSensor.class, "WallEway");
-
 
         Gyro.telemetry = telemetry;
         Gyro.hardwareMap = hardwareMap;
@@ -213,14 +210,6 @@ public class DriveTrain extends BaseHardware {
 
     }
 
-    public DistanceSensor getHumptyDumpty() {
-        return HumptyDumpty;
-    }
-
-
-    public DistanceSensor getWallEway() {
-        return WallEway;
-    }
 
     /**
      * User defined stop method
@@ -591,7 +580,6 @@ public class DriveTrain extends BaseHardware {
                 break;
             case RIGHT_FRONT:
                 //range = sensorRangeRightFront;
-                range = CommonLogic.CapValue(HumptyDumpty.getDistance(DistanceUnit.INCH),0,80);
 
                 break;
             case LEFT_FRONT:
@@ -600,7 +588,6 @@ public class DriveTrain extends BaseHardware {
             case LEFT_SIDE:
 
                // CommonLogic.CapValue(WallEway.getDistance(DistanceUnit.INCH),0,80);
-                  range = CommonLogic.CapValue(WallEway.getDistance(DistanceUnit.INCH),0,80);
                // range = WallEway.getDistance(DistanceUnit.INCH);
                 break;
             case RIGHT_SIDE:
