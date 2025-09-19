@@ -1,10 +1,25 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.PathChain;
+
+import java.util.function.Supplier;
+
 public class Robot extends BaseHardware {
 
     public DriveTrain driveTrain = new DriveTrain();
     //public Lighting lighting = new Lighting();
     public Sensors sensors = new Sensors();
+
+    private Follower follower;
+    public static Pose startingPose; //See ExampleAuto to understand how to use this
+    private boolean automatedDrive;
+    private Supplier<PathChain> pathChain;
+    private TelemetryManager telemetryM;
+    private boolean slowMode = false;
+    private double slowModeMultiplier = 0.5;
 
     @Override
     public void init() {
