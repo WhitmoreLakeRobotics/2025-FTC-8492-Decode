@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -20,7 +21,7 @@ public class Sensors extends BaseHardware {
     //private ColorRangeSensor IntakeSensor;
     //private DistanceSensor RearLeftSensor
 
-
+    
 
     private boolean cmdComplete = true;
     private Mode CurrentMode = Mode.STOP;
