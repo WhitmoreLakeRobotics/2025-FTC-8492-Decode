@@ -124,11 +124,10 @@ public void SetTempColor (RevBlinkinLedDriver.BlinkinPattern tempColor){
     blinkinLedDriver.setPattern(tempColor);
     runtime.reset();
 }
-private void ReturnToBaseColor (){
-        if (runtime.milliseconds() > TempColorTimeout){
-            blinkinLedDriver.setPattern(baseColor);
-        }
+private void ReturnToBaseColor () {
+    if (runtime.milliseconds() > TempColorTimeout) {
+        blinkinLedDriver.setPattern(baseColor);
+    }
 
 }
-
-}
+    }
