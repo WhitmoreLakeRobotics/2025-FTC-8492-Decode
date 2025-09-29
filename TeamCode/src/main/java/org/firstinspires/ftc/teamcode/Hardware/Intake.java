@@ -38,12 +38,24 @@ public class Intake extends BaseHardware{
 
     public Mode CurrentMode;
 
+    private double NTKM01Power;
+
+    public final double minPower = -1.0;
+    public final double maxPower = 1.0;
+
+    public static final double stopSpeed = 0;
+    public static final double inSpeed = 0.5;
+    public static final double outSpeed = -0.5;
+  //  public static final double snailoutSpeed = -0.25;
+
+
     /**
      * User defined init method
      * <p>
      * This method will be called once when the INIT button is pressed.
      */
     public void init() {
+
 
 
         NTKM01 = hardwareMap.get(DcMotor.class, "NTKM01");
@@ -90,6 +102,23 @@ public class Intake extends BaseHardware{
     void stop(){
 
     }
+
+    public void cmdBackward(){
+        CurrentMode = Mode.NTKbackward;
+        NTKM01.setPower (outSpeed);
+    }
+    public void cmdFoward(){
+        CurrentMode = Mode.NTKforward;
+        NTKM01.setPower (inSpeed);
+
+    }
+
+    public void cmdStop(){
+        CurrentMode = Mode.NTKstop;
+        NTKM01.setPower (stopSpeed);
+
+    }
+
     public enum Mode {
         NTKstop,
         NTKforward,

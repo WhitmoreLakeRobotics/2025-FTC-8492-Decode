@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 
+import org.firstinspires.ftc.teamcode.Hardware.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
@@ -284,10 +285,11 @@ public class Tele_Op extends OpMode {
 
 
         if (CommonLogic.oneShot(gamepad2.a, gp2_prev_a)) {
-
+            robot.intake.CurrentMode = Intake.Mode.NTKforward;
         }
 
         if (CommonLogic.oneShot(gamepad2.b, gp2_prev_b)) {
+            robot.intake.CurrentMode = Intake.Mode.NTKstop;
         }
 
         if (CommonLogic.oneShot(gamepad2.y, gp2_prev_y)) {
@@ -296,6 +298,7 @@ public class Tele_Op extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
+            robot.intake.CurrentMode = Intake.Mode.NTKbackward;
         }
 
         //robot.swing_arm_and_lift.SwingPos(robot.swing_arm_and_lift.LASTSWINGPOSITION + (int)(gamepad2.left_stick_x) * 5);

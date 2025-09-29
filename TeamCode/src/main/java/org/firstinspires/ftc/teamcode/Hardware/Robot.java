@@ -12,6 +12,7 @@ public class Robot extends BaseHardware {
     public DriveTrain driveTrain = new DriveTrain();
     //public Lighting lighting = new Lighting();
     public Sensors sensors = new Sensors();
+    public Intake intake = new Intake();
 
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
@@ -35,8 +36,7 @@ public class Robot extends BaseHardware {
         sensors.hardwareMap = this.hardwareMap;
         sensors.telemetry = this.telemetry;
         sensors.init();
-
-
+        intake.hardwareMap = this.hardwareMap;
 
     }
 
@@ -45,7 +45,7 @@ public class Robot extends BaseHardware {
         driveTrain.init_loop();
         //lighting.init_loop();
         sensors.init_loop();
-
+        intake.init_loop();
     }
 
     @Override
@@ -53,6 +53,7 @@ public class Robot extends BaseHardware {
         driveTrain.start();
        // lighting.start();
         sensors.start();
+        intake.start();
 
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
@@ -63,7 +64,7 @@ public class Robot extends BaseHardware {
         driveTrain.loop();
        //. lighting.loop();
         sensors.loop();
-
+        intake.loop();
 
 
 
@@ -75,6 +76,7 @@ public class Robot extends BaseHardware {
         driveTrain.stop();
        // lighting.stop();
         sensors.stop();
+        intake.stop();
 
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
