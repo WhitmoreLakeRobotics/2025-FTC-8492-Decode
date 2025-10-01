@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.qualcomm.hardware.bosch.BHI260IMU;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 
@@ -14,12 +15,12 @@ import java.util.Locale;
 public class CommonGyro extends BaseHardware {
 
     // The IMU sensor object
-    BNO055IMU imu;
-    // BHI260IMU imu;
+    // BNO055IMU imu;
+    BHI260IMU imu;
     // State used for updating telemetry
     Orientation angles;
     int gyroHeading_Current = 0;
-    BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+    BHI260IMU.Parameters parameters = new BHI260IMU.Parameters();
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -31,9 +32,9 @@ public class CommonGyro extends BaseHardware {
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
         // provide positional information.
         //BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.angleUnit = BHI260IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BHI260IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BHI260IMUCalibration.json"; // see the calibration sample opmode
         parameters.loggingEnabled = true;
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
@@ -41,7 +42,7 @@ public class CommonGyro extends BaseHardware {
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
-        imu = hardwareMap.get(BNO055IMU.class, "imu2");
+        imu = hardwareMap.get(BHI260IMU.class, "imu");
         //imu.initialize(parameters);
 
     }
