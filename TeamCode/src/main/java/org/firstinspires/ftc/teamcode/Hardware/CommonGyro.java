@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Hardware;
-
-import com.qualcomm.hardware.bosch.BHI260IMU;
-import com.qualcomm.hardware.bosch.BNO055IMU;
+// 10/1/25 NJ -Removing old IMU stuff and adding Universal IMU so we don't specify which chip is used
+//import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 
 import org.firstinspires.ftc.robotcore.external.Func;
@@ -9,18 +8,22 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot;
 
 import java.util.Locale;
 
 public class CommonGyro extends BaseHardware {
 
     // The IMU sensor object
-    // BNO055IMU imu;
-    BHI260IMU imu;
+    IMU imu;
+    // BHI260IMU imu;
     // State used for updating telemetry
     Orientation angles;
     int gyroHeading_Current = 0;
-    BHI260IMU.Parameters parameters = new BHI260IMU.Parameters();
+    private ImuOrientationOnRobot ImuOrientationOnRobot;
+    IMU.Parameters parameters = new IMU.Parameters(ImuOrientationOnRobot);
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -32,18 +35,28 @@ public class CommonGyro extends BaseHardware {
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
         // provide positional information.
         //BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BHI260IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BHI260IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BHI260IMUCalibration.json"; // see the calibration sample opmode
+    /* Looks like these are no longer needed
+        parameters.angleUnit = IMU.AngleUnit.DEGREES;
+
+        parameters.accelUnit = IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
         parameters.loggingEnabled = true;
         parameters.loggingTag = "IMU";
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
+ */
         // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
-        imu = hardwareMap.get(BHI260IMU.class, "imu");
+        imu = hardwareMap.get(IMU.class, "imu");
         //imu.initialize(parameters);
+        RevHubOrientationOnRobot.LogoFacingDirection logoDirection =
+                RevHubOrientationOnRobot.LogoFacingDirection.UP;
+        RevHubOrientationOnRobot.UsbFacingDirection usbDirection =
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
+
+        RevHubOrientationOnRobot orientationOnRobot = new
+                RevHubOrientationOnRobot(logoDirection, usbDirection);
+        imu.initialize(new IMU.Parameters(orientationOnRobot));
 
     }
 
@@ -161,7 +174,7 @@ public class CommonGyro extends BaseHardware {
         //https://ftcforum.usfirst.org/forum/ftc-technology/49904-help-with-rev-expansion-hub-integrated-gyro
         //hint: composeTelemetry() also captures this information below.
 
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         //return formatAngle(angles.angleUnit, angles.firstAngle);
         gyroHeading_Current = -1 * (int) (angles.firstAngle);
@@ -173,7 +186,7 @@ public class CommonGyro extends BaseHardware {
         return gyroHeading_Current;
     }
     public double getGyroHeadingRadian() {
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
+        angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS);
         return(-1 * (angles.firstAngle));
     }
 
@@ -204,12 +217,12 @@ public class CommonGyro extends BaseHardware {
                 // Acquiring the angles is relatively expensive; we don't want
                 // to do that in each of the three items that need that info, as that's
                 // three times the necessary expense.
-                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             }
         });
 
-        telemetry.addLine()
-                .addData("status", new Func<String>() {
+ /*          telemetry.addLine()
+             .addData("status", new Func<String>() {
                     @Override
                     public String value() {
                         return imu.getSystemStatus().toShortString();
@@ -221,7 +234,7 @@ public class CommonGyro extends BaseHardware {
                         return imu.getCalibrationStatus().toString();
                     }
                 });
-
+*/
         telemetry.addLine()
                 .addData("heading", new Func<String>() {
                     @Override
