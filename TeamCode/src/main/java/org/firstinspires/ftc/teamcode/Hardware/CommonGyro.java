@@ -23,7 +23,14 @@ public class CommonGyro extends BaseHardware {
     Orientation angles;
     int gyroHeading_Current = 0;
     private ImuOrientationOnRobot ImuOrientationOnRobot;
-    IMU.Parameters parameters = new IMU.Parameters(ImuOrientationOnRobot);
+    RevHubOrientationOnRobot.LogoFacingDirection logoDirection =
+            RevHubOrientationOnRobot.LogoFacingDirection.UP;
+    RevHubOrientationOnRobot.UsbFacingDirection usbDirection =
+            RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
+
+    RevHubOrientationOnRobot orientationOnRobot = new
+            RevHubOrientationOnRobot(logoDirection, usbDirection);
+    IMU.Parameters parameters = new IMU.Parameters(orientationOnRobot);
 
     /*
      * Code to run ONCE when the driver hits INIT
