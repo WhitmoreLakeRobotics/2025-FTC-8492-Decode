@@ -28,13 +28,13 @@ public class Launcher extends BaseHardware{
      * The op mode name should be unique. It will be the name displayed on the driver station. If
      * multiple op modes have the same name, only one will be available.
      */
-    private DcMotor LM01 ;
-    private DcMotor LM02 ;
+    private DcMotor LaunchM01 ;
+    private DcMotor LaunchM02 ;
 
     public Mode CurrentMode;
 
-    private double LM01Power;
-    private double LM02Power;
+    private double LaunchM01Power;
+    private double LaunchM02Power;
 
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
@@ -58,8 +58,8 @@ public class Launcher extends BaseHardware{
 
 
 
-        LM02 = hardwareMap.get(DcMotor.class, "LM02");
-        LM01 = hardwareMap.get(DcMotor.class, "LM01");
+        LaunchM02 = hardwareMap.get(DcMotor.class, "LaunchM02");
+        LaunchM01 = hardwareMap.get(DcMotor.class, "LaunchM01");
 
     }
 
@@ -105,23 +105,23 @@ public class Launcher extends BaseHardware{
     }
 
     public void cmdOutnear(){
-        CurrentMode = Mode.LMout;
-        LM01.setPower (topSpeednear);
-        LM02.setPower (bottomSpeednear);
+        CurrentMode = Mode.LaunchMout;
+        LaunchM01.setPower (topSpeednear);
+        LaunchM02.setPower (bottomSpeednear);
     }
 
     public void cmdOutfar(){
-        CurrentMode = Mode.LMout;
-        LM01.setPower (topSpeedfar);
-        LM02.setPower (bottomSpeedfar);
+        CurrentMode = Mode.LaunchMout;
+        LaunchM01.setPower (topSpeedfar);
+        LaunchM02.setPower (bottomSpeedfar);
     }
 
 
 
     public void cmdStop(){
-        CurrentMode = Mode.LMstop;
-        LM01.setPower (stopSpeed);
-        LM02.setPower (stopSpeed);
+        CurrentMode = Mode.LaunchMstop;
+        LaunchM01.setPower (stopSpeed);
+        LaunchM02.setPower (stopSpeed);
 
 
     }
@@ -129,8 +129,8 @@ public class Launcher extends BaseHardware{
 
 
     public enum Mode {
-        LMout,
-        LMstop;
+        LaunchMout,
+        LaunchMstop;
     }
 
 
