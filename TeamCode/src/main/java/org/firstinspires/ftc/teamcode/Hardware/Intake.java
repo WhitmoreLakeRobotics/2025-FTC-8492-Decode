@@ -44,7 +44,7 @@ public class Intake extends BaseHardware{
     public final double maxPower = 1.0;
 
     public static final double stopSpeed = 0;
-    public static final double inSpeed = 0.5;
+    public static final double inSpeed = 0.85;  // use to be 0.5,then 0.75;
     public static final double outSpeed = -0.5;
   //  public static final double snailoutSpeed = -0.25;
 
