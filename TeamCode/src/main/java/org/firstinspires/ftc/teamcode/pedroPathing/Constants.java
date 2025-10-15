@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import android.util.Log;
+
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
@@ -7,6 +9,7 @@ import com.pedropathing.ftc.drivetrains.MecanumConstants;
 import com.pedropathing.ftc.localization.constants.OTOSConstants;
 import com.pedropathing.ftc.localization.localizers.OTOSLocalizer;
 import com.pedropathing.paths.PathConstraints;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -17,7 +20,7 @@ import kotlinx.coroutines.scheduling.CoroutineScheduler;
 
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
-    .mass(5);
+            .mass(5);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1)
@@ -33,7 +36,10 @@ public class Constants {
     public static OTOSConstants localizerConstants =  new OTOSConstants()
             .hardwareMapName("otto")
             .linearUnit(DistanceUnit.INCH)
-            .angleUnit(AngleUnit.RADIANS);
+            .angleUnit(AngleUnit.RADIANS)
+            .offset(new SparkFunOTOS.Pose2D(6.0,-0.1875,180))
+            .linearScalar(-1.021984) //Multiplier
+            .angularScalar(0.9679) ;//Multiplier
 
 
 
@@ -45,7 +51,6 @@ public class Constants {
                 .mecanumDrivetrain(driveConstants)
                 .OTOSLocalizer(localizerConstants)
                 .build();
-
     }
 
 }
