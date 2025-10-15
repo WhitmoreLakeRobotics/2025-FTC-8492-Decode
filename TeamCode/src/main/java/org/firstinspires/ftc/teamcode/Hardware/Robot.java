@@ -13,8 +13,8 @@ public class Robot extends BaseHardware {
     //public Lighting lighting = new Lighting();
     public Sensors sensors = new Sensors();
     public Intake intake = new Intake();
-    //public Launcher launcher = new Launcher();
-
+    public Launcher launcher = new Launcher();
+    public Spindexer spindexer = new Spindexer();
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
     private boolean automatedDrive;
@@ -43,9 +43,15 @@ public class Robot extends BaseHardware {
         intake.telemetry = this.telemetry;
         intake.init();
 
-        //launcher.hardwareMap = this.hardwareMap;
-        //launcher.telemetry = this.telemetry;
-        //launcher.init();
+        launcher.hardwareMap = this.hardwareMap;
+        launcher.telemetry = this.telemetry;
+        launcher.init();
+
+
+        spindexer.hardwareMap = this.hardwareMap;
+        spindexer.telemetry = this.telemetry;
+        spindexer.init();
+
     }
 
     @Override
@@ -54,7 +60,8 @@ public class Robot extends BaseHardware {
         //lighting.init_loop();
         sensors.init_loop();
         intake.init_loop();
-        //launcher.init_loop();
+        launcher.init_loop();
+        spindexer.init_loop();
     }
 
     @Override
@@ -63,7 +70,8 @@ public class Robot extends BaseHardware {
        // lighting.start();
         sensors.start();
         intake.start();
-        //launcher.start();
+        launcher.start();
+        spindexer.start();
 
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
@@ -75,7 +83,8 @@ public class Robot extends BaseHardware {
        //. lighting.loop();
         sensors.loop();
         intake.loop();
-        //launcher.loop();
+        launcher.loop();
+        spindexer.loop();
 
 
 
@@ -88,8 +97,8 @@ public class Robot extends BaseHardware {
        // lighting.stop();
         sensors.stop();
         intake.stop();
-        //launcher.stop();
-
+        launcher.stop();
+        spindexer.stop();
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
