@@ -360,6 +360,9 @@ public class Tele_Op extends OpMode {
         if (CommonLogic.oneShot(gamepad2.left_bumper, gp2_prev_left_bumper)) {
          //   robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
 
+            if (gamepad2.left_bumper )
+
+
             RobotLog.aa(TAGTeleop, " gp2_prev_left_bumper : " + gp2_prev_left_bumper);
         }
 
@@ -399,6 +402,8 @@ public class Tele_Op extends OpMode {
 //            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
             //robot.subExtender.incPositionIndex();
             robot.launcher.cmdStop();
+            robot.flickiteer.cmdReady();
+            //robot.spindexer.
         }
 
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
