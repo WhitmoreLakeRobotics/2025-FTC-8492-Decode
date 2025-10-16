@@ -20,6 +20,7 @@ import kotlinx.coroutines.scheduling.CoroutineScheduler;
 
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
+            .forwardZeroPowerAcceleration(-35.4224625953)
             .mass(5);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
@@ -31,7 +32,10 @@ public class Constants {
             .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
             .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD);
+            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .xVelocity(62.1843713475)
+            .yVelocity(243.6787);
+
 
     public static OTOSConstants localizerConstants =  new OTOSConstants()
             .hardwareMapName("otto")
@@ -40,6 +44,7 @@ public class Constants {
             .offset(new SparkFunOTOS.Pose2D(6.0,-0.1875,4.7124))
             .linearScalar(-1.021984) //Multiplier
             .angularScalar(0.9689) ;//Multiplier
+
 
 
 
