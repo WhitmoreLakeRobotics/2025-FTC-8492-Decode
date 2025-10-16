@@ -37,9 +37,9 @@ public class Constants {
             .hardwareMapName("otto")
             .linearUnit(DistanceUnit.INCH)
             .angleUnit(AngleUnit.RADIANS)
-            .offset(new SparkFunOTOS.Pose2D(6.0,-0.1875,180))
+            .offset(new SparkFunOTOS.Pose2D(6.0,-0.1875,4.7124))
             .linearScalar(-1.021984) //Multiplier
-            .angularScalar(0.9679) ;//Multiplier
+            .angularScalar(0.9689) ;//Multiplier
 
 
 
