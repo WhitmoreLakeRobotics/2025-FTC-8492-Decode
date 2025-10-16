@@ -25,6 +25,9 @@ public class Spindexer {
     private static final double NormalSpeed = 0.25;
     private static final double TurboSpeed = 0.75;
 
+    public final double minPower = -1.0;
+    public final double maxPower = 1.0;
+
     public Mode CurrentMode;
 
 
@@ -56,6 +59,8 @@ public class Spindexer {
      public void init(){
 
          SDM01 = hardwareMap.get (DcMotor.class, "SDM01");
+         SDM01.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+         SDM01.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
      };
 
@@ -97,6 +102,7 @@ public class Spindexer {
      * The stop method is optional. By default this method takes no action.
      */
    public void stop(){
+
 
     }
 

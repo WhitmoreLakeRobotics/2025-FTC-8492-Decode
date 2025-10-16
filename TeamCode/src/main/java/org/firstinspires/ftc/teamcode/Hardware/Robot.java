@@ -15,6 +15,7 @@ public class Robot extends BaseHardware {
     public Intake intake = new Intake();
     public Launcher launcher = new Launcher();
     public Spindexer spindexer = new Spindexer();
+    public Flickiteer flickiteer = new Flickiteer();
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
     private boolean automatedDrive;
@@ -52,6 +53,10 @@ public class Robot extends BaseHardware {
         spindexer.telemetry = this.telemetry;
         spindexer.init();
 
+        flickiteer.hardwareMap = this.hardwareMap;
+        flickiteer.telemetry = this.telemetry;
+        flickiteer.init();
+
     }
 
     @Override
@@ -62,6 +67,7 @@ public class Robot extends BaseHardware {
         intake.init_loop();
         launcher.init_loop();
         spindexer.init_loop();
+        flickiteer.init_loop();
     }
 
     @Override
@@ -72,6 +78,7 @@ public class Robot extends BaseHardware {
         intake.start();
         launcher.start();
         spindexer.start();
+        flickiteer.start();
 
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
@@ -85,6 +92,7 @@ public class Robot extends BaseHardware {
         intake.loop();
         launcher.loop();
         spindexer.loop();
+        flickiteer.loop();
 
 
 
@@ -99,11 +107,14 @@ public class Robot extends BaseHardware {
         intake.stop();
         launcher.stop();
         spindexer.stop();
+        flickiteer.stop();
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 
-
+      public void safteyCheck(){
+        //when called comfirm flicker is in safe position before spindexing.
+      }
 
 
 }

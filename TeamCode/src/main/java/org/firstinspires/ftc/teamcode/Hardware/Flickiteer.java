@@ -24,7 +24,7 @@ public class Flickiteer extends BaseHardware {
     public Servo Flicker;
     private static final double Ready = 0;
     private static final double Fire = 120;
-
+    public Mode CurrentMode;
 
 
 
@@ -92,7 +92,14 @@ public class Flickiteer extends BaseHardware {
 
     }
 
+     public void cmdFire(){
+        CurrentMode = Mode.Fire;
 
+     }
+
+     public void cmdReady(){
+            CurrentMode = Mode.Ready;
+     }
 
 
 
