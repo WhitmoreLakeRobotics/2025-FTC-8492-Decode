@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 
 import org.firstinspires.ftc.teamcode.Hardware.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.Hardware.Spindexer;
 
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Tele_Op", group = "TeleOp")
@@ -228,7 +229,31 @@ public class Tele_Op extends OpMode {
             //if (RBTChassis.subGrabbers.getIsUpRight()) {
             //robot.subGrabbers.cmdMoveDownRight();
             //}
-     //       robot.driveTrain.cmdTurnByGyroMec(90);
+            //       robot.driveTrain.cmdTurnByGyroMec(90);
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin1) {
+                robot.spindexer.NTK_POSITION_TWO();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin2) {
+                robot.spindexer.NTK_POSITION_THREE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin3) {
+                robot.spindexer.NTK_POSITION_ONE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout1) {
+                robot.spindexer.NTK_POSITION_THREE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout2) {
+                robot.spindexer.NTK_POSITION_ONE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout3) {
+                robot.spindexer.NTK_POSITION_TWO();
+            }
+
         }
 
         if (CommonLogic.oneShot(gamepad1.dpad_up, gp1_prev_dpad_up)) {
@@ -236,6 +261,33 @@ public class Tele_Op extends OpMode {
             //robot.subGrabbers.cmdMoveUpRight();
             //}
           //  robot.driveTrain.cmdTurnByGyroMec(0);
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout1) {
+                robot.spindexer.OTK_POSITION_TWO();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout2) {
+                robot.spindexer.OTK_POSITION_THREE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout3) {
+                robot.spindexer.OTK_POSITION_ONE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin1) {
+                robot.spindexer.OTK_POSITION_TWO();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin2) {
+                robot.spindexer.OTK_POSITION_THREE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin3) {
+                robot.spindexer.OTK_POSITION_ONE();
+            }
+
+
+
         }
 
         if (CommonLogic.oneShot(gamepad1.dpad_left, gp1_prev_dpad_left)) {
@@ -243,6 +295,31 @@ public class Tele_Op extends OpMode {
             //    robot.subGrabbers.cmdMoveUpLeft();
             //}
            // robot.driveTrain.cmdTurnByGyroMec(-90);
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin1) {
+                robot.spindexer.NTK_POSITION_THREE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin2) {
+                robot.spindexer.NTK_POSITION_ONE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin3) {
+                robot.spindexer.NTK_POSITION_TWO();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout1) {
+                robot.spindexer.NTK_POSITION_TWO();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout2) {
+                robot.spindexer.NTK_POSITION_THREE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout3) {
+                robot.spindexer.NTK_POSITION_ONE();
+            }
+
         }
 
         if (CommonLogic.oneShot(gamepad1.dpad_down, gp1_prev_dpad_down)) {
@@ -250,6 +327,31 @@ public class Tele_Op extends OpMode {
             //    robot.subGrabbers.cmdMoveDownLeft();
             //}
            // robot.driveTrain.cmdTurnByGyroMec(180);
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout1) {
+                robot.spindexer.OTK_POSITION_THREE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout2) {
+                robot.spindexer.OTK_POSITION_ONE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout3) {
+                robot.spindexer.OTK_POSITION_TWO();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin1) {
+                robot.spindexer.OTK_POSITION_THREE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin2) {
+                robot.spindexer.OTK_POSITION_ONE();
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin3) {
+                robot.spindexer.OTK_POSITION_TWO();
+            }
+
         }
 
         //***********   Gamepad 2 controls ********
@@ -265,6 +367,7 @@ public class Tele_Op extends OpMode {
 
 
         if (CommonLogic.oneShot(gamepad2.right_bumper, gp2_prev_right_bumper)) {
+            robot.launcher.cmdOutnear();
 
         }
         if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back)){
@@ -295,6 +398,7 @@ public class Tele_Op extends OpMode {
         if (CommonLogic.oneShot(gamepad2.y, gp2_prev_y)) {
 //            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
             //robot.subExtender.incPositionIndex();
+            robot.launcher.cmdStop();
         }
 
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
@@ -342,6 +446,8 @@ public class Tele_Op extends OpMode {
 
 
         if (gamepad2.right_trigger > 0.8){
+
+            robot.launcher.cmdOutfar();
 
             }
         if ((gamepad2.right_trigger <= 0.79) && (gamepad2.right_trigger > 0.10)){
