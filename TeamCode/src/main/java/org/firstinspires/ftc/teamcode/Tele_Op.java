@@ -7,7 +7,9 @@ import com.qualcomm.robotcore.util.RobotLog;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 
+import org.firstinspires.ftc.teamcode.Hardware.Flickiteer;
 import org.firstinspires.ftc.teamcode.Hardware.Intake;
+
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Hardware.Spindexer;
 
@@ -51,9 +53,9 @@ public class Tele_Op extends OpMode {
 
 
     //*********************************************************************************************
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
+
+      //Code to run ONCE when the driver hits INIT
+
     @Override
     public void init() {
         //----------------------------------------------------------------------------------------------
@@ -90,18 +92,18 @@ public class Tele_Op extends OpMode {
     }
 
     //*********************************************************************************************
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
+
+      //Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
+
     @Override
     public void init_loop() {
         robot.init_loop();
     }
 
     //*********************************************************************************************
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
+
+      //Code to run ONCE when the driver hits PLAY
+
     @Override
     public void start() {
         Runtime.getRuntime();
@@ -113,9 +115,9 @@ public class Tele_Op extends OpMode {
     }
 
     //*********************************************************************************************
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
+
+     // Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+
     @Override
     public void loop() {
         robot.loop();
@@ -199,9 +201,9 @@ public class Tele_Op extends OpMode {
 //            robot.sweeper.setCurrentMode(Sweeper.Mode.STOP);
 
         // Bumpers high and lower Powers for the wheels,
-        /*if (CommonLogic.oneShot(gamepad1.left_bumper, gp1_prev_left_bumper)) {
-            robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_SLOWSPEED);
-        }*/
+        //if (CommonLogic.oneShot(gamepad1.left_bumper, gp1_prev_left_bumper)) {
+          //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_SLOWSPEED);
+        //}
         if ((gamepad1.left_trigger > .6) && (gamepad1.right_trigger < .6)) {
 
         } else if((gamepad1.left_trigger < .6) && (gamepad1.right_trigger > .6))
@@ -212,17 +214,17 @@ public class Tele_Op extends OpMode {
         }
 
 
-        /*if (CommonLogic.oneShot(gamepad1.right_bumper, gp1_prev_right_bumper)) {
-            robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_SLOWSPEED);
-        }*/
-        /*if (gamepad1.right_bumper) {
-            robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_TURBOSPEED);
-            RobotLog.aa(TAGTeleop,"GamepadRB: " + gamepad1.right_bumper);
-            telemetry.addData (TAGTeleop, "GamepadRB: " + gamepad1.right_bumper);
-        } else if(gamepad1.right_bumper == false)
-        {
-            robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
-        }*/
+        //if (CommonLogic.oneShot(gamepad1.right_bumper, gp1_prev_right_bumper)) {
+          //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_SLOWSPEED);
+       // }
+       // if (gamepad1.right_bumper) {
+          //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_TURBOSPEED);
+           // RobotLog.aa(TAGTeleop,"GamepadRB: " + gamepad1.right_bumper);
+       //     telemetry.addData (TAGTeleop, "GamepadRB: " + gamepad1.right_bumper);
+      //  } else if(gamepad1.right_bumper == false)
+       // {
+          //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
+        //}
 
         //***********  Grabbers
         if (CommonLogic.oneShot(gamepad1.dpad_right, gp1_prev_dpad_right)) {
@@ -361,9 +363,41 @@ public class Tele_Op extends OpMode {
          //   robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
 
             if (gamepad2.left_bumper )
+                RobotLog.aa(TAGTeleop, " gp2_prev_left_bumper : " + gp2_prev_left_bumper);
 
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout1) {
 
-            RobotLog.aa(TAGTeleop, " gp2_prev_left_bumper : " + gp2_prev_left_bumper);
+                if (robot.flickiteer.CurrentMode == Flickiteer.Mode.Ready) {
+                    robot.flickiteer.cmdFire();
+                }
+                if (robot.flickiteer.CurrentMode == Flickiteer.Mode.Fire) {
+                    robot.flickiteer.cmdReady();
+                }
+
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout2) {
+
+                if (robot.flickiteer.CurrentMode == Flickiteer.Mode.Ready) {
+                    robot.flickiteer.cmdFire();
+                }
+                if (robot.flickiteer.CurrentMode == Flickiteer.Mode.Fire) {
+                    robot.flickiteer.cmdReady();
+                }
+
+            }
+
+            if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout3) {
+
+                if (robot.flickiteer.CurrentMode == Flickiteer.Mode.Ready) {
+                    robot.flickiteer.cmdFire();
+                }
+                if (robot.flickiteer.CurrentMode == Flickiteer.Mode.Fire) {
+                    robot.flickiteer.cmdReady();
+                }
+
+            }
+
         }
 
 
@@ -496,9 +530,9 @@ public class Tele_Op extends OpMode {
     }
 
     //*********************************************************************************************
-    /*
-     * Code to run ONCE after the driver hits STOP
-     */
+
+      //Code to run ONCE after the driver hits STOP
+
     @Override
     public void stop() {
 
