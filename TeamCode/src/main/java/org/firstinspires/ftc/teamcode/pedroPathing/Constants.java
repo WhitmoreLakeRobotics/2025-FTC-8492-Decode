@@ -21,6 +21,11 @@ import kotlinx.coroutines.scheduling.CoroutineScheduler;
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .forwardZeroPowerAcceleration(-35.4224625953)
+            .lateralZeroPowerAcceleration(-43.517320985)
+           // .useSecondaryTranslationalPIDF(true)
+           // .useSecondaryHeadingPIDF(true)
+           // .useSecondaryDrivePIDF(true)
+            
             .mass(5);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
