@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import android.util.Log;
 
+import com.pedropathing.control.FilteredPIDFCoefficients;
+import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
@@ -22,10 +24,11 @@ public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .forwardZeroPowerAcceleration(-35.4224625953)
             .lateralZeroPowerAcceleration(-43.517320985)
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0, 0.008, 0.05))
+            .headingPIDFCoefficients(new PIDFCoefficients(1, 0, 0.01, 0.025))
            // .useSecondaryTranslationalPIDF(true)
            // .useSecondaryHeadingPIDF(true)
            // .useSecondaryDrivePIDF(true)
-            
             .mass(5);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
