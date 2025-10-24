@@ -23,6 +23,7 @@ public class Robot extends BaseHardware {
     private TelemetryManager telemetryM;
     private boolean slowMode = false;
     private double slowModeMultiplier = 0.5;
+    public boolean bCkSenors = false;
 
     @Override
     public void init() {
@@ -116,5 +117,12 @@ public class Robot extends BaseHardware {
         //when called comfirm flicker is in safe position before spindexing.
       }
 
-
+    public void Cksem (){
+        if(bCkSenors){
+            sensors. SpindexerSlot1 = sensors.getSlotArtifact(sensors.SDC01);
+            sensors.SpindexerSlot2 = sensors.getSlotArtifact(sensors.SDC02);
+            sensors.SpindexerSlot3 = sensors.getSlotArtifact(sensors.SDC03);
+            sensors.IntakeSlot = sensors.getSlotArtifact(sensors.NTKC01);
+        }
+    }
 }
