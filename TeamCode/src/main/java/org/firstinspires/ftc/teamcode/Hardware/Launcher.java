@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Common.CommonLogic;
+
+import kotlin.ranges.URangesKt;
 
 
 /**
@@ -28,8 +33,10 @@ public class Launcher extends BaseHardware{
      * The op mode name should be unique. It will be the name displayed on the driver station. If
      * multiple op modes have the same name, only one will be available.
      */
-    private DcMotor LaunchM01 ;
-    private DcMotor LaunchM02 ;
+
+
+    private DcMotorEx LaunchM01 ;
+    private DcMotorEx LaunchM02 ;
 
     public Mode CurrentMode;
 
@@ -45,6 +52,25 @@ public class Launcher extends BaseHardware{
     public static final double bottomSpeednear = 0.5;
     public static final double bottomSpeedfar = 1;
 
+    private double kP = 0.005;
+    private double kI = 0.0001;
+    private double kD = 0.001;
+
+    private double targetRPM1 = 0;
+    private double targetRPM2 = 0;
+    private double lastError = 0;
+    private double integralSum = 0;
+
+    private double targetRPM1Tol = 100;
+    private double targetRPM2Tol = 100;
+
+    private ElapsedTime timer = new ElapsedTime();
+
+    public boolean bAtSpeed = false;
+
+
+
+
 
     //  public static final double snailoutSpeed = -0.25;
 
@@ -58,8 +84,8 @@ public class Launcher extends BaseHardware{
 
 
 
-        LaunchM02 = hardwareMap.get(DcMotor.class, "LaunchM02");
-        LaunchM01 = hardwareMap.get(DcMotor.class, "LaunchM01");
+        LaunchM02 = hardwareMap.get(DcMotorEx.class, "LaunchM02");
+        LaunchM01 = hardwareMap.get(DcMotorEx.class, "LaunchM01");
 
     }
 
@@ -90,6 +116,15 @@ public class Launcher extends BaseHardware{
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop(){
+        runPID();
+
+        if ((CommonLogic.inRange(getMotorRPM(LaunchM01),targetRPM1,targetRPM1Tol)) &&
+                (CommonLogic.inRange(getMotorRPM(LaunchM02),targetRPM2,targetRPM2Tol))
+        ){
+            bAtSpeed = true;
+        } else {
+        bAtSpeed = false;
+        }
 
     }
 
@@ -106,14 +141,20 @@ public class Launcher extends BaseHardware{
 
     public void cmdOutnear(){
         CurrentMode = Mode.LaunchMout;
-        LaunchM01.setPower (topSpeednear);
-        LaunchM02.setPower (bottomSpeednear);
+        //LaunchM01.setPower (topSpeednear);
+       // LaunchM02.setPower (bottomSpeednear);
+        targetRPM1 = 3000;
+        targetRPM2 = 4000;
+
     }
 
     public void cmdOutfar(){
         CurrentMode = Mode.LaunchMout;
-        LaunchM01.setPower (topSpeedfar);
-        LaunchM02.setPower (bottomSpeedfar);
+      //  LaunchM01.setPower (topSpeedfar);
+       // LaunchM02.setPower (bottomSpeedfar);
+        targetRPM1 = 4000;
+        targetRPM2 = 5000;
+
     }
 
 
@@ -126,6 +167,50 @@ public class Launcher extends BaseHardware{
 
     }
 
+    public double getMotorRPM(DcMotorEx motor){
+        double ticksPerRevolution = 28; //update and double check
+        double gearRatio = 1.0; //update and double check
+        double ticksPerSecond = motor.getVelocity();
+        return (ticksPerSecond / ticksPerRevolution) * 60 * gearRatio;
+    }
+
+    private double calculatePID(double currentRPM,double targetRPM){
+        double error = targetRPM - currentRPM;
+        double deltaTime = timer.seconds();
+        timer.reset();
+
+        double proportional = kP * error;
+
+        integralSum += error * deltaTime;
+        double integral = kI * integralSum;
+
+        double derivative = kD * (error - lastError) / deltaTime;
+        lastError = error;
+
+        return proportional + integral + derivative;
+    }
+
+    public void runPID(){
+        double currentRPM1 = getMotorRPM(LaunchM01);
+        double power1 = calculatePID(currentRPM1,targetRPM1);
+
+        double currentRPM2 = getMotorRPM(LaunchM02);
+    double power2 = calculatePID(currentRPM2,targetRPM2);
+
+        LaunchM01.setPower(power1);
+        LaunchM02.setPower(power2);
+
+        telemetry.addData("Target RPM",targetRPM1);
+        telemetry.addData("Current RPM",currentRPM1);
+        telemetry.addData("Motor Power",power1);
+        //telemetry.update();
+
+        telemetry.addData("Target RPM",targetRPM2);
+        telemetry.addData("Current RPM",currentRPM2);
+        telemetry.addData("Motor Power",power2);
+        telemetry.update();
+
+    }
 
 
     public enum Mode {

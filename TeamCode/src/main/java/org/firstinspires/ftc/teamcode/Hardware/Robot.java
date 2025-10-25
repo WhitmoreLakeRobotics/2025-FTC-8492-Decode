@@ -14,7 +14,7 @@ public class Robot extends BaseHardware {
     public Sensors sensors = new Sensors();
     public Intake intake = new Intake();
     public Launcher launcher = new Launcher();
-    public Spindexer spindexer = new Spindexer();
+   // public Spindexer spindexer = new Spindexer();
     public Flickiteer flickiteer = new Flickiteer();
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
@@ -49,10 +49,12 @@ public class Robot extends BaseHardware {
         launcher.telemetry = this.telemetry;
         launcher.init();
 
-
+         /*
         spindexer.hardwareMap = this.hardwareMap;
         spindexer.telemetry = this.telemetry;
         spindexer.init();
+
+          */
 
         flickiteer.hardwareMap = this.hardwareMap;
         flickiteer.telemetry = this.telemetry;
@@ -67,7 +69,7 @@ public class Robot extends BaseHardware {
         sensors.init_loop();
         intake.init_loop();
         launcher.init_loop();
-        spindexer.init_loop();
+      //  spindexer.init_loop();
         flickiteer.init_loop();
     }
 
@@ -78,7 +80,7 @@ public class Robot extends BaseHardware {
         sensors.start();
         intake.start();
         launcher.start();
-        spindexer.start();
+      //  spindexer.start();
         flickiteer.start();
 
 
@@ -92,7 +94,7 @@ public class Robot extends BaseHardware {
         sensors.loop();
         intake.loop();
         launcher.loop();
-        spindexer.loop();
+       // spindexer.loop();
         flickiteer.loop();
 
 
@@ -107,7 +109,7 @@ public class Robot extends BaseHardware {
         sensors.stop();
         intake.stop();
         launcher.stop();
-        spindexer.stop();
+      //  spindexer.stop();
         flickiteer.stop();
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
@@ -125,4 +127,25 @@ public class Robot extends BaseHardware {
             sensors.IntakeSlot = sensors.getSlotArtifact(sensors.NTKC01);
         }
     }
+
+public void LaunchNear(){         //wait for launcher to spin up to speed.
+        launcher.cmdOutnear();
+     if (launcher.bAtSpeed) {
+         flickiteer.cmdFire();
+     }
+}
+
+public void LaunchFar(){          //wait for launcher to spin up to speed.
+        launcher.cmdOutfar();
+      if (launcher.bAtSpeed){
+          flickiteer.cmdFire();
+      }
+}
+
+public void NoLaunch(){
+    flickiteer.cmdReady();
+        launcher.cmdStop();
+
+}
+
 }
