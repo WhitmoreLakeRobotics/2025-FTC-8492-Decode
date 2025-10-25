@@ -405,6 +405,7 @@ public class Tele_Op extends OpMode {
 
         if (CommonLogic.oneShot(gamepad2.right_bumper, gp2_prev_right_bumper)) {
             robot.launcher.cmdOutnear();
+            robot.bCkSenors = false;
 
         }
         if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back)){
@@ -426,6 +427,7 @@ public class Tele_Op extends OpMode {
 
         if (CommonLogic.oneShot(gamepad2.a, gp2_prev_a)) {
             robot.intake.cmdFoward();
+            robot.bCkSenors = true;
         }
 
         if (CommonLogic.oneShot(gamepad2.b, gp2_prev_b)) {
@@ -487,6 +489,7 @@ public class Tele_Op extends OpMode {
         if (gamepad2.right_trigger > 0.8){
 
             robot.launcher.cmdOutfar();
+            robot.bCkSenors = false;
 
             }
         if ((gamepad2.right_trigger <= 0.79) && (gamepad2.right_trigger > 0.10)){

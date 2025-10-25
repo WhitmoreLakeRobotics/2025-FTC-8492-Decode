@@ -28,7 +28,7 @@ public class Spindexer {
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
 
-    public Mode CurrentMode;
+    public Mode CurrentMode = Mode.SDin1;
 
 
 
@@ -135,28 +135,48 @@ public class Spindexer {
         SDM01.setTargetPosition(60);
     }
 
+    public void goToNextPos(String Type){   //TURN void BACK TO Mode OR CODE WILL DIE.
+
+
+
+       if(Type == CurrentMode.type){
+           int newPos = (CurrentMode.PosNum + 1)% 3;
+           //use *FANCY* method to determine what mode to return.
+       }
+       else{
+           //use Type for your search of next position.
+           //use *FANCY* method to determine what mode to return.
+       }
+
+    }
+
     public enum Mode{
-        SDin1,
-        SDin2,
-        SDin3,
-        SDout1,
-        SDout2,
-        SDout3;
+        SDin1(1,0,"in"),
+        SDin2(2,300,"in"),
+        SDin3(3,600,"in"),
+        SDout1(1,450,"out"),
+        SDout2(2,750,"out"),
+        SDout3(3,150,"out");
+
+        int PosNum;
+        int PosTicks;
+        String type;
+
+        Mode(int PosNum, int PosTicks, String type){
+            this.PosNum = PosNum;
+            this.PosTicks = PosTicks;
+            this.type = type;
+        }
+
+    //make *FANCY* method to look up APPROPIATE position.
+    //use Type and PosNum to determine correct mode.
 
     }
 
 
-    public enum Method{
-    START( ),
-    NTK_POSITION_ONE(),
-    NTK_POSITION_TWO(),
-    NTK_POSITION_THREE(),
-    OTK_POSITION_ONE(),
-    OTK_POSITION_TWO(),
-    OTK_POSITION_THREE();
-    }
 
-//*pure confusion*
+
+//*pure confusion* -Wyatt
 
 }
 

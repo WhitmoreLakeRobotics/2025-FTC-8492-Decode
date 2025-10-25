@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 
 /**
  * Base class for FTC Team 8492 defined hardware
@@ -28,10 +29,10 @@ public class Sensors extends BaseHardware {
 
 
 
-    private ColorSensor SDC01;
-    private ColorSensor SDC02;
-    private ColorSensor SDC03;
-    private ColorSensor NTKC01;
+    public ColorSensor SDC01;
+    public ColorSensor SDC02;
+    public ColorSensor SDC03;
+    public ColorSensor NTKC01;
 
 
 
@@ -44,7 +45,10 @@ public class Sensors extends BaseHardware {
     private int SensorRed;
     private int SensorGreen;
 
-    public Target currentTarget = Target.UNKNOWNT;
+    public TargetType SpindexerSlot1 = TargetType.UNKNOWNT;
+    public TargetType SpindexerSlot2 = TargetType.UNKNOWNT;
+    public TargetType SpindexerSlot3 = TargetType.UNKNOWNT;
+    public TargetType IntakeSlot = TargetType.UNKNOWNT;
     /**
      * Hardware Mappings
      */
@@ -91,8 +95,8 @@ public class Sensors extends BaseHardware {
      */
     public void init_loop() {
 
-        int red1 = SDC01.red();
-        int green1 = SDC01.green();
+        //int red1 = SDC01.red();
+        /*//int green1 = SDC01.green();
         int blue1 = SDC01.blue();
 
         int red2 = SDC02.red();
@@ -106,8 +110,12 @@ public class Sensors extends BaseHardware {
         int red4 = NTKC01.red();
         int green4 = NTKC01.green();
         int blue4 = NTKC01.blue();
+*/
 
 
+        SpindexerSlot1 = getSlotArtifact(SDC01);
+        SpindexerSlot2 = getSlotArtifact(SDC02);
+        SpindexerSlot3 = getSlotArtifact(SDC03);
 
         telemetry.addData("Blue", SDC01.blue());
         telemetry.addData("Red ",SDC01.red());
@@ -155,28 +163,17 @@ public class Sensors extends BaseHardware {
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop(){
+        SpindexerSlot1 = getSlotArtifact(SDC01);
+        SpindexerSlot2 = getSlotArtifact(SDC02);
+        SpindexerSlot3 = getSlotArtifact(SDC03);
+        IntakeSlot = getSlotArtifact(NTKC01);
 
     }
-    /*
-    public void CheckForTarget() {
-        updateColorSensor();
 
-        Color Target;
-        if ((Target.GREENT.red <= SensorRed) &&
-                (Target.GREENT.blue >= SensorBlue) &&
-                (Target.GREENT.green >= SensorGreen)) {
-            currentTarget = Target.GREENT;
-        } else if ((Target.PURPLET.red >= SensorRed) &&      <-------FIX PLEASE!
-                (Target.PURPLET.blue <= SensorBlue) &&
-                (Target.PURPLET.green >= SensorGreen)) {
-            currentTarget = Target.PURPLET;
-        } else {
-            currentTarget = Target.UNKNOWNT;
 
-        }
 
-    }
-*/
+
+
 
     public void doStop(){
         CurrentMode = Mode.STOP;
@@ -199,27 +196,60 @@ public void stop(){
 
 }
 
+public TargetType getSlotArtifact(ColorSensor v3) {
+    int red1 = v3.red();
+    int green1 = v3.green();
+    int blue1 = v3.blue();
+
+    if ((CommonLogic.inRange(red1,TargetType.GREENT.red,TargetType.GREENT.redTol ))
+    &&(CommonLogic.inRange(blue1,TargetType.GREENT.blue,TargetType.GREENT.blueTol ))
+    &&(CommonLogic.inRange(green1,TargetType.GREENT.green,TargetType.GREENT.greenTol))
+    ){
+        return TargetType.GREENT;
+    }else if ((CommonLogic.inRange(red1,TargetType.PURPLET.red,TargetType.PURPLET.redTol ))
+            &&(CommonLogic.inRange(blue1,TargetType.PURPLET.blue,TargetType.PURPLET.blueTol ))
+            &&(CommonLogic.inRange(green1,TargetType.PURPLET.green,TargetType.PURPLET.greenTol))
+    ){
+        return TargetType.PURPLET;
+    }else {
+        return TargetType.UNKNOWNT;
+    }
+
+}
+
+
+
+
+
+
 
 public enum Mode{
     STOP
 }
 
 
-    public enum Target {
-        GREENT(60, 90, 70),
-        PURPLET(110, 60, 90),
-        UNKNOWNT(10, 10, 10);
+    public enum TargetType {
+        GREENT(25, 5, 75,25,1,3 ),
+        PURPLET(6, 1, 1, 2, 7,1 ),
+        UNKNOWNT(1, 1, 1,1,1,1);
 
 
 
         private int red;
+        private int  redTol;
         private int blue;
+        private int blueTol;
         private int green;
+        private int greenTol;
 
-        Target(int red, int blue, int green) {
+
+        TargetType(int red,int redTol,int blue,int blueTol,int green,int greenTol) {
             this.red = red;
+            this.redTol = redTol;
             this.blue = blue;
+            this.blueTol = blueTol;
             this.green = green;
+            this.greenTol = greenTol;
         }
 
         }
