@@ -101,14 +101,11 @@ public class TransitionRoller extends BaseHardware{
      public void cmdStop(){
          CurrentMode = Mode.Stop;
          TRM01.setPower (stopSpeed);
-
-
      }
 
      public void cmdSpin() {
          CurrentMode = Mode.Spin;
          TRM01.setPower(TRSpeed);
-
      }
 
     public enum Mode {
