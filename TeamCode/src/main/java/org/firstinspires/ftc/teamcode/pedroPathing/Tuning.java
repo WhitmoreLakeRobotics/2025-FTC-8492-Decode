@@ -531,7 +531,7 @@ class LateralVelocityTuner extends OpMode {
  */
 class ForwardZeroPowerAccelerationTuner extends OpMode {
     private final ArrayList<Double> accelerations = new ArrayList<>();
-    public static double VELOCITY = 30;
+    public static double VELOCITY = 50;
 
     private double previousVelocity;
     private long previousTimeNano;
@@ -635,7 +635,7 @@ class ForwardZeroPowerAccelerationTuner extends OpMode {
  */
 class LateralZeroPowerAccelerationTuner extends OpMode {
     private final ArrayList<Double> accelerations = new ArrayList<>();
-    public static double VELOCITY = 30;
+    public static double VELOCITY = 50;
     private double previousVelocity;
     private long previousTimeNano;
     private boolean stopping;
@@ -925,6 +925,12 @@ class DriveTuner extends OpMode {
             }
         }
 
+        telemetryM.addData("x", follower.getPose().getX());
+        telemetryM.addData("y", follower.getPose().getY());
+        telemetryM.addData("heading Degrees", Math.toDegrees(follower.getPose().getHeading()));
+        //    telemetryMU.addData("path", follower.getCurrentPath());
+        telemetryM.addData("y", follower.getPose().getY());
+        telemetryM.addData("heading", follower.getPose().getHeading());
         telemetryM.debug("Driving forward?: " + forward);
         telemetryM.update(telemetry);
     }
@@ -987,6 +993,12 @@ class Line extends OpMode {
             }
         }
 
+        telemetryM.addData("x", follower.getPose().getX());
+        telemetryM.addData("y", follower.getPose().getY());
+        telemetryM.addData("heading Degrees", Math.toDegrees(follower.getPose().getHeading()));
+        //    telemetryMU.addData("path", follower.getCurrentPath());
+        telemetryM.addData("y", follower.getPose().getY());
+        telemetryM.addData("heading", follower.getPose().getHeading());
         telemetryM.debug("Driving Forward?: " + forward);
         telemetryM.update(telemetry);
     }
@@ -1092,6 +1104,14 @@ class Triangle extends OpMode {
         if (follower.atParametricEnd()) {
             follower.followPath(triangle, true);
         }
+
+        telemetryM.addData("x", follower.getPose().getX());
+        telemetryM.addData("y", follower.getPose().getY());
+        telemetryM.addData("heading Degrees", Math.toDegrees(follower.getPose().getHeading()));
+        //    telemetryMU.addData("path", follower.getCurrentPath());
+        telemetryM.addData("y", follower.getPose().getY());
+        telemetryM.addData("heading", follower.getPose().getHeading());
+        telemetryM.update();
     }
 
     @Override
@@ -1178,10 +1198,17 @@ class Circle extends OpMode {
         if (follower.atParametricEnd()) {
             follower.followPath(circle);
         }
+        telemetryM.addData("x", follower.getPose().getX());
+        telemetryM.addData("y", follower.getPose().getY());
+        telemetryM.addData("heading Degrees", Math.toDegrees(follower.getPose().getHeading()));
+        //    telemetryMU.addData("path", follower.getCurrentPath());
+        telemetryM.addData("y", follower.getPose().getY());
+        telemetryM.addData("heading", follower.getPose().getHeading());
+        telemetryM.update();
     }
 }
-
 /**
+
  * This is the Drawing class. It handles the drawing of stuff on Panels Dashboard, like the robot.
  *
  * @author Lazar - 19234

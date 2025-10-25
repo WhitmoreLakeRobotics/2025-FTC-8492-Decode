@@ -2,12 +2,19 @@
 package org.firstinspires.ftc.teamcode.pedroPathing; // make sure this aligns with class location
 
 //import android.graphics.Path;
+import com.bylazar.field.FieldManager;
+import com.bylazar.field.PanelsField;
+import com.bylazar.field.Style;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.math.Vector;
 import com.pedropathing.paths.*;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
+import com.pedropathing.util.PoseHistory;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -15,17 +22,26 @@ import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 @Autonomous(name = "Pedro Auton test", group = "Examples")
 public class PedroAutontest extends OpMode {
-    public PedroTelemetry pedroPanelsTelemetry = new PedroTelemetry();
-    public PedroDrawPath drawThis = new PedroDrawPath();
+   //Trying with panels inside class public PedroTelemetry pedroPanelsTelemetry = new PedroTelemetry();
+    //public PedroDrawPath drawThis = new PedroDrawPath();
+    private String thisUpdate= "3";
+   private TelemetryManager telemetryMU;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
 
     private int pathState;
-    private final Pose startPose = new Pose(28.5, 128, Math.toRadians(180)); // Start Pose of our robot.
+  /* I found these poses wrong for this game so I've redone them to fit what I think it should be for a Goal start position  private final Pose startPose = new Pose(28.5, 128, Math.toRadians(180)); // Start Pose of our robot.
     private final Pose scorePose = new Pose(60, 85, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1Pose = new Pose(37, 121, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup2Pose = new Pose(43, 130, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(49, 135, Math.toRadians(0)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+*/
+    //Thes are my adaptations
+    private final Pose startPose = new Pose(15, 103, Math.toRadians(135)); // Start Pose of our robot.
+    private final Pose scorePose = new Pose(60, 85, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose pickup1Pose = new Pose(17, 100, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2Pose = new Pose(17, 65, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3Pose = new Pose(17, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
 
     private Path scorePreload;
     private PathChain grabPickup1, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
@@ -82,16 +98,26 @@ public class PedroAutontest extends OpMode {
         // These loop the movements of the robot, these must be called continuously in order to work
         follower.update();
         autonomousPathUpdate();
-        telemetry.addData("Update 1 path state", pathState);
+        telemetryMU.addData("Update ", thisUpdate);
         // Feedback to Driver Hub for debugging
-        telemetry.addData("path state", pathState);
-        telemetry.addData("x", follower.getPose().getX());
-        telemetry.addData("y", follower.getPose().getY());
-        telemetry.addData("heading", follower.getPose().getHeading());
-        telemetry.update();
+        telemetryMU.addData("path state", pathState);
+        telemetryMU.addData("x", follower.getPose().getX());
+        telemetryMU.addData("y", follower.getPose().getY());
+        telemetryMU.addData("heading Degrees:", Math.toDegrees(follower.getPose().getHeading()));
+    //    telemetryMU.addData("path", follower.getCurrentPath());
+        telemetryMU.addData("y", follower.getPose().getY());
+        telemetryMU.addData("heading", follower.getPose().getHeading());
 
-        pedroPanelsTelemetry.loop();
-        drawThis.loop();
+        telemetryMU.update();
+DrawingAuton.drawDebug(follower);
+      //  pedroPanelsTelemetry.loop();
+      //  drawThis.loop();
+     /*   telemetryMU.debug("x:" + myOTOS.getPosition().x);
+
+        telemetryMU.debug("y:" + myOTOS.getPosition().y);
+        telemetryMU.debug("heading:" + myOTOS.getPosition().h);
+        //telemetryMU.debug("total heading:" + follower.getTotalHeading());
+        telemetryMU.update(telemetry);*/
     }
 
     /** This method is called once at the init of the OpMode. **/
@@ -105,8 +131,24 @@ public class PedroAutontest extends OpMode {
         follower = Constants.createFollower(hardwareMap);
         buildPaths();
         follower.setStartingPose(startPose);
-        pedroPanelsTelemetry.init();
-        drawThis.init();
+        follower.update();
+      //  pedroPanelsTelemetry.init();
+        DrawingAuton.init();
+        telemetryMU = PanelsTelemetry.INSTANCE.getTelemetry();
+        setPathState(0);
+        // disp[lay starting postition
+        telemetryMU.addData("initialized postition - Update ", thisUpdate);
+        // Feedback to Driver Hub for debugging
+        telemetryMU.addData("path state", pathState);
+        telemetryMU.addData("x", follower.getPose().getX());
+        telemetryMU.addData("y", follower.getPose().getY());
+        telemetryMU.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
+      //  telemetryMU.addData("path", follower.getCurrentPath());
+        telemetryMU.addData("y", follower.getPose().getY());
+        telemetryMU.addData("heading", follower.getPose().getHeading());
+
+        telemetryMU.update();
+        DrawingAuton.drawDebug(follower);
 
 
     }
@@ -150,59 +192,59 @@ public class PedroAutontest extends OpMode {
                     setPathState(2);
                 }
                 break;
-//                /* commenting out extra steps you can remove with a find replace "//" with space
-//           case 2:
+
+     case 2:
 //
-//                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
-//                if (!follower.isBusy()) {
-//                    /* Grab Sample */
+          /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
+          if (!follower.isBusy()) {
+              /* Grab Sample */
 //
-//                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-//                    follower.followPath(scorePickup1, true);
-//                    setPathState(3);
-//                }
-//                break;
-//            case 3:
-//                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-//                if (!follower.isBusy()) {
-//                    /* Score Sample */
+              /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
+              follower.followPath(scorePickup1, true);
+              setPathState(3);
+          }
+          break;
+      case 3:
+          /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+          if (!follower.isBusy()) {
+              /* Score Sample */
 //
-//                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-//                    follower.followPath(grabPickup2, true);
-//                    setPathState(4);
-//                }
-//                break;
-//            case 4:
-//                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
-//                if (!follower.isBusy()) {
-//                    /* Grab Sample */
+              /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+              follower.followPath(grabPickup2, true);
+              setPathState(4);
+          }
+          break;
+      case 4:
+          /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup2Pose's position */
+          if (!follower.isBusy()) {
+              /* Grab Sample */
 //
-//                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-//                    follower.followPath(scorePickup2, true);
-//                    setPathState(5);
-//                }
-//                break;
-//            case 5:
-//                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
-//                if (!follower.isBusy()) {
-//                    /* Score Sample */
+              /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
+              follower.followPath(scorePickup2, true);
+              setPathState(5);
+          }
+          break;
+      case 5:
+          /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
+          if (!follower.isBusy()) {
+              /* Score Sample */
 //
-//                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-//                    follower.followPath(grabPickup3, true);
-//                    setPathState(6);
-//                }
-//                break;
-//            case 6:
-//                /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
-//                if (!follower.isBusy()) {
-//                    /* Grab Sample */
+              /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
+              follower.followPath(grabPickup3, true);
+              setPathState(6);
+          }
+          break;
+      case 6:
+          /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup3Pose's position */
+          if (!follower.isBusy()) {
+              /* Grab Sample */
 //
-//                    /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-//                    follower.followPath(scorePickup3, true);
-//                    setPathState(7);
-//                }
-//                break;
-//                */
+              /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
+              follower.followPath(scorePickup3, true);
+              setPathState(7);
+          }
+          break;
+
             case 7:
                 /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
                 if (!follower.isBusy()) {
@@ -219,5 +261,158 @@ public class PedroAutontest extends OpMode {
     public void setPathState(int pState) {
         pathState = pState;
         pathTimer.resetTimer();
+    }
+}
+/**
+
+ * This is the Drawing class. It handles the drawing of stuff on Panels Dashboard, like the robot.
+ *
+ * @author Lazar - 19234
+ * @version 1.1, 5/19/2025
+ */
+class DrawingAuton {
+    public static final double ROBOT_RADIUS = 9; // woah
+    private static final FieldManager panelsField = PanelsField.INSTANCE.getField();
+
+    private static final Style robotLook = new Style(
+            "", "#3F51B5", 0.75
+    );
+    private static final Style historyLook = new Style(
+            "", "#4CAF50", 0.75
+    );
+
+    /**
+     * This prepares Panels Field for using Pedro Offsets
+     */
+    public static void init() {
+        panelsField.setOffsets(PanelsField.INSTANCE.getPresets().getPEDRO_PATHING());
+    }
+
+    /**
+     * This draws everything that will be used in the Follower's telemetryDebug() method. This takes
+     * a Follower as an input, so an instance of the DashbaordDrawingHandler class is not needed.
+     *
+     * @param follower Pedro Follower instance.
+     */
+    public static void drawDebug(Follower follower) {
+        if (follower.getCurrentPathChain() != null && follower.getCurrentPath() != null) {
+            drawPath(follower.getCurrentPathChain(), robotLook);
+            Pose closestPoint = follower.getPointFromPath(follower.getCurrentPath().getClosestPointTValue());
+            drawRobot(new Pose(closestPoint.getX(), closestPoint.getY(), follower.getCurrentPath().getHeadingGoal(follower.getCurrentPath().getClosestPointTValue())), robotLook);
+        } else if (follower.getCurrentPath() != null) {
+            drawPath(follower.getCurrentPath(), robotLook);
+            Pose closestPoint = follower.getPointFromPath(follower.getCurrentPath().getClosestPointTValue());
+            drawRobot(new Pose(closestPoint.getX(), closestPoint.getY(), follower.getCurrentPath().getHeadingGoal(follower.getCurrentPath().getClosestPointTValue())), robotLook);
+        }
+
+        drawPoseHistory(follower.getPoseHistory(), historyLook);
+        drawRobot(follower.getPose(), historyLook);
+
+        sendPacket();
+    }
+
+    /**
+     * This draws a robot at a specified Pose with a specified
+     * look. The heading is represented as a line.
+     *
+     * @param pose  the Pose to draw the robot at
+     * @param style the parameters used to draw the robot with
+     */
+    public static void drawRobot(Pose pose, Style style) {
+        if (pose == null || Double.isNaN(pose.getX()) || Double.isNaN(pose.getY()) || Double.isNaN(pose.getHeading())) {
+            return;
+        }
+
+        panelsField.setStyle(style);
+        panelsField.moveCursor(pose.getX(), pose.getY());
+        panelsField.circle(ROBOT_RADIUS);
+
+        Vector v = pose.getHeadingAsUnitVector();
+        v.setMagnitude(v.getMagnitude() * ROBOT_RADIUS);
+        double x1 = pose.getX() + v.getXComponent() / 2, y1 = pose.getY() + v.getYComponent() / 2;
+        double x2 = pose.getX() + v.getXComponent(), y2 = pose.getY() + v.getYComponent();
+
+        panelsField.setStyle(style);
+        panelsField.moveCursor(x1, y1);
+        panelsField.line(x2, y2);
+    }
+
+    /**
+     * This draws a robot at a specified Pose. The heading is represented as a line.
+     *
+     * @param pose the Pose to draw the robot at
+     */
+    public static void drawRobot(Pose pose) {
+        drawRobot(pose, robotLook);
+    }
+
+    /**
+     * This draws a Path with a specified look.
+     *
+     * @param path  the Path to draw
+     * @param style the parameters used to draw the Path with
+     */
+    public static void drawPath(Path path, Style style) {
+        double[][] points = path.getPanelsDrawingPoints();
+
+        for (int i = 0; i < points[0].length; i++) {
+            for (int j = 0; j < points.length; j++) {
+                if (Double.isNaN(points[j][i])) {
+                    points[j][i] = 0;
+                }
+            }
+        }
+
+        panelsField.setStyle(style);
+        for (int i = 0; i < points[0].length - 1; i++) {
+            panelsField.moveCursor(points[0][i], points[1][i]);
+            panelsField.line(points[0][i + 1], points[1][i + 1]);
+        }
+    }
+
+    /**
+     * This draws all the Paths in a PathChain with a
+     * specified look.
+     *
+     * @param pathChain the PathChain to draw
+     * @param style     the parameters used to draw the PathChain with
+     */
+    public static void drawPath(PathChain pathChain, Style style) {
+        for (int i = 0; i < pathChain.size(); i++) {
+            drawPath(pathChain.getPath(i), style);
+        }
+    }
+
+    /**
+     * This draws the pose history of the robot.
+     *
+     * @param poseTracker the PoseHistory to get the pose history from
+     * @param style       the parameters used to draw the pose history with
+     */
+    public static void drawPoseHistory(PoseHistory poseTracker, Style style) {
+        panelsField.setStyle(style);
+
+        int size = poseTracker.getXPositionsArray().length;
+        for (int i = 0; i < size - 1; i++) {
+
+            panelsField.moveCursor(poseTracker.getXPositionsArray()[i], poseTracker.getYPositionsArray()[i]);
+            panelsField.line(poseTracker.getXPositionsArray()[i + 1], poseTracker.getYPositionsArray()[i + 1]);
+        }
+    }
+
+    /**
+     * This draws the pose history of the robot.
+     *
+     * @param poseTracker the PoseHistory to get the pose history from
+     */
+    public static void drawPoseHistory(PoseHistory poseTracker) {
+        drawPoseHistory(poseTracker, historyLook);
+    }
+
+    /**
+     * This tries to send the current packet to FTControl Panels.
+     */
+    public static void sendPacket() {
+        panelsField.update();
     }
 }

@@ -21,6 +21,7 @@ public class PedroTelemetry extends OpMode {
         //       cmdUpdatePanels();
     }
 
+    //   This was copied from Tuning as an example
     //   public void cmdUpdatePanles(double x, double y, double Head, double TotalHead)
   //  public void cmdUpdatePanels(SparkFunOTOS.Pose2D InPose);
  /*
