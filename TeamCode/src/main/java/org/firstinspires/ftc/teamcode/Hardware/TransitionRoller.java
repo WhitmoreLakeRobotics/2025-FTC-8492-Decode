@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
-import android.icu.text.Transliterator;
+import android.transition.Transition;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -12,8 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 /**
  * Base class for FTC Team 8492 defined hardware
  */
-
-public class Flickiteer extends BaseHardware {
+public class TransitionRoller extends BaseHardware{
 
 
     /**
@@ -22,15 +20,19 @@ public class Flickiteer extends BaseHardware {
      * driver station on a regular, periodic basis.
      */
 
+    private Mode CurrentMode;
 
-    public Servo Flicker;
-    private static final double Ready = 0;
-    private static final double Fire = 120;
-    public Mode CurrentMode;
-
-
-
+    private DcMotor TRM01;
+    private double TRPower;
     public Telemetry telemetry = null;
+
+    public final double minPower = -1.0;
+    public final double maxPower = 1.0;
+
+    public static final double TRSpeed = 0.5;
+    public static final double stopSpeed = 0.0;
+
+
 
     /**
      * Hardware Mappings
@@ -44,7 +46,7 @@ public class Flickiteer extends BaseHardware {
      * The op mode name should be unique. It will be the name displayed on the driver station. If
      * multiple op modes have the same name, only one will be available.
      */
-    public Flickiteer() {
+    public TransitionRoller() {
 
     }
 
@@ -54,6 +56,8 @@ public class Flickiteer extends BaseHardware {
      * This method will be called once when the INIT button is pressed.
      */
      public void init(){
+        TRM01 = hardwareMap.get(DcMotor.class,"TRM01");
+    }
 
     /**
      * User defined init_loop method
@@ -61,8 +65,9 @@ public class Flickiteer extends BaseHardware {
      * This method will be called repeatedly when the INIT button is pressed.
      * This method is optional. By default this method takes no action.
      */
-    }
      public void init_loop(){
+
+    }
 
     /**
      * User defined start method.
@@ -71,17 +76,21 @@ public class Flickiteer extends BaseHardware {
      * This method is optional. By default this method takes not action.
      * Example usage: Starting another thread.
      */
+    public void start(){
+
     }
-     public void start(){
 
     /**
      * User defined loop method
      * <p>
      * This method will be called repeatedly in a loop while this op mode is running
      */
-    }
      public void loop(){
 
+     }
+    void stop (){
+
+    }
     /**
      * User defined stop method
      * <p>
@@ -89,26 +98,21 @@ public class Flickiteer extends BaseHardware {
      * <p>
      * The stop method is optional. By default this method takes no action.
      */
-    }
-      void stop(){
+     public void cmdStop(){
+         CurrentMode = Mode.Stop;
+         TRM01.setPower (stopSpeed);
 
-    }
-
-     public void cmdFire(){
-        CurrentMode = Mode.Fire;
 
      }
 
-     public void cmdReady(){
-         CurrentMode = Mode.Ready;
+     public void cmdSpin() {
+         CurrentMode = Mode.Spin;
+         TRM01.setPower(TRSpeed);
+
      }
 
-
-
-    public enum Mode{
-        Ready,
-        Fire;
+    public enum Mode {
+         Spin,
+        Stop;
     }
-
 }
-
