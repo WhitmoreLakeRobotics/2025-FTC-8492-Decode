@@ -28,7 +28,7 @@ public class Constants {
 // org .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0, 0.008, 0.01))
             .translationalPIDFCoefficients(new PIDFCoefficients(0.07, 0, 0.003, 0.025))
 //org            .headingPIDFCoefficients(new PIDFCoefficients(0.8, 0, 0.01, 0.025))
-            .headingPIDFCoefficients(new PIDFCoefficients(0.9, 0, 0.00, 0.025))
+            .headingPIDFCoefficients(new PIDFCoefficients(0.6, 0.003, 0.00, 0.025))
            // .useSecondaryTranslationalPIDF(true)
            // .useSecondaryHeadingPIDF(true)
            // .useSecondaryDrivePIDF(true)
