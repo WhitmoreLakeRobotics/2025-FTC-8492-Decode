@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -124,9 +125,9 @@ public class DriveTrain extends BaseHardware {
         }
 
         LDM1.setDirection(DcMotor.Direction.REVERSE);
-        LDM2.setDirection(DcMotor.Direction.REVERSE);
+        LDM2.setDirection(DcMotor.Direction.FORWARD);
         RDM1.setDirection(DcMotor.Direction.FORWARD);
-        RDM2.setDirection(DcMotor.Direction.FORWARD);
+        RDM2.setDirection(DcMotor.Direction.REVERSE);
 
         LDM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LDM2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -243,7 +244,7 @@ public class DriveTrain extends BaseHardware {
         RDM1Power = NDrive - NStrafe - Turn;
         LDM2Power = NDrive - NStrafe + Turn;
         RDM2Power = NDrive + NStrafe - Turn;
-
+/*
         RobotLog.aa(TAGChassis, "LDM1Power: " + LDM1Power +" LDM2Power: " + LDM2Power
                 + " RDM1Power: " + RDM1Power +" RDM2Power: " + RDM2Power);
         RobotLog.aa(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
@@ -251,7 +252,7 @@ public class DriveTrain extends BaseHardware {
 
         //telemetry.addData(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
         //        + " Right_X: " + Right_X + " Heading " + Heading);
-
+*/
 
 
 
@@ -284,7 +285,7 @@ public class DriveTrain extends BaseHardware {
         RDM1Power = Drive - Strafe - Turn;
         LDM2Power = Drive - Strafe + Turn;
         RDM2Power = Drive + Strafe - Turn;
-
+/*
         RobotLog.aa(TAGChassis, "LDM1Power: " + LDM1Power +" LDM2Power: " + LDM2Power
                 + " RDM1Power: " + RDM1Power +" RDM2Power: " + RDM2Power);
         RobotLog.aa(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
@@ -293,7 +294,7 @@ public class DriveTrain extends BaseHardware {
         telemetry.addData(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
                 + " Right_X: " + Right_X + " Heading " + Heading);
 
-
+*/
 
 
 
@@ -323,11 +324,13 @@ public class DriveTrain extends BaseHardware {
         RDM1.setPower(RDM1P);
         LDM2.setPower(LDM2P);
         RDM2.setPower(RDM2P);
-        RobotLog.aa(TAGChassis, "doTeleop: LDM1Power =" + LDM1P + " RDM1Power =" + RDM1P +
+     /*   RobotLog.aa(TAGChassis, "doTeleop: LDM1Power =" + LDM1P + " RDM1Power =" + RDM1P +
                 " LDM2Power =" + LDM2P + " RDM2Power =" + RDM2P);
 
         telemetry.addData(TAGChassis, "doTeleop: LDM1Power =" + LDM1P + " RDM1Power =" + RDM1P +
                 " LDM2Power =" + LDM2P + " RDM2Power =" + RDM2P);
+
+      */
     }
     /*public void setMaxPower(double newMax) {
 
@@ -518,11 +521,13 @@ public class DriveTrain extends BaseHardware {
         RDM1.setPower(RDM1Power);
         LDM2.setPower(LDM2Power);
         RDM2.setPower(RDM2Power);
-        RobotLog.aa(TAGChassis, "doTeleop: LDM1Power =" + LDM1Power + " RDM1Power =" + RDM1Power +
+      /*  RobotLog.aa(TAGChassis, "doTeleop: LDM1Power =" + LDM1Power + " RDM1Power =" + RDM1Power +
                 " LDM2Power =" + LDM2Power + " RDM2Power =" + RDM2Power);
 
         telemetry.addData(TAGChassis, "doTeleop: LDM1Power =" + LDM1Power + " RDM1Power =" + RDM1Power +
                 " LDM2Power =" + LDM2Power + " RDM2Power =" + RDM2Power);
+                */
+
 
     }
     private void doDrive(){

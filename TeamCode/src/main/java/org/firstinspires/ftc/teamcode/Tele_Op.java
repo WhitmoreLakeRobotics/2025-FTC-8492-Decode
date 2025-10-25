@@ -450,10 +450,12 @@ public class Tele_Op extends OpMode {
         if (CommonLogic.oneShot(gamepad2.a, gp2_prev_a)) {
             robot.intake.cmdFoward();
             robot.bCkSenors = true;
+            robot.transitionRoller.cmdSpin();
         }
 
         if (CommonLogic.oneShot(gamepad2.b, gp2_prev_b)) {
             robot.intake.cmdStop();
+            robot.transitionRoller.cmdStop();
         }
 
         if (CommonLogic.oneShot(gamepad2.y, gp2_prev_y)) {
@@ -465,6 +467,7 @@ public class Tele_Op extends OpMode {
 
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
             robot.intake.cmdBackward();
+            robot.transitionRoller.cmdBack();
         }
 
         //robot.swing_arm_and_lift.SwingPos(robot.swing_arm_and_lift.LASTSWINGPOSITION + (int)(gamepad2.left_stick_x) * 5);

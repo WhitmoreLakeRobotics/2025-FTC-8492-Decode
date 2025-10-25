@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -52,9 +53,9 @@ public class Launcher extends BaseHardware{
     public static final double bottomSpeednear = 0.5;
     public static final double bottomSpeedfar = 1;
 
-    private double kP = 0.005;
-    private double kI = 0.0001;
-    private double kD = 0.001;
+    private double kP = 0.000005;
+    private double kI = 0.0;
+    private double kD = 0.0;
 
     private double targetRPM1 = 0;
     private double targetRPM2 = 0;
@@ -84,9 +85,14 @@ public class Launcher extends BaseHardware{
 
 
 
+
+
         LaunchM02 = hardwareMap.get(DcMotorEx.class, "LaunchM02");
         LaunchM01 = hardwareMap.get(DcMotorEx.class, "LaunchM01");
 
+
+        LaunchM01.setDirection(DcMotorSimple.Direction.REVERSE);
+        LaunchM02.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
     /**
@@ -161,8 +167,10 @@ public class Launcher extends BaseHardware{
 
     public void cmdStop(){
         CurrentMode = Mode.LaunchMstop;
-        LaunchM01.setPower (stopSpeed);
-        LaunchM02.setPower (stopSpeed);
+        //LaunchM01.setPower (stopSpeed);
+        //LaunchM02.setPower (stopSpeed);
+        targetRPM1 = 0;
+        targetRPM2 = 0;
 
 
     }
@@ -187,7 +195,7 @@ public class Launcher extends BaseHardware{
         double derivative = kD * (error - lastError) / deltaTime;
         lastError = error;
 
-        return proportional + integral + derivative;
+        return (targetRPM/6000)+proportional + integral + derivative;
     }
 
     public void runPID(){

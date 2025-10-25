@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 /**
  * Base class for FTC Team 8492 defined hardware
  */
-
+@Disabled
 public class Flickiteer extends BaseHardware {
 
 

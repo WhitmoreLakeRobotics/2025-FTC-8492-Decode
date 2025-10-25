@@ -15,11 +15,11 @@ public class Robot extends BaseHardware {
     private static final Logger log = LoggerFactory.getLogger(Robot.class);
     public DriveTrain driveTrain = new DriveTrain();
     //public Lighting lighting = new Lighting();
-    public Sensors sensors = new Sensors();
+   // public Sensors sensors = new Sensors();
     public Intake intake = new Intake();
     public Launcher launcher = new Launcher();
    // public Spindexer spindexer = new Spindexer();
-    public Flickiteer flickiteer = new Flickiteer();
+    //public Flickiteer flickiteer = new Flickiteer();
     public TransitionRoller transitionRoller = new TransitionRoller();
     public LauncherBlocker launcherBlocker = new LauncherBlocker();
     private Follower follower;
@@ -43,9 +43,9 @@ public class Robot extends BaseHardware {
         //lighting.telemetry = this.telemetry;
        // lighting.init();
 
-        sensors.hardwareMap = this.hardwareMap;
-        sensors.telemetry = this.telemetry;
-        sensors.init();
+       // sensors.hardwareMap = this.hardwareMap;
+        // sensors.telemetry = this.telemetry;
+       // sensors.init();
 
         intake.hardwareMap = this.hardwareMap;
         intake.telemetry = this.telemetry;
@@ -62,9 +62,9 @@ public class Robot extends BaseHardware {
 
           */
 
-        flickiteer.hardwareMap = this.hardwareMap;
-        flickiteer.telemetry = this.telemetry;
-        flickiteer.init();
+        //flickiteer.hardwareMap = this.hardwareMap;
+        //flickiteer.telemetry = this.telemetry;
+        //flickiteer.init();
 
         launcherBlocker.hardwareMap = this.hardwareMap;
         launcherBlocker.telemetry = this.telemetry;
@@ -80,11 +80,11 @@ public class Robot extends BaseHardware {
     public void init_loop() {
         driveTrain.init_loop();
         //lighting.init_loop();
-        sensors.init_loop();
+       // sensors.init_loop();
         intake.init_loop();
         launcher.init_loop();
       //  spindexer.init_loop();
-        flickiteer.init_loop();
+       // flickiteer.init_loop();
         launcherBlocker.init_loop();
         transitionRoller.init_loop();
     }
@@ -93,11 +93,11 @@ public class Robot extends BaseHardware {
     public void start() {
         driveTrain.start();
        // lighting.start();
-        sensors.start();
+       // sensors.start();
         intake.start();
         launcher.start();
       //  spindexer.start();
-        flickiteer.start();
+        //flickiteer.start();
         launcherBlocker.start();
         transitionRoller.start();
 
@@ -109,11 +109,11 @@ public class Robot extends BaseHardware {
     public void loop() {
         driveTrain.loop();
        //. lighting.loop();
-        sensors.loop();
+       // sensors.loop();
         intake.loop();
         launcher.loop();
        // spindexer.loop();
-        flickiteer.loop();
+        //flickiteer.loop();
         launcherBlocker.loop();
         transitionRoller.loop();
 
@@ -126,11 +126,11 @@ public class Robot extends BaseHardware {
     public void stop() {
         driveTrain.stop();
        // lighting.stop();
-        sensors.stop();
+       // sensors.stop();
         intake.stop();
         launcher.stop();
       //  spindexer.stop();
-        flickiteer.stop();
+       // flickiteer.stop();
         launcherBlocker.stop();
         transitionRoller.stop();
 
@@ -140,7 +140,7 @@ public class Robot extends BaseHardware {
       public void safteyCheck(){
         //when called comfirm flicker is in safe position before spindexing.
       }
-
+/*
     public void Cksem (){
         if(bCkSenors){
             sensors. SpindexerSlot1 = sensors.getSlotArtifact(sensors.SDC01);
@@ -148,7 +148,7 @@ public class Robot extends BaseHardware {
             sensors.SpindexerSlot3 = sensors.getSlotArtifact(sensors.SDC03);
             sensors.IntakeSlot = sensors.getSlotArtifact(sensors.NTKC01);
         }
-    }
+    }  */
 
 public void LaunchNear(){         //wait for launcher to spin up to speed.
         launcher.cmdOutnear();

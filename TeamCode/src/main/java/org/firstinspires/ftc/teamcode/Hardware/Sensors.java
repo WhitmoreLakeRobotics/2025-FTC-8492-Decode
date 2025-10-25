@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import android.graphics.Color;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -15,6 +16,7 @@ import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 /**
  * Base class for FTC Team 8492 defined hardware
  */
+@Disabled
 public class Sensors extends BaseHardware {
 
     private ElapsedTime runtime = new ElapsedTime();

@@ -31,6 +31,7 @@ public class TransitionRoller extends BaseHardware{
 
     public static final double TRSpeed = 0.5;
     public static final double stopSpeed = 0.0;
+     static final double TRBack = -0.5;
 
 
 
@@ -108,8 +109,14 @@ public class TransitionRoller extends BaseHardware{
          TRM01.setPower(TRSpeed);
      }
 
+     public void cmdBack() {
+         CurrentMode = Mode.Back;
+         TRM01.setPower(TRBack);
+     }
+
     public enum Mode {
          Spin,
-        Stop;
+         Back,
+         Stop;
     }
 }
