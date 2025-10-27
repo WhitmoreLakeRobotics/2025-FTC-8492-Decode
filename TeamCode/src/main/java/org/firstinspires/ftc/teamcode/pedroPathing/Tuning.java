@@ -849,6 +849,14 @@ class HeadingTuner extends OpMode {
         }
 
         telemetryM.debug("Turn the robot manually to test the Heading PIDF(s).");
+        telemetryM.addData("x", follower.getPose().getX());
+        telemetryM.addData("y", follower.getPose().getY());
+        telemetryM.addData("heading Degrees", Math.toDegrees(follower.getPose().getHeading()));
+        //    telemetryMU.addData("path", follower.getCurrentPath());
+        telemetryM.addData("y", follower.getPose().getY());
+        telemetryM.addData("heading", follower.getPose().getHeading());
+        telemetryM.debug("Driving Forward?: " + forward);
+        telemetryM.update(telemetry);
         telemetryM.update(telemetry);
     }
 }
@@ -892,14 +900,14 @@ class DriveTuner extends OpMode {
         follower.activateDrive();
         
         forwards = follower.pathBuilder()
-                .setGlobalDeceleration()
-                .addPath(new BezierLine(new Pose(0,0), new Pose(DISTANCE,0)))
+                .setGlobalDeceleration(2)
+                .addPath(new BezierLine(new Pose(0,0,0), new Pose(DISTANCE,0)))
                 .setConstantHeadingInterpolation(0)
                 .build();
 
         backwards = follower.pathBuilder()
-                .setGlobalDeceleration()
-                .addPath(new BezierLine(new Pose(DISTANCE,0), new Pose(0,0)))
+                .setGlobalDeceleration(2 )
+                .addPath(new BezierLine(new Pose(DISTANCE,0,0), new Pose(0,0)))
                 .setConstantHeadingInterpolation(0)
                 .build();
 

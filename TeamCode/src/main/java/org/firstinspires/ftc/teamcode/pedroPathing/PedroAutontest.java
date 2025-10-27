@@ -18,6 +18,7 @@ import com.pedropathing.util.PoseHistory;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import  com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Autonomous(name = "Pedro Auton test", group = "Examples")
@@ -28,6 +29,7 @@ public class PedroAutontest extends OpMode {
    private TelemetryManager telemetryMU;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
+    private ElapsedTime pTimer;// this is for pausing at the end of a path
 
     private int pathState;
   /* I found these poses wrong for this game so I've redone them to fit what I think it should be for a Goal start position  private final Pose startPose = new Pose(28.5, 128, Math.toRadians(180)); // Start Pose of our robot.
@@ -50,7 +52,8 @@ public class PedroAutontest extends OpMode {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         scorePreload = new Path(new BezierLine(startPose, scorePose));
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
-        scorePreload.setBrakingStrength(50);
+        scorePreload.setBrakingStrength(5);
+        scorePreload.setBrakingStart(2);
 
     /* Here is an example for Constant Interpolation
     scorePreload.setConstantInterpolation(startPose.getHeading()); */
@@ -183,6 +186,15 @@ DrawingAuton.drawDebug(follower);
                 setPathState(1);
                 break;
             case 1:
+                // adding in a pause
+                pTimer.reset();
+                while (pTimer.seconds() < 3.0) { //wait
+                    telemetryMU.addData("Status", "waiting for 3 sec");
+                    telemetryMU.addData("Elapsed:", pTimer.seconds());
+                    telemetryMU.update();
+                }
+                setPathState(10);
+
 //
 //            /* You could check for
 //            - Follower State: "if(!follower.isBusy()) {}"
@@ -195,10 +207,10 @@ DrawingAuton.drawDebug(follower);
 //                    /* Score Preload */
 //
 //                    /* Since this is a pathChain, we can have Pedro hold the end point while we are grabbing the sample */
-//                    follower.followPath(grabPickup1, true);
+                    follower.followPath(grabPickup1, 0.05, true);
 //                    setPathState(2);
 //                }
-//                break;
+               break;
 //
 //     case 2:
 ////

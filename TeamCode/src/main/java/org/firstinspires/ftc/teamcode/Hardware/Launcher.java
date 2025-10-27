@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.bylazar.configurables.PanelsConfigurables;
+import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -24,7 +28,7 @@ public class Launcher extends BaseHardware{
      * driver station on a regular, periodic basis.
      */
     public Telemetry telemetry = null;
-
+    private TelemetryManager telemetryMU;
     public HardwareMap hardwareMap = null; // will be set in Child class
 
 
@@ -47,15 +51,15 @@ public class Launcher extends BaseHardware{
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
 
-    public static final double stopSpeed = 0;
-    public static final double topSpeednear =  0.5;
-    public static final double topSpeedfar =  1;
-    public static final double bottomSpeednear = 0.5;
-    public static final double bottomSpeedfar = 1;
+    public static  double stopSpeed = 0;
+    public static  double topSpeednear =  0.5;
+    public static  double topSpeedfar =  1;
+    public static  double bottomSpeednear = 0.5;
+    public static  double bottomSpeedfar = 1;
 
-    private double kP = 0.000005;
-    private double kI = 0.0;
-    private double kD = 0.0;
+    public static double LkP = 0.005;
+    public static double LkI = 0.0001;
+    public static double LkD = 0.001;
 
     private double targetRPM1 = 0;
     private double targetRPM2 = 0;
@@ -85,14 +89,14 @@ public class Launcher extends BaseHardware{
 
 
 
-
-
         LaunchM02 = hardwareMap.get(DcMotorEx.class, "LaunchM02");
         LaunchM01 = hardwareMap.get(DcMotorEx.class, "LaunchM01");
 
 
         LaunchM01.setDirection(DcMotorSimple.Direction.REVERSE);
         LaunchM02.setDirection(DcMotorSimple.Direction.REVERSE);
+        telemetryMU = PanelsTelemetry.INSTANCE.getTelemetry();
+        PanelsConfigurables.INSTANCE.refreshClass(this);
     }
 
     /**
@@ -187,12 +191,12 @@ public class Launcher extends BaseHardware{
         double deltaTime = timer.seconds();
         timer.reset();
 
-        double proportional = kP * error;
+        double proportional = LkP * error;
 
         integralSum += error * deltaTime;
-        double integral = kI * integralSum;
+        double integral = LkI * integralSum;
 
-        double derivative = kD * (error - lastError) / deltaTime;
+        double derivative = LkD * (error - lastError) / deltaTime;
         lastError = error;
 
         return (targetRPM/6000)+proportional + integral + derivative;
@@ -208,15 +212,15 @@ public class Launcher extends BaseHardware{
         LaunchM01.setPower(power1);
         LaunchM02.setPower(power2);
 
-        telemetry.addData("Target RPM",targetRPM1);
-        telemetry.addData("Current RPM",currentRPM1);
-        telemetry.addData("Motor Power",power1);
+        telemetryMU.addData("Target RPM",targetRPM1);
+        telemetryMU.addData("Current RPM",currentRPM1);
+        telemetryMU.addData("Motor Power",power1);
         //telemetry.update();
 
-        telemetry.addData("Target RPM",targetRPM2);
-        telemetry.addData("Current RPM",currentRPM2);
-        telemetry.addData("Motor Power",power2);
-        telemetry.update();
+        telemetryMU.addData("Target RPM",targetRPM2);
+        telemetryMU.addData("Current RPM",currentRPM2);
+        telemetryMU.addData("Motor Power",power2);
+        telemetryMU.update();
 
     }
 
