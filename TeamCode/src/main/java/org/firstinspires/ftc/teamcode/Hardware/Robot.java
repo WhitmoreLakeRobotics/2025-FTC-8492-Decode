@@ -5,6 +5,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
+import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -149,7 +150,7 @@ public class Robot extends BaseHardware {
             sensors.IntakeSlot = sensors.getSlotArtifact(sensors.NTKC01);
         }
     }  */
-
+/*
 public void LaunchNear(){         //wait for launcher to spin up to speed.
         launcher.cmdOutnear();
      if (launcher.bAtSpeed) {
@@ -175,5 +176,5 @@ public void NoLaunch(){
     launcherBlocker.cmdBlock();
         launcher.cmdStop();
 }
-
+*/
 }
