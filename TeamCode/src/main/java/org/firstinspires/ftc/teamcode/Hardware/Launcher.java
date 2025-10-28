@@ -19,6 +19,7 @@ import kotlin.ranges.URangesKt;
 /**
  * Base class for FTC Team 8492 defined hardware
  */
+@Configurable
 public class Launcher extends BaseHardware{
 
 
