@@ -652,16 +652,17 @@ public class Tele_Op extends OpMode {
     public void LaunchNear(){         //wait for launcher to spin up to speed.
         robot.launcher.cmdOutnear();
         if (robot.launcher.bAtSpeed) {
-           // robot.launcherBlocker.cmdUnBlock();
-           // if(robot.launcherBlocker.AtUnBlocked == true){
-                if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)) {
-                    robot.launcherBlocker.cmdUnBlock();
+            if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)){
+            robot.launcherBlocker.cmdUnBlock();
+           if(robot.launcherBlocker.AtUnBlocked == true){
+                //if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)) {
+                    //robot.launcherBlocker.cmdUnBlock();
                     if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)) {
                         robot.transitionRoller.cmdSpin();
                     }
 
                 }
-           // }
+            }
         }
     }
 
