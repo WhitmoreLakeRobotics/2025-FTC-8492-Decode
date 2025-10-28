@@ -200,7 +200,7 @@ public class Launcher extends BaseHardware{
         double derivative = LkD * (error - lastError) / deltaTime;
         lastError = error;
 
-        return (targetRPM/6000)+proportional + integral + derivative;
+        return (targetRPM)+proportional + integral + derivative;
     }
 
     public void runPID(){
