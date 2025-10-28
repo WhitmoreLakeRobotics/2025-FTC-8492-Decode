@@ -427,7 +427,7 @@ public class Tele_Op extends OpMode {
 
         }
         if (gamepad2.right_bumper){
-            robot.LaunchNear();
+            LaunchNear();
         }
 
         if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back)){
@@ -461,13 +461,18 @@ public class Tele_Op extends OpMode {
         if (CommonLogic.oneShot(gamepad2.y, gp2_prev_y)) {
 //            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
             //robot.subExtender.incPositionIndex();
-            robot.NoLaunch();
+            NoLaunch();
             //robot.spindexer.
         }
 
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
-            robot.intake.cmdBackward();
-            robot.transitionRoller.cmdBack();
+            if(CommonLogic.oneShot(gamepad2.x, gp2_prev_x == false)){
+                robot.intake.cmdStop();
+
+
+            }
+
+            //robot.transitionRoller.cmdBack();
         }
 
         //robot.swing_arm_and_lift.SwingPos(robot.swing_arm_and_lift.LASTSWINGPOSITION + (int)(gamepad2.left_stick_x) * 5);
@@ -512,7 +517,7 @@ public class Tele_Op extends OpMode {
 
         if (gamepad2.right_trigger > 0.8){
 
-            robot.LaunchFar();
+            LaunchFar();
             robot.bCkSenors = false;
 
             }
@@ -641,6 +646,43 @@ public class Tele_Op extends OpMode {
 //
 //
 
+    }
+
+
+    public void LaunchNear(){         //wait for launcher to spin up to speed.
+        robot.launcher.cmdOutnear();
+        if (robot.launcher.bAtSpeed) {
+            if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)){
+            robot.launcherBlocker.cmdUnBlock();
+           if(robot.launcherBlocker.AtUnBlocked == true){
+                //if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)) {
+                    //robot.launcherBlocker.cmdUnBlock();
+                    if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)) {
+                        robot.transitionRoller.cmdSpin();
+                    }
+
+                }
+            }
+        }
+    }
+
+    public void LaunchFar(){          //wait for launcher to spin up to speed.
+        robot.launcher.cmdOutfar();
+        if (robot.launcher.bAtSpeed){
+            if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)) {
+                robot.launcherBlocker.cmdUnBlock();
+                if (CommonLogic.oneShot(gamepad2.left_bumper, gp2_prev_left_bumper)) {
+                    robot.transitionRoller.cmdSpin();
+                }
+            }
+            }
+        }
+
+
+    public void NoLaunch(){
+        robot.transitionRoller.cmdStop();
+        robot.launcherBlocker.cmdBlock();
+        robot.launcher.cmdStop();
     }
 
 }
