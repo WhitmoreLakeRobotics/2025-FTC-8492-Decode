@@ -24,7 +24,7 @@ public class CommonGyro extends BaseHardware {
     int gyroHeading_Current = 0;
     private ImuOrientationOnRobot ImuOrientationOnRobot;
     RevHubOrientationOnRobot.LogoFacingDirection logoDirection =
-            RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;      //was up
+            RevHubOrientationOnRobot.LogoFacingDirection.LEFT;      //was up then right
     RevHubOrientationOnRobot.UsbFacingDirection usbDirection =
             RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
 
@@ -57,7 +57,7 @@ public class CommonGyro extends BaseHardware {
         imu = hardwareMap.get(IMU.class, "imu");
         //imu.initialize(parameters);
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection =
-                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT;   //was up
+                RevHubOrientationOnRobot.LogoFacingDirection.LEFT;   //was up then right
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection =
                 RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
 

@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.RobotLog;
 
+import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 
@@ -374,6 +375,14 @@ public class Tele_Op extends OpMode {
         if (CommonLogic.oneShot(gamepad2.left_bumper, gp2_prev_left_bumper)) {
          //   robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
 
+            if(CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper == true)){
+                robot.launcherBlocker.cmdUnBlock();
+            }
+
+            if(CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper == false)){
+                robot.launcherBlocker.cmdBlock();
+            }
+
 
             if (gamepad2.left_bumper )
                 RobotLog.aa(TAGTeleop, " gp2_prev_left_bumper : " + gp2_prev_left_bumper);
@@ -470,6 +479,9 @@ public class Tele_Op extends OpMode {
                 robot.intake.cmdStop();
 
 
+            }
+            if(CommonLogic.oneShot(gamepad2.x, gp2_prev_x == true)){
+                robot.intake.cmdBackward();
             }
 
             //robot.transitionRoller.cmdBack();
@@ -652,16 +664,19 @@ public class Tele_Op extends OpMode {
     public void LaunchNear(){         //wait for launcher to spin up to speed.
         robot.launcher.cmdOutnear();
         if (robot.launcher.bAtSpeed) {
-            if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)){
-            robot.launcherBlocker.cmdUnBlock();
+            //if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)){
+           // robot.launcherBlocker.cmdUnBlock();
            if(robot.launcherBlocker.AtUnBlocked == true){
                 //if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)) {
                     //robot.launcherBlocker.cmdUnBlock();
-                    if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)) {
+                   // if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)) {
                         robot.transitionRoller.cmdSpin();
-                    }
+                   // }
 
-                }
+               // }
+            }
+            if(robot.launcherBlocker.AtUnBlocked == false) {
+                robot.transitionRoller.cmdStop();
             }
         }
     }
@@ -669,11 +684,16 @@ public class Tele_Op extends OpMode {
     public void LaunchFar(){          //wait for launcher to spin up to speed.
         robot.launcher.cmdOutfar();
         if (robot.launcher.bAtSpeed){
-            if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)) {
-                robot.launcherBlocker.cmdUnBlock();
-                if (CommonLogic.oneShot(gamepad2.left_bumper, gp2_prev_left_bumper)) {
-                    robot.transitionRoller.cmdSpin();
-                }
+            if(robot.launcherBlocker.AtUnBlocked == true) {
+                // if (CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper)) {
+                // robot.launcherBlocker.cmdUnBlock();
+                //if (CommonLogic.oneShot(gamepad2.left_bumper, gp2_prev_left_bumper)) {
+                robot.transitionRoller.cmdSpin();
+                // }
+                //  }
+            }
+            if(robot.launcherBlocker.AtUnBlocked == false) {
+                robot.transitionRoller.cmdStop();
             }
             }
         }

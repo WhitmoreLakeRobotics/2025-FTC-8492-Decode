@@ -59,6 +59,7 @@ public class LauncherBlocker extends BaseHardware{
     public void init(){
 
         LBS01 = hardwareMap.get(Servo.class,"LBS01");
+        cmdBlock();
 
     }
 

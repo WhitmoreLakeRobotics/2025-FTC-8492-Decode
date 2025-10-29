@@ -154,8 +154,8 @@ public class Launcher extends BaseHardware{
         CurrentMode = Mode.LaunchMout;
         //LaunchM01.setPower (topSpeednear);
        // LaunchM02.setPower (bottomSpeednear);
-        targetRPM1 = 3500;
-        targetRPM2 = 4000;
+        targetRPM1 = 3750;
+        targetRPM2 = 4100;
 
     }
 
@@ -163,8 +163,8 @@ public class Launcher extends BaseHardware{
         CurrentMode = Mode.LaunchMout;
       //  LaunchM01.setPower (topSpeedfar);
        // LaunchM02.setPower (bottomSpeedfar);
-        targetRPM1 = 3000;
-        targetRPM2 = 4500;
+        targetRPM1 = 3250;
+        targetRPM2 = 4750;
 
     }
 
