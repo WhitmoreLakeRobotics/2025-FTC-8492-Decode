@@ -118,7 +118,7 @@ public class RedNearAuton {
         }
 
         public void AutonPaths(){
-            robot.launcher.cmdOutnear();
+            //robot.launcher.cmdOutnear();    <-----------------------PLS FIX ME I BEG YOU!!!!!!!!!!!
 
         }
         /**

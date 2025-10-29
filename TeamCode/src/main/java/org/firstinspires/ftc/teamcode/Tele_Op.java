@@ -2,7 +2,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
+
 
 import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
@@ -52,10 +55,14 @@ public class Tele_Op extends OpMode {
     private int tHeading = 0;
     private boolean bAutoTurn = false;
 
+    private ElapsedTime runtime = new ElapsedTime();
+    private double HLIW = 500;
+    //HowLongItWork
+
 
     //*********************************************************************************************
 
-      //Code to run ONCE when the driver hits INIT
+    //Code to run ONCE when the driver hits INIT
 
     @Override
     public void init() {
@@ -67,11 +74,11 @@ public class Tele_Op extends OpMode {
         // the robot controller application is restarted. They SHOULD NOT be modified except as absolutely
         // necessary as poorly chosen values might inadvertently compromise safety.
         //----------------------------------------------------------------------------------------------
-       // msStuckDetectInit = Settings.msStuckDetectInit;
-       // msStuckDetectInitLoop = Settings.msStuckDetectInitLoop;
-       //msStuckDetectStart = Settings.msStuckDetectStart;
+        // msStuckDetectInit = Settings.msStuckDetectInit;
+        // msStuckDetectInitLoop = Settings.msStuckDetectInitLoop;
+        //msStuckDetectStart = Settings.msStuckDetectStart;
         //msStuckDetectLoop = Settings.msStuckDetectLoop;
-       // msStuckDetectStop = Settings.msStuckDetectStop;
+        // msStuckDetectStop = Settings.msStuckDetectStop;
 
         telemetry.addData("Tele_Op", "Initialized");
 
@@ -94,7 +101,7 @@ public class Tele_Op extends OpMode {
 
     //*********************************************************************************************
 
-      //Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
+    //Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
 
     @Override
     public void init_loop() {
@@ -103,21 +110,21 @@ public class Tele_Op extends OpMode {
 
     //*********************************************************************************************
 
-      //Code to run ONCE when the driver hits PLAY
+    //Code to run ONCE when the driver hits PLAY
 
     @Override
     public void start() {
         Runtime.getRuntime();
 
 
-       // robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GOLD);
+        // robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GOLD);
         //robot.signalSign.doUP();
         //robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.PICKUP);
     }
 
     //*********************************************************************************************
 
-     // Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+    // Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
 
     @Override
     public void loop() {
@@ -127,13 +134,13 @@ public class Tele_Op extends OpMode {
         if (Math.abs(gamepad1.right_stick_x) > 0.04) {
             bAutoTurn = false;
         }
-        if (gamepad1.right_trigger > 0.4){
+        if (gamepad1.right_trigger > 0.4) {
             tHeading = robot.driveTrain.getCurrentHeading();
             bAutoTurn = true;
         }
 
         //***********   Gamepad 1 controls ********
-        if (bAutoTurn){
+        if (bAutoTurn) {
             if (gamepad1.right_bumper) {
                 robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                         CommonLogic.joyStickMath(gamepad1.left_stick_x),
@@ -150,7 +157,7 @@ public class Tele_Op extends OpMode {
                         CommonLogic.joyStickMath(gamepad1.left_stick_x),
                         robot.driveTrain.autoTurn(tHeading), robot.driveTrain.DTrain_NORMALSPEED);
             }
-        }else {
+        } else {
             if (gamepad1.right_bumper) {
                 robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                         CommonLogic.joyStickMath(gamepad1.left_stick_x),
@@ -178,53 +185,53 @@ public class Tele_Op extends OpMode {
         //if (CommonLogic.oneShot(gamepad1.a, gp1_prev_a)) {
         if (gamepad1.a) {
             //robot.subPushers.cmdMoveAllDown();
-      //      robot.cmdStrafeIntake();
-        //    robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.CONFETTI);
+            //      robot.cmdStrafeIntake();
+            //    robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.CONFETTI);
         }
 
         if (gamepad1.b) {
             //robot.subPushers.cmdMoveAllUp();
-          //  robot.cmdStrafeDelivery();
+            //  robot.cmdStrafeDelivery();
             //robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_PARTY_PALETTE);
         }
-        if (CommonLogic.oneShot(gamepad1.back, gp1_prev_back)){
+        if (CommonLogic.oneShot(gamepad1.back, gp1_prev_back)) {
             //Initialize Gyro
             robot.driveTrain.ResetGyro();
             tHeading = 0;
-        }
-
-        if (gamepad1.right_trigger > 0.8){
 
         }
-        if ((gamepad1.right_trigger <= 0.79) && (gamepad1.right_trigger > 0.10)){
+
+        if (gamepad1.right_trigger > 0.8) {
+
+        }
+        if ((gamepad1.right_trigger <= 0.79) && (gamepad1.right_trigger > 0.10)) {
 
         }
 //            robot.sweeper.setCurrentMode(Sweeper.Mode.STOP);
 
         // Bumpers high and lower Powers for the wheels,
         //if (CommonLogic.oneShot(gamepad1.left_bumper, gp1_prev_left_bumper)) {
-          //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_SLOWSPEED);
+        //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_SLOWSPEED);
         //}
         if ((gamepad1.left_trigger > .6) && (gamepad1.right_trigger < .6)) {
 
-        } else if((gamepad1.left_trigger < .6) && (gamepad1.right_trigger > .6))
-        {
+        } else if ((gamepad1.left_trigger < .6) && (gamepad1.right_trigger > .6)) {
 
-        }else {
+        } else {
             //robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
         }
 
 
         //if (CommonLogic.oneShot(gamepad1.right_bumper, gp1_prev_right_bumper)) {
-          //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_SLOWSPEED);
-       // }
-       // if (gamepad1.right_bumper) {
-          //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_TURBOSPEED);
-           // RobotLog.aa(TAGTeleop,"GamepadRB: " + gamepad1.right_bumper);
-       //     telemetry.addData (TAGTeleop, "GamepadRB: " + gamepad1.right_bumper);
-      //  } else if(gamepad1.right_bumper == false)
-       // {
-          //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
+        //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_SLOWSPEED);
+        // }
+        // if (gamepad1.right_bumper) {
+        //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_TURBOSPEED);
+        // RobotLog.aa(TAGTeleop,"GamepadRB: " + gamepad1.right_bumper);
+        //     telemetry.addData (TAGTeleop, "GamepadRB: " + gamepad1.right_bumper);
+        //  } else if(gamepad1.right_bumper == false)
+        // {
+        //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
         //}
 
         //***********  Grabbers
@@ -266,7 +273,7 @@ public class Tele_Op extends OpMode {
             // if (RBTChassis.subGrabbers.getIsDownRight()) {
             //robot.subGrabbers.cmdMoveUpRight();
             //}
-          //  robot.driveTrain.cmdTurnByGyroMec(0);
+            //  robot.driveTrain.cmdTurnByGyroMec(0);
             /*
 
             if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout1) {
@@ -296,14 +303,13 @@ public class Tele_Op extends OpMode {
              */
 
 
-
         }
 
         if (CommonLogic.oneShot(gamepad1.dpad_left, gp1_prev_dpad_left)) {
             //if (robot.subGrabbers.getIsDownLeft()) {
             //    robot.subGrabbers.cmdMoveUpLeft();
             //}
-           // robot.driveTrain.cmdTurnByGyroMec(-90);
+            // robot.driveTrain.cmdTurnByGyroMec(-90);
             /*
 
             if (robot.spindexer.CurrentMode == Spindexer.Mode.SDin1) {
@@ -338,7 +344,7 @@ public class Tele_Op extends OpMode {
             //if (robot.subGrabbers.getIsUpLeft()) {
             //    robot.subGrabbers.cmdMoveDownLeft();
             //}
-           // robot.driveTrain.cmdTurnByGyroMec(180);
+            // robot.driveTrain.cmdTurnByGyroMec(180);
             /*
 
             if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout1) {
@@ -373,20 +379,20 @@ public class Tele_Op extends OpMode {
 
         // Bumpers close and open the gripper
         if (CommonLogic.oneShot(gamepad2.left_bumper, gp2_prev_left_bumper)) {
-         //   robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
+            //   robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
 
-            if(robot.launcherBlocker.AtUnBlocked == false){
+            if (robot.launcherBlocker.AtUnBlocked == false) {
                 robot.launcherBlocker.cmdUnBlock();
                 robot.launcherBlocker.AtUnBlocked = true;
             }
 
-            if(robot.launcherBlocker.AtUnBlocked == true){
+            if (robot.launcherBlocker.AtUnBlocked == true) {
                 robot.launcherBlocker.cmdBlock();
                 robot.launcherBlocker.AtUnBlocked = false;
             }
 
 
-            if (gamepad2.left_bumper )
+            if (gamepad2.left_bumper)
                 RobotLog.aa(TAGTeleop, " gp2_prev_left_bumper : " + gp2_prev_left_bumper);
             /*
 
@@ -431,31 +437,33 @@ public class Tele_Op extends OpMode {
         }
 
 
-
-
         if (CommonLogic.oneShot(gamepad2.right_bumper, gp2_prev_right_bumper)) {
             robot.bCkSenors = false;
 
         }
-        if (gamepad2.right_bumper){
+        if (gamepad2.right_bumper) {
             LaunchNear();
         }
 
-        if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back)){
-          //  robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_FOREST_PALETTE);
+        if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back)) {
+            //  robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_FOREST_PALETTE);
+            runtime.reset();
+            robot.transitionRoller.cmdBack();
+            if(runtime.milliseconds() >= HLIW){
+                robot.transitionRoller.cmdStop();
+            }
 
         }
 
-        if (CommonLogic.oneShot(gamepad2.start, gp2_prev_start)){
+        if (CommonLogic.oneShot(gamepad2.start, gp2_prev_start)) {
             //robot.arm.setWristUp();
 
         }
-        if (gamepad2.start){
+        if (gamepad2.start) {
 //            robot.cmdExcecuteBumpStack();   // this was SetPOS() not setting the mode
-  //          robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.AQUA);
+            //          robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.AQUA);
 
         }
-
 
 
         if (CommonLogic.oneShot(gamepad2.a, gp2_prev_a)) {
@@ -478,17 +486,19 @@ public class Tele_Op extends OpMode {
 
 
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
-            if(robot.intake.AtIntakeStop = false){
-                robot.intake.cmdStop();
-                robot.intake.AtIntakeStop = true;
-            }
-            if(robot.intake.AtIntakeStop = true){
-                robot.intake.cmdBackward();
-                robot.intake.AtIntakeStop = false;
-            }
 
-            //robot.transitionRoller.cmdBack();
+
+        if (robot.intake.AtIntakeStop = false) {
+            robot.intake.cmdStop();
+            robot.intake.AtIntakeStop = true;
         }
+        if (robot.intake.AtIntakeStop = true) {
+            robot.intake.cmdBackward();
+            robot.intake.AtIntakeStop = false;
+        }
+
+        //robot.transitionRoller.cmdBack();
+    }
 
         //robot.swing_arm_and_lift.SwingPos(robot.swing_arm_and_lift.LASTSWINGPOSITION + (int)(gamepad2.left_stick_x) * 5);
 
@@ -540,6 +550,7 @@ public class Tele_Op extends OpMode {
 
         }
         if (gamepad2.left_trigger > 0.8) {
+            LaunchTouch();
 
         }
         if ((gamepad2.left_trigger <= 0.79) && (gamepad2.left_trigger > 0.10)) {
@@ -663,6 +674,18 @@ public class Tele_Op extends OpMode {
 
     }
 
+    public void LaunchTouch() {         //wait for launcher to spin up to speed.
+        robot.launcher.cmdOuttouch();
+        if (robot.launcher.bAtSpeed) {
+            if(robot.launcherBlocker.AtUnBlocked == true){
+                robot.transitionRoller.cmdSpin();
+            }
+            if(robot.launcherBlocker.AtUnBlocked == false) {
+                robot.transitionRoller.cmdStop();
+            }
+
+        }
+    }
 
     public void LaunchNear(){         //wait for launcher to spin up to speed.
         robot.launcher.cmdOutnear();

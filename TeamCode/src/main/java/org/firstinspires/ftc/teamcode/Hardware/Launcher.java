@@ -150,6 +150,12 @@ public class Launcher extends BaseHardware{
 
     }
 
+    public void cmdOuttouch(){
+        CurrentMode = Mode.LaunchMout;
+        targetRPM1 = 5000;
+        targetRPM2 = 1000;
+    }
+
     public void cmdOutnear(){
         CurrentMode = Mode.LaunchMout;
         //LaunchM01.setPower (topSpeednear);
