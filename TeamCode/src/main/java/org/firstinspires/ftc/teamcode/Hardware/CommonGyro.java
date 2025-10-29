@@ -26,7 +26,7 @@ public class CommonGyro extends BaseHardware {
     RevHubOrientationOnRobot.LogoFacingDirection logoDirection =
             RevHubOrientationOnRobot.LogoFacingDirection.LEFT;      //was up then right
     RevHubOrientationOnRobot.UsbFacingDirection usbDirection =
-            RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
+            RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;     //was backward
 
     RevHubOrientationOnRobot orientationOnRobot = new
             RevHubOrientationOnRobot(logoDirection, usbDirection);
@@ -59,7 +59,7 @@ public class CommonGyro extends BaseHardware {
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection =
                 RevHubOrientationOnRobot.LogoFacingDirection.LEFT;   //was up then right
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection =
-                RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;    //was backward
 
         RevHubOrientationOnRobot orientationOnRobot = new
                 RevHubOrientationOnRobot(logoDirection, usbDirection);

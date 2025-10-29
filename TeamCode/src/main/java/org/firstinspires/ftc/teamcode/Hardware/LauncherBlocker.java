@@ -24,7 +24,7 @@ public class LauncherBlocker extends BaseHardware{
     public Servo LBS01;
 
     public static final double Blocked = 0.5;     //make have constant power while blocking.
-    public static final double UnBlocked = 0.0;
+    public static final double UnBlocked = 0.4;
 
     public boolean AtUnBlocked = false;
 
@@ -90,13 +90,13 @@ public class LauncherBlocker extends BaseHardware{
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop(){
-
+/*
         if(AtUnBlocked == false){
             if(runtime.milliseconds() >= waitTime){
                 AtUnBlocked = true;
             }
         }
-
+*/
 
 
 

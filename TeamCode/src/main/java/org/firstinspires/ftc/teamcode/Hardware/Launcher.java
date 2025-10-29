@@ -58,9 +58,9 @@ public class Launcher extends BaseHardware{
     public static  double bottomSpeednear = 0.5;
     public static  double bottomSpeedfar = 1;
 
-    public static double LkP = 0.005;
-    public static double LkI = 0.0001;
-    public static double LkD = 0.001;
+    public static double LkP = 0.00005;
+    public static double LkI = 0.0;
+    public static double LkD = 0.0;
 
     private double targetRPM1 = 0;
     private double targetRPM2 = 0;
@@ -154,8 +154,8 @@ public class Launcher extends BaseHardware{
         CurrentMode = Mode.LaunchMout;
         //LaunchM01.setPower (topSpeednear);
        // LaunchM02.setPower (bottomSpeednear);
-        targetRPM1 = 3750;
-        targetRPM2 = 4100;
+        targetRPM1 = 3500;
+        targetRPM2 = 4000;
 
     }
 
@@ -164,7 +164,7 @@ public class Launcher extends BaseHardware{
       //  LaunchM01.setPower (topSpeedfar);
        // LaunchM02.setPower (bottomSpeedfar);
         targetRPM1 = 3250;
-        targetRPM2 = 4750;
+        targetRPM2 = 5000;
 
     }
 
@@ -200,7 +200,7 @@ public class Launcher extends BaseHardware{
         double derivative = LkD * (error - lastError) / deltaTime;
         lastError = error;
 
-        return (targetRPM)+proportional + integral + derivative;
+        return (targetRPM/6000)+proportional + integral + derivative;
     }
 
     public void runPID(){

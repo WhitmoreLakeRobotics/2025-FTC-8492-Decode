@@ -375,12 +375,14 @@ public class Tele_Op extends OpMode {
         if (CommonLogic.oneShot(gamepad2.left_bumper, gp2_prev_left_bumper)) {
          //   robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
 
-            if(CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper == true)){
+            if(robot.launcherBlocker.AtUnBlocked == false){
                 robot.launcherBlocker.cmdUnBlock();
+                robot.launcherBlocker.AtUnBlocked = true;
             }
 
-            if(CommonLogic.oneShot(gamepad2.left_bumper,gp2_prev_left_bumper == false)){
+            if(robot.launcherBlocker.AtUnBlocked == true){
                 robot.launcherBlocker.cmdBlock();
+                robot.launcherBlocker.AtUnBlocked = false;
             }
 
 
@@ -474,14 +476,15 @@ public class Tele_Op extends OpMode {
             //robot.spindexer.
         }
 
+
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
-            if(CommonLogic.oneShot(gamepad2.x, gp2_prev_x == false)){
+            if(robot.intake.AtIntakeStop = false){
                 robot.intake.cmdStop();
-
-
+                robot.intake.AtIntakeStop = true;
             }
-            if(CommonLogic.oneShot(gamepad2.x, gp2_prev_x == true)){
+            if(robot.intake.AtIntakeStop = true){
                 robot.intake.cmdBackward();
+                robot.intake.AtIntakeStop = false;
             }
 
             //robot.transitionRoller.cmdBack();

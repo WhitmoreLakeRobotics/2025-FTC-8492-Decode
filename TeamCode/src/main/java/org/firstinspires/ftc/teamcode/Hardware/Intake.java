@@ -4,9 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-
-
+import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 
 
 /**
@@ -47,6 +45,7 @@ public class Intake extends BaseHardware{
     public static final double inSpeed = -0.85;  // use to be 0.5,then 0.75;
     public static final double outSpeed = 0.5;
   //  public static final double snailoutSpeed = -0.25;
+    public boolean AtIntakeStop = true;
 
 
     /**
@@ -89,6 +88,22 @@ public class Intake extends BaseHardware{
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop(){
+/*
+        if(CurrentMode == Mode.NTKforward){
+            AtIntakeStop = false;
+
+        }else{
+            AtIntakeStop = true;
+        }
+
+        if(CurrentMode == Mode.NTKbackward){
+            AtIntakeStop = false;
+
+        }else{
+            AtIntakeStop = true;
+        }
+*/
+
 
     }
 
