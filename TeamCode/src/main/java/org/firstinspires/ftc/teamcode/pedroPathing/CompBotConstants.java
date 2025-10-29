@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
-import android.util.Log;
-
 import com.pedropathing.control.FilteredPIDFCoefficients;
 import com.pedropathing.control.PIDFCoefficients;
 import com.pedropathing.follower.Follower;
@@ -9,8 +7,6 @@ import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
 import com.pedropathing.ftc.drivetrains.MecanumConstants;
 import com.pedropathing.ftc.localization.constants.OTOSConstants;
-import com.pedropathing.ftc.localization.localizers.OTOSLocalizer;
-import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathConstraints;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -18,10 +14,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
-import kotlinx.coroutines.scheduling.CoroutineScheduler;
-
-public class Constants {
+//this is for adjusting the competition robot.
+// you need to change which constants file the code points to for the different robots.
+public class CompBotConstants {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .forwardZeroPowerAcceleration(39.31817) //changed from (-35.4224625953)
             .lateralZeroPowerAcceleration(65.39333) ///chabged from (-43.517320985)

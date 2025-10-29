@@ -61,6 +61,11 @@ public class Launcher extends BaseHardware{
     public static double LkP = 0.00005;
     public static double LkI = 0.0;
     public static double LkD = 0.0;
+    public static double topMotorRPMnear = 3500;
+    public static double bottomMotornear = 4000;
+    public static double topMotorRPMfar = 3250;
+    public static double bottomMotorfar = 5000;
+
 
     private double targetRPM1 = 0;
     private double targetRPM2 = 0;
@@ -154,8 +159,8 @@ public class Launcher extends BaseHardware{
         CurrentMode = Mode.LaunchMout;
         //LaunchM01.setPower (topSpeednear);
        // LaunchM02.setPower (bottomSpeednear);
-        targetRPM1 = 3500;
-        targetRPM2 = 4000;
+        targetRPM1 = topMotorRPMnear; //3500;
+        targetRPM2 = bottomMotornear; //4000;
 
     }
 
@@ -163,8 +168,8 @@ public class Launcher extends BaseHardware{
         CurrentMode = Mode.LaunchMout;
       //  LaunchM01.setPower (topSpeedfar);
        // LaunchM02.setPower (bottomSpeedfar);
-        targetRPM1 = 3250;
-        targetRPM2 = 5000;
+        targetRPM1 = topMotorRPMfar; //3250;
+        targetRPM2 = bottomMotorfar; //5000;
 
     }
 
@@ -216,6 +221,7 @@ public class Launcher extends BaseHardware{
         telemetryMU.addData("Target RPM",targetRPM1);
         telemetryMU.addData("Current RPM",currentRPM1);
         telemetryMU.addData("Motor Power",power1);
+        telemetryMU.addData("launch motor 1 velocity", LaunchM01.getVelocity());
         //telemetry.update();
 
         telemetryMU.addData("Target RPM",targetRPM2);

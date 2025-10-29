@@ -104,7 +104,7 @@ public class TestPedroAuton extends OpMode {
         opmodeTimer.resetTimer();
 
 
-        follower = Constants.createFollower(hardwareMap);
+        follower = testChassisConstants.createFollower(hardwareMap);
         buildPaths();
         follower.setStartingPose(startPose);
 
