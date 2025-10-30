@@ -450,14 +450,17 @@ public class Tele_Op extends OpMode {
         if (gamepad2.right_bumper) {
             LaunchNear();
         }
-        if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back)) {
 
-            if ((gp2_prev_back == true)) {
-                //  robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_FOREST_PALETTE);
-                robot.transitionRoller.cmdBack();
-            } else {
-                robot.transitionRoller.cmdStop();
+        if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back == true)) {
+            //  robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_FOREST_PALETTE);
+            runtime.reset();
+            robot.transitionRoller.cmdBack();
+            if(runtime.milliseconds() >= HLIW){
+
             }
+
+        }else {
+            robot.transitionRoller.cmdSpin();
         }
 
         if (CommonLogic.oneShot(gamepad2.start, gp2_prev_start)) {
