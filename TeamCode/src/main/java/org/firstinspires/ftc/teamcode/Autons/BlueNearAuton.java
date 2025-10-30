@@ -99,36 +99,30 @@ public class BlueNearAuton extends OpMode {
 
             case _20_DriveBack:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(25,0,0.35,0);
+                    robot.driveTrain.CmdDrive(25,180,0.35,0);
                     currentStage = stage._30_Shoot1;
                 }
                 break;
             case _30_Shoot1:
                 if (robot.driveTrain.getCmdComplete())  {
-                    robot.driveTrain.CmdDrive(0,0,0.35,0);
+                    robot.driveTrain.CmdDrive(0,0,0.0,0);
                     robot.launcherBlocker.cmdUnBlock();
                     robot.launcher.cmdOutnear();
+                    runtime.reset();
+                    robot.transitionRoller.cmdSpin();
                     currentStage = stage._40_Shoot2;
                 }
                 break;
             case _40_Shoot2:
-                if (robot.driveTrain.getCmdComplete()){
+                if (runtime.milliseconds() >=5000){
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
-                    robot.launcherBlocker.cmdUnBlock();
-                    robot.launcher.cmdOutnear();
-                    currentStage = stage._50_Shoot3;
-                }
-
-                break;
-            case _50_Shoot3:
-                if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(0,0,0.0,0);
-                    robot.launcherBlocker.cmdUnBlock();
-                    robot.launcher.cmdOutnear();
+                    robot.launcher.cmdStop();
+                    robot.transitionRoller.cmdStop();
+                    robot.launcherBlocker.cmdBlock();
                     currentStage = stage._60_End;
                 }
 
-                break;
+
             case _60_End:
                 if(robot.driveTrain.getCmdComplete()){
                     robot.stop();
@@ -164,7 +158,7 @@ public class BlueNearAuton extends OpMode {
         _20_DriveBack,
         _30_Shoot1,
         _40_Shoot2,
-        _50_Shoot3,
+
         _60_End,
 
 
