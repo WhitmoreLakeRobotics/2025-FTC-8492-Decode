@@ -667,7 +667,9 @@ public class DriveTrain extends BaseHardware {
     }
 
     public void ResetGyro(){
-        Gyro.GyroInt();
+        //Gyro.GyroInt();
+        Gyro.imu.resetYaw();
+
     }
 
     public int getCurrentHeading(){
