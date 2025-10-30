@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
 
-@Autonomous(name = "Test_drive", group = "Auton")
+@Autonomous(name = "BlueNearAuton", group = "Auton")
 // @Autonomous(...) is the other common choice
 
 public class BlueNearAuton extends OpMode {
@@ -99,20 +99,22 @@ public class BlueNearAuton extends OpMode {
 
             case _20_DriveBack:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(25,0,0.35,180);
+                    robot.driveTrain.CmdDrive(25,0,0.35,0);
                     currentStage = stage._30_Shoot1;
                 }
                 break;
             case _30_Shoot1:
                 if (robot.driveTrain.getCmdComplete())  {
-                    robot.driveTrain.CmdDrive(0,0,0.35,180);
+                    robot.driveTrain.CmdDrive(0,0,0.35,0);
+                    robot.launcherBlocker.cmdUnBlock();
                     robot.launcher.cmdOutnear();
                     currentStage = stage._40_Shoot2;
                 }
                 break;
             case _40_Shoot2:
                 if (robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(0,0,0.0,180);
+                    robot.driveTrain.CmdDrive(0,0,0.0,0);
+                    robot.launcherBlocker.cmdUnBlock();
                     robot.launcher.cmdOutnear();
                     currentStage = stage._50_Shoot3;
                 }
@@ -120,7 +122,8 @@ public class BlueNearAuton extends OpMode {
                 break;
             case _50_Shoot3:
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(0,0,0.0,180);
+                    robot.driveTrain.CmdDrive(0,0,0.0,0);
+                    robot.launcherBlocker.cmdUnBlock();
                     robot.launcher.cmdOutnear();
                     currentStage = stage._60_End;
                 }
