@@ -452,13 +452,12 @@ public class Tele_Op extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back)) {
+            robot.transitionRoller.cmdBack();
 
-            if ((gp2_prev_back == true)) {
-                //  robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_FOREST_PALETTE);
-                robot.transitionRoller.cmdBack();
-            } else {
-                robot.transitionRoller.cmdStop();
-            }
+        }
+
+        if (CommonLogic.oneShotRelease(gamepad2.back, gp2_prev_back)) {
+            robot.transitionRoller.cmdStop();
         }
 
 
@@ -613,20 +612,16 @@ public class Tele_Op extends OpMode {
         boolean y = gamepad1.y;
     if(a){
         bAutoTurn = true;
-        if(x){
-           return 45;
-        }else  if(b){
-            return -45;
-        }else {
-            return 0;
-        }
+        
+            return 65;
+
     }
     else if (b){
         bAutoTurn = true;
         if (y){
             return -135;
         }else {
-            return -90;
+            return -65;
         }
     }
     else if (y){
@@ -639,7 +634,7 @@ public class Tele_Op extends OpMode {
     }
     else if(x){
         bAutoTurn = true;
-       return 90;
+       return 45;
     }
     else {
         return tHeading;

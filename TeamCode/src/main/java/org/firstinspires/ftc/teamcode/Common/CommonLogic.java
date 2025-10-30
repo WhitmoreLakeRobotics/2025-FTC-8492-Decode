@@ -69,6 +69,12 @@ public class CommonLogic extends Object {
         return (prevState == false && currState == true);
     }
 
+    //when buton is released
+    public static boolean oneShotRelease(boolean currState, boolean prevState) {
+
+        return (prevState == true && currState == false);
+    }
+
     //*********************************************************************************************
 
     public static double goToPosition(int CurrentPos, int TargetPos, int Tol, double NegPower, double PosPower, double HoldPower, int stag) {
