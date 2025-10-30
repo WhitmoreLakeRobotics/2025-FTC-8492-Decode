@@ -29,7 +29,7 @@ public class CompBotConstants {
            // .useSecondaryDrivePIDF(true)
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.0255,0,.00002,0,0.01))
             .centripetalScaling(.0005)
-            .mass(2.72);
+            .mass(11.113);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(1) //this should be at max for tuning
@@ -50,8 +50,8 @@ public SparkFunOTOS.Pose2D myOffset =new SparkFunOTOS.Pose2D(6.0,-0.1875,Math.to
             .hardwareMapName("otto")
             .linearUnit(DistanceUnit.INCH)
             .angleUnit(AngleUnit.RADIANS)
-            .offset(new SparkFunOTOS.Pose2D(6.0, -0.1875, 4.7124))
-//            .offset(myOffset)
+            .offset(new SparkFunOTOS.Pose2D(5.5, 2.25, 4.7124))
+//            .offset(myOffset) 2.25 5.5
             .linearScalar(1.081984) //Multiplier
             .angularScalar(0.9689) ;//Multiplier
 
