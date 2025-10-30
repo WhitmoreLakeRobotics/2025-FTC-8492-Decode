@@ -198,7 +198,6 @@ public class Tele_Op extends OpMode {
             //Initialize Gyro
             robot.driveTrain.ResetGyro();
             tHeading = 0;
-
         }
 
         if (gamepad1.right_trigger > 0.8) {
@@ -378,23 +377,28 @@ public class Tele_Op extends OpMode {
         //***********   Gamepad 2 controls ********
 
         // Bumpers close and open the gripper
-        if (CommonLogic.oneShot(gamepad2.left_bumper, gp2_prev_left_bumper)) {
-            //   robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
+        if (( gamepad2.left_bumper == true)) {
 
+
+                  robot.launcherBlocker.cmdUnBlock();
+
+
+            //   robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
+/*
             if (robot.launcherBlocker.AtUnBlocked == false) {
                 robot.launcherBlocker.cmdUnBlock();
                 robot.launcherBlocker.AtUnBlocked = true;
-            }
-
-            if (robot.launcherBlocker.AtUnBlocked == true) {
+            } else {
                 robot.launcherBlocker.cmdBlock();
                 robot.launcherBlocker.AtUnBlocked = false;
             }
+            */
 
 
+          /*
             if (gamepad2.left_bumper)
                 RobotLog.aa(TAGTeleop, " gp2_prev_left_bumper : " + gp2_prev_left_bumper);
-            /*
+
 
             if (robot.spindexer.CurrentMode == Spindexer.Mode.SDout1) {
 
@@ -434,6 +438,8 @@ public class Tele_Op extends OpMode {
 
              */
 
+        }else{
+            robot.launcherBlocker.cmdBlock();
         }
 
 
@@ -445,14 +451,16 @@ public class Tele_Op extends OpMode {
             LaunchNear();
         }
 
-        if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back)) {
+        if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back == true)) {
             //  robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_FOREST_PALETTE);
             runtime.reset();
             robot.transitionRoller.cmdBack();
             if(runtime.milliseconds() >= HLIW){
-                robot.transitionRoller.cmdStop();
+
             }
 
+        }else {
+            robot.transitionRoller.cmdSpin();
         }
 
         if (CommonLogic.oneShot(gamepad2.start, gp2_prev_start)) {
