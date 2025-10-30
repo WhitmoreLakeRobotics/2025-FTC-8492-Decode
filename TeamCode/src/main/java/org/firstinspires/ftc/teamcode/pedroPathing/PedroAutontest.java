@@ -25,7 +25,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class PedroAutontest extends OpMode {
     //Trying with panels inside class public PedroTelemetry pedroPanelsTelemetry = new PedroTelemetry();
     //public PedroDrawPath drawThis = new PedroDrawPath();
-    private String thisUpdate = "7";
+    private String thisUpdate = "10";
     private TelemetryManager telemetryMU;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
@@ -52,8 +52,8 @@ public class PedroAutontest extends OpMode {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         scorePreload = new Path(new BezierLine(startPose, scorePose));
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
-        scorePreload.setBrakingStrength(1);
-        scorePreload.setBrakingStart(0);
+        scorePreload.setBrakingStrength(50);
+        scorePreload.setBrakingStart(1);
 
     /* Here is an example for Constant Interpolation
     scorePreload.setConstantInterpolation(startPose.getHeading()); */
@@ -190,8 +190,10 @@ public void upDatePanels(){
     telemetryMU.addData("y", follower.getPose().getY());
     telemetryMU.addData("heading Degrees:", Math.toDegrees(follower.getPose().getHeading()));
     //    telemetryMU.addData("path", follower.getCurrentPath());
-    telemetryMU.addData("y", follower.getPose().getY());
+    telemetryMU.addData("pose history,", follower.getPoseHistory());
+    telemetryMU.addData("current pose", follower.getCurrentPath());
     telemetryMU.addData("heading", follower.getPose().getHeading());
+    telemetryMU.addData("path tracker", follower.getPoseTracker());
 
     telemetryMU.update();
 }
@@ -211,7 +213,7 @@ public void upDatePanels(){
                         upDatePanels();
                        // telemetryMU.update();
                     }
-                    setPathState(-1);
+                    setPathState(2);
 
                 }
                 break;
@@ -225,17 +227,17 @@ public void upDatePanels(){
 //
 //
 //
-//     case 2:
+     case 2:
 ////
-//          /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
-//          if (!follower.isBusy()) {
-//              /* Grab Sample */
+          /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the pickup1Pose's position */
+          if (!follower.isBusy()) {
+              /* Grab Sample */
 ////
 //              /* Since this is a pathChain, we can have Pedro hold the end point while we are scoring the sample */
-//              follower.followPath(scorePickup1, true);
-//              setPathState(3);
-//          }
-//          break;
+              follower.followPath(scorePickup1, true);
+              setPathState(3);
+          }
+          break;
 //      case 3:
 //          /* This case checks the robot's position and will wait until the robot position is close (1 inch away) from the scorePose's position */
 //          if (!follower.isBusy()) {
