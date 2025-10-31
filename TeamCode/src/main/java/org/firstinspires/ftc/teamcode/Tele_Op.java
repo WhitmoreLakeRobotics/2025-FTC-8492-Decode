@@ -453,9 +453,12 @@ public class Tele_Op extends OpMode {
 
         }
 
+
         if (CommonLogic.oneShotRelease(gamepad2.back, gp2_prev_back)) {
             robot.transitionRoller.cmdStop();
         }
+
+
 
 
 
