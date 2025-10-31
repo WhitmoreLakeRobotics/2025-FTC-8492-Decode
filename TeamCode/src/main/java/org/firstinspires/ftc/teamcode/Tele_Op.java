@@ -380,8 +380,7 @@ public class Tele_Op extends OpMode {
         if (( gamepad2.left_bumper == true)) {
 
 
-                  robot.launcherBlocker.cmdUnBlock();
-
+            LaunchTouch();
 
             //   robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
 /*
@@ -438,8 +437,6 @@ public class Tele_Op extends OpMode {
 
              */
 
-        }else{
-            robot.launcherBlocker.cmdBlock();
         }
 
 
@@ -557,10 +554,11 @@ public class Tele_Op extends OpMode {
 
         }
         if (gamepad2.left_trigger > 0.8) {
-            LaunchTouch();
+            robot.launcherBlocker.cmdUnBlock();
 
         }
         if ((gamepad2.left_trigger <= 0.79) && (gamepad2.left_trigger > 0.10)) {
+            robot.launcherBlocker.cmdBlock();
           //  robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE_VIOLET);
         }
 

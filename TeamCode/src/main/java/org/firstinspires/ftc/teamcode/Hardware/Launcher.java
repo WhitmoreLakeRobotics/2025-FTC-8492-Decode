@@ -75,7 +75,7 @@ public class Launcher extends BaseHardware{
     private double integralSum = 0;
 
     private double targetRPM1Tol = 150;
-    private double targetRPM2Tol = 15 0;
+    private double targetRPM2Tol = 150;
 
     private ElapsedTime timer = new ElapsedTime();
 
