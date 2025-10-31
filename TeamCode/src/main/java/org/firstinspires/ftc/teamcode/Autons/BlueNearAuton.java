@@ -99,17 +99,18 @@ public class BlueNearAuton extends OpMode {
 
             case _20_DriveBack:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(20,180,0.35,0);
+                    robot.driveTrain.CmdDrive(18,180,0.35,0);
+                    robot.launcher.cmdOuttouch();
                     currentStage = stage._30_Shoot1;
                 }
                 break;
             case _30_Shoot1:
                 if (robot.driveTrain.getCmdComplete())  {
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
-                    robot.launcherBlocker.cmdUnBlock();
-                    robot.launcher.cmdOutnear();
-                    runtime.reset();
+                    robot.intake.cmdFoward();
                     robot.transitionRoller.cmdSpin();
+                    robot.launcherBlocker.cmdUnBlock();
+                    runtime.reset();
                     currentStage = stage._40_Shoot2;
                 }
                 break;
@@ -119,6 +120,7 @@ public class BlueNearAuton extends OpMode {
                     robot.launcher.cmdStop();
                     robot.transitionRoller.cmdStop();
                     robot.launcherBlocker.cmdBlock();
+                    robot.intake.cmdStop();
                     currentStage = stage._60_End;
                 }
 

@@ -613,7 +613,7 @@ public class Tele_Op extends OpMode {
     if(a){
         bAutoTurn = true;
         
-            return 65;
+            return 60;
 
     }
     else if (b){
@@ -621,7 +621,7 @@ public class Tele_Op extends OpMode {
         if (y){
             return -135;
         }else {
-            return -65;
+            return -45;
         }
     }
     else if (y){
@@ -629,7 +629,7 @@ public class Tele_Op extends OpMode {
         if(x){
             return 135;
         }else{
-            return -135;
+            return -60;
         }
     }
     else if(x){
