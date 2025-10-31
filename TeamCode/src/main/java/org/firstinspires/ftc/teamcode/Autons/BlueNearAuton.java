@@ -99,7 +99,7 @@ public class BlueNearAuton extends OpMode {
 
             case _20_DriveBack:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(25,180,0.35,0);
+                    robot.driveTrain.CmdDrive(20,180,0.35,0);
                     currentStage = stage._30_Shoot1;
                 }
                 break;
