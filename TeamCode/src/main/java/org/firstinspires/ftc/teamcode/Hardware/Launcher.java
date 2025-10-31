@@ -51,13 +51,13 @@ public class Launcher extends BaseHardware{
 
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
-
-    public static  double stopSpeed = 0;
-    public static  double topSpeednear =  0.5;
-    public static  double topSpeedfar =  1;
-    public static  double bottomSpeednear = 0.5;
-    public static  double bottomSpeedfar = 1;
-
+    /* naj commenting these unused items out to clear the configurables in pp Panels
+        public static  double stopSpeed = 0;
+        public static  double topSpeednear =  0.5;
+        public static  double topSpeedfar =  1;
+        public static  double bottomSpeednear = 0.5;
+        public static  double bottomSpeedfar = 1;
+    */
     public static double LkP = 0.00005;
     public static double LkI = 0.0;
     public static double LkD = 0.0;
@@ -226,15 +226,15 @@ public class Launcher extends BaseHardware{
         LaunchM01.setPower(power1);
         LaunchM02.setPower(power2);
 
-        telemetryMU.addData("Target RPM",targetRPM1);
-        telemetryMU.addData("Current RPM",currentRPM1);
-        telemetryMU.addData("Motor Power",power1);
+        telemetryMU.addData("Target targetRPM1",targetRPM1);
+        telemetryMU.addData("Current currentRPM1",currentRPM1);
+        telemetryMU.addData("Motor 1",power1);
         telemetryMU.addData("launch motor 1 velocity", LaunchM01.getVelocity());
         //telemetry.update();
 
-        telemetryMU.addData("Target RPM",targetRPM2);
-        telemetryMU.addData("Current RPM",currentRPM2);
-        telemetryMU.addData("Motor Power",power2);
+        telemetryMU.addData("Target targetRPM2",targetRPM2);
+        telemetryMU.addData("Current currentRPM2",currentRPM2);
+        telemetryMU.addData("Motor Power2",power2);
         telemetryMU.update();
 
     }
