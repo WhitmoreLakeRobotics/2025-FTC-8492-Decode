@@ -9,10 +9,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 @Disabled
-@Autonomous(name = "Test_drive", group = "Auton")
+@Autonomous(name = "TwoCycleFarBluie", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class TwoCycleFarRed extends OpMode {
+public class TwoCycleFarBluie extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -24,8 +24,8 @@ public class TwoCycleFarRed extends OpMode {
     // declare auton power variables
     //private double AUTO_DRIVE_TURBO_SPEED = DriveTrain.DRIVETRAIN_TURBOSPEED;
     //private double AUTO_DRIVE_SLOW_SPEED = DriveTrain.DRIVETRAIN_SLOWSPEED;
-   // private double AUTO_DRIVE_NORMAL_SPEED = DriveTrain.DRIVETRAIN_NORMALSPEED;
-   // private double AUTO_TURN_SPEED = DriveTrain.DRIVETRAIN_TURNSPEED;
+    // private double AUTO_DRIVE_NORMAL_SPEED = DriveTrain.DRIVETRAIN_NORMALSPEED;
+    // private double AUTO_TURN_SPEED = DriveTrain.DRIVETRAIN_TURNSPEED;
 
     private String RTAG = "8492-Auton";
 
@@ -33,7 +33,7 @@ public class TwoCycleFarRed extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
 
-     //Code to run ONCE when the driver hits INIT
+    //Code to run ONCE when the driver hits INIT
 
     @Override
     public void init() {
@@ -59,7 +59,7 @@ public class TwoCycleFarRed extends OpMode {
     }
 
 
-     //Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
+    //Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
 
     @Override
     public void init_loop() {
@@ -69,7 +69,7 @@ public class TwoCycleFarRed extends OpMode {
     }
 
 
-      //Code to run ONCE when the driver hits PLAY
+    //Code to run ONCE when the driver hits PLAY
 
     @Override
     public void start() {
@@ -79,7 +79,7 @@ public class TwoCycleFarRed extends OpMode {
     }
 
 
-      //Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+    //Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
 
     @Override
     public void loop() {
@@ -92,45 +92,48 @@ public class TwoCycleFarRed extends OpMode {
                 currentStage = stage._00_preStart;
                 break;
             case _00_preStart:
-                currentStage = stage._10_Drive_Out;
+                currentStage = stage._10_PreLaunch;
                 break;
-            case _10_Drive_Out:
-                robot.driveTrain.CmdDrive(8,0,0.35,0);
-                currentStage = stage._100_End;
+            case _10_PreLaunch:
+                robot.driveTrain.CmdDrive(0,0,0.0,0);
+                robot.launcher.cmdOutfar();
+                runtime.reset();
+                currentStage = stage._20_Launch;
                 break;
-            case _20_Turn_To_Backdrop:
-                if(robot.driveTrain.getCmdComplete()){
+            case _20_Launch:
+                if(runtime.milliseconds() >=1000){             //expirimental
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
-                    currentStage = stage._30_Strafe_Left;
+                    robot.launcherBlocker.cmdUnBlock();
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
+                    runtime.reset();
+                    currentStage = stage._25_StopLaunch;
 
-                }
-                break;
-            case _30_Strafe_Left:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(12,-90,0.35,0);
-                    currentStage = stage._40_Strafe_Right;
-                }
-                break;
-            case _40_Strafe_Right:
-                if (robot.driveTrain.getCmdComplete())  {
-                    robot.driveTrain.CmdDrive(12,90,0.35,90);
-                    currentStage = stage._50_Turn_Away_From_Backdrop;
-                }
-                break;
-            case _50_Turn_Away_From_Backdrop:
-                if (robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(0,0,0.0,0);
-                    currentStage = stage._60_Drive_To_Wall;
                 }
 
                 break;
-            case _60_Drive_To_Wall:
-                if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(10,-180,0.35,0);
+            case _25_StopLaunch:
+                if (runtime.milliseconds() >=5000)     {
+                    robot.driveTrain.CmdDrive(0,0,0.0,0);
+                    robot.launcherBlocker.cmdBlock();
+                    robot.launcher.cmdStop();
+                    runtime.reset();
+                    currentStage = stage._30_MoveForward;
+                }
+
+                break;
+            case _30_MoveForward:
+                if (runtime.milliseconds() >=500)     {
+                    robot.driveTrain.CmdDrive(24,0,0.35,0);
                     currentStage = stage._100_End;
                 }
-
                 break;
+
+
+
+
+
+
             case _100_End:
                 if(robot.driveTrain.getCmdComplete()){
                     robot.stop();
@@ -152,7 +155,7 @@ public class TwoCycleFarRed extends OpMode {
     }  //  loop
 
 
-      //Code to run ONCE after the driver hits STOP
+    //Code to run ONCE after the driver hits STOP
 
     @Override
     public void stop() {
@@ -162,14 +165,13 @@ public class TwoCycleFarRed extends OpMode {
     private enum stage {
         _unknown,
         _00_preStart,
-        _10_Drive_Out,
-        _20_Turn_To_Backdrop,
-        _30_Strafe_Left,
-        _40_Strafe_Right,
-        _50_Turn_Away_From_Backdrop,
-        _60_Drive_To_Wall,
-        _70_Turn,
-        _80_Drive,
+        _10_PreLaunch,
+        _20_Launch,
+        _25_StopLaunch,
+        _30_MoveForward,
+        _40_TurnLeft1,
+        _50_MoveFoward2,
+
         _100_End
 
 
