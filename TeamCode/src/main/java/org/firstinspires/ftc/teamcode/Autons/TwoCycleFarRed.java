@@ -8,12 +8,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
-
-
-@Autonomous(name = "BlueNearAuton", group = "Auton")
+@Disabled
+@Autonomous(name = "Test_drive", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class BlueNearAuton extends OpMode {
+public class TwoCycleFarRed extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -25,8 +24,8 @@ public class BlueNearAuton extends OpMode {
     // declare auton power variables
     //private double AUTO_DRIVE_TURBO_SPEED = DriveTrain.DRIVETRAIN_TURBOSPEED;
     //private double AUTO_DRIVE_SLOW_SPEED = DriveTrain.DRIVETRAIN_SLOWSPEED;
-    // private double AUTO_DRIVE_NORMAL_SPEED = DriveTrain.DRIVETRAIN_NORMALSPEED;
-    // private double AUTO_TURN_SPEED = DriveTrain.DRIVETRAIN_TURNSPEED;
+   // private double AUTO_DRIVE_NORMAL_SPEED = DriveTrain.DRIVETRAIN_NORMALSPEED;
+   // private double AUTO_TURN_SPEED = DriveTrain.DRIVETRAIN_TURNSPEED;
 
     private String RTAG = "8492-Auton";
 
@@ -34,7 +33,7 @@ public class BlueNearAuton extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
 
-    //Code to run ONCE when the driver hits INIT
+     //Code to run ONCE when the driver hits INIT
 
     @Override
     public void init() {
@@ -60,7 +59,7 @@ public class BlueNearAuton extends OpMode {
     }
 
 
-    //Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
+     //Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
 
     @Override
     public void init_loop() {
@@ -70,7 +69,7 @@ public class BlueNearAuton extends OpMode {
     }
 
 
-    //Code to run ONCE when the driver hits PLAY
+      //Code to run ONCE when the driver hits PLAY
 
     @Override
     public void start() {
@@ -80,7 +79,7 @@ public class BlueNearAuton extends OpMode {
     }
 
 
-    //Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+      //Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
 
     @Override
     public void loop() {
@@ -93,39 +92,46 @@ public class BlueNearAuton extends OpMode {
                 currentStage = stage._00_preStart;
                 break;
             case _00_preStart:
-                currentStage = stage._20_DriveBack;
+                currentStage = stage._10_Drive_Out;
                 break;
+            case _10_Drive_Out:
+                robot.driveTrain.CmdDrive(8,0,0.35,0);
+                currentStage = stage._100_End;
+                break;
+            case _20_Turn_To_Backdrop:
+                if(robot.driveTrain.getCmdComplete()){
+                    robot.driveTrain.CmdDrive(0,0,0.0,0);
+                    currentStage = stage._30_Strafe_Left;
 
-
-            case _20_DriveBack:
+                }
+                break;
+            case _30_Strafe_Left:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(18,180,0.35,0);
-                    robot.launcher.cmdOuttouch();
-                    currentStage = stage._30_Shoot1;
+                    robot.driveTrain.CmdDrive(12,-90,0.35,0);
+                    currentStage = stage._40_Strafe_Right;
                 }
                 break;
-            case _30_Shoot1:
+            case _40_Strafe_Right:
                 if (robot.driveTrain.getCmdComplete())  {
-                    robot.driveTrain.CmdDrive(0,0,0.0,0);
-                    robot.intake.cmdFoward();
-                    robot.transitionRoller.cmdSpin();
-                    robot.launcherBlocker.cmdUnBlock();
-                    runtime.reset();
-                    currentStage = stage._40_Shoot2;
+                    robot.driveTrain.CmdDrive(12,90,0.35,90);
+                    currentStage = stage._50_Turn_Away_From_Backdrop;
                 }
                 break;
-            case _40_Shoot2:
-                if (runtime.milliseconds() >=5000){
+            case _50_Turn_Away_From_Backdrop:
+                if (robot.driveTrain.getCmdComplete()){
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
-                    robot.launcher.cmdStop();
-                    robot.transitionRoller.cmdStop();
-                    robot.launcherBlocker.cmdBlock();
-                    robot.intake.cmdStop();
-                    currentStage = stage._60_End;
+                    currentStage = stage._60_Drive_To_Wall;
                 }
 
+                break;
+            case _60_Drive_To_Wall:
+                if (robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(10,-180,0.35,0);
+                    currentStage = stage._100_End;
+                }
 
-            case _60_End:
+                break;
+            case _100_End:
                 if(robot.driveTrain.getCmdComplete()){
                     robot.stop();
 
@@ -146,7 +152,7 @@ public class BlueNearAuton extends OpMode {
     }  //  loop
 
 
-    //Code to run ONCE after the driver hits STOP
+      //Code to run ONCE after the driver hits STOP
 
     @Override
     public void stop() {
@@ -156,13 +162,15 @@ public class BlueNearAuton extends OpMode {
     private enum stage {
         _unknown,
         _00_preStart,
-        _10_turn,
-        _20_DriveBack,
-        _30_Shoot1,
-        _40_Shoot2,
-
-        _60_End,
-
+        _10_Drive_Out,
+        _20_Turn_To_Backdrop,
+        _30_Strafe_Left,
+        _40_Strafe_Right,
+        _50_Turn_Away_From_Backdrop,
+        _60_Drive_To_Wall,
+        _70_Turn,
+        _80_Drive,
+        _100_End
 
 
     }
