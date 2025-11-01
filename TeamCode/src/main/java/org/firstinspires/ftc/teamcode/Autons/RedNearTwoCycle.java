@@ -8,11 +8,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
-
 @Autonomous(name = "RedNearAuton", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class RedNearAuton extends OpMode {
+public class RedNearTwoCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();

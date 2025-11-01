@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -9,10 +8,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
-@Autonomous(name = "TwoCycleFarRed", group = "Auton")
+@Autonomous(name = "TwoCycleFarBluie2", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class TwoCycleFarRed extends OpMode {
+public class TwoCycleFarBluie2 extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -90,17 +89,18 @@ public class TwoCycleFarRed extends OpMode {
         switch (currentStage){
             case  _unknown:
                 currentStage = stage._00_preStart;
-                break;
+
             case _00_preStart:
                 currentStage = stage._05_ForwardStart;
-
                 break;
+
 
             case _05_ForwardStart:
                 if (robot.driveTrain.getCmdComplete())     {
                     robot.driveTrain.CmdDrive(2,0,0.15,0);
                     currentStage = stage._10_PreLaunch;
                 }
+
 
                 break;
             case _10_PreLaunch:
@@ -110,6 +110,7 @@ public class TwoCycleFarRed extends OpMode {
                     runtime.reset();
                     currentStage = stage._20_Launch;
                 }
+
                 break;
             case _20_Launch:
                 if(runtime.milliseconds() >=1500){
@@ -142,21 +143,21 @@ public class TwoCycleFarRed extends OpMode {
                 break;
             case _40_TurnRight1:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(30,0.25);
+                    robot.driveTrain.cmdTurn(-35,0.25);
                     currentStage = stage._50_MoveForward2;
                 }
 
                 break;
             case _50_MoveForward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(16,30,0.20,30);
+                    robot.driveTrain.CmdDrive(16,-35,0.20,-35);
                     currentStage = stage._60_MoveBack;
                 }
 
                 break;
             case _60_MoveBack:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(16,210,0.20,30);
+                    robot.driveTrain.CmdDrive(16,-215,0.20,-35);
                     currentStage = stage._70_TurnLeft1;
                 }
 

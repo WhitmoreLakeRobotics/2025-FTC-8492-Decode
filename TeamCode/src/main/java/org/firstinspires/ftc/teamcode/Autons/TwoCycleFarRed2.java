@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -12,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 @Autonomous(name = "TwoCycleFarRed", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class TwoCycleFarRed extends OpMode {
+public class TwoCycleFarRed2 extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -142,21 +141,21 @@ public class TwoCycleFarRed extends OpMode {
                 break;
             case _40_TurnRight1:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(30,0.25);
+                    robot.driveTrain.cmdTurn(35,0.25);
                     currentStage = stage._50_MoveForward2;
                 }
 
                 break;
             case _50_MoveForward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(16,30,0.20,30);
+                    robot.driveTrain.CmdDrive(16,35,0.20,35);
                     currentStage = stage._60_MoveBack;
                 }
 
                 break;
             case _60_MoveBack:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(16,210,0.20,30);
+                    robot.driveTrain.CmdDrive(16,215,0.20,35);
                     currentStage = stage._70_TurnLeft1;
                 }
 

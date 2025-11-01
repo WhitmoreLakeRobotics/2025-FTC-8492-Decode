@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
-@Disabled
+
 @Autonomous(name = "TwoCycleFarBluie", group = "Auton")
 // @Autonomous(...) is the other common choice
 
@@ -90,18 +90,31 @@ public class TwoCycleFarBluie extends OpMode {
         switch (currentStage){
             case  _unknown:
                 currentStage = stage._00_preStart;
-                break;
+
             case _00_preStart:
-                currentStage = stage._10_PreLaunch;
+                currentStage = stage._05_ForwardStart;
+                break;
+
+
+            case _05_ForwardStart:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.CmdDrive(2,0,0.15,0);
+                    currentStage = stage._10_PreLaunch;
+                }
+
+
                 break;
             case _10_PreLaunch:
-                robot.driveTrain.CmdDrive(0,0,0.0,0);
-                robot.launcher.cmdOutfar();
-                runtime.reset();
-                currentStage = stage._20_Launch;
+                if (robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
+                    robot.launcher.cmdOutfar();
+                    runtime.reset();
+                    currentStage = stage._20_Launch;
+                }
+
                 break;
             case _20_Launch:
-                if(runtime.milliseconds() >=1000){
+                if(runtime.milliseconds() >=1500){
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
@@ -124,7 +137,7 @@ public class TwoCycleFarBluie extends OpMode {
                 break;
             case _30_MoveForward:
                 if (runtime.milliseconds() >=500)     {
-                    robot.driveTrain.CmdDrive(24,0,0.35,0);
+                    robot.driveTrain.CmdDrive(22,0,0.35,0);
                     currentStage = stage._40_TurnRight1;
                 }
 
@@ -138,7 +151,7 @@ public class TwoCycleFarBluie extends OpMode {
                 break;
             case _50_MoveForward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(16,-30,0.15,-30);
+                    robot.driveTrain.CmdDrive(16,-30,0.20,-30);
                     currentStage = stage._60_MoveBack;
                 }
 
@@ -153,13 +166,14 @@ public class TwoCycleFarBluie extends OpMode {
             case _70_TurnLeft1:
                 if (robot.driveTrain.getCmdComplete())     {
                     robot.driveTrain.cmdTurn(0,0.25);
+                    robot.transitionRoller.cmdStop();
                     currentStage = stage._75_MoveBack2;
                 }
 
                 break;
             case _75_MoveBack2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(24,180,0.35,0);
+                    robot.driveTrain.CmdDrive(20,180,0.35,0);
                     currentStage = stage._80_PreLaunch2;
                 }
 
@@ -175,9 +189,10 @@ public class TwoCycleFarBluie extends OpMode {
 
                 break;
             case _90_Launch2:
-                if(runtime.milliseconds() >=1000){
+                if(runtime.milliseconds() >=1500){
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
                     robot.launcherBlocker.cmdUnBlock();
+                    robot.transitionRoller.cmdSpin();
                     runtime.reset();
                     currentStage = stage._100_StopLaunch2;
 
@@ -198,7 +213,7 @@ public class TwoCycleFarBluie extends OpMode {
                 break;
             case _105_MoveForward3:
                 if (runtime.milliseconds() >=500)     {
-                    robot.driveTrain.CmdDrive(24,0,0.35,0);
+                    robot.driveTrain.CmdDrive(20,0,0.35,0);
                     currentStage = stage._110_End;
                 }
 
@@ -235,6 +250,7 @@ public class TwoCycleFarBluie extends OpMode {
     private enum stage {
         _unknown,
         _00_preStart,
+        _05_ForwardStart,
         _10_PreLaunch,
         _20_Launch,
         _25_StopLaunch,

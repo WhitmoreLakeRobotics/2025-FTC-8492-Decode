@@ -8,11 +8,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
-
-@Autonomous(name = "RedNearAuton", group = "Auton")
+@Autonomous(name = "BlueNearTwoCycle", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class RedNearAuton extends OpMode {
+public class BlueNearTwoCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -105,7 +104,7 @@ public class RedNearAuton extends OpMode {
 
             case _25_Turn:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(-5,0.25);
+                    robot.driveTrain.cmdTurn(5,0.25);
                     runtime.reset();
                     currentStage = stage._30_Shoot1;
                 }
@@ -117,21 +116,18 @@ public class RedNearAuton extends OpMode {
                     robot.transitionRoller.cmdSpin();
                     robot.launcherBlocker.cmdUnBlock();
                     runtime.reset();
-                    currentStage = stage._40_Shoot2;
+                    currentStage = stage._40_LauncherStop;
                 }
                 break;
-            case _40_Shoot2:
+            case _40_LauncherStop:
                 if (runtime.milliseconds() >=5000){
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
-                    robot.launcher.cmdStop();
-                    robot.transitionRoller.cmdStop();
                     robot.launcherBlocker.cmdBlock();
-                    robot.intake.cmdStop();
-                    currentStage = stage._60_End;
+                    currentStage = stage._500_End;
                 }
 
 
-            case _60_End:
+            case _500_End:
                 if(robot.driveTrain.getCmdComplete()){
                     robot.stop();
 
@@ -166,8 +162,9 @@ public class RedNearAuton extends OpMode {
         _20_DriveBack,
         _25_Turn,
         _30_Shoot1,
-        _40_Shoot2,
-        _60_End,
+        _40_LauncherStop,
+        _50_Left1,
+        _500_End
 
 
 
