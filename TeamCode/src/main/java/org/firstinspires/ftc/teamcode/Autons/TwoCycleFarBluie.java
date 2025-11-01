@@ -9,10 +9,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 @Disabled
-@Autonomous(name = "TwoCycleFarRed", group = "Auton")
+@Autonomous(name = "TwoCycleFarBluie", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class TwoCycleFarRed extends OpMode {
+public class TwoCycleFarBluie extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -131,21 +131,21 @@ public class TwoCycleFarRed extends OpMode {
                 break;
             case _40_TurnRight1:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(30,0.25);
+                    robot.driveTrain.cmdTurn(-30,0.25);
                     currentStage = stage._50_MoveForward2;
                 }
 
                 break;
             case _50_MoveForward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(16,30,0.15,30);
+                    robot.driveTrain.CmdDrive(16,-30,0.15,-30);
                     currentStage = stage._60_MoveBack;
                 }
 
                 break;
             case _60_MoveBack:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(16,210,0.20,30);
+                    robot.driveTrain.CmdDrive(16,-210,0.20,-30);
                     currentStage = stage._70_TurnLeft1;
                 }
 
