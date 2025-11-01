@@ -97,10 +97,11 @@ public class AllFarAuton extends OpMode {
             case _10_PreLaunch:
                 robot.driveTrain.CmdDrive(0,0,0.0,0);
                 robot.launcher.cmdOutfar();
+                runtime.reset();
                 currentStage = stage._20_Launch;
                 break;
             case _20_Launch:
-                if(robot.launcher.bAtSpeed){             //expirimental
+                if(runtime.milliseconds() >=1000){
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
