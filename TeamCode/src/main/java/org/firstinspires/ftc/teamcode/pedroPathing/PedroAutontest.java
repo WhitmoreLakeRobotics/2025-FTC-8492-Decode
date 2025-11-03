@@ -45,15 +45,28 @@ public class PedroAutontest extends OpMode {
     private final Pose pickup2Pose = new Pose(24, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
 
-    private Path scorePreload;
+    private PathChain scorePreload;
     private PathChain grabPickup1, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
 
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
-        scorePreload = new Path(new BezierLine(startPose, scorePose));
+
+        scorePreload = follower.pathBuilder()
+                .addPath(new BezierLine(startPose, scorePose))
+                .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
+                .setGlobalDeceleration()
+            //    .setVelocityConstraint(0)
+              //  .setHeadingConstraint(2)
+               // .setBrakingStrength(1)
+               // .setBrakingStart(4)
+                .build();
+
+       /* scorePreload = new Path(new BezierLine(startPose, scorePose));
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
-        scorePreload.setBrakingStrength(50);
-        scorePreload.setBrakingStart(1);
+        scorePreload.setVelocityConstraint(0);
+        scorePreload.setHeadingConstraint(2);
+        scorePreload.setBrakingStrength(1);
+        scorePreload.setBrakingStart(4);*/
 
     /* Here is an example for Constant Interpolation
     scorePreload.setConstantInterpolation(startPose.getHeading()); */
@@ -132,7 +145,7 @@ public class PedroAutontest extends OpMode {
         opmodeTimer.resetTimer();
         pTimer = new ElapsedTime();
 
-        follower = testChassisConstants.createFollower(hardwareMap);
+        follower = CompBotConstants.createFollower(hardwareMap);
         buildPaths();
         follower.setStartingPose(startPose);
         follower.update();

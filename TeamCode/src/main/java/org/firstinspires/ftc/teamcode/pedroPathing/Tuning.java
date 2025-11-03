@@ -326,7 +326,7 @@ class TurnTuner extends OpMode {
  */
 class ForwardVelocityTuner extends OpMode {
     private final ArrayList<Double> velocities = new ArrayList<>();
-    public static double DISTANCE = 48;
+    public static double DISTANCE = 55;
     public static double RECORD_NUMBER = 10;
 
     private boolean end;
@@ -896,17 +896,17 @@ class DriveTuner extends OpMode {
 
     @Override
     public void start() {
-        follower.deactivateAllPIDFs();
+      //  follower.deactivateAllPIDFs();
         follower.activateDrive();
         
         forwards = follower.pathBuilder()
-                .setGlobalDeceleration(2)
+                .setGlobalDeceleration()
                 .addPath(new BezierLine(new Pose(0,0,0), new Pose(DISTANCE,0)))
                 .setConstantHeadingInterpolation(0)
                 .build();
 
         backwards = follower.pathBuilder()
-                .setGlobalDeceleration(2 )
+                .setGlobalDeceleration()
                 .addPath(new BezierLine(new Pose(DISTANCE,0,0), new Pose(0,0)))
                 .setConstantHeadingInterpolation(0)
                 .build();
