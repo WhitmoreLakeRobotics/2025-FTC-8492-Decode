@@ -611,6 +611,9 @@ public class Tele_Op extends OpMode {
         boolean b = gamepad1.b;
         boolean x = gamepad1.x;
         boolean y = gamepad1.y;
+        boolean RDP = gamepad1.dpad_right;
+        boolean LDP = gamepad1.dpad_left;
+
     if(a){
         bAutoTurn = true;
         
@@ -636,6 +639,14 @@ public class Tele_Op extends OpMode {
     else if(x){
         bAutoTurn = true;
        return 45;
+    }
+    else if(RDP){
+        bAutoTurn = true;
+        return -85;
+    }
+    else if(LDP){
+        bAutoTurn = true;
+        return 85;
     }
     else {
         return tHeading;
