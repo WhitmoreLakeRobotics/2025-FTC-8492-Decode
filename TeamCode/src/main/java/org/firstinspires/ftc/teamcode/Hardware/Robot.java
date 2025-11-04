@@ -32,6 +32,21 @@ public class Robot extends BaseHardware {
     private double slowModeMultiplier = 0.5;
     public boolean bCkSenors = false;
 
+    //auto align constants
+    public double minTargetVertPos = 0;
+    public double minTargetDist = 10;
+    public double maxTargetVertPos = 200;
+    public double maxTargetDist = 72;
+
+    public double nominalTagWidthRatio = 1;
+    public double nominalTagAngle = 0;
+    public double extremeTagWidthRatio = 0.5;
+    public double extremeTagAngle = 45;
+    public double tagExtremeRightPos = 300;
+    public double tagExtremeRightAngle = 45;
+    public double targetPointFromTag = 10;
+
+
     @Override
     public void init() {
         // Must set Hardware Map and telemetry before calling init
@@ -175,6 +190,39 @@ public void NoLaunch(){
     transitionRoller.cmdStop();
     launcherBlocker.cmdBlock();
         launcher.cmdStop();
-}
+        */
+public void targetDistanceCalc(){
+  /* double tagVertResult = Tag.y;
+   double tagVertRatio = (tagVertResult - minTargetVertPos)/(maxTargetVertPos - minTargetVertPos);
+
+   double tagDistCalc = minTargetDist + ((maxTargetDist - minTargetDist)*tagVertRatio);
+
+   Return tagDistCalc;
 */
 }
+public void targetAngleCalc(){
+  /*  double currentTargetPos = Tag.x;
+    double targetAngle = tagExtremeRightAngle * ((currentTargetPos - 160)/tagExtremeRightPos - 160);
+
+    double currentTargetRatio = Tag.height/Tag.width;
+    double tagAngle = extremeTagAngle * ((currentTargetRatio - nominalTagWidthRatio)/(extremeTagWidthRatio - nominalTagWidthRatio));
+    double targetDistanceCalc = targetDistanceCalc();
+    double hypotenuse = Math.sqrt(targetDistanceCalc^2 + targetPointFromTag^2 - 2*(targetDistanceCalc*targetPointFromTag*Math.cos(tagAngle);))
+
+    double compensationAngle = 180 - tagAngle - (sin^-1((sin(tagAngle)*targetDistance)/hypotenuse));
+*/
+}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
