@@ -210,7 +210,7 @@ public void NoLaunch(){
     launcherBlocker.cmdBlock();
         launcher.cmdStop();
         */
-public void targetDistanceCalc(){
+public double targetDistanceCalc(){
   /* double tagVertResult = Tag.y;
    double tagVertRatio = (tagVertResult - minTargetVertPos)/(maxTargetVertPos - minTargetVertPos);
 
@@ -219,35 +219,32 @@ public void targetDistanceCalc(){
    Return tagDistCalc;
 */
 }
-public void targetAngleCalc(){
-  /*  double currentTargetPos = Tag.x;
+public double targetAngleCalc(){
+    double currentTargetPos = Tag.x;
     double targetAngle = tagExtremeRightAngle * ((currentTargetPos - 160)/tagExtremeRightPos - 160);
 
     double currentTargetRatio = Tag.height/Tag.width;
     double tagAngle = extremeTagAngle * ((currentTargetRatio - nominalTagWidthRatio)/(extremeTagWidthRatio - nominalTagWidthRatio));
     double targetDistanceCalc = targetDistanceCalc();
-    double hypotenuse = Math.sqrt(targetDistanceCalc^2 + targetPointFromTag^2 - 2*(targetDistanceCalc*targetPointFromTag*Math.cos(tagAngle);))
+    double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2*(targetDistanceCalc*targetPointFromTag*Math.cos(tagAngle))
 
-    double compensationAngle = 180 - tagAngle - (sin^-1((sin(tagAngle)*targetDistance)/hypotenuse));
-double defaultAngle = 25;
-
-    double compensationAngle = 180 - tagAngle - (sin ^ -1
-    ((sin(tagAngle) * targetDistance) / hypotenuse));
+    double compensationAngle = 180 - tagAngle - (Math.asin(Math.sin(tagAngle)*targetDistance)/hypotenuse));
+    double defaultAngle = 25;
 
     if (driveTrain.getCurrentHeading() >= 90) {
         return defaultAngle;
     } else if (driveTrain.getCurrentHeading() <= -90) {
         return -defaultAngle;
-    } else if (redtag id){
+    } else if (huskyLens.){
         //compensate left
-        return currentGyro Angle + targetAngle - compensationAngle;
+        return driveTrain.getCurrentHeading() + targetAngle - compensationAngle;
     } else if (bluetag id){
         //compensate right
-        return currentGyro Angle + targetAngle + compensationAngle;
+        return driveTrain.getCurrentHeading() + targetAngle + compensationAngle;
     }  else {
 
     }
-*/
+
 }
 
 
