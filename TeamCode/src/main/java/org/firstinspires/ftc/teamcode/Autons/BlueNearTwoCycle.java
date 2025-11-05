@@ -161,24 +161,28 @@ public class BlueNearTwoCycle extends OpMode {
             case _80_Right1:
                 if (robot.driveTrain.getCmdComplete())    {
                     robot.driveTrain.CmdDrive(35,90,0.35,0);
+                    robot.intake.cmdStop();
+                    robot.transitionRoller.cmdStop();
                     currentStage = stage._85_Backward2;
                 }
                  break;
             case _85_Backward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(19,180,0.35,0);
+                    robot.driveTrain.CmdDrive(15,180,0.35,0);
                     currentStage = stage._90_Shoot2;
                 }
                 break;
                 case _90_Shoot2:
                 if (robot.driveTrain.getCmdComplete())  {
+                    robot.intake.cmdFoward();
+                    robot.transitionRoller.cmdSpin();
                     robot.launcherBlocker.cmdUnBlock();
                     runtime.reset();
                     currentStage = stage._100_Stop;
                 }
                 break;
             case _100_Stop:
-                if(runtime.milliseconds() >=2500)
+                if(runtime.milliseconds() >=1500)
                     robot.launcher.cmdStop();
                     robot.transitionRoller.cmdStop();
                     robot.launcherBlocker.cmdBlock();
