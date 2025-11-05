@@ -34,23 +34,15 @@ public class Robot extends BaseHardware {
     public boolean bCkSenors = false;
 
     //auto align constants
-    public double minTargetVertPos = 0;
-    public double minTargetDist = 10;
-    public double maxTargetVertPos = 200;
-    public double maxTargetDist = 72;
+
     public double minTargetVertPos = 65; //63-69
     public double minTargetDist = 26;
     public double maxTargetVertPos = 169;
     public double maxTargetDist = 78;
 
-    public double nominalTagWidthRatio = 1;
+
     public double nominalTagWidthRatio = 0.95;
     public double nominalTagAngle = 0;
-    public double extremeTagWidthRatio = 0.5;
-    public double extremeTagAngle = 45;
-    public double tagExtremeRightPos = 300;
-    public double tagExtremeRightAngle = 45;
-    public double targetPointFromTag = 10;
     public double extremeTagWidthRatio = 0.6829;
     public double extremeTagAngle = 75;
     public double tagExtremeRightPos = 296;
@@ -118,7 +110,7 @@ public class Robot extends BaseHardware {
        // flickiteer.init_loop();
         launcherBlocker.init_loop();
         transitionRoller.init_loop();
-        huskyLens.init_loop();
+        //huskyLens.init_loop();
     }
 
     @Override
@@ -132,7 +124,7 @@ public class Robot extends BaseHardware {
         //flickiteer.start();
         launcherBlocker.start();
         transitionRoller.start();
-        huskyLens.start();
+        //huskyLens.start();
 
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
@@ -167,7 +159,7 @@ public class Robot extends BaseHardware {
        // flickiteer.stop();
         launcherBlocker.stop();
         transitionRoller.stop();
-        huskyLens.stop();
+        //huskyLens.stop();
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
@@ -211,39 +203,41 @@ public void NoLaunch(){
         launcher.cmdStop();
         */
 public double targetDistanceCalc(){
-  /* double tagVertResult = Tag.y;
+   double tagVertResult = huskyLens.tagY();
    double tagVertRatio = (tagVertResult - minTargetVertPos)/(maxTargetVertPos - minTargetVertPos);
 
    double tagDistCalc = minTargetDist + ((maxTargetDist - minTargetDist)*tagVertRatio);
 
-   Return tagDistCalc;
-*/
+   return tagDistCalc;
+
 }
 public double targetAngleCalc(){
-    double currentTargetPos = Tag.x;
+
+    double currentTargetPos = huskyLens.tagY();
     double targetAngle = tagExtremeRightAngle * ((currentTargetPos - 160)/tagExtremeRightPos - 160);
 
-    double currentTargetRatio = Tag.height/Tag.width;
+    double currentTargetRatio = huskyLens.tagWidth()/huskyLens.tagHeight();
     double tagAngle = extremeTagAngle * ((currentTargetRatio - nominalTagWidthRatio)/(extremeTagWidthRatio - nominalTagWidthRatio));
     double targetDistanceCalc = targetDistanceCalc();
-    double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2*(targetDistanceCalc*targetPointFromTag*Math.cos(tagAngle))
+    double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2*(targetDistanceCalc*targetPointFromTag*Math.cos(tagAngle)));
 
-    double compensationAngle = 180 - tagAngle - (Math.asin(Math.sin(tagAngle)*targetDistance)/hypotenuse));
+    double compensationAngle = 180 - tagAngle - (Math.asin(Math.sin(tagAngle)*targetDistanceCalc)/hypotenuse);
     double defaultAngle = 25;
 
     if (driveTrain.getCurrentHeading() >= 90) {
         return defaultAngle;
     } else if (driveTrain.getCurrentHeading() <= -90) {
         return -defaultAngle;
-    } else if (huskyLens.){
+    } else if (huskyLens.tagID() == 1){
         //compensate left
         return driveTrain.getCurrentHeading() + targetAngle - compensationAngle;
-    } else if (bluetag id){
+    } else if (huskyLens.tagID() == 2){
         //compensate right
         return driveTrain.getCurrentHeading() + targetAngle + compensationAngle;
     }  else {
 
     }
+
 
 }
 

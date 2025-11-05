@@ -35,7 +35,9 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.system.Deadline;
 
 import java.util.concurrent.TimeUnit;
@@ -62,11 +64,18 @@ import java.util.concurrent.TimeUnit;
 //@Disabled
 public class HuskyLens {
 
+    public Telemetry telemetry = null;
+
+    /**
+     * Hardware Mappings
+     */
+    public HardwareMap hardwareMap = null;
+
     private final int READ_PERIOD = 1;
 
     private com.qualcomm.hardware.dfrobot.HuskyLens huskyLens;
-    private com.qualcomm.hardware.dfrobot.HuskyLens.Block[] blocks = huskyLens.blocks();
-    @Override
+    public com.qualcomm.hardware.dfrobot.HuskyLens.Block[] blocks ;
+  //  @Override
     public void init() {
         huskyLens = hardwareMap.get(com.qualcomm.hardware.dfrobot.HuskyLens.class, "huskylens");
 
@@ -114,7 +123,7 @@ public class HuskyLens {
         huskyLens.selectAlgorithm(com.qualcomm.hardware.dfrobot.HuskyLens.Algorithm.TAG_RECOGNITION);
 
         telemetry.update();
-        waitForStart();
+        //waitForStart();
 
         /*
          * Looking for AprilTags per the call to selectAlgorithm() above.  A handy grid
@@ -170,5 +179,4 @@ public class HuskyLens {
 
            // telemetry.update();
         }
-    }
-}
+
