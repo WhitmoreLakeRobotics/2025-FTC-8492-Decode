@@ -5,6 +5,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
+import org.firstinspires.ftc.robotcore.internal.camera.delegating.DelegatingCaptureSequence;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +17,10 @@ public class Robot extends BaseHardware {
     private static final Logger log = LoggerFactory.getLogger(Robot.class);
     public DriveTrain driveTrain = new DriveTrain();
     //public Lighting lighting = new Lighting();
-   // public Sensors sensors = new Sensors();
+    // public Sensors sensors = new Sensors();
     public Intake intake = new Intake();
     public Launcher launcher = new Launcher();
-   // public Spindexer spindexer = new Spindexer();
+    // public Spindexer spindexer = new Spindexer();
     //public Flickiteer flickiteer = new Flickiteer();
     public TransitionRoller transitionRoller = new TransitionRoller();
     public LauncherBlocker launcherBlocker = new LauncherBlocker();
@@ -33,18 +34,18 @@ public class Robot extends BaseHardware {
     public boolean bCkSenors = false;
 
     //auto align constants
-    public double minTargetVertPos = 0;
-    public double minTargetDist = 10;
-    public double maxTargetVertPos = 200;
-    public double maxTargetDist = 72;
+    public double minTargetVertPos = 65; //63-69
+    public double minTargetDist = 26;
+    public double maxTargetVertPos = 169;
+    public double maxTargetDist = 78;
 
-    public double nominalTagWidthRatio = 1;
+    public double nominalTagWidthRatio = 0.95;
     public double nominalTagAngle = 0;
-    public double extremeTagWidthRatio = 0.5;
-    public double extremeTagAngle = 45;
-    public double tagExtremeRightPos = 300;
-    public double tagExtremeRightAngle = 45;
-    public double targetPointFromTag = 10;
+    public double extremeTagWidthRatio = 0.6829;
+    public double extremeTagAngle = 75;
+    public double tagExtremeRightPos = 296;
+    public double tagExtremeRightAngle = 65;
+    public double targetPointFromTag = 12;
 
 
     @Override
@@ -55,13 +56,13 @@ public class Robot extends BaseHardware {
         driveTrain.init();
 
 
-         //  lighting.hardwareMap = this.hardwareMap;
+        //  lighting.hardwareMap = this.hardwareMap;
         //lighting.telemetry = this.telemetry;
-       // lighting.init();
+        // lighting.init();
 
-       // sensors.hardwareMap = this.hardwareMap;
+        // sensors.hardwareMap = this.hardwareMap;
         // sensors.telemetry = this.telemetry;
-       // sensors.init();
+        // sensors.init();
 
         intake.hardwareMap = this.hardwareMap;
         intake.telemetry = this.telemetry;
@@ -96,11 +97,11 @@ public class Robot extends BaseHardware {
     public void init_loop() {
         driveTrain.init_loop();
         //lighting.init_loop();
-       // sensors.init_loop();
+        // sensors.init_loop();
         intake.init_loop();
         launcher.init_loop();
-      //  spindexer.init_loop();
-       // flickiteer.init_loop();
+        //  spindexer.init_loop();
+        // flickiteer.init_loop();
         launcherBlocker.init_loop();
         transitionRoller.init_loop();
     }
@@ -108,31 +109,30 @@ public class Robot extends BaseHardware {
     @Override
     public void start() {
         driveTrain.start();
-       // lighting.start();
-       // sensors.start();
+        // lighting.start();
+        // sensors.start();
         intake.start();
         launcher.start();
-      //  spindexer.start();
+        //  spindexer.start();
         //flickiteer.start();
         launcherBlocker.start();
         transitionRoller.start();
 
 
-       // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 
     @Override
     public void loop() {
         driveTrain.loop();
-       //. lighting.loop();
-       // sensors.loop();
+        //. lighting.loop();
+        // sensors.loop();
         intake.loop();
         launcher.loop();
-       // spindexer.loop();
+        // spindexer.loop();
         //flickiteer.loop();
         launcherBlocker.loop();
         transitionRoller.loop();
-
 
 
     }
@@ -141,30 +141,31 @@ public class Robot extends BaseHardware {
     @Override
     public void stop() {
         driveTrain.stop();
-       // lighting.stop();
-       // sensors.stop();
+        // lighting.stop();
+        // sensors.stop();
         intake.stop();
         launcher.stop();
-      //  spindexer.stop();
-       // flickiteer.stop();
+        //  spindexer.stop();
+        // flickiteer.stop();
         launcherBlocker.stop();
         transitionRoller.stop();
 
-       // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 
-      public void safteyCheck(){
+    public void safteyCheck() {
         //when called comfirm flicker is in safe position before spindexing.
-      }
-/*
-    public void Cksem (){
-        if(bCkSenors){
-            sensors. SpindexerSlot1 = sensors.getSlotArtifact(sensors.SDC01);
-            sensors.SpindexerSlot2 = sensors.getSlotArtifact(sensors.SDC02);
-            sensors.SpindexerSlot3 = sensors.getSlotArtifact(sensors.SDC03);
-            sensors.IntakeSlot = sensors.getSlotArtifact(sensors.NTKC01);
-        }
-    }  */
+    }
+
+    /*
+        public void Cksem (){
+            if(bCkSenors){
+                sensors. SpindexerSlot1 = sensors.getSlotArtifact(sensors.SDC01);
+                sensors.SpindexerSlot2 = sensors.getSlotArtifact(sensors.SDC02);
+                sensors.SpindexerSlot3 = sensors.getSlotArtifact(sensors.SDC03);
+                sensors.IntakeSlot = sensors.getSlotArtifact(sensors.NTKC01);
+            }
+        }  */
 /*
 public void LaunchNear(){         //wait for launcher to spin up to speed.
         launcher.cmdOutnear();
@@ -191,32 +192,53 @@ public void NoLaunch(){
     launcherBlocker.cmdBlock();
         launcher.cmdStop();
         */
-public void targetDistanceCalc(){
-  /* double tagVertResult = Tag.y;
+    /*
+    public double targetDistanceCalc() {
+
+   double tagVertResult = Tag.y;
    double tagVertRatio = (tagVertResult - minTargetVertPos)/(maxTargetVertPos - minTargetVertPos);
 
    double tagDistCalc = minTargetDist + ((maxTargetDist - minTargetDist)*tagVertRatio);
 
-   Return tagDistCalc;
-*/
-}
-public void targetAngleCalc(){
-  /*  double currentTargetPos = Tag.x;
-    double targetAngle = tagExtremeRightAngle * ((currentTargetPos - 160)/tagExtremeRightPos - 160);
+   return tagDistCalc;
 
-    double currentTargetRatio = Tag.height/Tag.width;
-    double tagAngle = extremeTagAngle * ((currentTargetRatio - nominalTagWidthRatio)/(extremeTagWidthRatio - nominalTagWidthRatio));
+}
+public double targetAngleCalc() {
+    double currentTargetPos = Tag.x;
+    double targetAngle = tagExtremeRightAngle * ((currentTargetPos - 160) / tagExtremeRightPos - 160);
+
+    double currentTargetRatio = Tag.height / Tag.width;
+    double tagAngle = extremeTagAngle * ((currentTargetRatio - nominalTagWidthRatio) / (extremeTagWidthRatio - nominalTagWidthRatio));
     double targetDistanceCalc = targetDistanceCalc();
-    double hypotenuse = Math.sqrt(targetDistanceCalc^2 + targetPointFromTag^2 - 2*(targetDistanceCalc*targetPointFromTag*Math.cos(tagAngle);))
+    double hypotenuse = Math.sqrt(targetDistanceCalc ^ 2 + targetPointFromTag ^ 2 - 2 * (targetDistanceCalc * targetPointFromTag * Math.cos(tagAngle);))
 
-    double compensationAngle = 180 - tagAngle - (sin^-1((sin(tagAngle)*targetDistance)/hypotenuse));
+    double defaultAngle = 25;
+
+    double compensationAngle = 180 - tagAngle - (sin ^ -1
+    ((sin(tagAngle) * targetDistance) / hypotenuse));
+
+    if (driveTrain.getCurrentHeading() >= 90) {
+        return defaultAngle;
+    } else if (driveTrain.getCurrentHeading() <= -90) {
+        return -defaultAngle;
+    } else if (redtag id){
+        //compensate left
+        return currentGyro Angle + targetAngle - compensationAngle;
+    } else if (bluetag id){
+        //compensate right
+        return currentGyro Angle + targetAngle + compensationAngle;
+    }  else {
+
+    }
+
+
+
+}
 */
+
+    
+
 }
-
-
-}
-
-
 
 
 
