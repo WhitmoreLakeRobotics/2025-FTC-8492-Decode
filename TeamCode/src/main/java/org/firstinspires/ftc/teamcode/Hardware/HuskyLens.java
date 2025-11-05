@@ -58,17 +58,16 @@ import java.util.concurrent.TimeUnit;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
-@TeleOp(name = "Sensor: HuskyLens", group = "Sensor")
-
-public class HuskyLens extends LinearOpMode {
+//@TeleOp(name = "Sensor: HuskyLens", group = "Sensor")
+//@Disabled
+public class HuskyLens {
 
     private final int READ_PERIOD = 1;
 
     private com.qualcomm.hardware.dfrobot.HuskyLens huskyLens;
-
+    private com.qualcomm.hardware.dfrobot.HuskyLens.Block[] blocks = huskyLens.blocks();
     @Override
-    public void runOpMode()
-    {
+    public void init() {
         huskyLens = hardwareMap.get(com.qualcomm.hardware.dfrobot.HuskyLens.class, "huskylens");
 
         /*
@@ -123,7 +122,23 @@ public class HuskyLens extends LinearOpMode {
          *
          * Note again that the device only recognizes the 36h11 family of tags out of the box.
          */
-        while(opModeIsActive()) {
+    }
+        public void loop(){
+
+
+
+
+
+
+    };
+
+    public double tagX(){return blocks[1].x;}
+    public double tagY(){return blocks[1].y;}
+    public double tagWidth(){return blocks[1].width;}
+    public double tagHeight(){return blocks[1].height;}
+    public double tagID(){return blocks[1].id;}
+
+       /* while(opModeIsActive()) {
             if (!rateLimit.hasExpired()) {
                 continue;
             }
@@ -137,7 +152,7 @@ public class HuskyLens extends LinearOpMode {
              * assign them to objects.
              *
              * Returns an empty array if no objects are seen.
-             */
+
             com.qualcomm.hardware.dfrobot.HuskyLens.Block[] blocks = huskyLens.blocks();
             telemetry.addData("Block count", blocks.length);
             for (int i = 0; i < blocks.length; i++) {
@@ -151,9 +166,9 @@ public class HuskyLens extends LinearOpMode {
                  *
                  * These values have Java type int (integer).
                  */
-            }
+        //    }
 
-            telemetry.update();
+           // telemetry.update();
         }
     }
 }
