@@ -19,6 +19,7 @@ public class Robot extends BaseHardware {
    // public Sensors sensors = new Sensors();
     public Intake intake = new Intake();
     public Launcher launcher = new Launcher();
+    public HuskyLens huskyLens = new HuskyLens();
    // public Spindexer spindexer = new Spindexer();
     //public Flickiteer flickiteer = new Flickiteer();
     public TransitionRoller transitionRoller = new TransitionRoller();
@@ -90,6 +91,10 @@ public class Robot extends BaseHardware {
         transitionRoller.telemetry = this.telemetry;
         transitionRoller.init();
 
+        huskyLens.hardwareMap = this.hardwareMap;
+        huskyLens.telemetry = this.telemetry;
+        huskyLens.init();
+
     }
 
     @Override
@@ -103,6 +108,7 @@ public class Robot extends BaseHardware {
        // flickiteer.init_loop();
         launcherBlocker.init_loop();
         transitionRoller.init_loop();
+        huskyLens.init_loop();
     }
 
     @Override
@@ -116,6 +122,7 @@ public class Robot extends BaseHardware {
         //flickiteer.start();
         launcherBlocker.start();
         transitionRoller.start();
+        huskyLens.start();
 
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
@@ -132,6 +139,7 @@ public class Robot extends BaseHardware {
         //flickiteer.loop();
         launcherBlocker.loop();
         transitionRoller.loop();
+        huskyLens.loop();
 
 
 
@@ -149,6 +157,7 @@ public class Robot extends BaseHardware {
        // flickiteer.stop();
         launcherBlocker.stop();
         transitionRoller.stop();
+        huskyLens.stop();
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }

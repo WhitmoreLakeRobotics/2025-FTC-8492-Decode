@@ -65,7 +65,7 @@ public class Launcher extends BaseHardware{
     public static double bottomMotornear = 3300;
     public static double topMotorRPMfar = 4000;
     public static double bottomMotorfar = 6000;
-    public static double topMotorRPMtouch = 2200;
+    public static double topMotorRPMtouch = 2300;
     public static double bottomMotortouch = 3800;
 
 
@@ -74,8 +74,8 @@ public class Launcher extends BaseHardware{
     private double lastError = 0;
     private double integralSum = 0;
 
-    private double targetRPM1Tol = 150;
-    private double targetRPM2Tol = 150;
+    private double targetRPM1Tol = 100;
+    private double targetRPM2Tol = 100;
 
     private ElapsedTime timer = new ElapsedTime();
 

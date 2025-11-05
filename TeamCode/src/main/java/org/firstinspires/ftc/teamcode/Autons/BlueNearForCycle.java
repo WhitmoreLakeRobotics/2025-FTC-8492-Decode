@@ -285,7 +285,7 @@ public class BlueNearForCycle extends OpMode {
         _10_turn,
         _20_DriveBack,
         _25_Turn2,
-        _30_Shoot1,
+        _30_Shoot1,//1stCycleEnd
         _40_LauncherStop,
         _45_Forward2,
         _50_Left1,
@@ -293,18 +293,18 @@ public class BlueNearForCycle extends OpMode {
         _70_Backwards1,
         _80_Right1,
         _85_Backward2,
-        _90_Shoot2,
+        _90_Shoot2,//2ndCycleEnd
         _100_Left2,
         _120_Foward3,
         _130_Backward3,
         _140_Right2,
-        _150_Shoot3,
+        _150_Shoot3,//3rdCycleEnd
         _160_LauncherStop2,
         _170_Left3,
         _180_Foward4,
         _190_Backward4,
         _200_Right3,
-        _210_Shoot4,
+        _210_Shoot4,//4thCycleEnd
         _220_LauncherStop3,
         _230_Stop,
         _300_End

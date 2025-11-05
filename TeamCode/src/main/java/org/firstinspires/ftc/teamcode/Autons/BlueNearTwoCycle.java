@@ -111,7 +111,7 @@ public class BlueNearTwoCycle extends OpMode {
 
                 break;
             case _30_Shoot1:
-                if (runtime.milliseconds() >=1000)  {
+                if (runtime.milliseconds() >=750)  {
                     robot.intake.cmdFoward();
                     robot.transitionRoller.cmdSpin();
                     robot.launcherBlocker.cmdUnBlock();
@@ -120,7 +120,7 @@ public class BlueNearTwoCycle extends OpMode {
                 }
                 break;
             case _40_LauncherStop:
-                if (runtime.milliseconds() >=5000){
+                if (runtime.milliseconds() >=1000){
                     robot.driveTrain.cmdTurn(0,0.25);
                     robot.launcherBlocker.cmdBlock();
                     currentStage = stage._45_Forward2;
@@ -128,7 +128,7 @@ public class BlueNearTwoCycle extends OpMode {
                 break;
                 case _45_Forward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(20,0,0.35,0);
+                    robot.driveTrain.CmdDrive(16,0,0.35,0);
                     currentStage = stage._50_Left1;
                 }
 
@@ -138,7 +138,7 @@ public class BlueNearTwoCycle extends OpMode {
 
             case _50_Left1:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(60,-90,0.35,0);
+                    robot.driveTrain.CmdDrive(35,-90,0.35,0);
                     currentStage = stage._60_Foward1;
                 }
                 break;
@@ -160,13 +160,13 @@ public class BlueNearTwoCycle extends OpMode {
 
             case _80_Right1:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(60,90,0.35,0);
+                    robot.driveTrain.CmdDrive(35,90,0.35,0);
                     currentStage = stage._85_Backward2;
                 }
                  break;
             case _85_Backward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(20,180,0.35,0);
+                    robot.driveTrain.CmdDrive(19,180,0.35,0);
                     currentStage = stage._90_Shoot2;
                 }
                 break;
@@ -178,7 +178,7 @@ public class BlueNearTwoCycle extends OpMode {
                 }
                 break;
             case _100_Stop:
-                if(runtime.milliseconds() >=5000)
+                if(runtime.milliseconds() >=2500)
                     robot.launcher.cmdStop();
                     robot.transitionRoller.cmdStop();
                     robot.launcherBlocker.cmdBlock();
