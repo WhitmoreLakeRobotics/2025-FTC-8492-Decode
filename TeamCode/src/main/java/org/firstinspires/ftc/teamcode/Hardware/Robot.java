@@ -234,9 +234,9 @@ public double targetAngleCalc(){
     } else if (huskyLens.tagID() == 2){
         //compensate right
         return driveTrain.getCurrentHeading() + targetAngle + compensationAngle;
-    }  else {
+    }  else
+        return driveTrain.getCurrentHeading();
 
-    }
 
 
 }
