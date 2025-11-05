@@ -58,7 +58,7 @@ public class Launcher extends BaseHardware{
         public static  double bottomSpeednear = 0.5;
         public static  double bottomSpeedfar = 1;
     */
-    public static double LkP = 0.0001;
+    public static double LkP = 0.0002;
     public static double LkI = 0.0;
     public static double LkD = 0.0;
     public static double topMotorRPMnear = 2900;
@@ -74,8 +74,8 @@ public class Launcher extends BaseHardware{
     private double lastError = 0;
     private double integralSum = 0;
 
-    private double targetRPM1Tol = 100;
-    private double targetRPM2Tol = 100;
+    private double targetRPM1Tol = 75;
+    private double targetRPM2Tol = 75;
 
     private ElapsedTime timer = new ElapsedTime();
 
