@@ -128,7 +128,7 @@ public class RedNearTwoCycle extends OpMode {
                 break;
                 case _45_Forward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(20,0,0.35,0);
+                    robot.driveTrain.CmdDrive(10,0,0.35,0);
                     currentStage = stage._50_Left1;
                 }
 
@@ -138,14 +138,14 @@ public class RedNearTwoCycle extends OpMode {
 
             case _50_Left1:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(60,90,0.35,0);
+                    robot.driveTrain.CmdDrive(36,90,0.35,0);
                     currentStage = stage._60_Foward1;
                 }
                 break;
 
             case _60_Foward1:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(16,0,0.20,0);
+                    robot.driveTrain.CmdDrive(20,0,0.20,0);
                     currentStage = stage._70_Backwards1;
             }
 
@@ -153,20 +153,20 @@ public class RedNearTwoCycle extends OpMode {
 
             case _70_Backwards1:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(16,180,0.35,0);
+                    robot.driveTrain.CmdDrive(15,180,0.35,0);
                     currentStage = stage._80_Right1;
                 }
                 break;
 
             case _80_Right1:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(60,-90,0.35,0);
+                    robot.driveTrain.CmdDrive(35,-90,0.35,0);
                     currentStage = stage._85_Backward2;
                 }
                  break;
             case _85_Backward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(20,180,0.35,0);
+                    robot.driveTrain.CmdDrive(13,180,0.35,0);
                     currentStage = stage._90_Shoot2;
                 }
                 break;

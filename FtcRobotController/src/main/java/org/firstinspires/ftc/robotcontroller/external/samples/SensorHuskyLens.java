@@ -117,7 +117,7 @@ public class SensorHuskyLens extends LinearOpMode {
 
         telemetry.update();
         waitForStart();
-        public void loop(){
+        //public void loop(){
         /*
          * Looking for AprilTags per the call to selectAlgorithm() above.  A handy grid
          * for testing may be found at https://wiki.dfrobot.com/HUSKYLENS_V1.0_SKU_SEN0305_SEN0336#target_20.

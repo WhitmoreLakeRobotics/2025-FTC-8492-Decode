@@ -642,11 +642,11 @@ public class Tele_Op extends OpMode {
     }
     else if(RDP){
         bAutoTurn = true;
-        return -85;
+        return -5;
     }
     else if(LDP){
         bAutoTurn = true;
-        return 85;
+        return 5;
     }
     else {
         return tHeading;
