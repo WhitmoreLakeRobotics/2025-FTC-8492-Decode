@@ -74,10 +74,11 @@ public class HuskyLens {
     private final int READ_PERIOD = 1;
 
     private com.qualcomm.hardware.dfrobot.HuskyLens huskyLens;
-    public com.qualcomm.hardware.dfrobot.HuskyLens.Block[] blocks ;
+    public com.qualcomm.hardware.dfrobot.HuskyLens.Block[] blocks= huskyLens.blocks(); ;
   //  @Override
     public void init() {
         huskyLens = hardwareMap.get(com.qualcomm.hardware.dfrobot.HuskyLens.class, "huskylens");
+
 
         /*
          * This sample rate limits the reads solely to allow a user time to observe
