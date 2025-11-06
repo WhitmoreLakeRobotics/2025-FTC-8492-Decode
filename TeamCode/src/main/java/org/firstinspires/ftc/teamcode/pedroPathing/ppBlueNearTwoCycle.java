@@ -15,7 +15,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
+import org.firstinspires.ftc.teamcode.Hardware.Intake;
+import org.firstinspires.ftc.teamcode.Hardware.Launcher;
+import org.firstinspires.ftc.teamcode.Hardware.LauncherBlocker;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.Hardware.TransitionRoller;
 
 @Configurable
 @Autonomous(name = "ppBlueNearTwoCycle", group = "Auton")
@@ -25,6 +29,10 @@ public class ppBlueNearTwoCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
+    Launcher launcher = new Launcher();
+    Intake intake = new Intake();
+    TransitionRoller transitionRoller = new TransitionRoller();
+    LauncherBlocker launcherBlocker = new LauncherBlocker();
     private stage currentStage = stage._unknown;
     // declare auton power variables
     //private double AUTO_DRIVE_TURBO_SPEED = DriveTrain.DRIVETRAIN_TURBOSPEED;
@@ -35,7 +43,7 @@ public class ppBlueNearTwoCycle extends OpMode {
     private String RTAG = "8492-Auton";
 // Set up stuff for pedro path
 
-    private String thisUpdate = "11";
+    private String thisUpdate = "20";
     private TelemetryManager telemetryMU;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
@@ -126,14 +134,22 @@ public class ppBlueNearTwoCycle extends OpMode {
             msStuckDetectStart = Settings.msStuckDetectStart;
             msStuckDetectLoop = Settings.msStuckDetectLoop;
             msStuckDetectStop = Settings.msStuckDetectStop;
-
-            robot.hardwareMap = hardwareMap;
-            robot.telemetry = telemetry;
-            robot.init();
+launcher.hardwareMap = hardwareMap;
+            launcher.telemetry = telemetry;
+            launcher.init();
+          //  robot.hardwareMap = hardwareMap;
+          //  robot.telemetry = telemetry;
+         //   robot.init();
+            launcherBlocker.hardwareMap = hardwareMap;
+            launcherBlocker.init();
+            intake.hardwareMap = hardwareMap;
+            intake.init();
+            transitionRoller.hardwareMap = hardwareMap;
+            transitionRoller.init();
             telemetry.addData("Test Auton", "Initialized");
 
             //Initialize Gyro
-            robot.driveTrain.ResetGyro();
+            //robot.driveTrain.ResetGyro();
             pathTimer = new Timer();
             opmodeTimer = new Timer();
             opmodeTimer.resetTimer();
@@ -171,7 +187,11 @@ public class ppBlueNearTwoCycle extends OpMode {
         @Override
         public void init_loop () {
             // initialize robot
-            robot.init_loop();
+            //robot.init_loop();
+            launcher.init_loop();
+            launcherBlocker.init_loop();
+            transitionRoller.init_loop();
+            intake.init_loop();
 
         }
 
@@ -182,7 +202,11 @@ public class ppBlueNearTwoCycle extends OpMode {
         public void start () {
             // start robot
             runtime.reset();
-            robot.start();
+           // robot.start();
+            launcher.start();
+            launcher.start();
+            transitionRoller.start();
+            intake.start();
             opmodeTimer.resetTimer();
 
 
@@ -195,7 +219,7 @@ public class ppBlueNearTwoCycle extends OpMode {
         public void loop () {
 
             telemetry.addData("Auton_Current_Stage ", currentStage);
-            robot.loop();
+           // robot.loop();
             follower.update();
             switch (currentStage) {
                 case _unknown:
@@ -210,20 +234,17 @@ public class ppBlueNearTwoCycle extends OpMode {
                     if (!follower.isBusy()) {
                         follower.followPath(scorePreload, true);
                        // follower.update();
-                        robot.launcher.cmdOuttouch();
+                        launcher.cmdOuttouch();
                         currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
-                    } else
-                       currentStage = stage._20_DriveBack;
-
-
+                    }
                     break;
                 case _30_Shoot1:
                     if (!follower.isBusy()){
                    // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                    //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                        robot.intake.cmdFoward();
-                        robot.transitionRoller.cmdSpin();
-                        robot.launcherBlocker.cmdUnBlock();
+                        launcherBlocker.cmdUnBlock();
+                        transitionRoller.cmdSpin();
+                        intake.cmdFoward();
                         runtime.reset();
                         currentStage = stage._40_LauncherStop;
                     }
@@ -231,7 +252,7 @@ public class ppBlueNearTwoCycle extends OpMode {
                 case _40_LauncherStop:
                     if (runtime.milliseconds() >= 5000) {
                        // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
-                        robot.launcherBlocker.cmdBlock();
+                        launcherBlocker.cmdBlock();
                         currentStage = stage._500_End;
                     }
                 case _50_Pickup1:
@@ -241,9 +262,8 @@ public class ppBlueNearTwoCycle extends OpMode {
 
 
                 case _500_End:
-                    if (robot.driveTrain.getCmdComplete()) {
-                        robot.stop();
-
+                    if (!follower.isBusy()){
+                       stop();
 
                     }
 
