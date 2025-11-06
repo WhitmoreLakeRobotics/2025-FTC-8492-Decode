@@ -178,12 +178,13 @@ public class RedNearTwoCycle extends OpMode {
                 }
                 break;
             case _100_Stop:
-                if(runtime.milliseconds() >=5000)
+                if(runtime.milliseconds() >=5000) {
                     robot.launcher.cmdStop();
                     robot.transitionRoller.cmdStop();
                     robot.launcherBlocker.cmdBlock();
                     robot.intake.cmdStop();
                     currentStage = stage._110_End;
+                }
 
             case _110_End:
                 if(robot.driveTrain.getCmdComplete()){
