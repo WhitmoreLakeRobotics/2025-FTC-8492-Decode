@@ -28,7 +28,7 @@ import org.firstinspires.ftc.teamcode.Hardware.TransitionRoller;
 public class ppBlueNearTwoCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
-    Robot robot = new Robot();
+   // Robot robot = new Robot();
     Launcher launcher = new Launcher();
     Intake intake = new Intake();
     TransitionRoller transitionRoller = new TransitionRoller();
@@ -43,7 +43,7 @@ public class ppBlueNearTwoCycle extends OpMode {
     private String RTAG = "8492-Auton";
 // Set up stuff for pedro path
 
-    private String thisUpdate = "20";
+    private String thisUpdate = "23";
     private TelemetryManager telemetryMU;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
@@ -52,18 +52,18 @@ public class ppBlueNearTwoCycle extends OpMode {
     public static int xTol = 2;  // tolorance for x axis in inches
     public static int yTol = 2; // tolorance for y axis in inches
     public static int wallScoreX = 65; //x value for scoring pose near wall
-    public static int wallScoreY = 135; //y value for scoring pose near wall
+    public static int wallScoreY = 132; //y value for scoring pose near wall
     public static double wallScoreH = Math.toRadians(180);// Heading value for scoring pose near wall
     public static double velocityConstraint = 60;
     public static double breakingStrength = 1.0;
     public static double breakingStart = 1.0;
     // poses for pedropath
-    private final Pose startPose = new Pose(40, 135, Math.toRadians(180)); // Start Pose of our robot.
+    private final Pose startPose = new Pose(40, 138, Math.toRadians(180)); // Start Pose of our robot.
     //    private final Pose scorePose = new Pose(50, 75, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup1Pose = new Pose(24, 83, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2Pose = new Pose(24, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1Pose = new Pose(35, 83, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2Pose = new Pose(35, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3Pose = new Pose(35, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
 
     private Path scorePreload;
     private PathChain grabPickup1, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
@@ -242,9 +242,9 @@ launcher.hardwareMap = hardwareMap;
                     if (!follower.isBusy()){
                    // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                    //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                        launcherBlocker.cmdUnBlock();
-                        transitionRoller.cmdSpin();
-                        intake.cmdFoward();
+                       launcherBlocker.cmdUnBlock();
+                       transitionRoller.cmdSpin();
+                     intake.cmdFoward();
                         runtime.reset();
                         currentStage = stage._40_LauncherStop;
                     }
@@ -258,7 +258,8 @@ launcher.hardwareMap = hardwareMap;
                 case _50_Pickup1:
                     if (!follower.isBusy()){
                         follower.followPath(grabPickup1, true);
-                        currentStage=stage._500_End;                   }
+                        currentStage=stage._500_End;
+                    }
 
 
                 case _500_End:
@@ -290,7 +291,7 @@ launcher.hardwareMap = hardwareMap;
 
         @Override
         public void stop () {
-            robot.stop();
+           // robot.stop();
         }
 
         private enum stage {

@@ -57,7 +57,7 @@ public class CompBotConstants {
 
 
 
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 50, 1, 0.5);
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 50, 1.25, 1);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
