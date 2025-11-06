@@ -74,7 +74,7 @@ public class HuskyLens {
     private final int READ_PERIOD = 1;
 
     private com.qualcomm.hardware.dfrobot.HuskyLens huskyLens;
-    public com.qualcomm.hardware.dfrobot.HuskyLens.Block[] blocks= huskyLens.blocks(); ;
+    public com.qualcomm.hardware.dfrobot.HuskyLens.Block[] blocks; ;
   //  @Override
     public void init() {
         huskyLens = hardwareMap.get(com.qualcomm.hardware.dfrobot.HuskyLens.class, "huskylens");

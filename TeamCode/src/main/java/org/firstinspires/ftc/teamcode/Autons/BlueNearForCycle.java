@@ -102,6 +102,8 @@ public class BlueNearForCycle extends OpMode {
                     currentStage = stage._25_Turn2;
                 }
 
+                break;
+
             case _25_Turn2:
                 if (robot.driveTrain.getCmdComplete())     {
                     robot.driveTrain.cmdTurn(5,0.25);
