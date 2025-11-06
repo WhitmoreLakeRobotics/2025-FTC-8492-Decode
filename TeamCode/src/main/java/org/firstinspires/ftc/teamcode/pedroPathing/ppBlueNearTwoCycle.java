@@ -58,54 +58,61 @@ public class ppBlueNearTwoCycle extends OpMode {
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
 
     private Path scorePreload;
-    private PathChain grabPickup1, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
-
+   //private PathChain grabPickup1;//, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
+   private PathChain grabPickup1;
+   private Path grabPickup1a;
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         scorePreload = new Path(new BezierLine(startPose, scorePose));
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
-       // scorePreload.setVelocityConstraint(60);
+        // scorePreload.setVelocityConstraint(60);
         //scorePreload.setBrakingStrength(1);
-       // scorePreload.setBrakingStart(1);
+        // scorePreload.setBrakingStart(1);
 
     /* Here is an example for Constant Interpolation
     scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
+        grabPickup1a = new Path(new BezierLine(scorePose, pickup1Pose));
+        grabPickup1a.setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading());
+
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        grabPickup1 = follower.pathBuilder()
+        /*grabPickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup1Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
                 .build();
-
+        */
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup1 = follower.pathBuilder()
+        /*scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup1Pose, scorePose))
                 .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading())
                 .build();
-
+        */
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        grabPickup2 = follower.pathBuilder()
+        /*grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup2Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading())
                 .build();
-
+         */
         /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup2 = follower.pathBuilder()
+        /*scorePickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup2Pose, scorePose))
                 .setLinearHeadingInterpolation(pickup2Pose.getHeading(), scorePose.getHeading())
                 .build();
-
+        */
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        grabPickup3 = follower.pathBuilder()
+      /*  grabPickup3 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup3Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading())
                 .build();
-
+        */
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup3 = follower.pathBuilder()
+        /*scorePickup3 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup3Pose, scorePose))
                 .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
                 .build();
+    }
+
+         */
     }
         // Declare OpMode members.
         private ElapsedTime runtime = new ElapsedTime();
