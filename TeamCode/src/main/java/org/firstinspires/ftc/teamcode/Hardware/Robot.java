@@ -211,34 +211,39 @@ public double targetDistanceCalc(){
    return tagDistCalc;
 
 }
-public double targetAngleCalc(){
+public double targetAngleCalc() {
 
     double currentTargetPos = huskyLens.tagY();
-    double targetAngle = tagExtremeRightAngle * ((currentTargetPos - 160)/tagExtremeRightPos - 160);
+    if (currentTargetPos != -10000) {
+        double targetAngle = tagExtremeRightAngle * ((currentTargetPos - 160) / tagExtremeRightPos - 160);
 
-    double currentTargetRatio = huskyLens.tagWidth()/huskyLens.tagHeight();
-    double tagAngle = extremeTagAngle * ((currentTargetRatio - nominalTagWidthRatio)/(extremeTagWidthRatio - nominalTagWidthRatio));
-    double targetDistanceCalc = targetDistanceCalc();
-    double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2*(targetDistanceCalc*targetPointFromTag*Math.cos(tagAngle)));
+        double currentTargetRatio = huskyLens.tagWidth() / huskyLens.tagHeight();
+        double tagAngle = extremeTagAngle * ((currentTargetRatio - nominalTagWidthRatio) / (extremeTagWidthRatio - nominalTagWidthRatio));
+        double targetDistanceCalc = targetDistanceCalc();
+        double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2 * (targetDistanceCalc * targetPointFromTag * Math.cos(tagAngle)));
 
-    double compensationAngle = 180 - tagAngle - (Math.asin(Math.sin(tagAngle)*targetDistanceCalc)/hypotenuse);
-    double defaultAngle = 25;
+        double compensationAngle = 180 - tagAngle - (Math.asin(Math.sin(tagAngle) * targetDistanceCalc) / hypotenuse);
+        double defaultAngle = 25;
 
-    if (driveTrain.getCurrentHeading() >= 90) {
-        return defaultAngle;
-    } else if (driveTrain.getCurrentHeading() <= -90) {
-        return -defaultAngle;
-    } else if (huskyLens.tagID() == 1){
-        //compensate left
-        return driveTrain.getCurrentHeading() + targetAngle - compensationAngle;
-    } else if (huskyLens.tagID() == 2){
-        //compensate right
-        return driveTrain.getCurrentHeading() + targetAngle + compensationAngle;
-    }  else
-        return driveTrain.getCurrentHeading();
+        if (driveTrain.getCurrentHeading() >= 90) {
+            return defaultAngle;
+        } else if (driveTrain.getCurrentHeading() <= -90) {
+            return -defaultAngle;
+        } else if (huskyLens.tagID() == 1) {
+            //compensate left
+            return driveTrain.getCurrentHeading() + targetAngle - compensationAngle;
+        } else if (huskyLens.tagID() == 2) {
+            //compensate right
+            return driveTrain.getCurrentHeading() + targetAngle + compensationAngle;
+        } else
+            return driveTrain.getCurrentHeading();
 
 
-
+    }
+    else
+    {
+        return  25;
+    }
 }
 
 
