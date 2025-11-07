@@ -153,6 +153,7 @@ public class HuskyLens {
         }
     }
     public double tagY(){
+        blocks = huskyLens.blocks();
       try {
           return blocks[0].y;
       }catch (Exception e){
@@ -163,6 +164,7 @@ public class HuskyLens {
       }
     }
     public double tagWidth() {
+
         try {
             return blocks[0].width;
         }
