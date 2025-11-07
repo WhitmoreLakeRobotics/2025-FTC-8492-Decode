@@ -143,21 +143,21 @@ public class TwoCycleFarBluie2 extends OpMode {
                 break;
             case _40_TurnRight1:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(-55,0.25);
+                    robot.driveTrain.cmdTurn(-65,0.25);
                     currentStage = stage._50_MoveForward2;
                 }
 
                 break;
             case _50_MoveForward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(26,-55,0.20,-55);
+                    robot.driveTrain.CmdDrive(26,-65,0.20,-65);
                     currentStage = stage._60_MoveBack;
                 }
 
                 break;
             case _60_MoveBack:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(26,-230,0.20,-55);
+                    robot.driveTrain.CmdDrive(26,-245,0.20,-65);   //bearing possibly -240
                     currentStage = stage._70_TurnLeft1;
                 }
 
@@ -212,7 +212,7 @@ public class TwoCycleFarBluie2 extends OpMode {
                 break;
             case _103_TurnLeft2:
                 if (runtime.milliseconds() >=500)     {
-                    robot.driveTrain.cmdTurn(-75,0.35);
+                    robot.driveTrain.cmdTurn(-70,0.35);
                     currentStage = stage._105_MoveForward3;
                 }
 
@@ -220,7 +220,14 @@ public class TwoCycleFarBluie2 extends OpMode {
                 break;
             case _105_MoveForward3:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(25,-75,0.35,-75);
+                    robot.driveTrain.CmdDrive(25,-70,0.35,-70);
+                    currentStage = stage._107_ResetGyro;
+                }
+
+                break;
+            case _107_ResetGyro:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.ResetGyro();
                     currentStage = stage._110_End;
                 }
 
@@ -272,6 +279,7 @@ public class TwoCycleFarBluie2 extends OpMode {
         _100_StopLaunch2,
         _103_TurnLeft2,
         _105_MoveForward3,
+        _107_ResetGyro,
         _110_End
 
 

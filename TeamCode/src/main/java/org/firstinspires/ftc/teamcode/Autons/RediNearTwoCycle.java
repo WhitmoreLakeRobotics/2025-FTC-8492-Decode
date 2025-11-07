@@ -8,10 +8,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
-@Autonomous(name = "RedNearTwoCycle", group = "Auton")
+@Autonomous(name = "RediNearTwoCycle", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class RedNearTwoCycle extends OpMode {
+public class RediNearTwoCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -101,6 +101,7 @@ public class RedNearTwoCycle extends OpMode {
                     robot.launcher.cmdOuttouch();
                     currentStage = stage._25_Turn;
                 }
+                break;
 
             case _25_Turn:
                 if (robot.driveTrain.getCmdComplete())     {
@@ -111,41 +112,41 @@ public class RedNearTwoCycle extends OpMode {
 
                 break;
             case _30_Shoot1:
-                if (runtime.milliseconds() >=1000)  {
+                if (runtime.milliseconds() >=2000)  {
                     robot.intake.cmdFoward();
                     robot.transitionRoller.cmdSpin();
                     robot.launcherBlocker.cmdUnBlock();
-                    runtime.reset();
                     currentStage = stage._40_LauncherStop;
                 }
                 break;
             case _40_LauncherStop:
-                if (runtime.milliseconds() >=5000){
+                if (runtime.milliseconds() >=4000){
                     robot.driveTrain.cmdTurn(0,0.25);
                     robot.launcherBlocker.cmdBlock();
+                    robot.transitionRoller.cmdStop();
+                    //robot.launcher.cmdStop();
                     currentStage = stage._45_Forward2;
                 }
                 break;
                 case _45_Forward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(10,0,0.35,0);
+                    robot.driveTrain.CmdDrive(12,0,0.35,0);
                     currentStage = stage._50_Left1;
                 }
-
-
                 break;
-
 
             case _50_Left1:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(36,90,0.35,0);
+                    robot.driveTrain.CmdDrive(38,90,0.35,0);
                     currentStage = stage._60_Foward1;
                 }
                 break;
 
             case _60_Foward1:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(20,0,0.20,0);
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
+                    robot.driveTrain.CmdDrive(18,0,0.20,0);
                     currentStage = stage._70_Backwards1;
             }
 
@@ -160,31 +161,39 @@ public class RedNearTwoCycle extends OpMode {
 
             case _80_Right1:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(35,-90,0.35,0);
+                    robot.driveTrain.CmdDrive(36,-90,0.35,0);
+                    robot.intake.cmdStop();
+                    robot.transitionRoller.cmdStop();
                     currentStage = stage._85_Backward2;
                 }
                  break;
             case _85_Backward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(13,180,0.35,0);
+                    robot.driveTrain.CmdDrive(10,180,0.35,0);
+                    robot.launcher.cmdOuttouch();
+                    runtime.reset();
                     currentStage = stage._90_Shoot2;
                 }
                 break;
                 case _90_Shoot2:
-                if (robot.driveTrain.getCmdComplete())  {
+                if (runtime.milliseconds() >=1500)  {
                     robot.launcherBlocker.cmdUnBlock();
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
                     runtime.reset();
                     currentStage = stage._100_Stop;
                 }
                 break;
             case _100_Stop:
-                if(runtime.milliseconds() >=5000) {
+                if (runtime.milliseconds() >=2000) {
                     robot.launcher.cmdStop();
                     robot.transitionRoller.cmdStop();
                     robot.launcherBlocker.cmdBlock();
                     robot.intake.cmdStop();
                     currentStage = stage._110_End;
                 }
+
+                    break;
 
             case _110_End:
                 if(robot.driveTrain.getCmdComplete()){
