@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
-@Autonomous(name = "BlueNearTwoCycle", group = "Auton")
+@Autonomous(name = "BlueNearThreeCycle", group = "Auton")
 // @Autonomous(...) is the other common choice
 
 public class BlueNearThreeCycle extends OpMode {
@@ -209,13 +209,41 @@ public class BlueNearThreeCycle extends OpMode {
             case _110_Turn3:
                 if (robot.driveTrain.getCmdComplete())     {
                     robot.driveTrain.cmdTurn(0,0.25);
-                    runtime.reset();
                     currentStage = stage._120_Forward3;
                 }
 
-                    break;
+                break;
+            case _120_Forward3:
+                if (robot.driveTrain.getCmdComplete())    {
+                    robot.driveTrain.CmdDrive(15,0,0.35,0);
+                    currentStage = stage._130_left2;
+                }
 
-            case _110_End:
+                break;
+            case _130_left2:
+                if (robot.driveTrain.getCmdComplete())    {
+                    robot.driveTrain.CmdDrive(57,-90,0.35,0);
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
+                    currentStage = stage._140_forward4;
+                }
+
+                break;
+            case _140_forward4:
+                if (robot.driveTrain.getCmdComplete())    {
+                    robot.driveTrain.CmdDrive(15,0,0.35,0);
+                    currentStage = stage._150_backward3;
+                }
+
+                break;
+            case _150_backward3:
+                if (robot.driveTrain.getCmdComplete())    {
+                    robot.driveTrain.CmdDrive(18,-180,0.35,0);
+                    currentStage = stage._200_End;
+                }
+
+                    break;
+            case _200_End:
                 if(robot.driveTrain.getCmdComplete()){
                     robot.stop();
 
@@ -264,7 +292,12 @@ public class BlueNearThreeCycle extends OpMode {
         _120_Forward3,
         _130_left2,
         _140_forward4,
-        _110_End
+        _150_backward3,
+        _160_right,
+        _170_backward4,
+        _180_shoot3,
+        _190_stop2,
+        _200_End
 
 
 
