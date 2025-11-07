@@ -64,7 +64,7 @@ public class Launcher extends BaseHardware{
     public static double topMotorRPMnear = 2900;
     public static double bottomMotornear = 3300;
     public static double topMotorRPMfar = 4000;
-    public static double bottomMotorfar = 6000;
+    public static double bottomMotorfar = 5800;
     public static double topMotorRPMtouch = 2300;
     public static double bottomMotortouch = 3800;
 
