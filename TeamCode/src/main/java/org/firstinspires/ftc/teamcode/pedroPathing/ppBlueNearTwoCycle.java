@@ -243,7 +243,7 @@ public class ppBlueNearTwoCycle extends OpMode {
                     }
                 case _50_Pickup1:
                     if (!follower.isBusy()){
-                        follower.followPath(grabPickup1, true);
+                        follower.followPath(grabPickup1a, true);
                         currentStage=stage._500_End;                   }
 
 
