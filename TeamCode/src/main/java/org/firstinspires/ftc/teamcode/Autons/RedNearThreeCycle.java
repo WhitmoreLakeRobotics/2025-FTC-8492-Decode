@@ -130,7 +130,7 @@ public class RedNearThreeCycle extends OpMode {
                 break;
                 case _45_Forward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(12,0,0.35,0);
+                    robot.driveTrain.CmdDrive(9,0,0.35,0);
                     currentStage = stage._50_Left1;
                 }
                 break;
@@ -161,7 +161,7 @@ public class RedNearThreeCycle extends OpMode {
 
             case _80_Right1:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(36,90,0.35,0);
+                    robot.driveTrain.CmdDrive(36,-90,0.35,0);
                     robot.intake.cmdStop();
                     robot.transitionRoller.cmdStop();
                     currentStage = stage._85_Backward2;
@@ -215,14 +215,14 @@ public class RedNearThreeCycle extends OpMode {
                 break;
             case _120_Forward3:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(14,0,0.35,0);
+                    robot.driveTrain.CmdDrive(11,0,0.35,0);
                     currentStage = stage._130_left2;
                 }
 
                 break;
             case _130_left2:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(57,-90,0.35,0);
+                    robot.driveTrain.CmdDrive(54,90,0.35,0);
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     currentStage = stage._140_forward4;
@@ -231,21 +231,21 @@ public class RedNearThreeCycle extends OpMode {
                 break;
             case _140_forward4:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(15,0,0.35,0);
+                    robot.driveTrain.CmdDrive(16,0,0.35,0);
                     currentStage = stage._150_backward3;
                 }
 
                 break;
             case _150_backward3:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(18,180,0.35,0);
+                    robot.driveTrain.CmdDrive(15,180,0.35,0);
                     currentStage = stage._160_right;
                 }
 
                 break;
             case _160_right:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(57,-90,0.35,0);
+                    robot.driveTrain.CmdDrive(56,-90,0.35,0);
                     robot.transitionRoller.cmdStop();
                     robot.intake.cmdStop();
                     currentStage = stage._170_backward4;

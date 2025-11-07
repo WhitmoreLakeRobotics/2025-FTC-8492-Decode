@@ -238,7 +238,7 @@ public class BlueNearThreeCycle extends OpMode {
                 break;
             case _150_backward3:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(18,-180,0.35,0);
+                    robot.driveTrain.CmdDrive(18,180,0.35,0);
                     currentStage = stage._160_right;
                 }
 
