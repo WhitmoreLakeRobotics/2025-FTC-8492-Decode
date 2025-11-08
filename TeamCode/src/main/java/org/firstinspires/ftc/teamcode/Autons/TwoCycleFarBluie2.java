@@ -201,17 +201,22 @@ public class TwoCycleFarBluie2 extends OpMode {
             case _100_StopLaunch2:
                 if (runtime.milliseconds() >=5000)     {
                     robot.driveTrain.CmdDrive(0,0,0.0,-5);
-                    robot.intake.cmdStop();
-                    robot.transitionRoller.cmdStop();
                     robot.launcherBlocker.cmdBlock();
                     robot.launcher.cmdStop();
                     runtime.reset();
+                    currentStage = stage._102_Backup;
+                }
+
+                break;
+            case _102_Backup:
+                if (runtime.milliseconds() >= 500)     {
+                    robot.driveTrain.CmdDrive(8,180,0.35,0);
                     currentStage = stage._103_TurnLeft2;
                 }
 
                 break;
             case _103_TurnLeft2:
-                if (runtime.milliseconds() >=500)     {
+                if (robot.driveTrain.getCmdComplete())     {
                     robot.driveTrain.cmdTurn(-70,0.35);
                     currentStage = stage._105_MoveForward3;
                 }
@@ -220,7 +225,7 @@ public class TwoCycleFarBluie2 extends OpMode {
                 break;
             case _105_MoveForward3:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(25,-70,0.35,-70);
+                    robot.driveTrain.CmdDrive(34,-70,0.35,-70);
                     currentStage = stage._107_ResetGyro;
                 }
 
@@ -277,6 +282,7 @@ public class TwoCycleFarBluie2 extends OpMode {
         _80_PreLaunch2,
         _90_Launch2,
         _100_StopLaunch2,
+        _102_Backup,
         _103_TurnLeft2,
         _105_MoveForward3,
         _107_ResetGyro,
