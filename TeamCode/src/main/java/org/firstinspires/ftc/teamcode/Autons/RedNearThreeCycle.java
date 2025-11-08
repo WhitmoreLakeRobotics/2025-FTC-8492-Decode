@@ -169,7 +169,7 @@ public class RedNearThreeCycle extends OpMode {
                  break;
             case _85_Backward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(11,180,0.35,0);
+                    robot.driveTrain.CmdDrive(12,180,0.35,0);
                     robot.launcher.cmdOuttouch();
                     runtime.reset();
                     currentStage = stage._87_Turn2;
