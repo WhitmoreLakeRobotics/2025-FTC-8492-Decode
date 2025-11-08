@@ -161,7 +161,7 @@ public class RedNearThreeCycle extends OpMode {
 
             case _80_Right1:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(36,-90,0.35,0);
+                    robot.driveTrain.CmdDrive(38,-90,0.35,0);
                     robot.intake.cmdStop();
                     robot.transitionRoller.cmdStop();
                     currentStage = stage._85_Backward2;
@@ -231,7 +231,7 @@ public class RedNearThreeCycle extends OpMode {
                 break;
             case _140_forward4:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(16,0,0.35,0);
+                    robot.driveTrain.CmdDrive(16,0,0.25,0);
                     currentStage = stage._150_backward3;
                 }
 
@@ -277,6 +277,13 @@ public class RedNearThreeCycle extends OpMode {
                     robot.transitionRoller.cmdStop();
                     robot.launcher.cmdStop();
                     robot.launcherBlocker.cmdBlock();
+                    currentStage = stage._195_FinalForward;
+                }
+
+                break;
+            case _195_FinalForward:
+                if (robot.driveTrain.getCmdComplete())    {
+                    robot.driveTrain.CmdDrive(10,0,0.35,0);
                     currentStage = stage._200_End;
                 }
 
@@ -336,6 +343,7 @@ public class RedNearThreeCycle extends OpMode {
         _175_turn4,
         _180_shoot3,
         _190_stop2,
+        _195_FinalForward,
         _200_End
 
 
