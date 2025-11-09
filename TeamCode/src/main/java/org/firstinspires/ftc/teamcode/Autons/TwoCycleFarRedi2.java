@@ -165,7 +165,7 @@ public class TwoCycleFarRedi2 extends OpMode {
                 break;
             case _70_TurnLeft1:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(0,0.25);
+                    robot.driveTrain.cmdTurn(-2,0.25);
                     robot.transitionRoller.cmdStop();
                     currentStage = stage._75_MoveBack2;
                 }
@@ -173,14 +173,14 @@ public class TwoCycleFarRedi2 extends OpMode {
                 break;
             case _75_MoveBack2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(7,180,0.35,0);
+                    robot.driveTrain.CmdDrive(7,180,0.35,-2);
                     currentStage = stage._80_PreLaunch2;
                 }
 
                 break;
             case _80_PreLaunch2:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(0,0,0.0,0);
+                    robot.driveTrain.CmdDrive(0,0,0.0,-2);
                     robot.launcher.cmdOutfar();
                     runtime.reset();
                     currentStage = stage._90_Launch2;
@@ -190,7 +190,7 @@ public class TwoCycleFarRedi2 extends OpMode {
                 break;
             case _90_Launch2:
                 if(runtime.milliseconds() >=1500){
-                    robot.driveTrain.CmdDrive(0,0,0.0,0);
+                    robot.driveTrain.CmdDrive(0,0,0.0,-2);
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
                     runtime.reset();
@@ -201,7 +201,7 @@ public class TwoCycleFarRedi2 extends OpMode {
                 break;
             case _100_StopLaunch2:
                 if (runtime.milliseconds() >=2500)     {
-                    robot.driveTrain.CmdDrive(0,0,0.0,0);
+                    robot.driveTrain.CmdDrive(0,0,0.0,-2);
                     robot.launcherBlocker.cmdBlock();
                     robot.launcher.cmdStop();
                     runtime.reset();
@@ -211,7 +211,7 @@ public class TwoCycleFarRedi2 extends OpMode {
                 break;
             case _102_Backup:
                 if (runtime.milliseconds() >= 500)     {
-                    robot.driveTrain.CmdDrive(8,180,0.35,0);
+                    robot.driveTrain.CmdDrive(8,180,0.35,-2);
                     currentStage = stage._103_TurnLeft2;
                 }
 
