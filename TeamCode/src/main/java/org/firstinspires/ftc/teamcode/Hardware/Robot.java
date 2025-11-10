@@ -147,6 +147,22 @@ public class Robot extends BaseHardware {
 
     }
 
+    public void autonLoop() {
+        //driveTrain.loop();
+        //. lighting.loop();
+        // sensors.loop();
+        intake.loop();
+        launcher.loop();
+        // spindexer.loop();
+        //flickiteer.loop();
+        launcherBlocker.loop();
+        transitionRoller.loop();
+        huskyLens.loop();
+
+
+
+    }
+
 
     @Override
     public void stop() {

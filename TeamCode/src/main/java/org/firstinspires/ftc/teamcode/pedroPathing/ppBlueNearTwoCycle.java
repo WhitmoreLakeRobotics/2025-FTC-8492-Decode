@@ -217,7 +217,7 @@ public class ppBlueNearTwoCycle extends OpMode {
                     if (!follower.isBusy()) {
                         follower.followPath(scorePreload, true);
                        // follower.update();
-                        robot.launcher.cmdOuttouch();
+robot.launcher.cmdOuttouch();
                         currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
                     }
 
