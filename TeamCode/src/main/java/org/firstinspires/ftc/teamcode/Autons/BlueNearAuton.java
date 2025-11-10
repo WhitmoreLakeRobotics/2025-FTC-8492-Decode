@@ -111,7 +111,7 @@ public class BlueNearAuton extends OpMode {
 
                 break;
             case _30_Shoot1:
-                if (runtime.milliseconds() >=1000)  {
+                if (runtime.milliseconds() >=20000)  {
                     robot.intake.cmdFoward();
                     robot.transitionRoller.cmdSpin();
                     robot.launcherBlocker.cmdUnBlock();

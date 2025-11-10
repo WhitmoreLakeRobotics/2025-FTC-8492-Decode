@@ -15,11 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
-import org.firstinspires.ftc.teamcode.Hardware.Intake;
-import org.firstinspires.ftc.teamcode.Hardware.Launcher;
-import org.firstinspires.ftc.teamcode.Hardware.LauncherBlocker;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
-import org.firstinspires.ftc.teamcode.Hardware.TransitionRoller;
 
 @Configurable
 @Autonomous(name = "ppBlueNearTwoCycle", group = "Auton")
@@ -28,11 +24,7 @@ import org.firstinspires.ftc.teamcode.Hardware.TransitionRoller;
 public class ppBlueNearTwoCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
-   // Robot robot = new Robot();
-    Launcher launcher = new Launcher();
-    Intake intake = new Intake();
-    TransitionRoller transitionRoller = new TransitionRoller();
-    LauncherBlocker launcherBlocker = new LauncherBlocker();
+    Robot robot = new Robot();
     private stage currentStage = stage._unknown;
     // declare auton power variables
     //private double AUTO_DRIVE_TURBO_SPEED = DriveTrain.DRIVETRAIN_TURBOSPEED;
@@ -43,7 +35,7 @@ public class ppBlueNearTwoCycle extends OpMode {
     private String RTAG = "8492-Auton";
 // Set up stuff for pedro path
 
-    private String thisUpdate = "23";
+    private String thisUpdate = "11";
     private TelemetryManager telemetryMU;
     private Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
@@ -52,68 +44,75 @@ public class ppBlueNearTwoCycle extends OpMode {
     public static int xTol = 2;  // tolorance for x axis in inches
     public static int yTol = 2; // tolorance for y axis in inches
     public static int wallScoreX = 65; //x value for scoring pose near wall
-    public static int wallScoreY = 132; //y value for scoring pose near wall
+    public static int wallScoreY = 135; //y value for scoring pose near wall
     public static double wallScoreH = Math.toRadians(180);// Heading value for scoring pose near wall
     public static double velocityConstraint = 60;
     public static double breakingStrength = 1.0;
     public static double breakingStart = 1.0;
     // poses for pedropath
-    private final Pose startPose = new Pose(40, 138, Math.toRadians(180)); // Start Pose of our robot.
+    private final Pose startPose = new Pose(40, 135, Math.toRadians(180)); // Start Pose of our robot.
     //    private final Pose scorePose = new Pose(50, 75, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup1Pose = new Pose(35, 83, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2Pose = new Pose(35, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    private final Pose pickup3Pose = new Pose(35, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1Pose = new Pose(24, 83, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup2Pose = new Pose(24, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
 
     private Path scorePreload;
-    private PathChain grabPickup1, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
-
+   //private PathChain grabPickup1;//, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
+   private PathChain grabPickup1;
+   private Path grabPickup1a;
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         scorePreload = new Path(new BezierLine(startPose, scorePose));
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
-       // scorePreload.setVelocityConstraint(60);
+        // scorePreload.setVelocityConstraint(60);
         //scorePreload.setBrakingStrength(1);
-       // scorePreload.setBrakingStart(1);
+        // scorePreload.setBrakingStart(1);
 
     /* Here is an example for Constant Interpolation
     scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
+        grabPickup1a = new Path(new BezierLine(scorePose, pickup1Pose));
+        grabPickup1a.setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading());
+
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        grabPickup1 = follower.pathBuilder()
+        /*grabPickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup1Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
                 .build();
-
+        */
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup1 = follower.pathBuilder()
+        /*scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup1Pose, scorePose))
                 .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading())
                 .build();
-
+        */
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        grabPickup2 = follower.pathBuilder()
+        /*grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup2Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading())
                 .build();
-
+         */
         /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup2 = follower.pathBuilder()
+        /*scorePickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup2Pose, scorePose))
                 .setLinearHeadingInterpolation(pickup2Pose.getHeading(), scorePose.getHeading())
                 .build();
-
+        */
         /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        grabPickup3 = follower.pathBuilder()
+      /*  grabPickup3 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup3Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading())
                 .build();
-
+        */
         /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup3 = follower.pathBuilder()
+        /*scorePickup3 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup3Pose, scorePose))
                 .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
                 .build();
+    }
+
+         */
     }
         // Declare OpMode members.
         private ElapsedTime runtime = new ElapsedTime();
@@ -134,22 +133,14 @@ public class ppBlueNearTwoCycle extends OpMode {
             msStuckDetectStart = Settings.msStuckDetectStart;
             msStuckDetectLoop = Settings.msStuckDetectLoop;
             msStuckDetectStop = Settings.msStuckDetectStop;
-launcher.hardwareMap = hardwareMap;
-            launcher.telemetry = telemetry;
-            launcher.init();
-          //  robot.hardwareMap = hardwareMap;
-          //  robot.telemetry = telemetry;
-         //   robot.init();
-            launcherBlocker.hardwareMap = hardwareMap;
-            launcherBlocker.init();
-            intake.hardwareMap = hardwareMap;
-            intake.init();
-            transitionRoller.hardwareMap = hardwareMap;
-            transitionRoller.init();
+
+            robot.hardwareMap = hardwareMap;
+            robot.telemetry = telemetry;
+            robot.init();
             telemetry.addData("Test Auton", "Initialized");
 
             //Initialize Gyro
-            //robot.driveTrain.ResetGyro();
+            robot.driveTrain.ResetGyro();
             pathTimer = new Timer();
             opmodeTimer = new Timer();
             opmodeTimer.resetTimer();
@@ -187,11 +178,7 @@ launcher.hardwareMap = hardwareMap;
         @Override
         public void init_loop () {
             // initialize robot
-            //robot.init_loop();
-            launcher.init_loop();
-            launcherBlocker.init_loop();
-            transitionRoller.init_loop();
-            intake.init_loop();
+            robot.init_loop();
 
         }
 
@@ -202,11 +189,7 @@ launcher.hardwareMap = hardwareMap;
         public void start () {
             // start robot
             runtime.reset();
-           // robot.start();
-            launcher.start();
-            launcher.start();
-            transitionRoller.start();
-            intake.start();
+            robot.start();
             opmodeTimer.resetTimer();
 
 
@@ -219,7 +202,7 @@ launcher.hardwareMap = hardwareMap;
         public void loop () {
 
             telemetry.addData("Auton_Current_Stage ", currentStage);
-           // robot.loop();
+            robot.loop();
             follower.update();
             switch (currentStage) {
                 case _unknown:
@@ -234,17 +217,19 @@ launcher.hardwareMap = hardwareMap;
                     if (!follower.isBusy()) {
                         follower.followPath(scorePreload, true);
                        // follower.update();
-                        launcher.cmdOuttouch();
+robot.launcher.cmdOuttouch();
                         currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
                     }
+
+
                     break;
                 case _30_Shoot1:
                     if (!follower.isBusy()){
                    // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                    //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                       launcherBlocker.cmdUnBlock();
-                       transitionRoller.cmdSpin();
-                     intake.cmdFoward();
+                        robot.intake.cmdFoward();
+                        robot.transitionRoller.cmdSpin();
+                        robot.launcherBlocker.cmdUnBlock();
                         runtime.reset();
                         currentStage = stage._40_LauncherStop;
                     }
@@ -252,19 +237,19 @@ launcher.hardwareMap = hardwareMap;
                 case _40_LauncherStop:
                     if (runtime.milliseconds() >= 5000) {
                        // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
-                        launcherBlocker.cmdBlock();
-                        currentStage = stage._500_End;
+                        robot.launcherBlocker.cmdBlock();
+                        currentStage = stage._50_Pickup1;
                     }
                 case _50_Pickup1:
                     if (!follower.isBusy()){
-                        follower.followPath(grabPickup1, true);
-                        currentStage=stage._500_End;
-                    }
+                        follower.followPath(grabPickup1a, true);
+                        currentStage=stage._500_End;                   }
 
 
                 case _500_End:
-                    if (!follower.isBusy()){
-                       stop();
+                    if (robot.driveTrain.getCmdComplete()) {
+                        robot.stop();
+
 
                     }
 
@@ -291,7 +276,7 @@ launcher.hardwareMap = hardwareMap;
 
         @Override
         public void stop () {
-           // robot.stop();
+            robot.stop();
         }
 
         private enum stage {

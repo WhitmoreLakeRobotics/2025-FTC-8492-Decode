@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode.Autons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
-
+@Disabled
 @Autonomous(name = "BlueNearFourCycle", group = "Auton")
 // @Autonomous(...) is the other common choice
 
@@ -101,6 +102,8 @@ public class BlueNearForCycle extends OpMode {
                     robot.launcher.cmdOuttouch();
                     currentStage = stage._25_Turn2;
                 }
+
+                break;
 
             case _25_Turn2:
                 if (robot.driveTrain.getCmdComplete())     {

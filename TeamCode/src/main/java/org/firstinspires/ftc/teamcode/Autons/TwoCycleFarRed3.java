@@ -217,12 +217,36 @@ public class TwoCycleFarRed3 extends OpMode {
 
                 break;
             case _110_MoveRight2:
-                robot.driveTrain.CmdDrive(11,0,0.35,235);
-                currentStage = stage._200_End;
+                robot.driveTrain.CmdDrive(11,0,0.35,0);
+                robot.intake.cmdFoward();
+                robot.transitionRoller.cmdSpin();
+                currentStage = stage._120_Forward4;
                 break;
 
 
-            case _200_End:
+            case _120_Forward4:
+                robot.driveTrain.CmdDrive(11,0,0.35,0);
+                currentStage = stage._130_Backwards;
+                break;
+
+            case _130_Backwards:
+                robot.driveTrain.CmdDrive(11,180,0.35,0);
+                currentStage = stage._140_MoveLeft2;
+                break;
+
+            case _140_MoveLeft2:
+                robot.driveTrain.CmdDrive(11,0,0.35,0);
+                robot.intake.cmdStop();
+                robot.transitionRoller.cmdStop();
+                currentStage = stage._150_MoveBackward3;
+                break;
+
+            case _150_MoveBackward3:
+                robot.driveTrain.CmdDrive(11,180,0.35,0);
+                currentStage = stage._160_PreLaunch3;
+                break;
+
+            case _190_End:
                 if(robot.driveTrain.getCmdComplete()){
                     robot.stop();
 
@@ -269,9 +293,16 @@ public class TwoCycleFarRed3 extends OpMode {
         _105_MoveForward3,
         _110_MoveRight2,
         _120_Forward4,
-        _200_End,
+        _130_Backwards,
+        _140_MoveLeft2,
+        _150_MoveBackward3,
+        _160_PreLaunch3,
+        _170_Launch3,
+        _180_StopLaunch,
+        _190_End
 
 
     }
 }
 
+// assumed to be an attempt at a three cycle?

@@ -8,11 +8,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
-@Disabled
-@Autonomous(name = "AllFarAuton", group = "Auton")
+
+@Autonomous(name = "BlueFarDelay", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class AllFarAuton extends OpMode {
+public class BlueFarDelay extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -93,21 +93,24 @@ public class AllFarAuton extends OpMode {
                 break;
             case _00_preStart:
                 currentStage = stage._05_Delay;
-
+                break;
 
             case _05_Delay:
                 runtime.reset();
                 currentStage = stage._10_PreLaunch;
 
+
                 break;
             case _10_PreLaunch:
-                robot.driveTrain.CmdDrive(0,0,0.0,0);
-                robot.launcher.cmdOutfar();
-                runtime.reset();
-                currentStage = stage._20_Launch;
+                if(runtime.milliseconds() >= 20000) {
+                    robot.driveTrain.CmdDrive(4, 0, 0.25, 0);
+                    robot.launcher.cmdOutfar();
+                    runtime.reset();
+                    currentStage = stage._20_Launch;
+                }
                 break;
             case _20_Launch:
-                if(runtime.milliseconds() >=1000){
+                if(runtime.milliseconds() >=1500){
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
@@ -119,10 +122,8 @@ public class AllFarAuton extends OpMode {
 
                 break;
             case _25_StopLaunch:
-                if (runtime.milliseconds() >=5000)     {
+                if (runtime.milliseconds() >=2500)     {
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
-                    robot.intake.cmdStop();
-                    robot.transitionRoller.cmdStop();
                     robot.launcherBlocker.cmdBlock();
                     robot.launcher.cmdStop();
                     runtime.reset();
@@ -132,9 +133,24 @@ public class AllFarAuton extends OpMode {
                 break;
             case _30_MoveForward:
                 if (runtime.milliseconds() >=500)     {
-                    robot.driveTrain.CmdDrive(24,0,0.35,0);
+                    robot.driveTrain.CmdDrive(8,0,0.35,0);
+                    currentStage = stage._40_TurnRight1;
+                }
+
+                break;
+            case _40_TurnRight1:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.cmdTurn(-65,0.25);
+                    currentStage = stage._50_MoveForward2;
+                }
+
+                break;
+            case _50_MoveForward2:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.CmdDrive(31,-65,0.20,-65);
                     currentStage = stage._100_End;
                 }
+
                 break;
 
             case _100_End:
@@ -173,6 +189,8 @@ public class AllFarAuton extends OpMode {
         _20_Launch,
         _25_StopLaunch,
         _30_MoveForward,
+        _40_TurnRight1,
+        _50_MoveForward2,
         _100_End
 
 

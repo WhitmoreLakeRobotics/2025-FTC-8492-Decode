@@ -19,16 +19,16 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class CompBotConstants {
     public static FollowerConstants followerConstants = new FollowerConstants()
            .forwardZeroPowerAcceleration(-32.48245754) //changed from (-35.4224625953)
-            .lateralZeroPowerAcceleration(-78.22727075) ///chabged from (-43.517320985)
+            .lateralZeroPowerAcceleration(-83.22727075) ///chabged from (-43.517320985)
 // org .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0, 0.008, 0.01))
-           .translationalPIDFCoefficients(new PIDFCoefficients(0.15, 0, 0.01, 0.0))
+  //         .translationalPIDFCoefficients(new PIDFCoefficients(0.15, 0, 0.01, 0.0))
 //org            .headingPIDFCoefficients(new PIDFCoefficients(0.8, 0, 0.01, 0.025))
-          .headingPIDFCoefficients(new PIDFCoefficients(1, 0.003, 0.06, 0.025))
+ //         .headingPIDFCoefficients(new PIDFCoefficients(1, 0.003, 0.06, 0.025))
            // .useSecondaryTranslationalPIDF(true)
            // .useSecondaryHeadingPIDF(true)
            // .useSecondaryDrivePIDF(true)
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.01,0,.0001,0,0.01))
-            .centripetalScaling(.0006)
+      //      .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.01,0,.0001,0,0.01))
+        //    .centripetalScaling(.0006)
             .mass(12.7);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
@@ -42,7 +42,7 @@ public class CompBotConstants {
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
            .xVelocity(76.06906841)
-           .yVelocity(57.86164852);
+          .yVelocity(60.64164852);
 
  //   public Pose myOffset = new Pose(6.0, -0.1875, Math.toRadians(180));
     public static OTOSConstants localizerConstants =  new OTOSConstants()

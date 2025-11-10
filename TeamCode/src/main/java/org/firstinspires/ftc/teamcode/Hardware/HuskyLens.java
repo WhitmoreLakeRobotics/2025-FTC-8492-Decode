@@ -74,11 +74,11 @@ public class HuskyLens {
     private final int READ_PERIOD = 1;
 
     private com.qualcomm.hardware.dfrobot.HuskyLens huskyLens;
-    public com.qualcomm.hardware.dfrobot.HuskyLens.Block[] blocks= huskyLens.blocks(); ;
+    public com.qualcomm.hardware.dfrobot.HuskyLens.Block[] blocks; ;
   //  @Override
     public void init() {
         huskyLens = hardwareMap.get(com.qualcomm.hardware.dfrobot.HuskyLens.class, "huskylens");
-
+        blocks = huskyLens.blocks();
 
         /*
          * This sample rate limits the reads solely to allow a user time to observe
@@ -142,11 +142,58 @@ public class HuskyLens {
 
     };
 
-    public double tagX(){return blocks[1].x;}
-    public double tagY(){return blocks[1].y;}
-    public double tagWidth(){return blocks[1].width;}
-    public double tagHeight(){return blocks[1].height;}
-    public double tagID(){return blocks[1].id;}
+    public double tagX(){
+        try {
+            return blocks[0].x;
+        } catch (Exception e) {
+            //throw new RuntimeException(e);
+        }
+        finally {
+            return -10000;
+        }
+    }
+    public double tagY(){
+        blocks = huskyLens.blocks();
+      try {
+          return blocks[0].y;
+      }catch (Exception e){
+
+      }
+      finally {
+          return  -10000;
+      }
+    }
+    public double tagWidth() {
+
+        try {
+            return blocks[0].width;
+        }
+        catch (Exception e){
+
+        } finally {
+            return -10000;
+        }
+    }
+    public double tagHeight(){
+        try {return blocks[0].height;
+        } catch (Exception e) {
+            //throw new RuntimeException(e);
+        }
+        finally {
+            return -10000;
+        }
+    }
+
+    public double tagID(){
+       try{ return blocks[0].id;
+       }
+       catch (Exception e) {
+        //   throw new RuntimeException(e)
+       }
+       finally {
+           return -10000;
+       }
+    }
 
        /* while(opModeIsActive()) {
             if (!rateLimit.hasExpired()) {
