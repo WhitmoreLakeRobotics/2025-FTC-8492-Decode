@@ -5,7 +5,8 @@ public class Settings extends Object {
 
     //*********************************************************************************************
     // Rev product constants go HERE.   They always should Start with REV_
-    public static final int REV_CORE_HEX_MOTOR_TICKS_PER_REV = 288;
+   // public static final int REV_CORE_HEX_MOTOR_TICKS_PER_REV = 288;
+    public static final int GOBILDA_MOTOR_TICKS_PER_REV = 28;
     public static final int REV_HD_40_MOTOR_TICKS_PER_REV = 1120;
     public static final int REV_HD_20_MOTOR_TICKS_PER_REV = 560;
     public static final double REV_MAX_POWER = 1.0;
