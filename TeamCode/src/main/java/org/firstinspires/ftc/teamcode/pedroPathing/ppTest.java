@@ -44,8 +44,8 @@ public class ppTest extends OpMode {
     public static int xTol = 2;  // tolorance for x axis in inches
     public static int yTol = 2; // tolorance for y axis in inches
     public static int wallScoreX = 65; //x value for scoring pose near wall
-    public static int wallScoreY = 135; //y value for scoring pose near wall
-    public static double wallScoreH = Math.toRadians(180);// Heading value for scoring pose near wall
+    public static int wallScoreY = 125; //y value for scoring pose near wall
+    public static double wallScoreH = Math.toRadians(150);// Heading value for scoring pose near wall
     public static double velocityConstraint = 60;
     public static double breakingStrength = 1.0;
     public static double breakingStart = 1.0;

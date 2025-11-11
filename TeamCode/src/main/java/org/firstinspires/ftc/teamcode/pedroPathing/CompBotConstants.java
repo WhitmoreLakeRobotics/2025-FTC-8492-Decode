@@ -20,19 +20,19 @@ public class CompBotConstants {
     public static FollowerConstants followerConstants = new FollowerConstants()
            .forwardZeroPowerAcceleration(-32.48245754) //changed from (-35.4224625953)
             .lateralZeroPowerAcceleration(-83.22727075) ///chabged from (-43.517320985)
-// org .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0, 0.008, 0.01))
-  //         .translationalPIDFCoefficients(new PIDFCoefficients(0.15, 0, 0.01, 0.0))
+            //ORG  // .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0, 0.008, 0.01))
+           .translationalPIDFCoefficients(new PIDFCoefficients(0.15, 0, 0.01, 0.0))
 //org            .headingPIDFCoefficients(new PIDFCoefficients(0.8, 0, 0.01, 0.025))
- //         .headingPIDFCoefficients(new PIDFCoefficients(1, 0.003, 0.06, 0.025))
+         .headingPIDFCoefficients(new PIDFCoefficients(1, 0.003, 0.06, 0.025))
            // .useSecondaryTranslationalPIDF(true)
            // .useSecondaryHeadingPIDF(true)
            // .useSecondaryDrivePIDF(true)
-      //      .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.01,0,.0001,0,0.01))
-        //    .centripetalScaling(.0006)
+           .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.003,0,.00002,0,0.01))
+            .centripetalScaling(.0006)
             .mass(12.7);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
-            .maxPower(1) //this should be at max for tuning
+            .maxPower(1) //this should be 1 for tuning
             .rightFrontMotorName("RDM1")
             .rightRearMotorName("RDM2")
             .leftRearMotorName("LDM2")
@@ -57,7 +57,7 @@ public class CompBotConstants {
 
 
 
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 50, 1.25, 1);
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 50, 1.3, 1.5);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
