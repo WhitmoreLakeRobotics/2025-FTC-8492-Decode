@@ -4,16 +4,14 @@ import com.bylazar.configurables.PanelsConfigurables;
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
-
-import kotlin.ranges.URangesKt;
 
 
 /**
@@ -48,6 +46,7 @@ public class Launcher extends BaseHardware{
 
     private double LaunchM01Power;
     private double LaunchM02Power;
+    private VoltageSensor Pikachu;
 
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
@@ -74,8 +73,8 @@ public class Launcher extends BaseHardware{
     private double lastError = 0;
     private double integralSum = 0;
 
-    private double targetRPM1Tol = 100;
-    private double targetRPM2Tol = 100;
+    private double targetRPM1Tol = 50;
+    private double targetRPM2Tol = 50;
 
     private ElapsedTime timer = new ElapsedTime();
 
@@ -93,7 +92,11 @@ public class Launcher extends BaseHardware{
      * <p>
      * This method will be called once when the INIT button is pressed.
      */
+    @Override
     public void init() {
+
+
+        Pikachu = hardwareMap.get(VoltageSensor.class, "Expansion Hub");
 
 
 
@@ -143,6 +146,8 @@ public class Launcher extends BaseHardware{
         } else {
         bAtSpeed = false;
         }
+
+
 
     }
 
@@ -213,7 +218,33 @@ public class Launcher extends BaseHardware{
         double derivative = LkD * (error - lastError) / deltaTime;
         lastError = error;
 
-        return (targetRPM/6000)+proportional + integral + derivative;
+        double nominalVoltage = 12.0;
+        double currentVoltage = Pikachu.getVoltage();
+        double compensatedPower = (targetRPM/6000) * nominalVoltage / currentVoltage;
+        LaunchM01.setPower(compensatedPower);
+
+        return compensatedPower+proportional + integral + derivative;
+    }
+
+    private double calculatePID1(double currentRPM,double targetRPM){
+        double error = targetRPM - currentRPM;
+        double deltaTime = timer.seconds();
+        timer.reset();
+
+        double proportional = LkP * error;
+
+        integralSum += error * deltaTime;
+        double integral = LkI * integralSum;
+
+        double derivative = LkD * (error - lastError) / deltaTime;
+        lastError = error;
+
+        double nominalVoltage = 12.0;
+        double currentVoltage = Pikachu.getVoltage();
+        double compensatedPower1 = (targetRPM/6000) * nominalVoltage / currentVoltage;
+        LaunchM02.setPower(compensatedPower1);
+
+        return compensatedPower1+proportional + integral + derivative;
     }
 
     public void runPID(){
@@ -221,7 +252,7 @@ public class Launcher extends BaseHardware{
         double power1 = calculatePID(currentRPM1,targetRPM1);
 
         double currentRPM2 = getMotorRPM(LaunchM02);
-    double power2 = calculatePID(currentRPM2,targetRPM2);
+        double power2 = calculatePID1(currentRPM2,targetRPM2);
 
         LaunchM01.setPower(power1);
         LaunchM02.setPower(power2);

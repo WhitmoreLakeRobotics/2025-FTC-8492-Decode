@@ -113,7 +113,7 @@ public class BlueNearThreeCycle extends OpMode {
                 break;
             case _30_Shoot1:
                 if (runtime.milliseconds() >=2000)  {
-                    robot.intake.cmdFoward();
+                    robot.intake.cmdAutoFoward();
                     robot.transitionRoller.cmdSpin();
                     robot.launcherBlocker.cmdUnBlock();
                     currentStage = stage._40_LauncherStop;
@@ -145,7 +145,7 @@ public class BlueNearThreeCycle extends OpMode {
             case _60_Foward1:
                 if (robot.driveTrain.getCmdComplete())    {
                     robot.transitionRoller.cmdSpin();
-                    robot.intake.cmdFoward();
+                    robot.intake.cmdAutoFoward();
                     robot.driveTrain.CmdDrive(18,0,0.20,0);
                     currentStage = stage._70_Backwards1;
             }
@@ -188,7 +188,7 @@ public class BlueNearThreeCycle extends OpMode {
                 if (runtime.milliseconds() >=1500)  {
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
-                    robot.intake.cmdFoward();
+                    robot.intake.cmdAutoFoward();
                     runtime.reset();
                     currentStage = stage._100_Stop;
 
@@ -224,7 +224,7 @@ public class BlueNearThreeCycle extends OpMode {
                 if (robot.driveTrain.getCmdComplete())    {
                     robot.driveTrain.CmdDrive(57,-90,0.35,0);
                     robot.transitionRoller.cmdSpin();
-                    robot.intake.cmdFoward();
+                    robot.intake.cmdAutoFoward();
                     currentStage = stage._140_forward4;
                 }
 
@@ -265,7 +265,7 @@ public class BlueNearThreeCycle extends OpMode {
                 if (runtime.milliseconds() >=1500)  {
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
-                    robot.intake.cmdFoward();
+                    robot.intake.cmdAutoFoward();
                     runtime.reset();
                     currentStage = stage._190_stop2;
                 }

@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
-@Disabled
-@Autonomous(name = "TwoCycleFarBluie2", group = "Auton")
+
+@Autonomous(name = "ThreeCycleFarBluie", group = "Auton")
 // @Autonomous(...) is the other common choice
 
 public class ThreeCycleFarBluie extends OpMode {

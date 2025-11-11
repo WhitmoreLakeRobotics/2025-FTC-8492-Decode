@@ -44,6 +44,7 @@ public class Intake extends BaseHardware{
     public static final double stopSpeed = 0;
     public static final double inSpeed = -0.90;  // use to be 0.5,then 0.75;
     public static final double outSpeed = 0.5;
+    public static final double autoSpeed = -1.0;
   //  public static final double snailoutSpeed = -0.25;
     public boolean AtIntakeStop = true;
 
@@ -134,9 +135,16 @@ public class Intake extends BaseHardware{
 
     }
 
+    public void cmdAutoFoward(){
+        CurrentMode = Mode.NTKautoIn;
+        NTKM01.setPower (autoSpeed);
+
+    }
+
     public enum Mode {
         NTKstop,
         NTKforward,
+        NTKautoIn,
         NTKbackward;
     }
 
