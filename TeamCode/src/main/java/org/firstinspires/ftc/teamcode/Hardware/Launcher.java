@@ -96,7 +96,7 @@ public class Launcher extends BaseHardware{
     public void init() {
 
 
-        Pikachu = hardwareMap.get(VoltageSensor.class, "Expansion Hub");
+        Pikachu = hardwareMap.get(VoltageSensor.class, "Expansion Hub 3");
 
 
 
@@ -146,7 +146,11 @@ public class Launcher extends BaseHardware{
         } else {
         bAtSpeed = false;
         }
+        double voltage = hardwareMap.voltageSensor.get("Expansion Hub 3").getVoltage(); {
+            telemetry.addData("Battery Voltage", voltage);
+            telemetry.update();
 
+        }
 
 
     }
@@ -197,6 +201,8 @@ public class Launcher extends BaseHardware{
 
 
     }
+
+
 
     public double getMotorRPM(DcMotorEx motor){
         double ticksPerRevolution = 28; //update and double check
