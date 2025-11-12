@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
@@ -32,7 +34,7 @@ public class Intake extends BaseHardware{
      * The op mode name should be unique. It will be the name displayed on the driver station. If
      * multiple op modes have the same name, only one will be available.
      */
-    private DcMotor NTKM01;
+    private DcMotorEx NTKM01;
 
     public Mode CurrentMode;
 
@@ -47,6 +49,7 @@ public class Intake extends BaseHardware{
     public static final double autoSpeed = -1.0;
   //  public static final double snailoutSpeed = -0.25;
     public boolean AtIntakeStop = true;
+    private ElapsedTime runtime = new ElapsedTime();
 
 
     /**
@@ -58,7 +61,7 @@ public class Intake extends BaseHardware{
 
 
 
-        NTKM01 = hardwareMap.get(DcMotor.class, "NTKM01");
+        NTKM01 = hardwareMap.get(DcMotorEx.class, "NTKM01");
 
     }
 
@@ -104,6 +107,14 @@ public class Intake extends BaseHardware{
             AtIntakeStop = true;
         }
 */
+        if (CurrentMode == Mode.NTKforward) {
+            if ((CommonLogic.inRange(getMotorRPM(NTKM01), 1750, 1750))) {
+                if (runtime.milliseconds() >= 1000) {
+                    cmdStop();
+                }
+            }
+        }
+
 
 
     }
@@ -122,10 +133,12 @@ public class Intake extends BaseHardware{
     public void cmdBackward(){
         CurrentMode = Mode.NTKbackward;
         NTKM01.setPower (outSpeed);
+
     }
     public void cmdFoward(){
         CurrentMode = Mode.NTKforward;
         NTKM01.setPower (inSpeed);
+        runtime.reset();
 
     }
 
@@ -133,11 +146,13 @@ public class Intake extends BaseHardware{
         CurrentMode = Mode.NTKstop;
         NTKM01.setPower (stopSpeed);
 
+
     }
 
     public void cmdAutoFoward(){
         CurrentMode = Mode.NTKautoIn;
         NTKM01.setPower (autoSpeed);
+        //runtime.reset();
 
     }
 
@@ -146,6 +161,13 @@ public class Intake extends BaseHardware{
         NTKforward,
         NTKautoIn,
         NTKbackward;
+    }
+
+    public double getMotorRPM(DcMotorEx motor){
+        double ticksPerRevolution = 28; //update and double check
+        double gearRatio = 1.0; //update and double check
+        double ticksPerSecond = motor.getVelocity();
+        return (ticksPerSecond / ticksPerRevolution) * 60 * gearRatio;
     }
 
 
