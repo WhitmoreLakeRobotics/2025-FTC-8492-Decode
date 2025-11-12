@@ -4,8 +4,8 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 
-import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +24,8 @@ public class Robot extends BaseHardware {
     //public Flickiteer flickiteer = new Flickiteer();
     public TransitionRoller transitionRoller = new TransitionRoller();
     public LauncherBlocker launcherBlocker = new LauncherBlocker();
+   // public Limelight3A limelight3A = new Limelight3A(1722901,"limelight",10.84.92.11);
+    //172.29.0.1
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
     private boolean automatedDrive;
@@ -111,6 +113,7 @@ public class Robot extends BaseHardware {
         launcherBlocker.init_loop();
         transitionRoller.init_loop();
         //huskyLens.init_loop();
+       // Limelight3A.init_loop();
     }
 
     @Override
@@ -125,6 +128,7 @@ public class Robot extends BaseHardware {
         launcherBlocker.start();
         transitionRoller.start();
         //huskyLens.start();
+        //Limelight3A.start();
 
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
