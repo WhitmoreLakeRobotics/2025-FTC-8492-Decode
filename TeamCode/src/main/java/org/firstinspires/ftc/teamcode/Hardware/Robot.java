@@ -19,7 +19,7 @@ public class Robot extends BaseHardware {
    // public Sensors sensors = new Sensors();
     public Intake intake = new Intake();
     public Launcher launcher = new Launcher();
-    public HuskyLens huskyLens = new HuskyLens();
+    //public HuskyLens huskyLens = new HuskyLens();
    // public Spindexer spindexer = new Spindexer();
     //public Flickiteer flickiteer = new Flickiteer();
     public TransitionRoller transitionRoller = new TransitionRoller();
@@ -93,9 +93,9 @@ public class Robot extends BaseHardware {
         transitionRoller.telemetry = this.telemetry;
         transitionRoller.init();
 
-        huskyLens.hardwareMap = this.hardwareMap;
-        huskyLens.telemetry = this.telemetry;
-        huskyLens.init();
+       // huskyLens.hardwareMap = this.hardwareMap;
+       // huskyLens.telemetry = this.telemetry;
+       // huskyLens.init();
 
     }
 
@@ -141,7 +141,7 @@ public class Robot extends BaseHardware {
         //flickiteer.loop();
         launcherBlocker.loop();
         transitionRoller.loop();
-        huskyLens.loop();
+       // huskyLens.loop();
 
 
 
@@ -157,7 +157,7 @@ public class Robot extends BaseHardware {
         //flickiteer.loop();
         launcherBlocker.loop();
         transitionRoller.loop();
-        huskyLens.loop();
+       // huskyLens.loop();
 
 
 
@@ -218,6 +218,7 @@ public void NoLaunch(){
     launcherBlocker.cmdBlock();
         launcher.cmdStop();
         */
+    /*
 public double targetDistanceCalc(){
    double tagVertResult = huskyLens.tagY();
    double tagVertRatio = (tagVertResult - minTargetVertPos)/(maxTargetVertPos - minTargetVertPos);
@@ -261,7 +262,7 @@ public double targetAngleCalc() {
         return  25;
     }
 }
-
+*/
 
 }
 
