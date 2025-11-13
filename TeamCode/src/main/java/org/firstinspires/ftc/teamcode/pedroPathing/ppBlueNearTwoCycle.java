@@ -13,7 +13,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
@@ -43,9 +42,9 @@ public class ppBlueNearTwoCycle extends OpMode {
     //configurables for pedro
     public static int xTol = 2;  // tolorance for x axis in inches
     public static int yTol = 2; // tolorance for y axis in inches
-    public static int wallScoreX = 65; //x value for scoring pose near wall
-    public static int wallScoreY = 135; //y value for scoring pose near wall
-    public static double wallScoreH = Math.toRadians(180);// Heading value for scoring pose near wall
+    public static int wallScoreX = 55; //x value for scoring pose near wall
+    public static int wallScoreY = 125; //y value for scoring pose near wall
+    public static double wallScoreH = Math.toRadians(170);// Heading value for scoring pose near wall
     public static double velocityConstraint = 60;
     public static double breakingStrength = 1.0;
     public static double breakingStart = 1.0;
@@ -53,34 +52,35 @@ public class ppBlueNearTwoCycle extends OpMode {
     private final Pose startPose = new Pose(40, 135, Math.toRadians(180)); // Start Pose of our robot.
     //    private final Pose scorePose = new Pose(50, 75, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup1Pose = new Pose(24, 83, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2Pose = new Pose(24, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1Pose = new Pose(47, 95, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1aPose = new Pose(27, 95, Math.toRadians(180)); // (First Set) of Artifacts picked up.
+
+    private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
 
     private Path scorePreload;
-   //private PathChain grabPickup1;//, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
-   private PathChain grabPickup1;
-   private Path grabPickup1a;
+    private PathChain grabPickup1, grabPickup1a;//, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
+
+    // private Path grabPickup1a;
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         scorePreload = new Path(new BezierLine(startPose, scorePose));
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
-        // scorePreload.setVelocityConstraint(60);
-        //scorePreload.setBrakingStrength(1);
-        // scorePreload.setBrakingStart(1);
 
     /* Here is an example for Constant Interpolation
     scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
-        grabPickup1a = new Path(new BezierLine(scorePose, pickup1Pose));
-        grabPickup1a.setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading());
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        /*grabPickup1 = follower.pathBuilder()
+        grabPickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup1Pose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
                 .build();
-        */
+        grabPickup1a = follower.pathBuilder()
+                .addPath(new BezierLine(scorePose, pickup1aPose))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
+                .build();
+
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         /*scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup1Pose, scorePose))
@@ -114,184 +114,192 @@ public class ppBlueNearTwoCycle extends OpMode {
 
          */
     }
-        // Declare OpMode members.
-        private ElapsedTime runtime = new ElapsedTime();
+
+    // Declare OpMode members.
+    private ElapsedTime runtime = new ElapsedTime();
 
 
-        //Code to run ONCE when the driver hits INIT
+    //Code to run ONCE when the driver hits INIT
 
-        @Override
-        public void init () {
-            //----------------------------------------------------------------------------------------------
-            // These constants manage the duration we allow for callbacks to user code to run for before
-            // such code is considered to be stuck (in an infinite loop, or wherever) and consequently
-            // the robot controller application is restarted. They SHOULD NOT be modified except as absolutely
-            // necessary as poorly chosen values might inadvertently compromise safety.
-            //----------------------------------------------------------------------------------------------
-            msStuckDetectInit = Settings.msStuckDetectInit;
-            msStuckDetectInitLoop = Settings.msStuckDetectInitLoop;
-            msStuckDetectStart = Settings.msStuckDetectStart;
-            msStuckDetectLoop = Settings.msStuckDetectLoop;
-            msStuckDetectStop = Settings.msStuckDetectStop;
+    @Override
+    public void init() {
+        //----------------------------------------------------------------------------------------------
+        // These constants manage the duration we allow for callbacks to user code to run for before
+        // such code is considered to be stuck (in an infinite loop, or wherever) and consequently
+        // the robot controller application is restarted. They SHOULD NOT be modified except as absolutely
+        // necessary as poorly chosen values might inadvertently compromise safety.
+        //----------------------------------------------------------------------------------------------
+        msStuckDetectInit = Settings.msStuckDetectInit;
+        msStuckDetectInitLoop = Settings.msStuckDetectInitLoop;
+        msStuckDetectStart = Settings.msStuckDetectStart;
+        msStuckDetectLoop = Settings.msStuckDetectLoop;
+        msStuckDetectStop = Settings.msStuckDetectStop;
 
-            robot.hardwareMap = hardwareMap;
-            robot.telemetry = telemetry;
-            robot.init();
-            telemetry.addData("Test Auton", "Initialized");
+        robot.hardwareMap = hardwareMap;
+        robot.telemetry = telemetry;
+        robot.init();
+        telemetry.addData("Test Auton", "Initialized");
 
-            //Initialize Gyro
-            robot.driveTrain.ResetGyro();
-            pathTimer = new Timer();
-            opmodeTimer = new Timer();
-            opmodeTimer.resetTimer();
-            pTimer = new ElapsedTime();
+        //Initialize Gyro
+        robot.driveTrain.ResetGyro();
+        pathTimer = new Timer();
+        opmodeTimer = new Timer();
+        opmodeTimer.resetTimer();
+        pTimer = new ElapsedTime();
 
-            follower = CompBotConstants.createFollower(hardwareMap);
-            buildPaths();
-            follower.setStartingPose(startPose);
-            follower.update();
-            //  pedroPanelsTelemetry.init();
-            Drawing.init();
-            telemetryMU = PanelsTelemetry.INSTANCE.getTelemetry();
+        follower =  CompBotConstants.createFollower(hardwareMap);
+        buildPaths();
+        follower.setStartingPose(startPose);
+        follower.update();
+        //  pedroPanelsTelemetry.init();
+        Drawing.init();
+        telemetryMU = PanelsTelemetry.INSTANCE.getTelemetry();
 
-            // disp[lay starting postition
-            telemetryMU.addData("initialized postition - Update ", thisUpdate);
-            // Feedback to Driver Hub for debugging
-            telemetryMU.addData("Current Stage", currentStage);
-            telemetryMU.addData("x", follower.getPose().getX());
-            telemetryMU.addData("y", follower.getPose().getY());
-            telemetryMU.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
-            //  telemetryMU.addData("path", follower.getCurrentPath());
-            telemetryMU.addData("y", follower.getPose().getY());
-            telemetryMU.addData("heading", follower.getPose().getHeading());
-            telemetryMU.addData("pose", follower.poseTracker);
-            telemetryMU.addData("pose history", scorePose);
+        // disp[lay starting postition
+        telemetryMU.addData("initialized postition - Update ", thisUpdate);
+        // Feedback to Driver Hub for debugging
+        updateTelemetry();
 
-            telemetryMU.update();
-            Drawing.drawDebug(follower);
+    }
 
+
+    //Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
+
+    @Override
+    public void init_loop() {
+        // initialize robot
+        robot.init_loop();
+
+    }
+
+
+    //Code to run ONCE when the driver hits PLAY
+
+    @Override
+    public void start() {
+        // start robot
+        runtime.reset();
+        robot.start();
+        opmodeTimer.resetTimer();
+
+
+    }
+
+
+    //Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
+
+    @Override
+    public void loop() {
+
+        telemetry.addData("Auton_Current_Stage ", currentStage);
+        robot.autonLoop();
+        follower.update();
+        switch (currentStage) {
+            case _unknown:
+                currentStage = stage._00_preStart;
+                break;
+
+            case _00_preStart:
+                currentStage = stage._20_DriveToScore;
+                break;
+
+            case _20_DriveToScore:
+                if (!follower.isBusy()) {
+                    follower.followPath(scorePreload, true);
+                    // follower.update();
+                    robot.launcher.cmdOuttouch();
+                    currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
+                }
+                break;
+
+            case _30_Shoot1:
+                if (!follower.isBusy()) {
+                    // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
+                    //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
+                    robot.intake.cmdFoward();
+                    robot.transitionRoller.cmdSpin();
+                    robot.launcherBlocker.cmdUnBlock();
+                    runtime.reset();
+                    currentStage = stage._40_LauncherStop;
+                }
+                break;
+
+            case _40_LauncherStop:
+                if (runtime.milliseconds() >= 2000) {
+                    // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
+                    robot.launcherBlocker.cmdBlock();
+                    currentStage = stage._50_Pickup1;
+                }
+                break;
+
+            case _50_Pickup1:
+                if (!follower.isBusy()) {
+                    follower.followPath(grabPickup1, 0.3, true);
+                    currentStage = stage._55_Pickup1_Startintake;
+                }
+                break;
+
+            case _55_Pickup1_Startintake:
+                if (!follower.isBusy()) {
+                    follower.followPath(grabPickup1a, true);
+                    currentStage = stage._60_Pickup1a;
+                }
+                break;
+
+            case _60_Pickup1a:
+                if (!follower.isBusy()) {
+                    follower.followPath(grabPickup1a,0.3, true);
+                    currentStage = stage._500_End;
+                }
+                break;
+
+            case _500_End:
+            { //do nothing let the time run out
+
+                }
+
+
+                break;
         }
 
+        updateTelemetry();
+    }  //  loop
 
-        //Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
+    private void updateTelemetry() {
+        telemetryMU.addData("Current Stage", currentStage);
+        telemetryMU.addData("x", follower.getPose().getX());
+        telemetryMU.addData("y", follower.getPose().getY());
+        telemetryMU.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
+        telemetryMU.addData("y", follower.getPose().getY());
+        telemetryMU.addData("heading", follower.getPose().getHeading());
+        telemetryMU.addData("pose", follower.poseTracker);
+        telemetryMU.addData("pose history", scorePose);
 
-        @Override
-        public void init_loop () {
-            // initialize robot
-            robot.init_loop();
+        telemetryMU.update();
+        Drawing.drawDebug(follower);
+    }
 
-        }
+    //Code to run ONCE after the driver hits STOP
 
+    @Override
+    public void stop() {
+        robot.stop();
+    }
 
-        //Code to run ONCE when the driver hits PLAY
-
-        @Override
-        public void start () {
-            // start robot
-            runtime.reset();
-            robot.start();
-            opmodeTimer.resetTimer();
-
-
-        }
-
-
-        //Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-
-        @Override
-        public void loop () {
-
-            telemetry.addData("Auton_Current_Stage ", currentStage);
-            robot.loop();
-            follower.update();
-            switch (currentStage) {
-                case _unknown:
-                    currentStage = stage._00_preStart;
-                    break;
-                case _00_preStart:
-                    currentStage = stage._20_DriveBack;
-                    break;
+    private enum stage {
+        _unknown,
+        _00_preStart,
+        _20_DriveToScore,
+        _25_Turn,
+        _30_Shoot1,
+        _40_LauncherStop,
+        _50_Pickup1,
+        _55_Pickup1_Startintake,
+        _60_Pickup1a,
+        _500_End
 
 
-                case _20_DriveBack:
-                    if (!follower.isBusy()) {
-                        follower.followPath(scorePreload, true);
-                       // follower.update();
-robot.launcher.cmdOuttouch();
-                        currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
-                    }
-
-
-                    break;
-                case _30_Shoot1:
-                    if (!follower.isBusy()){
-                   // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
-                   //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                        robot.intake.cmdFoward();
-                        robot.transitionRoller.cmdSpin();
-                        robot.launcherBlocker.cmdUnBlock();
-                        runtime.reset();
-                        currentStage = stage._40_LauncherStop;
-                    }
-                    break;
-                case _40_LauncherStop:
-                    if (runtime.milliseconds() >= 5000) {
-                       // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
-                        robot.launcherBlocker.cmdBlock();
-                        currentStage = stage._50_Pickup1;
-                    }
-                case _50_Pickup1:
-                    if (!follower.isBusy()){
-                        follower.followPath(grabPickup1a, true);
-                        currentStage=stage._500_End;                   }
-
-
-                case _500_End:
-                    if (robot.driveTrain.getCmdComplete()) {
-                        robot.stop();
-
-
-                    }
-
-
-                    break;
-            }
-
-            telemetryMU.addData("Current Stage", currentStage);
-            telemetryMU.addData("follower is busy?", follower.isBusy());
-            telemetryMU.addData("x", follower.getPose().getX());
-            telemetryMU.addData("y", follower.getPose().getY());
-            telemetryMU.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
-            // telemetryMU.addData("path", follower.getCurrentPath());
-            telemetryMU.addData("y", follower.getPose().getY());
-            telemetryMU.addData("heading", follower.getPose().getHeading());
-            telemetryMU.addData("ScorePose ", scorePose);
-
-            telemetryMU.update();
-            Drawing.drawDebug(follower);
-        }  //  loop
-
-
-        //Code to run ONCE after the driver hits STOP
-
-        @Override
-        public void stop () {
-            robot.stop();
-        }
-
-        private enum stage {
-            _unknown,
-            _00_preStart,
-            _10_turn,
-            _20_DriveBack,
-            _25_Turn,
-            _30_Shoot1,
-            _40_LauncherStop,
-            _50_Pickup1,
-            _500_End
-
-
-        }
+    }
 
 }
 

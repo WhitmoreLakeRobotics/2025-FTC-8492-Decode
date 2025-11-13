@@ -135,7 +135,7 @@ public class Tele_Op extends OpMode {
             bAutoTurn = false;
         }
         if (gamepad1.right_trigger > 0.4) {
-            tHeading = (int)Math.round(robot.targetAngleCalc());
+           // tHeading = (int)Math.round(robot.targetAngleCalc());
             bAutoTurn = true;
         }
 
