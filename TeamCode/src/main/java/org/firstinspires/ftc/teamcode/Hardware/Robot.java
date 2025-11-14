@@ -224,12 +224,26 @@ public void NoLaunch(){
         */
     /*
 public double targetDistanceCalc(){
-   double tagVertResult = huskyLens.tagY();
-   double tagVertRatio = (tagVertResult - minTargetVertPos)/(maxTargetVertPos - minTargetVertPos);
 
-   double tagDistCalc = minTargetDist + ((maxTargetDist - minTargetDist)*tagVertRatio);
+ double targetOffsetAngle_Vertical = ty.getDouble(0.0);
 
-   return tagDistCalc;
+    // how many degrees back is your limelight rotated from perfectly vertical?
+    double limelightMountAngleDegrees = 14.5;
+
+    // distance from the center of the Limelight lens to the floor
+    double limelightLensHeightInches = 14.0;
+
+    // distance from the target to the floor
+    double goalHeightInches = 29.5;
+
+    double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+    //calculate distance
+    double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
+    double distanceFromRobotToGoalInches = distanceFromLimelightToGoalInches
+   return DistanceFromRobotToGoalInches;
+
 
 }
 public double targetAngleCalc() {
