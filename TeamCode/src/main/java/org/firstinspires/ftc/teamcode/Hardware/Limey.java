@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
+//import com.qualcomm.hardware.limelightvision;
+//import com.qualcomm.hardware.limelightvision.LLResultTypes;
 import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
@@ -28,6 +30,7 @@ public class Limey extends BaseHardware {
     //private ColorRangeSensor IntakeSensor;
     //private DistanceSensor RearLeftSensor
 
+    private com.qualcomm.hardware.limelightvision Limelight3A;
 
     private Limelight3A Limey;
     private LLStatus status;
@@ -38,6 +41,7 @@ public class Limey extends BaseHardware {
     private List<List<Double>> corners;
    private Pose3D TagPose;
     private double TagAngle;
+    private double TagDistance;
     
 
 
@@ -74,7 +78,8 @@ public class Limey extends BaseHardware {
 
         //telemetry.setMsTransmissionInterval(11);
 
-        Limey.pipelineSwitch(0);
+        Limey.pipelineSwitch(1);
+
 
     }
 
@@ -106,6 +111,7 @@ public class Limey extends BaseHardware {
      * Example usage: Starting another thread.
      */
     public void start(){
+        Limey.start();
 
     }
 
@@ -122,24 +128,32 @@ public class Limey extends BaseHardware {
             AprilTagID = result.getFiducialResults().get(0).getFiducialId();
             ty = result.getFiducialResults().get(0).getTargetYDegrees();
             tx = result.getFiducialResults().get(0).getTargetXDegrees();
-            corners = result.getFiducialResults().get(0).getTargetCorners();
+            //corners = result.getFiducialResults().get(0).getTargetCorners();
             TagPose = result.getFiducialResults().get(0).getTargetPoseCameraSpace();
             TagAngle = TagPose.getOrientation().getYaw();
+            TagDistance = TagPose.getPosition().z;
 
         }else {
             AprilTagID = -1;
         }
     }
 
-
-
-    public double getTagID(){
-     return AprilTagID;
-
-
+    public  double getTy(){
+        return  ty;
     }
 
-    public double TagAngle(){
+    public  double getTx(){
+        return  tx;
+    }
+    public double getTagID(){
+     return AprilTagID;
+    }
+
+    public double getTagDistance(){
+        return TagDistance;
+    }
+
+    public double getTagAngle(){
         return TagAngle;
     }
 

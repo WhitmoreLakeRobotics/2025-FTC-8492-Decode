@@ -4,7 +4,6 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,9 @@ public class Robot extends BaseHardware {
     //public Flickiteer flickiteer = new Flickiteer();
     public TransitionRoller transitionRoller = new TransitionRoller();
     public LauncherBlocker launcherBlocker = new LauncherBlocker();
-    //public Limelight3A limelight3A = new Limelight3A(1722901,"limelight",172.29.0.27);
+    public Limey limey = new Limey();
+
+    //public Limelight3A limelight3A = new Limelight3A(1722901,"limelight","172.29.0.27");
     //172.29.0.1
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
@@ -99,6 +100,10 @@ public class Robot extends BaseHardware {
        // huskyLens.telemetry = this.telemetry;
        // huskyLens.init();
 
+        limey.hardwareMap = this.hardwareMap;
+        limey.telemetry = this.telemetry;
+        limey.init();
+
     }
 
     @Override
@@ -114,6 +119,7 @@ public class Robot extends BaseHardware {
         transitionRoller.init_loop();
         //huskyLens.init_loop();
        // Limelight3A.init_loop();
+        limey.init_loop();
     }
 
     @Override
@@ -129,6 +135,7 @@ public class Robot extends BaseHardware {
         transitionRoller.start();
         //huskyLens.start();
         //Limelight3A.start();
+        limey.start();
 
 
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
@@ -146,7 +153,7 @@ public class Robot extends BaseHardware {
         launcherBlocker.loop();
         transitionRoller.loop();
        // huskyLens.loop();
-
+        limey.loop();
 
 
     }
@@ -162,7 +169,7 @@ public class Robot extends BaseHardware {
         launcherBlocker.loop();
         transitionRoller.loop();
        // huskyLens.loop();
-
+        limey.loop();
 
 
     }
@@ -180,7 +187,7 @@ public class Robot extends BaseHardware {
         launcherBlocker.stop();
         transitionRoller.stop();
         //huskyLens.stop();
-
+        limey.stop();
        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 
@@ -222,10 +229,10 @@ public void NoLaunch(){
     launcherBlocker.cmdBlock();
         launcher.cmdStop();
         */
-    /*
+
 public double targetDistanceCalc(){
 
- double targetOffsetAngle_Vertical = ty.getDouble(0.0);
+ double targetOffsetAngle_Vertical = limey.getTy();
 
     // how many degrees back is your limelight rotated from perfectly vertical?
     double limelightMountAngleDegrees = 14.5;
@@ -241,19 +248,20 @@ public double targetDistanceCalc(){
 
     //calculate distance
     double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
-    double distanceFromRobotToGoalInches = distanceFromLimelightToGoalInches
-   return DistanceFromRobotToGoalInches;
+    double distanceFromRobotToGoalInches = distanceFromLimelightToGoalInches + 0;
+   return distanceFromRobotToGoalInches;
 
 
 }
+
 public double targetAngleCalc() {
 
-    double currentTargetPos = huskyLens.tagY();
-    if (currentTargetPos != -10000) {
-        double targetOffsetAngle_Horizontal = tx.getDouble(0.0);
+    double currentTagId = limey.getTagID();
+    if (currentTagId != -1) {
+        double targetOffsetAngle_Horizontal = limey.getTx();
 
 
-        double tagAngle = getTagAngle
+        double tagAngle = limey.getTagAngle();
         double targetDistanceCalc = targetDistanceCalc();
         double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2 * (targetDistanceCalc * targetPointFromTag * Math.cos(tagAngle)));
 
@@ -264,12 +272,12 @@ public double targetAngleCalc() {
             return defaultAngle;
         } else if (driveTrain.getCurrentHeading() <= -90) {
             return -defaultAngle;
-        } else if (huskyLens.tagID() == 1) {
+        } else if (currentTagId == 24) {
             //compensate left
-            return driveTrain.getCurrentHeading() + targetAngle - compensationAngle;
-        } else if (huskyLens.tagID() == 2) {
+            return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal - compensationAngle;
+        } else if (currentTagId == 20) {
             //compensate right
-            return driveTrain.getCurrentHeading() + targetAngle + compensationAngle;
+            return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal + compensationAngle;
         } else
             return driveTrain.getCurrentHeading();
 
@@ -280,7 +288,7 @@ public double targetAngleCalc() {
         return  25;
     }
 }
-*/
+
 
 }
 
