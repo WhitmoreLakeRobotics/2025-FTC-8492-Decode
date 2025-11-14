@@ -224,22 +224,36 @@ public void NoLaunch(){
         */
     /*
 public double targetDistanceCalc(){
-   double tagVertResult = huskyLens.tagY();
-   double tagVertRatio = (tagVertResult - minTargetVertPos)/(maxTargetVertPos - minTargetVertPos);
 
-   double tagDistCalc = minTargetDist + ((maxTargetDist - minTargetDist)*tagVertRatio);
+ double targetOffsetAngle_Vertical = ty.getDouble(0.0);
 
-   return tagDistCalc;
+    // how many degrees back is your limelight rotated from perfectly vertical?
+    double limelightMountAngleDegrees = 14.5;
+
+    // distance from the center of the Limelight lens to the floor
+    double limelightLensHeightInches = 14.0;
+
+    // distance from the target to the floor
+    double goalHeightInches = 29.5;
+
+    double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+
+    //calculate distance
+    double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
+    double distanceFromRobotToGoalInches = distanceFromLimelightToGoalInches
+   return DistanceFromRobotToGoalInches;
+
 
 }
 public double targetAngleCalc() {
 
     double currentTargetPos = huskyLens.tagY();
     if (currentTargetPos != -10000) {
-        double targetAngle = tagExtremeRightAngle * ((currentTargetPos - 160) / tagExtremeRightPos - 160);
+        double targetOffsetAngle_Horizontal = tx.getDouble(0.0);
 
-        double currentTargetRatio = huskyLens.tagWidth() / huskyLens.tagHeight();
-        double tagAngle = extremeTagAngle * ((currentTargetRatio - nominalTagWidthRatio) / (extremeTagWidthRatio - nominalTagWidthRatio));
+
+        double tagAngle = getTagAngle
         double targetDistanceCalc = targetDistanceCalc();
         double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2 * (targetDistanceCalc * targetPointFromTag * Math.cos(tagAngle)));
 
