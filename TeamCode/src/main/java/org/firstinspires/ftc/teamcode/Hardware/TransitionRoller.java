@@ -3,9 +3,12 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import android.transition.Transition;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 
 
 /**
@@ -22,17 +25,17 @@ public class TransitionRoller extends BaseHardware{
 
     private Mode CurrentMode;
 
-    private DcMotor TRM01;
+    private DcMotorEx TRM01;
     private double TRPower;
     public Telemetry telemetry = null;
 
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
 
-    public static final double TRSpeed = 0.5;
+    public static final double TRSpeed = 0.90;
     public static final double stopSpeed = 0.0;
      static final double TRBack = -0.5;
-
+    private ElapsedTime runtime = new ElapsedTime();
 
 
     /**
@@ -57,7 +60,8 @@ public class TransitionRoller extends BaseHardware{
      * This method will be called once when the INIT button is pressed.
      */
      public void init(){
-        TRM01 = hardwareMap.get(DcMotor.class,"TRM01");
+
+         TRM01 = hardwareMap.get(DcMotorEx.class,"TRM01");
     }
 
     /**
@@ -88,6 +92,14 @@ public class TransitionRoller extends BaseHardware{
      */
      public void loop(){
 
+         if (CurrentMode == Mode.Spin) {
+             if ((CommonLogic.inRange(getMotorRPM(TRM01), 1750, 1750))) {
+                 if (runtime.milliseconds() >= 1000) {
+                     cmdStop();
+                 }
+             }
+         }
+
      }
     void stop (){
 
@@ -107,6 +119,7 @@ public class TransitionRoller extends BaseHardware{
      public void cmdSpin() {
          CurrentMode = Mode.Spin;
          TRM01.setPower(TRSpeed);
+         runtime.reset();
      }
 
      public void cmdBack() {
@@ -118,5 +131,12 @@ public class TransitionRoller extends BaseHardware{
          Spin,
          Back,
          Stop;
+    }
+
+    public double getMotorRPM(DcMotorEx motor){
+        double ticksPerRevolution = 28; //update and double check
+        double gearRatio = 1.0; //update and double check
+        double ticksPerSecond = motor.getVelocity();
+        return (ticksPerSecond / ticksPerRevolution) * 60 * gearRatio;
     }
 }

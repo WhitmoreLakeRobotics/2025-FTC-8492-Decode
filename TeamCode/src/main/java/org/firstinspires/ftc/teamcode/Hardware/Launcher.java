@@ -140,17 +140,18 @@ public class Launcher extends BaseHardware{
         runPID();
 
         if ((CommonLogic.inRange(getMotorRPM(LaunchM01),targetRPM1,targetRPM1Tol)) &&
-                (CommonLogic.inRange(getMotorRPM(LaunchM02),targetRPM2,targetRPM2Tol))
+               (CommonLogic.inRange(getMotorRPM(LaunchM02),targetRPM2,targetRPM2Tol))
         ){
             bAtSpeed = true;
         } else {
         bAtSpeed = false;
         }
-        double voltage = hardwareMap.voltageSensor.get("Expansion Hub 3").getVoltage(); {
+       double voltage = hardwareMap.voltageSensor.get("Expansion Hub 3").getVoltage();{
             telemetry.addData("Battery Voltage", voltage);
             telemetry.update();
-
         }
+
+
 
 
     }
@@ -211,7 +212,7 @@ public class Launcher extends BaseHardware{
         return (ticksPerSecond / ticksPerRevolution) * 60 * gearRatio;
     }
 
-    private double calculatePID(double currentRPM,double targetRPM){
+    private double calculatePID(double currentRPM,double targetRPM) {
         double error = targetRPM - currentRPM;
         double deltaTime = timer.seconds();
         timer.reset();
