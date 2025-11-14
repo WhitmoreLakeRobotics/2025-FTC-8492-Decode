@@ -250,10 +250,10 @@ public double targetAngleCalc() {
 
     double currentTargetPos = huskyLens.tagY();
     if (currentTargetPos != -10000) {
-        double targetAngle = tagExtremeRightAngle * ((currentTargetPos - 160) / tagExtremeRightPos - 160);
+        double targetOffsetAngle_Horizontal = tx.getDouble(0.0);
 
-        double currentTargetRatio = huskyLens.tagWidth() / huskyLens.tagHeight();
-        double tagAngle = extremeTagAngle * ((currentTargetRatio - nominalTagWidthRatio) / (extremeTagWidthRatio - nominalTagWidthRatio));
+
+        double tagAngle = getTagAngle
         double targetDistanceCalc = targetDistanceCalc();
         double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2 * (targetDistanceCalc * targetPointFromTag * Math.cos(tagAngle)));
 
