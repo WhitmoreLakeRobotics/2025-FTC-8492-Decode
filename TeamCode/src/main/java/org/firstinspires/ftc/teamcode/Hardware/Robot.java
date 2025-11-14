@@ -24,7 +24,7 @@ public class Robot extends BaseHardware {
     //public Flickiteer flickiteer = new Flickiteer();
     public TransitionRoller transitionRoller = new TransitionRoller();
     public LauncherBlocker launcherBlocker = new LauncherBlocker();
-   // public Limelight3A limelight3A = new Limelight3A(1722901,"limelight",10.84.92.11);
+    //public Limelight3A limelight3A = new Limelight3A(1722901,"limelight",172.29.0.27);
     //172.29.0.1
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this

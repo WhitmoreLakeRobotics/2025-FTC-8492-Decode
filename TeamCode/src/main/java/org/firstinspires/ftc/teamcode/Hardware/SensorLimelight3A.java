@@ -70,7 +70,7 @@ import java.util.List;
  */
 @TeleOp(name = "Sensor: Limelight3A", group = "Sensor")
 @Disabled
-public class SensorLimelight3A extends LinearOpMode {
+public class  SensorLimelight3A extends LinearOpMode {
 
     public Telemetry telemetry = null;
     public HardwareMap hardwareMap = null;
