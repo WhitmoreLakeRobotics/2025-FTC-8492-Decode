@@ -73,12 +73,13 @@ public class Limey extends BaseHardware {
     public void init(){
         //DeliverySensor = hardwareMap.get(ColorSensor.class, "DeliveryS");
 
-        Limelight3A Limey  = hardwareMap.get(Limelight3A.class, "limelight");
+        LemonLimey  = hardwareMap.get(Limelight3A.class, "limelight");
 
         //telemetry.setMsTransmissionInterval(11);
 
-        Limey.pipelineSwitch(1);
-
+        LemonLimey.pipelineSwitch(1);
+        LemonLimey.start();
+        LemonLimey.setPollRateHz(100);
 
     }
 
@@ -110,7 +111,6 @@ public class Limey extends BaseHardware {
      * Example usage: Starting another thread.
      */
     public void start(){
-        LemonLimey.start();
 
     }
 
@@ -120,7 +120,7 @@ public class Limey extends BaseHardware {
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop(){
-        status = LemonLimey.getStatus();
+      //  status = LemonLimey.getStatus();
         result = LemonLimey.getLatestResult();
 
         if(result.isValid()) {
