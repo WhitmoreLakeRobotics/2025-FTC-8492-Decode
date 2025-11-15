@@ -285,7 +285,7 @@ public double targetAngleCalc() {
     }
     else
     {
-        return  25;
+        return 75;
     }
 }
 
