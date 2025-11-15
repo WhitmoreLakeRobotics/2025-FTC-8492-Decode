@@ -23,7 +23,7 @@ public class LauncherBlocker extends BaseHardware{
 
     public Servo LBS01;
 
-    public static final double Blocked = 0.5;     //make have constant power while blocking.
+    public static final double Blocked = 0.65;     //make have constant power while blocking.
     public static final double UnBlocked = 0.4;
 
     public boolean AtUnBlocked = false;
@@ -31,7 +31,7 @@ public class LauncherBlocker extends BaseHardware{
     public Mode CurrentMode = Mode.Stop;
 
     private ElapsedTime runtime = new ElapsedTime();
-    private double waitTime = 100;
+    private double waitTime = 50;
 
     public Telemetry telemetry = null;
 

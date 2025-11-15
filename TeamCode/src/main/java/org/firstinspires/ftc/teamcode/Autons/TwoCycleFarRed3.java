@@ -124,7 +124,7 @@ public class TwoCycleFarRed3 extends OpMode {
 
                 break;
             case _25_StopLaunch:
-                if (runtime.milliseconds() >=5000)     {
+                if (runtime.milliseconds() >=1500)     {
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
                     robot.launcherBlocker.cmdBlock();
                     robot.launcher.cmdStop();
@@ -198,7 +198,7 @@ public class TwoCycleFarRed3 extends OpMode {
 
                 break;
             case _100_StopLaunch2:
-                if (runtime.milliseconds() >=5000)     {
+                if (runtime.milliseconds() >=1500)     {
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
                     robot.intake.cmdStop();
                     robot.transitionRoller.cmdStop();

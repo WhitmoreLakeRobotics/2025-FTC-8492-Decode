@@ -19,5 +19,9 @@ dependencies {
     implementation 'com.pedropathing:ftc:2.0.4'
     implementation 'com.pedropathing:telemetry:1.0.0'
     implementation 'com.bylazar:fullpanels:1.0.9'
+
+    // These are the important ones for Limelight
+    //implementation 'com.qualcomm.hardware.limelightvision:limelightlib:1.0.2'
+    //implementation 'org.openftc:rev-extensions2:1.2.2'  // sometimes needed too
 }
 

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 //import com.qualcomm.hardware.limelightvision;
@@ -17,7 +16,7 @@ import java.util.List;
 /**
  * Base class for FTC Team 8492 defined hardware
  */
-@Disabled
+//@Disabled
 public class Limey extends BaseHardware {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -30,9 +29,9 @@ public class Limey extends BaseHardware {
     //private ColorRangeSensor IntakeSensor;
     //private DistanceSensor RearLeftSensor
 
-    private com.qualcomm.hardware.limelightvision Limelight3A;
+    //private com.qualcomm.hardware.limelightvision Limelight3A;
 
-    private Limelight3A Limey;
+    private Limelight3A LemonLimey;
     private LLStatus status;
     private LLResult result;
     private int AprilTagID;
@@ -111,7 +110,7 @@ public class Limey extends BaseHardware {
      * Example usage: Starting another thread.
      */
     public void start(){
-        Limey.start();
+        LemonLimey.start();
 
     }
 
@@ -121,8 +120,8 @@ public class Limey extends BaseHardware {
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop(){
-        status = Limey.getStatus();
-        result = Limey.getLatestResult();
+        status = LemonLimey.getStatus();
+        result = LemonLimey.getLatestResult();
 
         if(result.isValid()) {
             AprilTagID = result.getFiducialResults().get(0).getFiducialId();
