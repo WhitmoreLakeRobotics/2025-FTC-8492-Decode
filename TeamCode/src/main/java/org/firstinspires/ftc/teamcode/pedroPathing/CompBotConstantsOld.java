@@ -14,20 +14,19 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-//this is for adjusting the competition robot.
-// you need to change which constants file the code points to for the different robots.
-public class CompBotConstants {
+
+public class CompBotConstantsOld {
     public static FollowerConstants followerConstants = new FollowerConstants()
-           .forwardZeroPowerAcceleration(-31.48245754) //changed from (-35.4224625953)
-            .lateralZeroPowerAcceleration(-72.22727075) ///chabged from (-43.517320985)
+            .forwardZeroPowerAcceleration(-32.48245754) //changed from (-35.4224625953)
+            .lateralZeroPowerAcceleration(-83.22727075) ///chabged from (-43.517320985)
             //ORG  // .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0, 0.008, 0.01))
-           .translationalPIDFCoefficients(new PIDFCoefficients(0.014, 0, 0.01, 0.02))
+            .translationalPIDFCoefficients(new PIDFCoefficients(0.15, 0, 0.01, 0.0))
 //org            .headingPIDFCoefficients(new PIDFCoefficients(0.8, 0, 0.01, 0.025))
-         .headingPIDFCoefficients(new PIDFCoefficients(1.6, 0.003, 0.09, 0.025))
-           // .useSecondaryTranslationalPIDF(true)
-           // .useSecondaryHeadingPIDF(true)
-           // .useSecondaryDrivePIDF(true)
-           .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.008,0,.00005,0,0.02))
+            .headingPIDFCoefficients(new PIDFCoefficients(1, 0.003, 0.06, 0.025))
+            // .useSecondaryTranslationalPIDF(true)
+            // .useSecondaryHeadingPIDF(true)
+            // .useSecondaryDrivePIDF(true)
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.003,0,.00002,0,0.01))
             .centripetalScaling(.0006)
             .mass(12.7);
 
@@ -41,18 +40,18 @@ public class CompBotConstants {
             .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
-           .xVelocity(79.06906841)
-          .yVelocity(63.64164852);
+            .xVelocity(76.06906841)
+            .yVelocity(60.64164852);
 
- //   public Pose myOffset = new Pose(6.0, -0.1875, Math.toRadians(180));
+    //   public Pose myOffset = new Pose(6.0, -0.1875, Math.toRadians(180));
     public static OTOSConstants localizerConstants =  new OTOSConstants()
             .hardwareMapName("otto")
             .linearUnit(DistanceUnit.INCH)
             .angleUnit(AngleUnit.RADIANS)
             .offset(new SparkFunOTOS.Pose2D(-5.5, -2.25, 0))
 //            .offset(myOffset) 2.25 5.5
-           .linearScalar(1.135446186) //Multiplier
-           .angularScalar(0.9915) ;//Multiplier
+            .linearScalar(1.035446186) //Multiplier
+            .angularScalar(0.997716667) ;//Multiplier
 
 
 
