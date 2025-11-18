@@ -102,6 +102,7 @@ public class Robot extends BaseHardware {
 
         limey.hardwareMap = this.hardwareMap;
         limey.telemetry = this.telemetry;
+        limey.setTelemetry(telemetry);
         limey.init();
 
     }

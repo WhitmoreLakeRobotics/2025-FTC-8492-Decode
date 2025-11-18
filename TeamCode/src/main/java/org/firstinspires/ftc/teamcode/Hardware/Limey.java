@@ -132,9 +132,42 @@ public class Limey extends BaseHardware {
             TagAngle = TagPose.getOrientation().getYaw();
             TagDistance = TagPose.getPosition().z;
 
+            //Rich telemetry when tag is visible
+            telemetry.addData("Limelight", "VALID TARGET");
+            telemetry.addData("ApirlTag ID", "%d", AprilTagID);
+            telemetry.addData("tx (horizontal offset", "%.2f\u00B0",tx);
+            telemetry.addData("ty (vertical offset)", "%.2f\u00B0", ty);
+            telemetry.addData("Distance to Tag", "%.2f in", TagDistance);
+            telemetry.addData("Yaw to Tag", "%.2f\u00B0", TagAngle);
+            telemetry.addData("Latency", "%.1f ms", result.getTargetingLatency());
+
+            //Optional: Bot pose if you're using 3D solve (robot pose in field space)
+            if (result.getBotpose() != null) {
+                Pose3D botPose = result.getBotpose();
+                telemetry.addData("Bot Pose (X,Y,Z)", "%.2f, %.2f, %.2f",
+                        botPose.getPosition().x, botPose.getPosition().y, botPose.getPosition().z);
+
+            }
+
         }else {
             AprilTagID = -1;
+            telemetry.addData("Limelight", "NO TARGET");
+            if (result == null) {
+                telemetry.addData("Status", "No data received");
+            }else{
+                telemetry.addData("Valid", result.isValid() ? "Yes" : "No");
+                telemetry.addData("Latency", "%.1f ms", result.getTargetingLatency());
+            }
         }
+
+        //Always show connection status
+       // status  = LemonLimey.getStatus();
+       // telemetry.addData("LL Conected", status.isconnected() ? "YES" : "NO");
+       // telemetry.addData("LL Temperature", "%.1f\u00B0C", status.getTemp());
+       // telemetry.addData("Pineline", LemonLimey.getActivePipeline());
+
+       // telemetry.update(); // Important! Forces immediate send
+
     }
 
     public  double getTy(){
@@ -156,7 +189,6 @@ public class Limey extends BaseHardware {
         return TagAngle;
     }
 
-
     public void doStop(){
         CurrentMode = Mode.STOP;
         cmdComplete = true;
@@ -172,19 +204,16 @@ public class Limey extends BaseHardware {
      * The stop method is optional. By default this method takes no action.
      */
 
+    public void setTelemetry(Telemetry LLtelemetry) {
+        this.telemetry = LLtelemetry;
+
+    }
+
 
 
 public void stop(){
 
 }
-
-
-
-
-
-
-
-
 
 public enum Mode{
     STOP
@@ -196,15 +225,12 @@ public enum Mode{
         PURPLET(6, 1, 1, 2, 7,1 ),
         UNKNOWNT(1, 1, 1,1,1,1);
 
-
-
         private int red;
         private int  redTol;
         private int blue;
         private int blueTol;
         private int green;
         private int greenTol;
-
 
         TargetType(int red,int redTol,int blue,int blueTol,int green,int greenTol) {
             this.red = red;

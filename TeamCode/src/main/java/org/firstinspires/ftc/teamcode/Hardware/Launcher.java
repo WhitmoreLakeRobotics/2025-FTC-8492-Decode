@@ -147,8 +147,8 @@ public class Launcher extends BaseHardware{
         bAtSpeed = false;
         }
        double voltage = hardwareMap.voltageSensor.get("Expansion Hub 3").getVoltage();{
-            telemetry.addData("Battery Voltage", voltage);
-            telemetry.update();
+           // telemetry.addData("Battery Voltage", voltage);
+           // telemetry.update();
         }
 
 

@@ -32,7 +32,7 @@ public class TransitionRoller extends BaseHardware{
     public final double minPower = -1.0;
     public final double maxPower = 1.0;
 
-    public static final double TRSpeed = 0.50;
+    public static final double TRSpeed = 0.55;
     public static final double stopSpeed = 0.0;
      static final double TRBack = -0.5;
     private ElapsedTime runtime = new ElapsedTime();
@@ -93,7 +93,7 @@ public class TransitionRoller extends BaseHardware{
      public void loop(){
 
          if (CurrentMode == Mode.Spin) {
-             if ((CommonLogic.inRange(getMotorRPM(TRM01), 1000, 1000))) {
+             if ((CommonLogic.inRange(getMotorRPM(TRM01), 1750, 1750))) {
                  if (runtime.milliseconds() >= 1000) {
                      cmdStop();
                  }
