@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
@@ -44,24 +45,24 @@ public class ppBlueNearTwoCycle extends OpMode {
     //configurables for pedro
     public static int xTol = 2;  // tolorance for x axis in inches
     public static int yTol = 2; // tolorance for y axis in inches
-    public static int wallScoreX = 55; //x value for scoring pose near wall
+    public static int wallScoreX = 58; //x value for scoring pose near wall
     public static int wallScoreY = 125; //y value for scoring pose near wall
-    public static double wallScoreH = Math.toRadians(170);// Heading value for scoring pose near wall
+    public static double wallScoreH = Math.toRadians(160);// Heading value for scoring pose near wall
     public static double velocityConstraint = 60;
     public static double breakingStrength = 1.0;
     public static double breakingStart = 1.0;
     // poses for pedropath
-    private final Pose startPose = new Pose(40, 135, Math.toRadians(180)); // Start Pose of our robot.
+    private final Pose startPose = new Pose(33, 135, Math.toRadians(180)); // Start Pose of our robot.
     //    private final Pose scorePose = new Pose(50, 75, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup1Pose = new Pose(47, 95, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup1aPose = new Pose(27, 95, Math.toRadians(180)); // (First Set) of Artifacts picked up.
+    private final Pose pickup1Pose = new Pose(50, 80, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1aPose = new Pose(22, 80, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
     private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-
+private Pose currentTargetPose = new Pose(0,0,0);
     private Path scorePreload;
-    private PathChain grabPickup1, grabPickup1a;//, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
+    private PathChain grabPickup1, grabPickup1a, scorePickup1; //, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
 
     // private Path grabPickup1a;
     public void buildPaths() {
@@ -84,11 +85,11 @@ public class ppBlueNearTwoCycle extends OpMode {
                 .build();
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        /*scorePickup1 = follower.pathBuilder()
+        scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup1Pose, scorePose))
                 .setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePose.getHeading())
                 .build();
-        */
+
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         /*grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup2Pose))
@@ -208,6 +209,7 @@ public class ppBlueNearTwoCycle extends OpMode {
             case _20_DriveToScore:
                 if (!follower.isBusy()) {
                     follower.followPath(scorePreload, true);
+                    currentTargetPose = scorePose;
                     // follower.update();
                     robot.launcher.cmdOuttouch();
                     currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
@@ -237,13 +239,16 @@ public class ppBlueNearTwoCycle extends OpMode {
             case _50_Pickup1:
                 if (!follower.isBusy()) {
                     follower.followPath(grabPickup1, 0.3, true);
+                    currentTargetPose = pickup1Pose;
                     currentStage = stage._55_Pickup1_Startintake;
                 }
                 break;
 
             case _55_Pickup1_Startintake:
                 if (!follower.isBusy()) {
-                    follower.followPath(grabPickup1a, true);
+                   // follower.followPath(grabPickup1a, true);
+                    currentTargetPose = pickup1aPose;
+                    robot.intake.cmdFoward();
                     currentStage = stage._60_Pickup1a;
                 }
                 break;
@@ -251,10 +256,29 @@ public class ppBlueNearTwoCycle extends OpMode {
             case _60_Pickup1a:
                 if (!follower.isBusy()) {
                     follower.followPath(grabPickup1a,0.3, true);
-                    currentStage = stage._500_End;
+                    currentStage = stage._70_ToScorePose;
                 }
                 break;
+            case _70_ToScorePose:
+                if(!follower.isBusy()){
+                    follower.followPath(scorePickup1,0.5,true);
+                    currentTargetPose = scorePose;
+                    robot.launcher.cmdOuttouch();
+                    currentStage = stage._80_ScorePickup1;
+                }
+                break;
+            case _80_ScorePickup1:
+                if (!follower.isBusy()) {
+                    if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
+                            CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
+                        robot.intake.cmdFoward();
+                        robot.transitionRoller.cmdSpin();
+                        robot.launcherBlocker.cmdUnBlock();
+                        runtime.reset();
+                        currentStage = stage._500_End;
+                    }}
 
+                break;
             case _500_End:
             { //do nothing let the time run out
 
@@ -272,7 +296,7 @@ public class ppBlueNearTwoCycle extends OpMode {
         telemetryMU.addData("x", follower.getPose().getX());
         telemetryMU.addData("y", follower.getPose().getY());
         telemetryMU.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
-        telemetryMU.addData("pose history", scorePose);
+        telemetryMU.addData("Current Target Pose", currentTargetPose);
         telemetryMU.addData("breakingStrength", pathConstraints.getBrakingStrength());
         telemetryMU.addData("breakstart ", pathConstraints.getBrakingStart());
         telemetryMU.addData("drivepid P", follower.constants.coefficientsDrivePIDF.P );
@@ -294,12 +318,13 @@ public class ppBlueNearTwoCycle extends OpMode {
         _unknown,
         _00_preStart,
         _20_DriveToScore,
-        _25_Turn,
         _30_Shoot1,
         _40_LauncherStop,
         _50_Pickup1,
         _55_Pickup1_Startintake,
         _60_Pickup1a,
+        _70_ToScorePose,
+        _80_ScorePickup1,
         _500_End
 
 

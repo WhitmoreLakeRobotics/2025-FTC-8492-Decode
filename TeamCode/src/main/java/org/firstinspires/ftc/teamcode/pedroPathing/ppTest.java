@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 @Configurable
-@Autonomous(name = "ppCSBlueNearTwoCycle", group = "Auton")
+@Autonomous(name = "ppCSBlueNearTwoCycle", group = "PP")
 // @Autonomous(...) is the other common choice
 
 public class ppTest extends OpMode {
@@ -52,20 +52,23 @@ public class ppTest extends OpMode {
     public static double wallScoreH = Math.toRadians(150);// Heading value for scoring pose near wall
    // poses for pedropath
     private final Pose startPose = new Pose(34, 135, Math.toRadians(180)); // Start Pose of our robot.
-    //    private final Pose scorePose = new Pose(50, 75, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+       private final Pose scorePose = new Pose(55, 135, Math.toRadians(180)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1Pose = new Pose(40, 83, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup2Pose = new Pose(24, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
 
-    private Path scorePreload;
+    private PathChain scorePreload;
     //private PathChain grabPickup1;//, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
     private PathChain grabPickup1;
     private Path grabPickup1a;
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
-        scorePreload = new Path(new BezierLine(startPose, scorePose));
-        scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
+       /* scorePreload = new Path(new BezierLine(startPose, scorePose));
+        scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());*/
+        scorePreload=follower.pathBuilder().addPath(new BezierLine(startPose,scorePose))
+                .setLinearHeadingInterpolation(startPose.getHeading(),startPose.getHeading())
+                .build();
         // scorePreload.setVelocityConstraint(60);
      //   scorePreload.setBrakingStrength(0.2);
      //    scorePreload.setBrakingStart(200);
@@ -219,7 +222,7 @@ public class ppTest extends OpMode {
 
             case _20_DriveBack:
                 if (!follower.isBusy()) {
-                    follower.followPath(scorePreload);
+                    follower.followPath(scorePreload, 0.4,true);
  //                   robot.launcher.cmdOuttouch();
                     currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
                 }

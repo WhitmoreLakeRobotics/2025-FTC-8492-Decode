@@ -21,11 +21,12 @@ public class CompBotConstants { public static FollowerConstants followerConstant
         .lateralZeroPowerAcceleration(-72.90409)
         .translationalPIDFCoefficients(new PIDFCoefficients(0.014,0,0.01,0.02))
         .headingPIDFCoefficients(new PIDFCoefficients(1.6,0.003,0.09,0.025))
-        .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.007, 0,0.0000,0.6,0.12))
+     //   .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.007, 0,0.0000,0.6,0.12))
+        .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.006, 0,0.0000,0.6,0.12))
 
         ;
     public static MecanumConstants driveConstants = new MecanumConstants()
-            .maxPower(1) //this should be 1 for tuning
+            .maxPower(0.3) //this should be 1 for tuning
             .rightFrontMotorName("RDM1")
             .rightRearMotorName("RDM2")
             .leftRearMotorName("LDM2")
@@ -46,7 +47,8 @@ public class CompBotConstants { public static FollowerConstants followerConstant
             .linearScalar(1.1211) //Multiplier
             .angularScalar(0.9915) ;//Multiplier
 
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 50, 0.9, 1.3);
+//    public static PathConstraints pathConstraints = new PathConstraints(0.99, 50, 0.9, 1.3);
+    public static PathConstraints pathConstraints = new PathConstraints(0.99, 50, 1.5, 0.15); //11/18 3:22
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
