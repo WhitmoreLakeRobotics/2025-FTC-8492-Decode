@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import static org.firstinspires.ftc.teamcode.pedroPathing.CompBotConstants.pathConstraints;
+
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
@@ -270,10 +272,12 @@ public class ppBlueNearTwoCycle extends OpMode {
         telemetryMU.addData("x", follower.getPose().getX());
         telemetryMU.addData("y", follower.getPose().getY());
         telemetryMU.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
-        telemetryMU.addData("y", follower.getPose().getY());
-        telemetryMU.addData("heading", follower.getPose().getHeading());
-        telemetryMU.addData("pose", follower.poseTracker);
         telemetryMU.addData("pose history", scorePose);
+        telemetryMU.addData("breakingStrength", pathConstraints.getBrakingStrength());
+        telemetryMU.addData("breakstart ", pathConstraints.getBrakingStart());
+        telemetryMU.addData("drivepid P", follower.constants.coefficientsDrivePIDF.P );
+        telemetryMU.addData("drivepid D", follower.constants.coefficientsDrivePIDF.D );
+        telemetryMU.addData("drivepid F", follower.constants.coefficientsDrivePIDF.F );
 
         telemetryMU.update();
         Drawing.drawDebug(follower);

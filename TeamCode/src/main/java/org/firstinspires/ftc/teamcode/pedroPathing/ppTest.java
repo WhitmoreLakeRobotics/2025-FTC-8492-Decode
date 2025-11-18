@@ -40,7 +40,8 @@ public class ppTest extends OpMode {
 
     private String thisUpdate = "11";
     private TelemetryManager telemetryMU;
-    private Follower follower;
+   /* private Follower follower;*/
+   public static Follower follower;
     private Timer pathTimer, actionTimer, opmodeTimer;
     private ElapsedTime pTimer;// this is for pausing at the end of a path
     //configurables for pedro
@@ -50,7 +51,7 @@ public class ppTest extends OpMode {
     public static int wallScoreY = 125; //y value for scoring pose near wall
     public static double wallScoreH = Math.toRadians(150);// Heading value for scoring pose near wall
    // poses for pedropath
-    private final Pose startPose = new Pose(40, 135, Math.toRadians(180)); // Start Pose of our robot.
+    private final Pose startPose = new Pose(34, 135, Math.toRadians(180)); // Start Pose of our robot.
     //    private final Pose scorePose = new Pose(50, 75, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1Pose = new Pose(40, 83, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
@@ -261,9 +262,6 @@ public class ppTest extends OpMode {
         telemetryMU.addData("x", follower.getPose().getX());
         telemetryMU.addData("y", follower.getPose().getY());
         telemetryMU.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
-        // telemetryMU.addData("path", follower.getCurrentPath());
-        telemetryMU.addData("y", follower.getPose().getY());
-        telemetryMU.addData("heading", follower.getPose().getHeading());
         telemetryMU.addData("ScorePose ", scorePose);
         telemetryMU.addData("breakingStrength", pathConstraints.getBrakingStrength());
         telemetryMU.addData("breakstart ", pathConstraints.getBrakingStart());

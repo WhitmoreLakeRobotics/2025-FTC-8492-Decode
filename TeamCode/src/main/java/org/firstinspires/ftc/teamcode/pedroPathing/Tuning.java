@@ -898,7 +898,7 @@ class DriveTuner extends OpMode {
     public void start() {
       //  follower.deactivateAllPIDFs();
         follower.activateDrive();
-        
+  /* Orginal
         forwards = follower.pathBuilder()
                 .setGlobalDeceleration()
                 .addPath(new BezierLine(new Pose(0,0,0), new Pose(DISTANCE,0)))
@@ -910,7 +910,19 @@ class DriveTuner extends OpMode {
                 .addPath(new BezierLine(new Pose(DISTANCE,0,0), new Pose(0,0)))
                 .setConstantHeadingInterpolation(0)
                 .build();
+*/
 
+        forwards = follower.pathBuilder()
+                .setGlobalDeceleration()
+                .addPath(new BezierLine(new Pose(34,135,180), new Pose(65, 125, Math.toRadians(150))))
+                .setConstantHeadingInterpolation(0)
+                .build();
+
+        backwards = follower.pathBuilder()
+                .setGlobalDeceleration()
+                .addPath(new BezierLine(new Pose(65, 125, Math.toRadians(150)), new Pose(34,135,180)))
+                .setConstantHeadingInterpolation(0)
+                .build();
         follower.followPath(forwards);
     }
 
@@ -978,9 +990,14 @@ class Line extends OpMode {
     @Override
     public void start() {
         follower.activateAllPIDFs();
-        forwards = new Path(new BezierLine(new Pose(0,0), new Pose(DISTANCE,0)));
+    /*    forwards = new Path(new BezierLine(new Pose(0,0), new Pose(DISTANCE,0)));
         forwards.setConstantHeadingInterpolation(0);
         backwards = new Path(new BezierLine(new Pose(DISTANCE,0), new Pose(0,0)));
+        backwards.setConstantHeadingInterpolation(0);
+        follower.followPath(forwards);*/
+        forwards = new Path(new BezierLine(new Pose(34,135,Math.toRadians(180)), new Pose(65,125,Math.toRadians(150))));
+        forwards.setConstantHeadingInterpolation(0);
+        backwards = new Path(new BezierLine(new Pose(65,125,Math.toRadians(150)), new Pose(34,135,Math.toRadians(180))));
         backwards.setConstantHeadingInterpolation(0);
         follower.followPath(forwards);
     }
