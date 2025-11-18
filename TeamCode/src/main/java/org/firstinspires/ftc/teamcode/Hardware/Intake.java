@@ -44,7 +44,7 @@ public class Intake extends BaseHardware{
     public final double maxPower = 1.0;
 
     public static final double stopSpeed = 0;
-    public static final double inSpeed = -0.95;  // use to be 0.5,then 0.75;
+    public static final double inSpeed = -1;  // use to be 0.5,then 0.75;
     public static final double outSpeed = 0.5;
     public static final double autoSpeed = -1.0;
   //  public static final double snailoutSpeed = -0.25;
@@ -108,7 +108,7 @@ public class Intake extends BaseHardware{
         }
 */
         if (CurrentMode == Mode.NTKforward) {
-            if ((CommonLogic.inRange(getMotorRPM(NTKM01), 1000, 1000))) {
+            if ((CommonLogic.inRange(getMotorRPM(NTKM01), 750, 750))) {
                 if (runtime.milliseconds() >= 1000) {
                     cmdStop();
                 }
