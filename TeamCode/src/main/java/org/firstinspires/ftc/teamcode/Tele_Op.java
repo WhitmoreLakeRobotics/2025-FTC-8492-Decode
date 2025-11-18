@@ -633,7 +633,7 @@ public class Tele_Op extends OpMode {
         if(x){
             return 135;
         }else{
-            return --56;
+            return -56;
         }
     }
     else if(x){
