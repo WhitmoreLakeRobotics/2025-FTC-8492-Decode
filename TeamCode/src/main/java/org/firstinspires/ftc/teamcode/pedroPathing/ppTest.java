@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import static org.firstinspires.ftc.teamcode.pedroPathing.CompBotConstants.pathConstraints;
+
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
@@ -8,6 +10,7 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
+import com.pedropathing.paths.PathConstraints;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
@@ -46,10 +49,7 @@ public class ppTest extends OpMode {
     public static int wallScoreX = 65; //x value for scoring pose near wall
     public static int wallScoreY = 125; //y value for scoring pose near wall
     public static double wallScoreH = Math.toRadians(150);// Heading value for scoring pose near wall
-    public static double velocityConstraint = 60;
-    public static double breakingStrength = 1.0;
-    public static double breakingStart = 1.0;
-    // poses for pedropath
+   // poses for pedropath
     private final Pose startPose = new Pose(40, 135, Math.toRadians(180)); // Start Pose of our robot.
     //    private final Pose scorePose = new Pose(50, 75, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
@@ -66,8 +66,8 @@ public class ppTest extends OpMode {
         scorePreload = new Path(new BezierLine(startPose, scorePose));
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
         // scorePreload.setVelocityConstraint(60);
-        //scorePreload.setBrakingStrength(1);
-        // scorePreload.setBrakingStart(1);
+     //   scorePreload.setBrakingStrength(0.2);
+     //    scorePreload.setBrakingStart(200);
 
     /* Here is an example for Constant Interpolation
     scorePreload.setConstantInterpolation(startPose.getHeading()); */
@@ -147,6 +147,7 @@ public class ppTest extends OpMode {
         pTimer = new ElapsedTime();
 
         follower = CompBotConstants.createFollower(hardwareMap);
+        follower.setConstraints(pathConstraints);
         buildPaths();
         follower.setStartingPose(startPose);
         follower.update();
@@ -166,6 +167,8 @@ public class ppTest extends OpMode {
         telemetryMU.addData("heading", follower.getPose().getHeading());
         telemetryMU.addData("pose", follower.poseTracker);
         telemetryMU.addData("pose history", scorePose);
+        telemetryMU.addData("breakingStrength", pathConstraints.getBrakingStrength());
+
 
         telemetryMU.update();
         Drawing.drawDebug(follower);
@@ -262,6 +265,10 @@ public class ppTest extends OpMode {
         telemetryMU.addData("y", follower.getPose().getY());
         telemetryMU.addData("heading", follower.getPose().getHeading());
         telemetryMU.addData("ScorePose ", scorePose);
+        telemetryMU.addData("breakingStrength", pathConstraints.getBrakingStrength());
+        telemetryMU.addData("breakstart ", pathConstraints.getBrakingStart());
+        telemetryMU.addData("drivepid P", follower.constants.coefficientsDrivePIDF.P );
+
 
         telemetryMU.update();
         Drawing.drawDebug(follower);
