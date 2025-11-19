@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 @Configurable
-@Autonomous(name = "ppBlueNearTwoCycle", group = "Auton")
+@Autonomous(name = "ppBlueNearTwoCycle", group = "PP")
 // @Autonomous(...) is the other common choice
 
 public class ppBlueNearTwoCycle extends OpMode {
@@ -53,8 +53,8 @@ public class ppBlueNearTwoCycle extends OpMode {
     public static double breakingStart = 1.0;
     // poses for pedropath
     private final Pose startPose = new Pose(33, 135, Math.toRadians(180)); // Start Pose of our robot.
-    //    private final Pose scorePose = new Pose(50, 75, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(50, 90, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1Pose = new Pose(50, 80, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup1aPose = new Pose(22, 80, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
@@ -80,8 +80,8 @@ private Pose currentTargetPose = new Pose(0,0,0);
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
                 .build();
         grabPickup1a = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup1aPose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
+                .addPath(new BezierLine(pickup1Pose, pickup1aPose))
+                .setLinearHeadingInterpolation(pickup1Pose.getHeading(), pickup1aPose.getHeading())
                 .build();
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -212,6 +212,11 @@ private Pose currentTargetPose = new Pose(0,0,0);
                     currentTargetPose = scorePose;
                     // follower.update();
                     robot.launcher.cmdOuttouch();
+                    currentStage = stage._25_checkDrivetoscore;
+                }
+            case _25_checkDrivetoscore:
+                if (!follower.isBusy()) {
+                    telemetryMU.addData("Drive Complete?", follower.isBusy());
                     currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
                 }
                 break;
@@ -318,6 +323,7 @@ private Pose currentTargetPose = new Pose(0,0,0);
         _unknown,
         _00_preStart,
         _20_DriveToScore,
+        _25_checkDrivetoscore,
         _30_Shoot1,
         _40_LauncherStop,
         _50_Pickup1,

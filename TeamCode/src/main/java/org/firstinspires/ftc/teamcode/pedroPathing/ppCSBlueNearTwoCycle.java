@@ -10,13 +10,11 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
-import com.pedropathing.paths.PathConstraints;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
@@ -24,7 +22,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 @Autonomous(name = "ppCSBlueNearTwoCycle", group = "PP")
 // @Autonomous(...) is the other common choice
 
-public class ppTest extends OpMode {
+public class ppCSBlueNearTwoCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -55,7 +53,7 @@ public class ppTest extends OpMode {
        private final Pose scorePose = new Pose(55, 135, Math.toRadians(180)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1Pose = new Pose(40, 83, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup2Pose = new Pose(24, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1aPose = new Pose(24, 83, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
 
     private PathChain scorePreload;
@@ -76,8 +74,8 @@ public class ppTest extends OpMode {
     /* Here is an example for Constant Interpolation
     scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
-        grabPickup1a = new Path(new BezierLine(scorePose, pickup1Pose));
-        grabPickup1a.setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading());
+        grabPickup1a = new Path(new BezierLine(pickup1Pose, pickup1aPose));
+        grabPickup1a.setLinearHeadingInterpolation(pickup1Pose.getHeading(), pickup1aPose.getHeading());
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         /*grabPickup1 = follower.pathBuilder()
