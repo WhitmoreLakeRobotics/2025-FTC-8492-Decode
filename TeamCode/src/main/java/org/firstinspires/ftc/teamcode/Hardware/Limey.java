@@ -127,7 +127,7 @@ public class Limey extends BaseHardware {
             AprilTagID = result.getFiducialResults().get(0).getFiducialId();
             ty = result.getFiducialResults().get(0).getTargetYDegrees();
             tx = result.getFiducialResults().get(0).getTargetXDegrees();
-            //corners = result.getFiducialResults().get(0).getTargetCorners();
+            corners = result.getFiducialResults().get(0).getTargetCorners();
             TagPose = result.getFiducialResults().get(0).getTargetPoseCameraSpace();
             TagAngle = TagPose.getOrientation().getYaw();
             TagDistance = TagPose.getPosition().z;
@@ -137,7 +137,7 @@ public class Limey extends BaseHardware {
             telemetry.addData("ApirlTag ID", "%d", AprilTagID);
             telemetry.addData("tx (horizontal offset", "%.2f\u00B0",tx);
             telemetry.addData("ty (vertical offset)", "%.2f\u00B0", ty);
-            telemetry.addData("Distance to Tag", "%.2f in", TagDistance);
+            telemetry.addData("Distance to Tag", "%.2f ft", TagDistance);
             telemetry.addData("Yaw to Tag", "%.2f\u00B0", TagAngle);
             telemetry.addData("Latency", "%.1f ms", result.getTargetingLatency());
 

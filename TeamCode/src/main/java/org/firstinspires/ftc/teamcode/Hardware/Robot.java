@@ -15,11 +15,11 @@ public class Robot extends BaseHardware {
     private static final Logger log = LoggerFactory.getLogger(Robot.class);
     public DriveTrain driveTrain = new DriveTrain();
     //public Lighting lighting = new Lighting();
-   // public Sensors sensors = new Sensors();
+    // public Sensors sensors = new Sensors();
     public Intake intake = new Intake();
     public Launcher launcher = new Launcher();
     //public HuskyLens huskyLens = new HuskyLens();
-   // public Spindexer spindexer = new Spindexer();
+    // public Spindexer spindexer = new Spindexer();
     //public Flickiteer flickiteer = new Flickiteer();
     public TransitionRoller transitionRoller = new TransitionRoller();
     public LauncherBlocker launcherBlocker = new LauncherBlocker();
@@ -61,13 +61,13 @@ public class Robot extends BaseHardware {
         driveTrain.init();
 
 
-         //  lighting.hardwareMap = this.hardwareMap;
+        //  lighting.hardwareMap = this.hardwareMap;
         //lighting.telemetry = this.telemetry;
-       // lighting.init();
+        // lighting.init();
 
-       // sensors.hardwareMap = this.hardwareMap;
+        // sensors.hardwareMap = this.hardwareMap;
         // sensors.telemetry = this.telemetry;
-       // sensors.init();
+        // sensors.init();
 
         intake.hardwareMap = this.hardwareMap;
         intake.telemetry = this.telemetry;
@@ -96,9 +96,9 @@ public class Robot extends BaseHardware {
         transitionRoller.telemetry = this.telemetry;
         transitionRoller.init();
 
-       // huskyLens.hardwareMap = this.hardwareMap;
-       // huskyLens.telemetry = this.telemetry;
-       // huskyLens.init();
+        // huskyLens.hardwareMap = this.hardwareMap;
+        // huskyLens.telemetry = this.telemetry;
+        // huskyLens.init();
 
         limey.hardwareMap = this.hardwareMap;
         limey.telemetry = this.telemetry;
@@ -111,26 +111,26 @@ public class Robot extends BaseHardware {
     public void init_loop() {
         driveTrain.init_loop();
         //lighting.init_loop();
-       // sensors.init_loop();
+        // sensors.init_loop();
         intake.init_loop();
         launcher.init_loop();
-      //  spindexer.init_loop();
-       // flickiteer.init_loop();
+        //  spindexer.init_loop();
+        // flickiteer.init_loop();
         launcherBlocker.init_loop();
         transitionRoller.init_loop();
         //huskyLens.init_loop();
-       // Limelight3A.init_loop();
+        // Limelight3A.init_loop();
         limey.init_loop();
     }
 
     @Override
     public void start() {
         driveTrain.start();
-       // lighting.start();
-       // sensors.start();
+        // lighting.start();
+        // sensors.start();
         intake.start();
         launcher.start();
-      //  spindexer.start();
+        //  spindexer.start();
         //flickiteer.start();
         launcherBlocker.start();
         transitionRoller.start();
@@ -139,21 +139,21 @@ public class Robot extends BaseHardware {
         limey.start();
 
 
-       // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 
     @Override
     public void loop() {
         driveTrain.loop();
-       //. lighting.loop();
-       // sensors.loop();
+        //. lighting.loop();
+        // sensors.loop();
         intake.loop();
         launcher.loop();
-       // spindexer.loop();
+        // spindexer.loop();
         //flickiteer.loop();
         launcherBlocker.loop();
         transitionRoller.loop();
-       // huskyLens.loop();
+        // huskyLens.loop();
         limey.loop();
 
 
@@ -169,7 +169,7 @@ public class Robot extends BaseHardware {
         //flickiteer.loop();
         launcherBlocker.loop();
         transitionRoller.loop();
-       // huskyLens.loop();
+        // huskyLens.loop();
         limey.loop();
 
 
@@ -179,22 +179,22 @@ public class Robot extends BaseHardware {
     @Override
     public void stop() {
         driveTrain.stop();
-       // lighting.stop();
-       // sensors.stop();
+        // lighting.stop();
+        // sensors.stop();
         intake.stop();
         launcher.stop();
-      //  spindexer.stop();
-       // flickiteer.stop();
+        //  spindexer.stop();
+        // flickiteer.stop();
         launcherBlocker.stop();
         transitionRoller.stop();
         //huskyLens.stop();
         limey.stop();
-       // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
+        // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 
-      public void safteyCheck(){
+    public void safteyCheck() {
         //when called comfirm flicker is in safe position before spindexing.
-      }
+    }
 /*
     public void Cksem (){
         if(bCkSenors){
@@ -231,67 +231,78 @@ public void NoLaunch(){
         launcher.cmdStop();
         */
 
-public double targetDistanceCalc(){
+    public double targetDistanceCalc() {
 
- double targetOffsetAngle_Vertical = limey.getTy();
+        double targetOffsetAngle_Vertical = limey.getTy();
 
-    // how many degrees back is your limelight rotated from perfectly vertical?
-    double limelightMountAngleDegrees = 14.5;
+        // how many degrees back is your limelight rotated from perfectly vertical?
+        double limelightMountAngleDegrees = 14.5;
 
-    // distance from the center of the Limelight lens to the floor
-    double limelightLensHeightInches = 14.0;
+        // distance from the center of the Limelight lens to the floor
+        double limelightLensHeightInches = 14.0;
 
-    // distance from the target to the floor
-    double goalHeightInches = 29.5;
+        // distance from the target to the floor
+        double goalHeightInches = 29.5;
 
-    double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
-    double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
+        double angleToGoalDegrees = limelightMountAngleDegrees + targetOffsetAngle_Vertical;
+        double angleToGoalRadians = angleToGoalDegrees * (3.14159 / 180.0);
 
-    //calculate distance
-    double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
-    double distanceFromRobotToGoalInches = distanceFromLimelightToGoalInches + 0;
-   return distanceFromRobotToGoalInches;
-
-
-}
-
-public double targetAngleCalc() {
-
-    double currentTagId = limey.getTagID();
-    if (currentTagId != -1) {
-        double targetOffsetAngle_Horizontal = limey.getTx();
-
-
-        double tagAngle = limey.getTagAngle();
-        double targetDistanceCalc = targetDistanceCalc();
-        double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2 * (targetDistanceCalc * targetPointFromTag * Math.cos(tagAngle)));
-
-        double compensationAngle = 180 - tagAngle - (Math.asin(Math.sin(tagAngle) * targetDistanceCalc) / hypotenuse);
-        double defaultAngle = 25;
-
-        if (driveTrain.getCurrentHeading() >= 90) {
-            return defaultAngle;
-        } else if (driveTrain.getCurrentHeading() <= -90) {
-            return -defaultAngle;
-        } else if (currentTagId == 24) {
-            //compensate left
-            return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal - compensationAngle;
-        } else if (currentTagId == 20) {
-            //compensate right
-            return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal + compensationAngle;
-        } else
-            return driveTrain.getCurrentHeading();
+        //calculate distance
+        double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
+        double distanceFromRobotToGoalInches = distanceFromLimelightToGoalInches + 0;
+        return distanceFromRobotToGoalInches;
 
 
     }
-    else
-    {
-        return 75;
+
+    public double targetAngleCalc() {
+
+        double currentTagId = limey.getTagID();
+        if (currentTagId != -1) {
+            double targetOffsetAngle_Horizontal = limey.getTx();
+
+
+            double tagAngle = limey.getTagAngle();
+            double targetDistanceCalc = targetDistanceCalc();
+            double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2 * (targetDistanceCalc * targetPointFromTag * Math.cos(Math.toRadians(tagAngle))));
+
+            double compensationAngle = 180 - tagAngle - Math.toDegrees(Math.asin(Math.sin(Math.toRadians(tagAngle)) * targetDistanceCalc) / hypotenuse);
+
+
+
+            // if (driveTrain.getCurrentHeading() >= 90) {
+            //   return defaultAngle;
+            //} else if (driveTrain.getCurrentHeading() <= -90) {
+            //  return -defaultAngle;
+            if (currentTagId == 24) {
+                //compensate left
+                return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal - compensationAngle;
+            } else if (currentTagId == 20) {
+                //compensate right
+                return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal + compensationAngle;
+            } else {
+                return driveTrain.getCurrentHeading();
+            }
+        }
+        else{
+            double defaultAngle = 25;
+            if (driveTrain.getCurrentHeading() >= 90) {
+                return defaultAngle;
+            } else if (driveTrain.getCurrentHeading() <= -90) {
+                return -defaultAngle;
+
+            }
+        }
+        return driveTrain.getCurrentHeading();
     }
-}
+
+    }
 
 
-}
+
+
+
+
 
 
 
