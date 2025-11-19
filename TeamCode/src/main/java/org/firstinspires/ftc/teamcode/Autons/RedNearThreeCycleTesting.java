@@ -164,7 +164,7 @@ public class RedNearThreeCycleTesting extends OpMode {
 
             case _80_TurnToLaunch1:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.cmdTurn(45,0.30);
+                    robot.driveTrain.cmdTurn(-45,0.30);
                     robot.intake.cmdStop();
                     robot.transitionRoller.cmdStop();
                     robot.launcher.cmdOutnear();
@@ -207,7 +207,7 @@ public class RedNearThreeCycleTesting extends OpMode {
                 break;
             case _110_Left2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(20,90,0.35,0);
+                    robot.driveTrain.CmdDrive(22,90,0.35,0);
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     currentStage = stage._120_Forward3;
@@ -216,14 +216,14 @@ public class RedNearThreeCycleTesting extends OpMode {
                 break;
             case _120_Forward3:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(18,0,0.35,0);
+                    robot.driveTrain.CmdDrive(27,0,0.35,0);
                     currentStage = stage._130_Backwards2;
                 }
 
                 break;
             case _130_Backwards2:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(24,180,0.35,0);
+                    robot.driveTrain.CmdDrive(30,180,0.35,0);
                     currentStage = stage._140_Right1;
                 }
 
@@ -240,7 +240,7 @@ public class RedNearThreeCycleTesting extends OpMode {
                 break;
             case _150_TurnToLaunch2:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.cmdTurn(45,0.30);
+                    robot.driveTrain.cmdTurn(-45,0.30);
                     runtime.reset();
                     currentStage = stage._160_Shoot3;
                 }
@@ -271,16 +271,18 @@ public class RedNearThreeCycleTesting extends OpMode {
                 break;
             case _180_Right2:
                 if (runtime.milliseconds() >=100)  {
-                   robot.driveTrain.CmdDrive(16,90,0.35,-45);
-                    currentStage = stage._190_Backwards3;
+                   robot.driveTrain.CmdDrive(20,90,0.35,0);
+                    currentStage = stage._200_End;
                 }
-
+/*
                 break;
             case _190_Backwards3:
                 if (robot.driveTrain.getCmdComplete())  {
                     robot.driveTrain.CmdDrive(12,180,0.35,-45);
                     currentStage = stage._200_End;
                 }
+
+ */
 
                 break;
             case _200_End:

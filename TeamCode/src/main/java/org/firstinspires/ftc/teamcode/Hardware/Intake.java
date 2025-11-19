@@ -36,7 +36,7 @@ public class Intake extends BaseHardware{
      * multiple op modes have the same name, only one will be available.
      */
     private DcMotorEx NTKM01;
-    public LED PeaLight;
+    //public LED PeaLight;
 
     public Mode CurrentMode;
 
@@ -135,19 +135,19 @@ public class Intake extends BaseHardware{
     public void cmdBackward(){
         CurrentMode = Mode.NTKbackward;
         NTKM01.setPower (outSpeed);
-        PeaLight.enableLight(false);
+        //PeaLight.enableLight(false);
     }
     public void cmdFoward(){
         CurrentMode = Mode.NTKforward;
         NTKM01.setPower (inSpeed);
         runtime.reset();
-        PeaLight.enableLight(false);
+        //PeaLight.enableLight(false);
     }
 
     public void cmdStop(){
         CurrentMode = Mode.NTKstop;
         NTKM01.setPower (stopSpeed);
-        PeaLight.enableLight(true);
+        //PeaLight.enableLight(true);
 
     }
 
