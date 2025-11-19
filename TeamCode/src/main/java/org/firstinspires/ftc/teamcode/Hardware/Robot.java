@@ -264,9 +264,9 @@ public void NoLaunch(){
 
             double tagAngle = limey.getTagAngle();
             double targetDistanceCalc = targetDistanceCalc();
-            double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2 * (targetDistanceCalc * targetPointFromTag * Math.cos(tagAngle)));
+            double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2 * (targetDistanceCalc * targetPointFromTag * Math.cos(Math.toRadians(tagAngle))));
 
-            double compensationAngle = 180 - tagAngle - (Math.asin(Math.sin(tagAngle) * targetDistanceCalc) / hypotenuse);
+            double compensationAngle = 180 - tagAngle - Math.toDegrees(Math.asin(Math.sin(Math.toRadians(tagAngle)) * targetDistanceCalc) / hypotenuse);
 
 
 
@@ -276,10 +276,10 @@ public void NoLaunch(){
             //  return -defaultAngle;
             if (currentTagId == 24) {
                 //compensate left
-                return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal;//- compensationAngle;
+                return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal - compensationAngle;
             } else if (currentTagId == 20) {
                 //compensate right
-                return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal;// + compensationAngle;
+                return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal + compensationAngle;
             } else {
                 return driveTrain.getCurrentHeading();
             }
