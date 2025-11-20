@@ -26,7 +26,7 @@ public class CompBotConstants { public static FollowerConstants followerConstant
 
         ;
     public static MecanumConstants driveConstants = new MecanumConstants()
-            .maxPower(0.3) //this should be 1 for tuning
+            .maxPower(0.5) //this should be 1 for tuning
             .rightFrontMotorName("RDM1")
             .rightRearMotorName("RDM2")
             .leftRearMotorName("LDM2")
@@ -48,7 +48,10 @@ public class CompBotConstants { public static FollowerConstants followerConstant
             .angularScalar(0.9915) ;//Multiplier
 
 //    public static PathConstraints pathConstraints = new PathConstraints(0.99, 50, 0.9, 1.3);
-    public static PathConstraints pathConstraints = new PathConstraints(0.99, 50, 1.5, 0.15); //11/18 3:22
+//   public static PathConstraints pathConstraints = new PathConstraints(0.99, 50, 1.5, 0.15); //11/18 3:22
+    public static PathConstraints pathConstraints = new PathConstraints(0.98, 50, 1.4, 0.55);// 11/20 2:30
+//public static PathConstraints pathconstraints = new PathConstraints(0.97, 0.1, 50,0.09, 1.4, 1,0.2);
+
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)

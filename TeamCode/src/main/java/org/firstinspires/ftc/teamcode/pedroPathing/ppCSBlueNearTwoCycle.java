@@ -55,6 +55,7 @@ public class ppCSBlueNearTwoCycle extends OpMode {
     private final Pose pickup1Pose = new Pose(40, 83, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup1aPose = new Pose(24, 83, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    private Pose currentTargetPose = new Pose(0,0,0);
 
     private PathChain scorePreload;
     //private PathChain grabPickup1;//, scorePickup1, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
@@ -280,7 +281,32 @@ public class ppCSBlueNearTwoCycle extends OpMode {
     public void stop () {
         robot.stop();
     }
+    private void updateTelemetry() {
+        telemetryMU.addData("Current Stage", currentStage);
+        telemetryMU.addData("x", follower.getPose().getX());
+        telemetryMU.addData("y", follower.getPose().getY());
+        telemetryMU.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
+        telemetryMU.addData("Current Target Pose", currentTargetPose);
+        telemetryMU.addData("breakingStrength", pathConstraints.getBrakingStrength());
+        telemetryMU.addData("breakstart ", pathConstraints.getBrakingStart());
+        telemetryMU.addData("drivepid P", follower.constants.coefficientsDrivePIDF.P );
+        telemetryMU.addData("drivepid D", follower.constants.coefficientsDrivePIDF.D );
+        telemetryMU.addData("drivepid F", follower.constants.coefficientsDrivePIDF.F );
+        telemetryMU.addData("CONSTRAINTS", "");
+        telemetryMU.addData("Tvalue (% complete)", follower.pathConstraints.getTValueConstraint());
+        telemetryMU.addData("Current tValue", follower.getCurrentTValue());
+        telemetryMU.addData("Velocity Constraint", follower.pathConstraints.getVelocityConstraint());
+        telemetryMU.addData("Current Velocity", follower.getVelocity());
+        telemetryMU.addData("Trans constraint", follower.pathConstraints.getTranslationalConstraint());
+        telemetryMU.addData("current Trans Error", follower.getTranslationalError());
+        telemetryMU.addData("Heading Constraint", follower.pathConstraints.getHeadingConstraint());
+        telemetryMU.addData("current Heading error", follower.getHeadingError());
+        telemetryMU.addData("Timeout Constraint", follower.pathConstraints.getTimeoutConstraint());
 
+
+        telemetryMU.update();
+        Drawing.drawDebug(follower);
+    }
     private enum stage {
         _unknown,
         _00_preStart,

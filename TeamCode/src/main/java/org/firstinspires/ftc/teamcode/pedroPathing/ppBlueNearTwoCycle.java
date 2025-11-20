@@ -53,7 +53,7 @@ public class ppBlueNearTwoCycle extends OpMode {
     public static double breakingStart = 1.0;
     // poses for pedropath
     private final Pose startPose = new Pose(33, 135, Math.toRadians(180)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(50, 90, Math.toRadians(135)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(50, 110, Math.toRadians(140)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1Pose = new Pose(50, 80, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup1aPose = new Pose(22, 80, Math.toRadians(180)); // (First Set) of Artifacts picked up.
@@ -69,6 +69,7 @@ private Pose currentTargetPose = new Pose(0,0,0);
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         scorePreload = new Path(new BezierLine(startPose, scorePose));
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
+        scorePreload.setHeadingConstraint(0.1);
 
     /* Here is an example for Constant Interpolation
     scorePreload.setConstantInterpolation(startPose.getHeading()); */
@@ -87,7 +88,7 @@ private Pose currentTargetPose = new Pose(0,0,0);
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup1aPose, scorePose))
-                .setLinearHeadingInterpolation(pickup1aPose.getHeading(), scorePose.getHeading())
+                .setLinearHeadingInterpolation(pickup1aPose.getHeading(), scorePose.getHeading()).setHeadingConstraint(0.1)
                 .build();
 
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -272,16 +273,23 @@ private Pose currentTargetPose = new Pose(0,0,0);
                     currentStage = stage._80_ScorePickup1;
                 }
                 break;
+            case _75_chkDrive_to_score_P1:
+                if (!follower.isBusy()) {
+                    telemetryMU.addData("Drive Complete?", follower.isBusy());
+                    currentStage = stage._80_ScorePickup1; // we don't need to do the turn since heading is adjusted in path
+                }
+                break;
+
             case _80_ScorePickup1:
                 if (!follower.isBusy()) {
-                    if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
-                            CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
+ //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
+ //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
                         runtime.reset();
                         currentStage = stage._500_End;
-                    }}
+                    }
 
                 break;
             case _500_End:
@@ -307,6 +315,14 @@ private Pose currentTargetPose = new Pose(0,0,0);
         telemetryMU.addData("drivepid P", follower.constants.coefficientsDrivePIDF.P );
         telemetryMU.addData("drivepid D", follower.constants.coefficientsDrivePIDF.D );
         telemetryMU.addData("drivepid F", follower.constants.coefficientsDrivePIDF.F );
+        telemetryMU.addData("CONSTRAINTS", "");
+        telemetryMU.addData("Tvalue (% complete)", follower.pathConstraints.getTValueConstraint());
+        telemetryMU.addData("Current tValue", follower.getCurrentTValue());
+        telemetryMU.addData("Velocity Constraint", follower.pathConstraints.getVelocityConstraint());
+        telemetryMU.addData("Current Velocity", follower.getVelocity());
+        telemetryMU.addData("Trans constraint", follower.pathConstraints.getTranslationalConstraint());
+       // telemetryMU.addData("current Trans", follower.getTranslationalError());
+        telemetryMU.addData("Heading Constraint", follower.pathConstraints.getHeadingConstraint());
 
         telemetryMU.update();
         Drawing.drawDebug(follower);
@@ -330,6 +346,7 @@ private Pose currentTargetPose = new Pose(0,0,0);
         _55_Pickup1_Startintake,
         _60_Pickup1a,
         _70_ToScorePose,
+        _75_chkDrive_to_score_P1,
         _80_ScorePickup1,
         _500_End
 
