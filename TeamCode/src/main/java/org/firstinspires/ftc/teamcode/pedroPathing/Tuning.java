@@ -978,16 +978,16 @@ class Line extends OpMode {
     @Override
     public void start() {
         follower.activateAllPIDFs();
-    /*    forwards = new Path(new BezierLine(new Pose(0,0), new Pose(DISTANCE,0)));
+       forwards = new Path(new BezierLine(new Pose(0,0), new Pose(DISTANCE,0)));
         forwards.setConstantHeadingInterpolation(0);
         backwards = new Path(new BezierLine(new Pose(DISTANCE,0), new Pose(0,0)));
         backwards.setConstantHeadingInterpolation(0);
-        follower.followPath(forwards);*/
-        forwards = new Path(new BezierLine(new Pose(34,135,Math.toRadians(180)), new Pose(65,125,Math.toRadians(150))));
+        follower.followPath(forwards);
+      /*  forwards = new Path(new BezierLine(new Pose(34,135,Math.toRadians(180)), new Pose(65,125,Math.toRadians(150))));
         forwards.setConstantHeadingInterpolation(0);
         backwards = new Path(new BezierLine(new Pose(65,125,Math.toRadians(150)), new Pose(34,135,Math.toRadians(180))));
         backwards.setConstantHeadingInterpolation(0);
-        follower.followPath(forwards);
+        follower.followPath(forwards);*/
     }
 
     /** This runs the OpMode, updating the Follower as well as printing out the debug statements to the Telemetry */

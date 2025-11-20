@@ -43,20 +43,13 @@ public class ppBlueNearTwoCycle extends OpMode {
     private Timer pathTimer, actionTimer, opmodeTimer;
     private ElapsedTime pTimer;// this is for pausing at the end of a path
     //configurables for pedro
-    public static int xTol = 2;  // tolorance for x axis in inches
-    public static int yTol = 2; // tolorance for y axis in inches
-    public static int wallScoreX = 58; //x value for scoring pose near wall
-    public static int wallScoreY = 125; //y value for scoring pose near wall
-    public static double wallScoreH = Math.toRadians(160);// Heading value for scoring pose near wall
-    public static double velocityConstraint = 60;
-    public static double breakingStrength = 1.0;
-    public static double breakingStart = 1.0;
+
     // poses for pedropath
     private final Pose startPose = new Pose(33, 135, Math.toRadians(180)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(50, 110, Math.toRadians(140)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(55, 110, Math.toRadians(150)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup1Pose = new Pose(50, 80, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup1aPose = new Pose(22, 80, Math.toRadians(180)); // (First Set) of Artifacts picked up.
+    private final Pose pickup1Pose = new Pose(45, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1aPose = new Pose(20, 85, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
     private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
@@ -70,6 +63,7 @@ private Pose currentTargetPose = new Pose(0,0,0);
         scorePreload = new Path(new BezierLine(startPose, scorePose));
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
         scorePreload.setHeadingConstraint(0.1);
+        scorePreload.setVelocityConstraint(2.0);
 
     /* Here is an example for Constant Interpolation
     scorePreload.setConstantInterpolation(startPose.getHeading()); */
@@ -261,7 +255,7 @@ private Pose currentTargetPose = new Pose(0,0,0);
 
             case _60_Pickup1a:
                 if (!follower.isBusy()) {
-                    follower.followPath(grabPickup1a,0.3, true);
+                    follower.followPath(grabPickup1a,0.25, true);
                     currentStage = stage._70_ToScorePose;
                 }
                 break;
