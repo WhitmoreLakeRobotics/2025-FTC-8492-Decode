@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import static org.firstinspires.ftc.teamcode.pedroPathing.CompBotConstants.pathConstraints;
@@ -20,10 +21,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 @Configurable
-@Autonomous(name = "ppBlueNearTwoCycle", group = "PP")
+@Autonomous(name = "ppBlueFAR2Cycle", group = "PP")
 // @Autonomous(...) is the other common choice
 
-public class ppBlueNearTwoCycle extends OpMode {
+public class ppBlueFAR2Cycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -45,15 +46,15 @@ public class ppBlueNearTwoCycle extends OpMode {
     //configurables for pedro
 
     // poses for pedropath
-    private final Pose startPose = new Pose(33, 135, Math.toRadians(180)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(55, 110, Math.toRadians(150)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose startPose = new Pose(56, 8, Math.toRadians(90)); // Start Pose of our robot.
+    private final Pose scorePose = new Pose(60, 23, Math.toRadians(150)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup1Pose = new Pose(45, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup1aPose = new Pose(20, 85, Math.toRadians(180)); // (First Set) of Artifacts picked up.
+    private final Pose pickup1Pose = new Pose(45, 34, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1aPose = new Pose(20, 34, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
     private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-private Pose currentTargetPose = new Pose(0,0,0);
+    private Pose currentTargetPose = new Pose(0,0,0);
     private Path scorePreload;
     private PathChain grabPickup1, grabPickup1a, scorePickup1; //, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
 
@@ -206,7 +207,7 @@ private Pose currentTargetPose = new Pose(0,0,0);
                     follower.followPath(scorePreload, true);
                     currentTargetPose = scorePose;
                     // follower.update();
-                    robot.launcher.cmdOuttouch();
+                    robot.launcher.cmdOutfar();
                     currentStage = stage._25_checkDrivetoscore;
                 }
             case _25_checkDrivetoscore:
@@ -246,7 +247,7 @@ private Pose currentTargetPose = new Pose(0,0,0);
 
             case _55_Pickup1_Startintake:
                 if (!follower.isBusy()) {
-                   // follower.followPath(grabPickup1a, true);
+                    // follower.followPath(grabPickup1a, true);
                     currentTargetPose = pickup1aPose;
                     robot.intake.cmdFoward();
                     currentStage = stage._60_Pickup1a;
@@ -276,23 +277,23 @@ private Pose currentTargetPose = new Pose(0,0,0);
 
             case _80_ScorePickup1:
                 if (!follower.isBusy()) {
- //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
- //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                        robot.intake.cmdFoward();
-                        robot.transitionRoller.cmdSpin();
-                        robot.launcherBlocker.cmdUnBlock();
-                        runtime.reset();
-                        currentStage = stage._500_End;
-                    }
+                    //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
+                    //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
+                    robot.intake.cmdFoward();
+                    robot.transitionRoller.cmdSpin();
+                    robot.launcherBlocker.cmdUnBlock();
+                    runtime.reset();
+                    currentStage = stage._500_End;
+                }
 
                 break;
             case _500_End:
             { //do nothing let the time run out
 
-                }
+            }
 
 
-                break;
+            break;
         }
 
         updateTelemetry();
@@ -315,7 +316,7 @@ private Pose currentTargetPose = new Pose(0,0,0);
         telemetryMU.addData("Velocity Constraint", follower.pathConstraints.getVelocityConstraint());
         telemetryMU.addData("Current Velocity", follower.getVelocity());
         telemetryMU.addData("Trans constraint", follower.pathConstraints.getTranslationalConstraint());
-       // telemetryMU.addData("current Trans", follower.getTranslationalError());
+        // telemetryMU.addData("current Trans", follower.getTranslationalError());
         telemetryMU.addData("Heading Constraint", follower.pathConstraints.getHeadingConstraint());
 
         telemetryMU.update();

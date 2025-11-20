@@ -60,7 +60,7 @@ public class ppBN2internalconstants extends OpMode{
 
         // poses for pedropath
         private final Pose startPose = new Pose(34, 135, Math.toRadians(180)); // Start Pose of our robot.
-        private final Pose scorePose = new Pose(55, 125, Math.toRadians(160)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+        private final Pose scorePose = new Pose(55, 125, Math.toRadians(165)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
         //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
         private final Pose pickup1Pose = new Pose(47, 92, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
         private final Pose pickup1aPose = new Pose(22, 92, Math.toRadians(180)); // (First Set) of Artifacts picked up.
