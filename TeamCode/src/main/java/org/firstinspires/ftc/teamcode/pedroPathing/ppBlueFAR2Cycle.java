@@ -47,7 +47,7 @@ public class ppBlueFAR2Cycle extends OpMode {
 
     // poses for pedropath
     private final Pose startPose = new Pose(56, 8, Math.toRadians(90)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(60, 13, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(56, 15, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1Pose = new Pose(45, 34, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup1aPose = new Pose(5, 34, Math.toRadians(180)); // (First Set) of Artifacts picked up.

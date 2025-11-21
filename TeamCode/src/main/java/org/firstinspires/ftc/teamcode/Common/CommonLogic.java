@@ -149,6 +149,17 @@ public class CommonLogic extends Object {
         }
     }
 
+    public static double PIDcalcTurn(double P, double F_hold,double currentPos, double targetPos){
+        double delta = targetPos - currentPos;
+
+        if(delta >= 0){
+            return (delta / P) + F_hold;
+        }else{
+            return (delta / P) - F_hold;
+        }
+
+    }
+
     public static double PIDcalc(double P, double F_hold,double currentPos, double targetPos){
         double delta = targetPos - currentPos;
 

@@ -420,7 +420,7 @@ public class DriveTrain extends BaseHardware {
     public double calcTurn(int tHeading){
 
        //double turn = CommonLogic.goToPosStag(Gyro.getGyroHeading(),tHeading, Gyro_Tol,1.0, stagPos, stagPow);
-       double turn = CommonLogic.PIDcalc(stagPos,0,Gyro.getGyroHeading(),tHeading);
+       double turn = CommonLogic.PIDcalcTurn(stagPos,0.05,Gyro.getGyroHeading(),tHeading);
         telemetry.addData(TAGChassis,"turn power " + turn);
         return turn;
     }

@@ -8,10 +8,11 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
-@Autonomous(name = "BlueNearAuton", group = "Auton")
+
+@Autonomous(name = "RedNearAutonDelay", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class BlueNearAuton extends OpMode {
+public class RedNearAutonDelay extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -97,14 +98,14 @@ public class BlueNearAuton extends OpMode {
 
             case _20_DriveBack:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(19,180,0.35,0);
+                    robot.driveTrain.CmdDrive(25,180,0.35,0);
                     robot.launcher.cmdOuttouch();
                     currentStage = stage._25_Turn;
                 }
 
             case _25_Turn:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(5,0.25);
+                    robot.driveTrain.cmdTurn(-5,0.25);
                     runtime.reset();
                     currentStage = stage._30_Shoot1;
                 }
