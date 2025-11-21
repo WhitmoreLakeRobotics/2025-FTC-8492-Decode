@@ -54,9 +54,11 @@ public class ppBlueFAR2Cycle extends OpMode {
 
     private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+   private final Pose parkInLoadZonePose = new Pose(8,8,Math.toRadians(180));
     private Pose currentTargetPose = new Pose(0,0,0);
     private Path scorePreload;
-    private PathChain grabPickup1, grabPickup1a, scorePickup1; //, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
+    //private PathChain parkInZone;
+    private PathChain grabPickup1, grabPickup1a, scorePickup1, parkInZone; //, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
 
     // private Path grabPickup1a;
     public void buildPaths() {
@@ -86,6 +88,10 @@ public class ppBlueFAR2Cycle extends OpMode {
                 .setLinearHeadingInterpolation(pickup1aPose.getHeading(), scorePose.getHeading()).setHeadingConstraint(0.1)
                 .build();
 
+parkInZone = follower.pathBuilder()
+        .addPath(new BezierLine(scorePose, parkInLoadZonePose))
+        .setLinearHeadingInterpolation(scorePose.getHeading(), parkInLoadZonePose.getHeading()).setHeadingConstraint(0.1)
+        .build();
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         /*grabPickup2 = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup2Pose))
@@ -287,6 +293,22 @@ public class ppBlueFAR2Cycle extends OpMode {
                 }
 
                 break;
+
+            case _90_launcherStop:
+                if (runtime.milliseconds() >= 2000) {
+                    // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
+                    robot.launcherBlocker.cmdBlock();
+                    currentStage = stage._100_parkinLoadingZone;
+                }
+                break;
+
+            case _100_parkinLoadingZone:
+                if (!follower.isBusy()) {
+                    follower.followPath(parkInZone, 0.3, true);
+                    currentTargetPose = pickup1Pose;
+                    currentStage = stage._55_Pickup1_Startintake;
+                }
+                break;
             case _500_End:
             { //do nothing let the time run out
 
@@ -343,6 +365,8 @@ public class ppBlueFAR2Cycle extends OpMode {
         _70_ToScorePose,
         _75_chkDrive_to_score_P1,
         _80_ScorePickup1,
+        _90_launcherStop,
+        _100_parkinLoadingZone,
         _500_End
 
 
