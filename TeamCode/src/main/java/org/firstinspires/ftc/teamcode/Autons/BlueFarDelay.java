@@ -147,7 +147,9 @@ public class BlueFarDelay extends OpMode {
                 break;
             case _50_MoveForward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(31,-65,0.20,-65);
+                    robot.driveTrain.CmdDrive(36,-65,0.20,-65);
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
                     currentStage = stage._100_End;
                 }
 
