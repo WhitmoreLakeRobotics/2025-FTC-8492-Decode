@@ -249,7 +249,7 @@ public void NoLaunch(){
 
         //calculate distance
         double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
-        double distanceFromRobotToGoalInches = distanceFromLimelightToGoalInches + 0;
+        double distanceFromRobotToGoalInches = distanceFromLimelightToGoalInches + 0;  //shouldn't this be not zero?
         return distanceFromRobotToGoalInches;
 
 
@@ -262,9 +262,9 @@ public void NoLaunch(){
             double targetOffsetAngle_Horizontal = limey.getTx();
 
 
-            double tagAngle = limey.getTagAngle();
+            double tagAngle = limey.getTagAngle() +90 ;
             double targetDistanceCalc = targetDistanceCalc();
-            double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + targetPointFromTag * targetPointFromTag - 2 * (targetDistanceCalc * targetPointFromTag * Math.cos(Math.toRadians(tagAngle))));
+            double hypotenuse = Math.sqrt((targetDistanceCalc * targetDistanceCalc) + (targetPointFromTag * targetPointFromTag) - (2 * (targetDistanceCalc * targetPointFromTag * Math.cos(Math.toRadians(tagAngle)))));
 
             double compensationAngle = 180 - tagAngle - Math.toDegrees(Math.asin(Math.sin(Math.toRadians(tagAngle)) * targetDistanceCalc) / hypotenuse);
 
