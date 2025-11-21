@@ -146,10 +146,11 @@ public class Launcher extends BaseHardware{
         } else {
         bAtSpeed = false;
         }
-       double voltage = hardwareMap.voltageSensor.get("Expansion Hub 3").getVoltage();{
+      // double voltage = hardwareMap.voltageSensor.get("Expansion Hub 3").getVoltage();
+        // {
            // telemetry.addData("Battery Voltage", voltage);
            // telemetry.update();
-        }
+        //}
 
 
 
@@ -228,7 +229,7 @@ public class Launcher extends BaseHardware{
         double nominalVoltage = 12.0;
         double currentVoltage = Pikachu.getVoltage();
         double compensatedPower = (targetRPM/6000) * nominalVoltage / currentVoltage;
-        LaunchM01.setPower(compensatedPower);
+      //  LaunchM01.setPower(compensatedPower);
 
         return compensatedPower+proportional + integral + derivative;
     }
@@ -249,7 +250,7 @@ public class Launcher extends BaseHardware{
         double nominalVoltage = 12.0;
         double currentVoltage = Pikachu.getVoltage();
         double compensatedPower1 = (targetRPM/6000) * nominalVoltage / currentVoltage;
-        LaunchM02.setPower(compensatedPower1);
+      //  LaunchM02.setPower(compensatedPower1);
 
         return compensatedPower1+proportional + integral + derivative;
     }
@@ -259,7 +260,7 @@ public class Launcher extends BaseHardware{
         double power1 = calculatePID(currentRPM1,targetRPM1);
 
         double currentRPM2 = getMotorRPM(LaunchM02);
-        double power2 = calculatePID1(currentRPM2,targetRPM2);
+        double power2 = calculatePID(currentRPM2,targetRPM2);
 
         LaunchM01.setPower(power1);
         LaunchM02.setPower(power2);
