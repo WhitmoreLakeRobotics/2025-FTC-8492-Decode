@@ -105,7 +105,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
 
                 break;
             case _20_Launch:
-                if(runtime.milliseconds() >=1500){
+                if  (runtime.milliseconds() >=1500){
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
@@ -128,7 +128,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _30_MoveForward:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(36,5,0.35,5);
+                    robot.driveTrain.CmdDrive(39,5,0.35,5);
                     currentStage = stage._40_TurnRight1;
                 }
 
@@ -144,7 +144,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _50_MoveForward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(29,-65,0.20,-65);
+                    robot.driveTrain.CmdDrive(35,-65,0.20,-65);
                     currentStage = stage._60_MoveBack;
                 }
 
@@ -168,14 +168,14 @@ public class ThreeCycleFarBluie3 extends OpMode {
             case _60_MoveBack:
                 if (robot.driveTrain.getCmdComplete())     {
                     robot.driveTrain.CmdDrive(29,-245,0.35,-65); //was
-                    robot.launcher.cmdOutfar();
+
                     currentStage = stage._65_UnturnCause;
                 }
 
                 break;
             case _65_UnturnCause:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(0,0.30);
+                    robot.driveTrain.cmdTurn(-10,0.30);
                     currentStage = stage._66_Driveback;
                 }
 
@@ -183,6 +183,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
             case _66_Driveback:
                 if (robot.driveTrain.getCmdComplete())     {
                     robot.driveTrain.CmdDrive(35,180,0.35,0);
+                    robot.launcher.cmdOutfar();
                     currentStage = stage._68_Alighn;
                 }
 
@@ -195,7 +196,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
 
                 break;
             case _70_Launch2:
-                if (robot.driveTrain.getCmdComplete())     {
+                if (robot.driveTrain.getCmdComplete())    {
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
@@ -205,10 +206,10 @@ public class ThreeCycleFarBluie3 extends OpMode {
 
                 break;
             case _75_MoveForward2:
-                if (runtime.milliseconds() >= 2000)     {
+                if (runtime.milliseconds() >= 1500)   {
                     robot.launcher.cmdStop();
                     robot.launcherBlocker.cmdBlock();
-                    robot.driveTrain.CmdDrive(10,0,0.35,0);
+                    robot.driveTrain.CmdDrive(8,0,0.35,0);
                     currentStage = stage._80_TurnToArtifact2;
                 }
 
@@ -246,7 +247,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _100_BackUpFANCY:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(26,-175,0.35,0);
+                    robot.driveTrain.CmdDrive(23,-175,0.35,0);
                     robot.launcher.cmdOutfar();
                     currentStage = stage._102_Launch3;
                 }
@@ -264,7 +265,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _103_stopLaunch3:
                 if (runtime.milliseconds() >= 2000)     {
-                    robot.driveTrain.cmdTurn(-90,0.30);
+                    robot.driveTrain.cmdTurn(-75,0.30);
                     robot.launcher.cmdStop();
                     robot.launcherBlocker.cmdBlock();
                     currentStage = stage._105_MoveForward3;

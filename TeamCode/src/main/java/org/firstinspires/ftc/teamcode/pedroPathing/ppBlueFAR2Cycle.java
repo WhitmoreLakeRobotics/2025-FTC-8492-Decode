@@ -47,7 +47,7 @@ public class ppBlueFAR2Cycle extends OpMode {
 
     // poses for pedropath
     private final Pose startPose = new Pose(56, 8, Math.toRadians(90)); // Start Pose of our robot.
-    private final Pose scorePose = new Pose(60, 15, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePose = new Pose(56, 15, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose pickup1Pose = new Pose(45, 34, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup1aPose = new Pose(5, 34, Math.toRadians(180)); // (First Set) of Artifacts picked up.
@@ -271,7 +271,7 @@ parkInZone = follower.pathBuilder()
                     follower.followPath(scorePickup1,0.5,true);
                     currentTargetPose = scorePose;
                     robot.launcher.cmdOutfar(); // spin up launcher motors
-                    currentStage = stage._80_ScorePickup1;
+                    currentStage = stage._75_chkDrive_to_score_P1;
                 }
                 break;
             case _75_chkDrive_to_score_P1:
@@ -289,7 +289,7 @@ parkInZone = follower.pathBuilder()
                     robot.transitionRoller.cmdSpin();
                     robot.launcherBlocker.cmdUnBlock();
                     runtime.reset();
-                    currentStage = stage._500_End;
+                    currentStage = stage._90_launcherStop;
                 }
 
                 break;
@@ -306,7 +306,7 @@ parkInZone = follower.pathBuilder()
                 if (!follower.isBusy()) {
                     follower.followPath(parkInZone, 0.3, true);
                     currentTargetPose = pickup1Pose;
-                    currentStage = stage._55_Pickup1_Startintake;
+                    currentStage = stage._500_End;
                 }
                 break;
             case _500_End:
