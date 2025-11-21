@@ -189,7 +189,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _68_Alighn:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(5,0.30); //was negative
+                    robot.driveTrain.cmdTurn(0,0.30); //was negative
                     currentStage = stage._70_Launch2;
                 }
 
@@ -246,7 +246,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _100_BackUpFANCY:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(30,-175,0.35,0);
+                    robot.driveTrain.CmdDrive(26,-175,0.35,0);
                     robot.launcher.cmdOutfar();
                     currentStage = stage._102_Launch3;
                 }
@@ -264,7 +264,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _103_stopLaunch3:
                 if (runtime.milliseconds() >= 2000)     {
-                    robot.driveTrain.cmdTurn(-100,0.30);
+                    robot.driveTrain.cmdTurn(-90,0.30);
                     robot.launcher.cmdStop();
                     robot.launcherBlocker.cmdBlock();
                     currentStage = stage._105_MoveForward3;
@@ -274,7 +274,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _105_MoveForward3:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(50,-65,0.35,-100); // possibly SLAM into wall with MORE speed!
+                    robot.driveTrain.CmdDrive(50,-65,0.35,-90); // possibly SLAM into wall with MORE speed!
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     currentStage = stage._107_ResetGyro;
