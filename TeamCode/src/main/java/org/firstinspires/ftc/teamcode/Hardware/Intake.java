@@ -36,7 +36,8 @@ public class Intake extends BaseHardware{
      * multiple op modes have the same name, only one will be available.
      */
     private DcMotorEx NTKM01;
-    //public LED PeaLight;
+    //public LED red_PeaLight;
+    //public LED green_PeaLight;
 
     public Mode CurrentMode;
 
