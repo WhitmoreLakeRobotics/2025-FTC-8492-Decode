@@ -23,7 +23,7 @@ public class CompBotConstants { public static FollowerConstants followerConstant
         .headingPIDFCoefficients(new PIDFCoefficients(1.6,0.003,0.09,0.025))
      //   .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.007, 0,0.0000,0.6,0.12))
      //   .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.006, 0,0.0000,0.6,0.12))
-        .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.001, 0,0.0015,2.6,0.12))
+        .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.003, 0,0.0015,2.6,0.12))
         ;
     public static MecanumConstants driveConstants = new MecanumConstants()
             .maxPower(0.5) //this should be 1 for tuning
