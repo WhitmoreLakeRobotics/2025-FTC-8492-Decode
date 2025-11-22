@@ -9,10 +9,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 @Disabled
-@Autonomous(name = "RediNearTwoCycle", group = "Auton")
+@Autonomous(name = "dBlueNearTwoCycle", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class RediNearTwoCycle extends OpMode {
+public class dBlueNearTwoCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -106,7 +106,7 @@ public class RediNearTwoCycle extends OpMode {
 
             case _25_Turn:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(-5,0.25);
+                    robot.driveTrain.cmdTurn(5,0.25);
                     runtime.reset();
                     currentStage = stage._30_Shoot1;
                 }
@@ -138,7 +138,7 @@ public class RediNearTwoCycle extends OpMode {
 
             case _50_Left1:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(38,90,0.35,0);
+                    robot.driveTrain.CmdDrive(38,-90,0.35,0);
                     currentStage = stage._60_Foward1;
                 }
                 break;
@@ -162,7 +162,7 @@ public class RediNearTwoCycle extends OpMode {
 
             case _80_Right1:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(36,-90,0.35,0);
+                    robot.driveTrain.CmdDrive(36,90,0.35,0);
                     robot.intake.cmdStop();
                     robot.transitionRoller.cmdStop();
                     currentStage = stage._85_Backward2;
@@ -170,7 +170,7 @@ public class RediNearTwoCycle extends OpMode {
                  break;
             case _85_Backward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(10,180,0.35,0);
+                    robot.driveTrain.CmdDrive(11,180,0.35,0);
                     robot.launcher.cmdOuttouch();
                     runtime.reset();
                     currentStage = stage._90_Shoot2;

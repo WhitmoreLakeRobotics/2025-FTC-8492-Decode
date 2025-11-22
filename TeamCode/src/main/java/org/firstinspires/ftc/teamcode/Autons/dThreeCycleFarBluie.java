@@ -9,10 +9,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 @Disabled
-@Autonomous(name = "ThreeCycleFarBluie", group = "Auton")
+@Autonomous(name = "dThreeCycleFarBluie", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class ThreeCycleFarBluie extends OpMode {
+public class dThreeCycleFarBluie extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
