@@ -167,7 +167,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _60_MoveBack:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(29,-245,0.35,-65); //was
+                    robot.driveTrain.CmdDrive(27,-245,0.35,-65); //was
 
                     currentStage = stage._65_UnturnCause;
                 }
@@ -182,7 +182,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _66_Driveback:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(35,180,0.35,0);
+                    robot.driveTrain.CmdDrive(39,180,0.35,0);
                     robot.launcher.cmdOutfar();
                     currentStage = stage._68_Alighn;
                 }
@@ -265,7 +265,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _103_stopLaunch3:
                 if (runtime.milliseconds() >= 2000)     {
-                    robot.driveTrain.cmdTurn(-75,0.30);
+                    robot.driveTrain.cmdTurn(-65,0.30);
                     robot.launcher.cmdStop();
                     robot.launcherBlocker.cmdBlock();
                     currentStage = stage._105_MoveForward3;
