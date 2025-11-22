@@ -8,10 +8,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
-@Autonomous(name = "ThreeCycleFarBluie3", group = "Auton")
+@Autonomous(name = "BlueFarThreeCycle", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class ThreeCycleFarBluie3 extends OpMode {
+public class BlueFarThreeCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -128,7 +128,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _30_MoveForward:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(39,5,0.35,5);
+                    robot.driveTrain.CmdDrive(35,5,0.35,8);
                     currentStage = stage._40_TurnRight1;
                 }
 
@@ -175,14 +175,14 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _65_UnturnCause:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(-10,0.30);
+                    robot.driveTrain.cmdTurn(-15,0.30);
                     currentStage = stage._66_Driveback;
                 }
 
                 break;
             case _66_Driveback:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(39,180,0.35,0);
+                    robot.driveTrain.CmdDrive(42,180,0.35,0);
                     robot.launcher.cmdOutfar();
                     currentStage = stage._68_Alighn;
                 }
@@ -209,7 +209,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 if (runtime.milliseconds() >= 1500)   {
                     robot.launcher.cmdStop();
                     robot.launcherBlocker.cmdBlock();
-                    robot.driveTrain.CmdDrive(8,0,0.35,0);
+                    robot.driveTrain.CmdDrive(15,0,0.35,0);
                     currentStage = stage._80_TurnToArtifact2;
                 }
 
@@ -240,14 +240,14 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _95_turn2:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.cmdTurn(0,0.30);
+                    robot.driveTrain.cmdTurn(0,0.25);
                     currentStage = stage._100_BackUpFANCY;
                 }
 
                 break;
             case _100_BackUpFANCY:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(23,-175,0.35,0);
+                    robot.driveTrain.CmdDrive(18,-168,0.35,0);
                     robot.launcher.cmdOutfar();
                     currentStage = stage._102_Launch3;
                 }
@@ -265,7 +265,8 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _103_stopLaunch3:
                 if (runtime.milliseconds() >= 2000)     {
-                    robot.driveTrain.cmdTurn(-65,0.30);
+                    robot.driveTrain.CmdDrive(3,-168,.25,0);
+                    robot.driveTrain.cmdTurn(-55,0.25);
                     robot.launcher.cmdStop();
                     robot.launcherBlocker.cmdBlock();
                     currentStage = stage._105_MoveForward3;
@@ -275,7 +276,7 @@ public class ThreeCycleFarBluie3 extends OpMode {
                 break;
             case _105_MoveForward3:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(50,-65,0.35,-90); // possibly SLAM into wall with MORE speed!
+                    robot.driveTrain.CmdDrive(50,-60,0.35,-90); // possibly SLAM into wall with MORE speed!
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     currentStage = stage._107_ResetGyro;

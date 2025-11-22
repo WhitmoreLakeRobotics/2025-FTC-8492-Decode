@@ -133,7 +133,7 @@ public class BlueFarDelay extends OpMode {
                 break;
             case _30_MoveForward:
                 if (runtime.milliseconds() >=500)     {
-                    robot.driveTrain.CmdDrive(8,0,0.35,0);
+                    robot.driveTrain.CmdDrive(14,0,0.35,0);
                     currentStage = stage._40_TurnRight1;
                 }
 
