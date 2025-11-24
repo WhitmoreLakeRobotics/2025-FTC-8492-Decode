@@ -182,7 +182,7 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _66_Driveback:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(42,180,0.35,0);
+                    robot.driveTrain.CmdDrive(42,180,0.35,-15);
                     robot.launcher.cmdOutfar();
                     currentStage = stage._68_Alighn;
                 }
@@ -190,7 +190,7 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _68_Alighn:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(0,0.30); //was negative
+                    robot.driveTrain.cmdTurn(-15,0.30); //was negative
                     currentStage = stage._70_Launch2;
                 }
 
