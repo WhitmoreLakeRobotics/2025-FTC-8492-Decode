@@ -38,11 +38,13 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
         private Timer pathTimer, actionTimer, opmodeTimer;
         private ElapsedTime pTimer;// this is for pausing at the end of a path
         //configurables for pedro
-
+public static double creeperPower = 0.15;
+public  static  double slowPower = 0.25;
+public static double fastPower = 0.5;
         // poses for pedropath
         private final Pose startPose = new Pose(33, 135, Math.toRadians(180)); // Start Pose of our robot.
         //private final Pose scorePose = new Pose(55, 110, Math.toRadians(150)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-        private final Pose scorePoseA = new Pose(62, 115, Math.toRadians(180)); // intermediate Pose of our robot. runs out to limit before next brings it back toward goal a bit.
+        private final Pose scorePoseA = new Pose(60, 115, Math.toRadians(180)); // intermediate Pose of our robot. runs out to limit before next brings it back toward goal a bit.
         private final Pose scorePoseB = new Pose(56, 110, Math.toRadians(135)); // final pose for scoring. It is facing the goal at a 135 degree angle and drifting toward goal?
         private final Pose pickup1Pose = new Pose(45, 85, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
         private final Pose pickup1aPose = new Pose(20, 85, Math.toRadians(180)); // (First Set) of Artifacts picked up.
@@ -59,8 +61,9 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
             scorePreload = follower.pathBuilder()
                     .addPath(new BezierLine(startPose, scorePoseA))
+                    .setLinearHeadingInterpolation(startPose.getHeading(),scorePoseA.getHeading())
                     .addPath(new BezierLine(scorePoseA, scorePoseB))
-                    .setLinearHeadingInterpolation(startPose.getHeading(), scorePoseB.getHeading() )
+                    .setLinearHeadingInterpolation(scorePoseA.getHeading(), scorePoseB.getHeading() )
                     .build();
             /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
             grabPickup1 = follower.pathBuilder()
