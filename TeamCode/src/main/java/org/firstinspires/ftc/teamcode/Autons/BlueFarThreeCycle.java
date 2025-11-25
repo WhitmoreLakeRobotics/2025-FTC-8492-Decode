@@ -128,12 +128,12 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _30_MoveForward:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(35,5,0.35,8);
-                    currentStage = stage._40_TurnRight1;
+                    robot.driveTrain.CmdDrive(35,5,0.35,5);
+                    currentStage = stage._40_TurnLeft1;
                 }
 
                 break;
-            case _40_TurnRight1:
+            case _40_TurnLeft1:
                 if (robot.driveTrain.getCmdComplete())     {
                     robot.driveTrain.cmdTurn(-65,0.30);
                     robot.intake.cmdFoward();
@@ -182,7 +182,7 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _66_Driveback:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(42,180,0.35,-15);
+                    robot.driveTrain.CmdDrive(42,180,0.35,0);
                     robot.launcher.cmdOutfar();
                     currentStage = stage._68_Alighn;
                 }
@@ -190,7 +190,7 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _68_Alighn:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(-15,0.30); //was negative
+                    robot.driveTrain.cmdTurn(-0,0.30); //was negative
                     currentStage = stage._70_Launch2;
                 }
 
@@ -209,7 +209,7 @@ public class BlueFarThreeCycle extends OpMode {
                 if (runtime.milliseconds() >= 1500)   {
                     robot.launcher.cmdStop();
                     robot.launcherBlocker.cmdBlock();
-                    robot.driveTrain.CmdDrive(15,0,0.35,0);
+                    robot.driveTrain.CmdDrive(17,0,0.35,0);
                     currentStage = stage._80_TurnToArtifact2;
                 }
 
@@ -240,14 +240,14 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _95_turn2:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.cmdTurn(0,0.25);
+                    robot.driveTrain.cmdTurn(15,0.25);
                     currentStage = stage._100_BackUpFANCY;
                 }
 
                 break;
             case _100_BackUpFANCY:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(18,-168,0.35,0);
+                    robot.driveTrain.CmdDrive(18,-168,0.35,2);
                     robot.launcher.cmdOutfar();
                     currentStage = stage._102_Launch3;
                 }
@@ -266,7 +266,7 @@ public class BlueFarThreeCycle extends OpMode {
             case _103_stopLaunch3:
                 if (runtime.milliseconds() >= 2000)     {
                     robot.driveTrain.CmdDrive(3,-168,.25,0);
-                    robot.driveTrain.cmdTurn(-55,0.25);
+                    robot.driveTrain.cmdTurn(-50,0.25);
                     robot.launcher.cmdStop();
                     robot.launcherBlocker.cmdBlock();
                     currentStage = stage._105_MoveForward3;
@@ -327,7 +327,7 @@ public class BlueFarThreeCycle extends OpMode {
         _20_Launch,
         _25_StopLaunch,
         _30_MoveForward,
-        _40_TurnRight1,
+        _40_TurnLeft1,
         _50_MoveForward2,
         _53_TurnToGate,
         _57_UnturnToGate,

@@ -2,9 +2,11 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.LED;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
@@ -27,6 +29,7 @@ public class Intake extends BaseHardware{
      * Hardware Mappings
      */
     public HardwareMap hardwareMap = null; // will be set in Child class
+    private TransitionRoller transitionRoller = new TransitionRoller();
 
 
     /**
@@ -36,10 +39,13 @@ public class Intake extends BaseHardware{
      * multiple op modes have the same name, only one will be available.
      */
     private DcMotorEx NTKM01;
-    //public LED red_PeaLight;
-    //public LED green_PeaLight;
+    //public LED PeaLight;  //off
+    //public LED green_PeaLight; //on
+    //public LED yellow_Pealight; //transitionroller of intake running
 
     public Mode CurrentMode;
+
+    private Servo PeaLight;
 
     private double NTKM01Power;
 
@@ -51,6 +57,13 @@ public class Intake extends BaseHardware{
     public static final double outSpeed = 0.5;
     public static final double autoSpeed = -1.0;
   //  public static final double snailoutSpeed = -0.25;
+
+    public static final double Green = 0.5;
+    public static final double Red = 0.28;
+    public static final double Yellow = 0.388;
+
+
+
     public boolean AtIntakeStop = true;
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -65,6 +78,9 @@ public class Intake extends BaseHardware{
 
 
         NTKM01 = hardwareMap.get(DcMotorEx.class, "NTKM01");
+        PeaLight = hardwareMap.get(Servo.class,"PeaLight");
+        //green_PeaLight = hardwareMap.get(LED.class,"green_PeaLight");
+        //yellow_PeaLight = hardwareMap.get(LED.class,"yellow_PeaLight");
 
     }
 
@@ -118,8 +134,21 @@ public class Intake extends BaseHardware{
             }
         }
 
+        if(transitionRoller.CurrentMode == TransitionRoller.Mode.Spin && CurrentMode == Mode.NTKforward){
+            PeaLight.setPosition(Green);
+        }
 
+        if(transitionRoller.CurrentMode == TransitionRoller.Mode.Stop && CurrentMode == Mode.NTKforward){
+            PeaLight.setPosition(Yellow);
+        }
 
+        if(transitionRoller.CurrentMode == TransitionRoller.Mode.Spin && CurrentMode == Mode.NTKbackward){
+            PeaLight.setPosition(Green);
+        }
+
+        if(transitionRoller.CurrentMode == TransitionRoller.Mode.Stop && CurrentMode == Mode.NTKbackward){
+            PeaLight.setPosition(Yellow);
+        }
     }
 
     /**
@@ -136,18 +165,21 @@ public class Intake extends BaseHardware{
     public void cmdBackward(){
         CurrentMode = Mode.NTKbackward;
         NTKM01.setPower (outSpeed);
+        //PeaLight.setPosition(Green);
         //PeaLight.enableLight(false);
     }
     public void cmdFoward(){
         CurrentMode = Mode.NTKforward;
         NTKM01.setPower (inSpeed);
         runtime.reset();
+        //PeaLight.setPosition(Green);
         //PeaLight.enableLight(false);
     }
 
     public void cmdStop(){
         CurrentMode = Mode.NTKstop;
         NTKM01.setPower (stopSpeed);
+        PeaLight.setPosition(Red);
         //PeaLight.enableLight(true);
 
     }
@@ -164,7 +196,7 @@ public class Intake extends BaseHardware{
         NTKstop,
         NTKforward,
         NTKautoIn,
-        NTKbackward;
+        NTKbackward
     }
 
     public double getMotorRPM(DcMotorEx motor){
