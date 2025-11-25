@@ -276,7 +276,7 @@ public class RedFarThreeCycle extends OpMode {
                 break;
             case _105_MoveForward3:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(50,65,0.35,90); // possibly SLAM into wall with MORE speed!
+                    robot.driveTrain.CmdDrive(50,60,0.35,90); // possibly SLAM into wall with MORE speed!
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     currentStage = stage._107_ResetGyro;

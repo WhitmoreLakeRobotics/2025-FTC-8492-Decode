@@ -130,7 +130,7 @@ public class BlueFarCornerCycle extends OpMode {
                 break;
             case _25_StopLaunch:
                 if (runtime.milliseconds() >=2000)     {
-                    robot.driveTrain.CmdDrive(4,-58,0.35,0);
+                    robot.driveTrain.CmdDrive(10,-60,0.35,0);
                     robot.launcherBlocker.cmdBlock();
                     robot.launcher.cmdStop();
                     runtime.reset();
@@ -140,7 +140,7 @@ public class BlueFarCornerCycle extends OpMode {
                 break;
             case _30_MoveToWall:
                 if (runtime.milliseconds() >= 0)     {
-                    robot.driveTrain.cmdTurn(-58,0.35);
+                    robot.driveTrain.cmdTurn(-60,0.35);
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     currentStage = stage._40_GoForward;
