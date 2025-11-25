@@ -560,7 +560,7 @@ public class Tele_Op extends OpMode {
             robot.launcherBlocker.cmdUnBlock();
 
         }
-        if ((gamepad2.left_trigger <= 0.79) && (gamepad2.left_trigger > 0.10)) {
+        if ((gamepad2.left_trigger <= 0.79) && (gamepad2.left_trigger > 0.0)) {
             robot.launcherBlocker.cmdBlock();
           //  robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE_VIOLET);
         }
