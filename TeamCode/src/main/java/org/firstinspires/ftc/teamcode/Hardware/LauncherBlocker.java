@@ -97,6 +97,13 @@ public class LauncherBlocker extends BaseHardware{
             }
         }
 */
+        if(AtUnBlocked == true && runtime.milliseconds() >= 100){
+            cmdUnBlock();
+        }
+
+        if(AtUnBlocked == false && runtime.milliseconds() >= 100){
+            cmdBlock();
+        }
 
 
 

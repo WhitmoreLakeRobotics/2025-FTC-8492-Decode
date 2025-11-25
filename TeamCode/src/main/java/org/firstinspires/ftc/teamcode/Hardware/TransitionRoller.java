@@ -23,7 +23,11 @@ public class TransitionRoller extends BaseHardware{
      * driver station on a regular, periodic basis.
      */
 
-    private Mode CurrentMode;
+    public Mode CurrentMode;
+
+    public double getMaxPower() {
+        return maxPower;
+    }
 
     private DcMotorEx TRM01;
     private double TRPower;
