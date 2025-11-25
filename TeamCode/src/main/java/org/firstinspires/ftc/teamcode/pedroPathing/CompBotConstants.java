@@ -26,7 +26,7 @@ public class CompBotConstants { public static FollowerConstants followerConstant
         .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.003, 0,0.0015,2.6,0.12))
         ;
     public static MecanumConstants driveConstants = new MecanumConstants()
-            .maxPower(0.5) //this should be 1 for tuning
+            .maxPower(1) //this should be 1 for tuning
             .rightFrontMotorName("RDM1")
             .rightRearMotorName("RDM2")
             .leftRearMotorName("LDM2")
