@@ -205,7 +205,7 @@ public class BlueNearThreeCycle extends OpMode {
                 break;
             case _110_Left2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(24,-90,0.35,0);
+                    robot.driveTrain.CmdDrive(26,-90,0.35,0);
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     currentStage = stage._120_Forward3;
@@ -228,7 +228,7 @@ public class BlueNearThreeCycle extends OpMode {
                 break;
             case _140_Right1:
                 if (robot.driveTrain.getCmdComplete())    {
-                    robot.driveTrain.CmdDrive(28,90,0.35,0);
+                    robot.driveTrain.CmdDrive(30,90,0.35,0);
                     robot.intake.cmdStop();
                     robot.transitionRoller.cmdStop();
                     robot.launcher.cmdOutnear();

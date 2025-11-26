@@ -61,11 +61,13 @@ public class Intake extends BaseHardware{
     public static final double Green = 0.5;
     public static final double Red = 0.28;
     public static final double Yellow = 0.388;
+    public static final double Purple = 0.89;
 
-
-
+    public boolean DriverHappy = false;
+    public Color CurrentColor;
     public boolean AtIntakeStop = true;
     private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime timerun = new ElapsedTime();
 
 
     /**
@@ -82,6 +84,8 @@ public class Intake extends BaseHardware{
         //green_PeaLight = hardwareMap.get(LED.class,"green_PeaLight");
         //yellow_PeaLight = hardwareMap.get(LED.class,"yellow_PeaLight");
 
+        //cmdRED();
+
     }
 
     /**
@@ -91,6 +95,8 @@ public class Intake extends BaseHardware{
      * This method is optional. By default this method takes no action.
      */
     public void init_loop(){
+
+
 
     }
 
@@ -134,21 +140,61 @@ public class Intake extends BaseHardware{
             }
         }
 
-        if(transitionRoller.CurrentMode == TransitionRoller.Mode.Spin && CurrentMode == Mode.NTKforward){
-            PeaLight.setPosition(Green);
+           /*
+        if((transitionRoller.CurrentMode == TransitionRoller.Mode.Spin) && (CurrentMode == Mode.NTKforward) && (timerun.milliseconds() >= 250)){
+           cmdGREEN();
+           timerun.reset();
+        }else
+
+        if((transitionRoller.CurrentMode == TransitionRoller.Mode.Stop) && (CurrentMode == Mode.NTKforward) && (timerun.milliseconds() >= 250)){
+           cmdYELLOW();
+           timerun.reset();
+        }else
+
+        if((transitionRoller.CurrentMode == TransitionRoller.Mode.Back) && (CurrentMode == Mode.NTKforward) && (timerun.milliseconds() >= 250)){
+            cmdGREEN();
+            timerun.reset();
+        }else
+
+        if((transitionRoller.CurrentMode == TransitionRoller.Mode.Spin) && (CurrentMode == Mode.NTKbackward) && (timerun.milliseconds() >= 250)){
+            cmdGREEN();
+            timerun.reset();
+        }else
+
+        if((transitionRoller.CurrentMode == TransitionRoller.Mode.Stop) && (CurrentMode == Mode.NTKbackward) && (timerun.milliseconds() >= 250)){
+            cmdYELLOW();
+            timerun.reset();
+        }else
+
+        if((transitionRoller.CurrentMode == TransitionRoller.Mode.Back) && (CurrentMode == Mode.NTKbackward) && (timerun.milliseconds() >= 250)){
+            cmdGREEN();
+            timerun.reset();
+        }else{
+            cmdRED();
+            timerun.reset();
         }
 
-        if(transitionRoller.CurrentMode == TransitionRoller.Mode.Stop && CurrentMode == Mode.NTKforward){
-            PeaLight.setPosition(Yellow);
+            */
+
+
+
+        if(DriverHappy){
+            cmdHappy();
+        }
+/*
+
+        if(transitionRoller.CurrentMode == TransitionRoller.Mode.Spin &&
+        CurrentMode == Mode.NTKforward){
+
+        DriverHappy = true;
+        }else {
+                DriverHappy = false;
+
         }
 
-        if(transitionRoller.CurrentMode == TransitionRoller.Mode.Spin && CurrentMode == Mode.NTKbackward){
-            PeaLight.setPosition(Green);
-        }
+ */
 
-        if(transitionRoller.CurrentMode == TransitionRoller.Mode.Stop && CurrentMode == Mode.NTKbackward){
-            PeaLight.setPosition(Yellow);
-        }
+
     }
 
     /**
@@ -165,6 +211,7 @@ public class Intake extends BaseHardware{
     public void cmdBackward(){
         CurrentMode = Mode.NTKbackward;
         NTKM01.setPower (outSpeed);
+        cmdGREEN();
         //PeaLight.setPosition(Green);
         //PeaLight.enableLight(false);
     }
@@ -172,6 +219,7 @@ public class Intake extends BaseHardware{
         CurrentMode = Mode.NTKforward;
         NTKM01.setPower (inSpeed);
         runtime.reset();
+        cmdGREEN();
         //PeaLight.setPosition(Green);
         //PeaLight.enableLight(false);
     }
@@ -179,7 +227,7 @@ public class Intake extends BaseHardware{
     public void cmdStop(){
         CurrentMode = Mode.NTKstop;
         NTKM01.setPower (stopSpeed);
-        PeaLight.setPosition(Red);
+        cmdRED(); //line not needed
         //PeaLight.enableLight(true);
 
     }
@@ -192,11 +240,42 @@ public class Intake extends BaseHardware{
 
     }
 
+    public void cmdRED(){
+        PeaLight.setPosition(Red);
+        CurrentColor = Color.RED;
+    }
+
+    public void cmdGREEN(){
+        PeaLight.setPosition(Green);
+        CurrentColor = Color.GREEN;
+    }
+
+    public void cmdYELLOW(){
+        PeaLight.setPosition(Yellow);
+        CurrentColor = Color.YELLOW;
+    }
+
+    public void cmdPURPLE(){
+        PeaLight.setPosition(Purple);
+        CurrentColor = Color.PURPLE;
+    }
+
+    public void cmdHappy(){
+    cmdPURPLE();
+    }
+
     public enum Mode {
         NTKstop,
         NTKforward,
         NTKautoIn,
         NTKbackward
+    }
+
+    public enum Color {
+        GREEN,
+        RED,
+        YELLOW,
+        PURPLE
     }
 
     public double getMotorRPM(DcMotorEx motor){

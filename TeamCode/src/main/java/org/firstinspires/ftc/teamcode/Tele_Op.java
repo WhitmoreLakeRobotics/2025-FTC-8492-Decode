@@ -733,7 +733,7 @@ public class Tele_Op extends OpMode {
                 // }
                 //  }
             }
-            if(robot.launcherBlocker.AtUnBlocked == false) {
+            else{
                 robot.transitionRoller.cmdStop();
             }
             }
