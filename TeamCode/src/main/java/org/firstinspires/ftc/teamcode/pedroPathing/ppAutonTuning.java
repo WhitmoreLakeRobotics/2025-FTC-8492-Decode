@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import static org.firstinspires.ftc.teamcode.pedroPathing.CompBotConstants.pathConstraints;
+
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
@@ -31,7 +33,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 @Configurable
 @Autonomous(name = "ppBN2internalconstants", group = "Auton")
 // @Autonomous(...) is the other common choice
-public class ppBN2internalconstants extends OpMode{
+public class ppAutonTuning extends OpMode{
 
 
         //RobotComp robot = new RobotComp();
@@ -57,44 +59,36 @@ public class ppBN2internalconstants extends OpMode{
         public static int wallScoreX = 55; //x value for scoring pose near wall
         public static int wallScoreY = 125; //y value for scoring pose near wall
         public static double wallScoreH = Math.toRadians(170);// Heading value for scoring pose near wall
-
+    private final Pose startPose = new Pose(0, 0, Math.toRadians(0));
+    private final Pose interPose = new Pose(24, -24, Math.toRadians(90));
+    private final Pose endPose = new Pose(24, 24, Math.toRadians(45));
+    private Pose currentTargetPose = new Pose(0,0,0);
         // poses for pedropath
-        private final Pose startPose = new Pose(34, 135, Math.toRadians(180)); // Start Pose of our robot.
-        private final Pose scorePose = new Pose(55, 125, Math.toRadians(165)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-        //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-        private final Pose pickup1Pose = new Pose(47, 92, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-        private final Pose pickup1aPose = new Pose(22, 92, Math.toRadians(180)); // (First Set) of Artifacts picked up.
-
-        private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-        private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-
-        private Path scorePreload;
-        private PathChain grabPickup1, grabPickup1a, scorePickup1;//, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
+       private PathChain path1, path2, path3;//, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
 
         // private Path grabPickup1a;
         public void buildPaths() {
             /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
-            scorePreload = new Path(new BezierLine(startPose, scorePose));
-            scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
+
 
     /* Here is an example for Constant Interpolation
     scorePreload.setConstantInterpolation(startPose.getHeading()); */
 
 
             /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-            grabPickup1 = follower.pathBuilder()
-                    .addPath(new BezierLine(scorePose, pickup1Pose))
-                    .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
+            path1 = follower.pathBuilder()
+                    .addPath(new BezierLine(startPose, interPose))
+                    .setLinearHeadingInterpolation(startPose.getHeading(), interPose.getHeading())
                     .build();
-            grabPickup1a = follower.pathBuilder()
-                    .addPath(new BezierLine(pickup1Pose, pickup1aPose))
-                    .setLinearHeadingInterpolation(pickup1Pose.getHeading(), pickup1aPose.getHeading())
+            path2 = follower.pathBuilder()
+                    .addPath(new BezierLine(interPose, endPose))
+                    .setLinearHeadingInterpolation(interPose.getHeading(), endPose.getHeading())
                     .build();
 
             /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        scorePickup1 = follower.pathBuilder()
-                .addPath(new BezierLine(pickup1aPose, scorePose))
-                .setLinearHeadingInterpolation(pickup1aPose.getHeading(), scorePose.getHeading())
+        path3 = follower.pathBuilder()
+                .addPath(new BezierLine(endPose, startPose))
+                .setLinearHeadingInterpolation(endPose.getHeading(), startPose.getHeading())
                 .build();
 
             /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -215,7 +209,7 @@ public class ppBN2internalconstants extends OpMode{
 
                 case _20_DriveToScore:
                     if (!follower.isBusy()) {
-                        follower.followPath(scorePreload, true);
+                        follower.followPath(path1, true);
                         // follower.update();
                         robot.launcher.cmdOuttouch();
                         currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
@@ -224,28 +218,26 @@ public class ppBN2internalconstants extends OpMode{
 
                 case _30_Shoot1:
                     if (!follower.isBusy()) {
-                         if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
-                              CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                        robot.intake.cmdFoward();
-                        robot.transitionRoller.cmdSpin();
-                        robot.launcherBlocker.cmdUnBlock();
+
                         runtime.reset();
+
                         currentStage = stage._40_LauncherStop;
-                    }}
+                    }
                     break;
 
                 case _40_LauncherStop:
-                    if (runtime.milliseconds() >= 3000) {
-                        // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
-                        robot.launcherBlocker.cmdBlock();
-                        currentStage = stage._50_Pickup1;
+                    while (runtime.milliseconds() < 3000) {
+                        telemetryMU.addLine("waiting 1");
                     }
+                        currentStage = stage._50_Pickup1;
+
                     break;
 
                 case _50_Pickup1:
                     if (!follower.isBusy()) {
-                        follower.followPath(grabPickup1, 0.5, true);
+                        follower.followPath(path2,  true);
                         currentStage = stage._60_Pickup1a;
+                        runtime.reset();
                     }
                     break;
 
@@ -253,29 +245,28 @@ public class ppBN2internalconstants extends OpMode{
 
                 case _60_Pickup1a:
                     if (!follower.isBusy()) {
-                        follower.followPath(grabPickup1a,0.3, true);
+                        while (runtime.milliseconds() < 3000) {
+                            telemetryMU.addLine("waiting 2");
+                        }
                         currentStage = stage._70_ToScorePose;
                     }
                     break;
                 case _70_ToScorePose:
                     if(!follower.isBusy()){
-                        follower.followPath(scorePickup1,0.5,true);
+                        follower.followPath(path3,true);
                         robot.launcher.cmdOuttouch();
                         currentStage = stage._80_ScorePickup1;
                     }
                     break;
                 case _80_ScorePickup1:
                     if (!follower.isBusy()) {
-                        if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
-                                CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                        robot.intake.cmdFoward();
-                        robot.transitionRoller.cmdSpin();
-                        robot.launcherBlocker.cmdUnBlock();
-                        runtime.reset();
-                        currentStage = stage._500_End;
-                    }}
+                        while (runtime.milliseconds() < 3000) {
+                            telemetryMU.addLine("waiting 3");
+                        }
+                        currentStage = stage._20_DriveToScore;
 
-break;
+                    }
+
                 case _500_End:
                 { //do nothing let the time run out
 
@@ -293,11 +284,20 @@ break;
             telemetryMU.addData("x", follower.getPose().getX());
             telemetryMU.addData("y", follower.getPose().getY());
             telemetryMU.addData("heading", Math.toDegrees(follower.getPose().getHeading()));
-            telemetryMU.addData("heading", follower.getPose().getHeading());
-            telemetryMU.addData("pose", follower.poseTracker);
-            telemetryMU.addData("scorePose", scorePose);
-            telemetryMU.addData("pickup1 pose: ", pickup1Pose);
-            telemetryMU.addData("pickup1a pose: ", pickup1aPose);
+            telemetryMU.addData("Current Target Pose", currentTargetPose);
+            telemetryMU.addData("breakingStrength", pathConstraints.getBrakingStrength());
+            telemetryMU.addData("breakstart ", pathConstraints.getBrakingStart());
+            telemetryMU.addData("drivepid P", follower.constants.coefficientsDrivePIDF.P );
+            telemetryMU.addData("drivepid D", follower.constants.coefficientsDrivePIDF.D );
+            telemetryMU.addData("drivepid F", follower.constants.coefficientsDrivePIDF.F );
+            telemetryMU.addData("CONSTRAINTS", "");
+            telemetryMU.addData("Tvalue (% complete)", follower.pathConstraints.getTValueConstraint());
+            telemetryMU.addData("Current tValue", follower.getCurrentTValue());
+            telemetryMU.addData("Velocity Constraint", follower.pathConstraints.getVelocityConstraint());
+            telemetryMU.addData("Current Velocity", follower.getVelocity());
+            telemetryMU.addData("Trans constraint", follower.pathConstraints.getTranslationalConstraint());
+            // telemetryMU.addData("current Trans", follower.getTranslationalError());
+            telemetryMU.addData("Heading Constraint", follower.pathConstraints.getHeadingConstraint());
 
             telemetryMU.update();
             Drawing.drawDebug(follower);
@@ -340,7 +340,7 @@ break;
             .mass(12.7);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
-            .maxPower(0.5) //this should be 1 for tuning
+            .maxPower(1) //this should be 1 for tuning
             .rightFrontMotorName("RDM1")
             .rightRearMotorName("RDM2")
             .leftRearMotorName("LDM2")
@@ -349,19 +349,18 @@ break;
             .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
             .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .xVelocity(76.06906841)
-            .yVelocity(60.64164852);
+            .xVelocity(79.29855)
+            .yVelocity(63.26871);
 
     //   public Pose myOffset = new Pose(6.0, -0.1875, Math.toRadians(180));
     public static OTOSConstants localizerConstants =  new OTOSConstants()
             .hardwareMapName("otto")
             .linearUnit(DistanceUnit.INCH)
             .angleUnit(AngleUnit.RADIANS)
-            .offset(new SparkFunOTOS.Pose2D(-5.5, -2.25, 0))
+            .offset(new SparkFunOTOS.Pose2D(-5.5, -2.0, 0))
 //            .offset(myOffset) 2.25 5.5
-            .linearScalar(1.035446186) //Multiplier
-            .angularScalar(0.997716667) ;//Multiplier
-
+            .linearScalar(1.1211) //Multiplier
+            .angularScalar(0.9915) ;//Multiplier
 
 
 
