@@ -31,7 +31,7 @@ import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 @Configurable
-@Autonomous(name = "ppBN2internalconstants", group = "Auton")
+@Autonomous(name = "ppAutonTuning", group = "Auton")
 // @Autonomous(...) is the other common choice
 public class ppAutonTuning extends OpMode{
 
@@ -39,11 +39,7 @@ public class ppAutonTuning extends OpMode{
         //RobotComp robot = new RobotComp();
         Robot robot = new Robot();
         private stage currentStage = stage._unknown;
-        // declare auton power variables
-        //private double AUTO_DRIVE_TURBO_SPEED = DriveTrain.DRIVETRAIN_TURBOSPEED;
-        //private double AUTO_DRIVE_SLOW_SPEED = DriveTrain.DRIVETRAIN_SLOWSPEED;
-        // private double AUTO_DRIVE_NORMAL_SPEED = DriveTrain.DRIVETRAIN_NORMALSPEED;
-        // private double AUTO_TURN_SPEED = DriveTrain.DRIVETRAIN_TURNSPEED;
+
 
         private String RTAG = "8492-Auton";
 // Set up stuff for pedro path
@@ -56,8 +52,7 @@ public class ppAutonTuning extends OpMode{
         //configurables for pedro
         public static int xTol = 2;  // tolorance for x axis in inches
         public static int yTol = 2; // tolorance for y axis in inches
-        public static int wallScoreX = 55; //x value for scoring pose near wall
-        public static int wallScoreY = 125; //y value for scoring pose near wall
+
         public static double wallScoreH = Math.toRadians(170);// Heading value for scoring pose near wall
     private final Pose startPose = new Pose(0, 0, Math.toRadians(0));
     private final Pose interPose = new Pose(24, -24, Math.toRadians(90));
@@ -91,32 +86,6 @@ public class ppAutonTuning extends OpMode{
                 .setLinearHeadingInterpolation(endPose.getHeading(), startPose.getHeading())
                 .build();
 
-            /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        /*grabPickup2 = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup2Pose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2Pose.getHeading())
-                .build();
-         */
-            /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        /*scorePickup2 = follower.pathBuilder()
-                .addPath(new BezierLine(pickup2Pose, scorePose))
-                .setLinearHeadingInterpolation(pickup2Pose.getHeading(), scorePose.getHeading())
-                .build();
-        */
-            /* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-      /*  grabPickup3 = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup3Pose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading())
-                .build();
-        */
-            /* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. */
-        /*scorePickup3 = follower.pathBuilder()
-                .addPath(new BezierLine(pickup3Pose, scorePose))
-                .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
-                .build();
-    }
-
-         */
         }
 
         // Declare OpMode members.
@@ -218,9 +187,7 @@ public class ppAutonTuning extends OpMode{
 
                 case _30_Shoot1:
                     if (!follower.isBusy()) {
-
                         runtime.reset();
-
                         currentStage = stage._40_LauncherStop;
                     }
                     break;
@@ -263,7 +230,7 @@ public class ppAutonTuning extends OpMode{
                         while (runtime.milliseconds() < 3000) {
                             telemetryMU.addLine("waiting 3");
                         }
-                        currentStage = stage._20_DriveToScore;
+                        currentStage = stage._20_DriveToScore; //start the loop again
 
                     }
 
