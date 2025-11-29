@@ -303,7 +303,7 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _106_LastTurn:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(50,-65,0.35,-105);
+                    robot.driveTrain.CmdDrive(25,-110,0.40,-65);
                     currentStage = stage._107_ResetGyro;
 
                 }
