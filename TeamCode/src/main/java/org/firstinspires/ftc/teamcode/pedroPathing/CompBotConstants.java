@@ -23,7 +23,7 @@ public class CompBotConstants { public static FollowerConstants followerConstant
         .headingPIDFCoefficients(new PIDFCoefficients(1.6,0.003,0.09,0.025))
      //   .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.007, 0,0.0000,0.6,0.12))
      //   .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.006, 0,0.0000,0.6,0.12))
-        .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.003, 0,0.0015,2.6,0.12))
+        .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.003, 0,0.0015,0.6,0.12))
         .centripetalScaling(.0006)
         .mass(12.7)
         ;
@@ -52,7 +52,13 @@ public class CompBotConstants { public static FollowerConstants followerConstant
 
 //    public static PathConstraints pathConstraints = new PathConstraints(0.99, 50, 0.9, 1.3);
 //   public static PathConstraints pathConstraints = new PathConstraints(0.99, 50, 1.5, 0.15); //11/18 3:22
-    public static PathConstraints pathConstraints = new PathConstraints(0.95, 50, 0.1, 0.55);
+    public static PathConstraints pathConstraints = new PathConstraints(
+            0.95,
+        2.0,
+        0.10,
+        .98,
+        50,
+        0.3,10, 0.5);
 //public static PathConstraints pathconstraints = new PathConstraints(0.97, 0.1, 50,0.09, 1.4, 1,0.2);
 
 

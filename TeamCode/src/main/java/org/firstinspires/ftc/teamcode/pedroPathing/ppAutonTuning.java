@@ -37,7 +37,7 @@ public class ppAutonTuning extends OpMode{
 
 
         //RobotComp robot = new RobotComp();
-        Robot robot = new Robot();
+    //    Robot robot = new Robot();
         private stage currentStage = stage._unknown;
 
 
@@ -107,14 +107,14 @@ public class ppAutonTuning extends OpMode{
             msStuckDetectStart = Settings.msStuckDetectStart;
             msStuckDetectLoop = Settings.msStuckDetectLoop;
             msStuckDetectStop = Settings.msStuckDetectStop;
-
+/*
             robot.hardwareMap = hardwareMap;
             robot.telemetry = telemetry;
-            robot.init();
+            robot.init();*/
             telemetry.addData("Test Auton", "Initialized");
 
             //Initialize Gyro
-            robot.driveTrain.ResetGyro();
+            //robot.driveTrain.ResetGyro();
             pathTimer = new Timer();
             opmodeTimer = new Timer();
             opmodeTimer.resetTimer();
@@ -141,7 +141,7 @@ public class ppAutonTuning extends OpMode{
         @Override
         public void init_loop() {
             // initialize robot
-            robot.init_loop();
+            //robot.init_loop();
 
         }
 
@@ -152,7 +152,7 @@ public class ppAutonTuning extends OpMode{
         public void start() {
             // start robot
             runtime.reset();
-            robot.start();
+           // robot.start();
             opmodeTimer.resetTimer();
 
 
@@ -165,7 +165,7 @@ public class ppAutonTuning extends OpMode{
         public void loop() {
 
             telemetry.addData("Auton_Current_Stage ", currentStage);
-            robot.autonLoop();
+            //robot.autonLoop();
             follower.update();
             switch (currentStage) {
                 case _unknown:
@@ -179,13 +179,15 @@ public class ppAutonTuning extends OpMode{
                 case _20_DriveToScore:
                     if (!follower.isBusy()) {
                         follower.followPath(path1, true);
+                        currentTargetPose = interPose;
                         // follower.update();
-                        robot.launcher.cmdOuttouch();
+                      //  robot.launcher.cmdOuttouch();
                         currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
                     }
                     break;
 
                 case _30_Shoot1:
+                    telemetryMU.addData("follower busy", follower.isBusy());
                     if (!follower.isBusy()) {
                         runtime.reset();
                         currentStage = stage._40_LauncherStop;
@@ -203,6 +205,7 @@ public class ppAutonTuning extends OpMode{
                 case _50_Pickup1:
                     if (!follower.isBusy()) {
                         follower.followPath(path2,  true);
+                        currentTargetPose = endPose;
                         currentStage = stage._60_Pickup1a;
                         runtime.reset();
                     }
@@ -221,7 +224,8 @@ public class ppAutonTuning extends OpMode{
                 case _70_ToScorePose:
                     if(!follower.isBusy()){
                         follower.followPath(path3,true);
-                        robot.launcher.cmdOuttouch();
+                        currentTargetPose = startPose;
+                        //robot.launcher.cmdOuttouch();
                         currentStage = stage._80_ScorePickup1;
                     }
                     break;
@@ -274,7 +278,7 @@ public class ppAutonTuning extends OpMode{
 
         @Override
         public void stop() {
-            robot.stop();
+            //robot.stop();
         }
 
         private enum stage {
