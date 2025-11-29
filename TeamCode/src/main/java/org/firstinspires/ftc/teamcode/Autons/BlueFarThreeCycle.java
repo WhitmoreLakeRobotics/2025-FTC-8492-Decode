@@ -128,7 +128,7 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _30_MoveForward:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(36,5,0.35,5);
+                    robot.driveTrain.CmdDrive(37,5,0.35,5);
                     currentStage = stage._40_TurnLeft1;
                 }
 
@@ -144,7 +144,7 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _50_MoveForward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(35,-65,0.20,-65);
+                    robot.driveTrain.CmdDrive(36,-65,0.20,-65);
                     currentStage = stage._60_MoveBack;
                 }
 
@@ -197,7 +197,7 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _69_AutoAdjust2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.targetAngleCalc();
+                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()),.3);
                     currentStage = stage._70_Launch2;
                 }
 
@@ -264,7 +264,7 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _101_AutoAdjust3:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.targetAngleCalc();
+                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()),.3);
                     currentStage = stage._102_Launch3;
                 }
 
@@ -294,10 +294,18 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _105_MoveForward3:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(50,-60,0.35,-90); // possibly SLAM into wall with MORE speed!
+                    robot.driveTrain.CmdDrive(50,-60,0.40,-90); // possibly SLAM into wall with MORE speed!
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
+                    currentStage = stage._106_LastTurn;
+                }
+
+                break;
+            case _106_LastTurn:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.CmdDrive(50,-60,0.35,-90);
                     currentStage = stage._107_ResetGyro;
+
                 }
 
                 break;
@@ -365,6 +373,7 @@ public class BlueFarThreeCycle extends OpMode {
         _102_Launch3,
         _103_stopLaunch3,
         _105_MoveForward3,
+        _106_LastTurn,
         _107_ResetGyro,
         _110_End
 
