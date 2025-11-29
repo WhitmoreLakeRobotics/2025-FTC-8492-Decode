@@ -189,7 +189,7 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _68_Alighn:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(0,0.30); //was negative
+                    runtime.reset(); //was negative
                     currentStage = stage._70_Launch2;
                 }
 
@@ -248,19 +248,27 @@ public class BlueFarThreeCycle extends OpMode {
             case _95_turn2:
                 if(robot.driveTrain.getCmdComplete()){
                     robot.driveTrain.cmdTurn(16,0.25);
-                    currentStage = stage._100_BackUpFANCY;
+                    currentStage = stage._99_BackUpFANCY;
                 }
 
                 break;
-            case _100_BackUpFANCY:
+            case _99_BackUpFANCY:
                 if (robot.driveTrain.getCmdComplete())     {
                     robot.driveTrain.CmdDrive(20,-168,0.35,2);
                     robot.launcher.cmdOutfar();
                     //runtime.reset();
+                    currentStage = stage._100_Runtimefix;
+                }
+
+                break;
+            case _100_Runtimefix:
+                if (robot.driveTrain.getCmdComplete())     {
+                    runtime.reset(); //was negative
                     currentStage = stage._101_AutoAdjust3;
                 }
 
                 break;
+
             case _101_AutoAdjust3:
                 if (runtime.milliseconds() >= 500)     {
                     robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()),0.40);
@@ -367,7 +375,8 @@ public class BlueFarThreeCycle extends OpMode {
         _90_Forward3,
         _95_turn2,
         _97_backup2,
-        _100_BackUpFANCY,
+        _99_BackUpFANCY,
+        _100_Runtimefix,
         _101_AutoAdjust3,
         _102_Launch3,
         _103_stopLaunch3,
