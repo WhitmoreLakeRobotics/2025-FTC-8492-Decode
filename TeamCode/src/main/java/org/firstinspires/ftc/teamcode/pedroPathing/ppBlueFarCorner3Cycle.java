@@ -9,6 +9,7 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.BezierPoint;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
@@ -20,10 +21,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 @Configurable
-@Autonomous(name = "ppBlueFarCorner2Cycle", group = "ppBlue")
+@Autonomous(name = "ppBlueFarCorner3Cycle", group = "ppBlue")
 // @Autonomous(...) is the other common choice
 
-public class ppBlueFarCorner2Cycle extends OpMode {
+public class ppBlueFarCorner3Cycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -50,8 +51,8 @@ public class ppBlueFarCorner2Cycle extends OpMode {
     //
     // poses for pedropath
     private final Pose startPose = new Pose(57, 9, Math.toRadians(90)); // Start Pose of our robot.
-    public static Pose scorePose = new Pose(57, 18, Math.toRadians(112)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose scorePoseAP = new Pose(56, 20, Math.toRadians(112)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePose = new Pose(57, 18, Math.toRadians(114)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePoseAP = new Pose(56, 20, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose pickup1aPose = new Pose(45, 36, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     public static Pose pickup1bPose = new Pose(10, 38, Math.toRadians(180)); // (First Set) of Artifacts picked up.
@@ -59,17 +60,17 @@ public class ppBlueFarCorner2Cycle extends OpMode {
     public static Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
 
-    public static Pose pickupCornera = new Pose(55,18,185);
-    public static Pose pickupCornerb = new Pose(5,18,185);
-    public static Pose pickupCornerc = new Pose(3,13,180);
-    public static Pose parkInterPosea = new Pose(15,20,175);
+    public static Pose pickupCornera = new Pose(50,18,Math.toRadians(185));
+    public static Pose pickupCornerb = new Pose(5,18,Math.toRadians(185));
+    public static Pose pickupCornerc = new Pose(3,13,Math.toRadians(175));
+    public static Pose parkInterPosea = new Pose(15,20,Math.toRadians(175));
 
     public static Pose parkInLoadZonePose = new Pose(3,13,Math.toRadians(190));
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;
     //private PathChain parkInZone;
-    private PathChain grabPickup1, grabPickup1a, scorePickup1, parkInZonePath, pickupCornerPath1, scorePickupCorner; //, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
+    private PathChain grabPickup1, grabPickup1a, scorePickup1, parkInZonePath, pickupCornerPath1,pickupCornerPathF, scorePickupCorner; //, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
 
     // private Path grabPickup1a;
     public void buildPaths() {
@@ -101,17 +102,22 @@ public class ppBlueFarCorner2Cycle extends OpMode {
                 .setLinearHeadingInterpolation(pickup1bPose.getHeading(), scorePoseAP.getHeading()).setHeadingConstraint(0.9)
                 .build();
         pickupCornerPath1 = follower.pathBuilder()
-                .addPath(new BezierCurve(scorePoseAP, pickup1aPose,parkInterPosea, parkInLoadZonePose))
-                .setLinearHeadingInterpolation(scorePoseAP.getHeading(), parkInLoadZonePose.getHeading()).setHeadingConstraint(0.9)
+                .addPath(new BezierCurve(scorePoseAP, pickupCornera, pickupCornerb, pickupCornerc))
+                .setLinearHeadingInterpolation(scorePoseAP.getHeading(), pickupCornerb.getHeading())
+                .setLinearHeadingInterpolation(pickupCornerb.getHeading(), pickupCornerc.getHeading())
+                .build();
+        pickupCornerPathF = follower.pathBuilder()
+                .addPath(new BezierCurve(pickupCornerb, pickupCornerc))
+                .setLinearHeadingInterpolation(pickupCornerb.getHeading(), pickupCornerc.getHeading())
                 .build();
         scorePickupCorner = follower.pathBuilder()
                 .addPath(new BezierCurve(pickupCornerc, parkInterPosea, scorePoseAP))
-                .setLinearHeadingInterpolation(pickupCornerc.getHeading(), scorePose.getHeading()).setHeadingConstraint(0.1)
+                .setLinearHeadingInterpolation(pickupCornerc.getHeading(), scorePose.getHeading())
                 .build();
         parkInZonePath = follower.pathBuilder()
-                .addPath(new BezierCurve(scorePoseAP, pickup1aPose,pickupCornera, pickupCornerb, pickupCornerc))
+                .addPath(new BezierCurve(scorePoseAP, parkInterPosea, parkInLoadZonePose))
                 .setLinearHeadingInterpolation(scorePoseAP.getHeading(), pickupCornerb.getHeading()).setHeadingConstraint(0.9)
-                .setLinearHeadingInterpolation(pickupCornerb.getHeading(), pickupCornerc.getHeading()).setHeadingConstraint(0.9)
+                .setLinearHeadingInterpolation(pickupCornerb.getHeading(), parkInLoadZonePose.getHeading()).setHeadingConstraint(0.9)
                 .build();
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         /*grabPickup2 = follower.pathBuilder()
@@ -340,15 +346,16 @@ public class ppBlueFarCorner2Cycle extends OpMode {
                     follower.followPath(pickupCornerPath1, powerSlow, true);
                     lastPose = currentTargetPose;
                     currentTargetPose = pickupCornerb;
-                    currentStage = stage._105_PickupCorner1_Startintake;
+                    currentStage = stage._105_PickupCorner1_pickup;
                 }
                 break;
 
-            case _105_PickupCorner1_Startintake:
+            case _105_PickupCorner1_pickup:
                 if (!follower.isBusy()) {
                     // follower.followPath(grabPickup1a, true);
-                    if (runtime.milliseconds() >= 1000) // wait for path to settle and complete pickup
+                    if (runtime.milliseconds() >= 2000) // wait for path to settle and complete pickup
                     {
+                        follower.followPath(pickupCornerPathF);
                         currentStage = stage._110_ToScore_Corner1;
                     }
                 }
@@ -368,7 +375,7 @@ public class ppBlueFarCorner2Cycle extends OpMode {
                     if (runtime.milliseconds() >= 1000) {
 
                     robot.launcher.cmdOutfar(); // spin up launcher motors
-                    currentStage = stage._200_parkinLoadingZone;
+                    currentStage = stage._130_LauncherStop;
                 }runtime.reset();
                 }
                 break;
@@ -376,7 +383,7 @@ public class ppBlueFarCorner2Cycle extends OpMode {
                 if (runtime.milliseconds() >= 2000) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
-                    currentStage = stage._50_Pickup1;
+                    currentStage = stage._200_parkinLoadingZone;
                 }
                 break;
             case _200_parkinLoadingZone:
@@ -448,7 +455,7 @@ public class ppBlueFarCorner2Cycle extends OpMode {
         _80_ScorePickup1,
         _90_launcherStop,
         _100_ToPickup_Corner1,
-        _105_PickupCorner1_Startintake,
+        _105_PickupCorner1_pickup,
         _110_ToScore_Corner1,
         _120_Score_corner1,
         _130_LauncherStop,
