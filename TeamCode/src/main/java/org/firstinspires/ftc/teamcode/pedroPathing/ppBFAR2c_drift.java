@@ -6,8 +6,10 @@ import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.HeadingInterpolator;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
@@ -46,14 +48,16 @@ public class ppBFAR2c_drift extends OpMode {
 
     // poses for pedropath
     private final Pose startPose = new Pose(56, 8, Math.toRadians(90)); // Start Pose of our robot.
+    private final Pose targetPoint = new Pose(0,144);
     private final Pose scorePose = new Pose(56, 13, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose pickup1Pose = new Pose(45, 34, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup1aPose = new Pose(5, 34, Math.toRadians(180)); // (First Set) of Artifacts picked up.
+    private final Pose scorePoseAP = new Pose(54,15,Math.toRadians(120));
+
+    private final Pose pickup1aPose = new Pose(45, 34, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    private final Pose pickup1bPose = new Pose(5, 34, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
     private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose parkInLoadZonePose = new Pose(5,10,Math.toRadians(180));
+    private final Pose parkInLoadZonePose = new Pose(5,10,Math.toRadians(-90));
     private Pose currentTargetPose = new Pose(0,0,0);
     private Path scorePreload;
     //private PathChain parkInZone;
@@ -63,7 +67,7 @@ public class ppBFAR2c_drift extends OpMode {
     public void buildPaths() {
         /* This is our scorePreload path. We are using a BezierLine, which is a straight line. */
         scorePreload = new Path(new BezierLine(startPose, scorePose));
-        scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
+        scorePreload.setHeadingInterpolation(HeadingInterpolator.facingPoint(targetPoint));
         scorePreload.setHeadingConstraint(0.1);
         scorePreload.setVelocityConstraint(2.0);
 
@@ -73,22 +77,22 @@ public class ppBFAR2c_drift extends OpMode {
 
         /* This is our grabPickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup1 = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup1Pose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1Pose.getHeading())
+                .addPath(new BezierLine(scorePose, pickup1aPose))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1aPose.getHeading())
                 .build();
         grabPickup1a = follower.pathBuilder()
-                .addPath(new BezierLine(pickup1Pose, pickup1aPose))
-                .setLinearHeadingInterpolation(pickup1Pose.getHeading(), pickup1aPose.getHeading())
+                .addPath(new BezierLine(pickup1aPose, pickup1aPose))
+                .setLinearHeadingInterpolation(pickup1bPose.getHeading(), pickup1bPose.getHeading())
                 .build();
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup1aPose, scorePose))
-                .setLinearHeadingInterpolation(pickup1aPose.getHeading(), scorePose.getHeading()).setHeadingConstraint(0.1)
+                .setHeadingInterpolation(HeadingInterpolator.facingPoint(targetPoint))
                 .build();
 
         parkInZone = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, parkInLoadZonePose))
+                .addPath(new BezierCurve(scorePoseAP, pickup1aPose, pickup1bPose, parkInLoadZonePose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), parkInLoadZonePose.getHeading()).setHeadingConstraint(0.1)
                 .build();
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -245,7 +249,7 @@ public class ppBFAR2c_drift extends OpMode {
             case _50_Pickup1:
                 if (!follower.isBusy()) {
                     follower.followPath(grabPickup1, 0.3, true);
-                    currentTargetPose = pickup1Pose;
+                    currentTargetPose = pickup1aPose;
                     currentStage = stage._55_Pickup1_Startintake;
                 }
                 break;
@@ -253,7 +257,7 @@ public class ppBFAR2c_drift extends OpMode {
             case _55_Pickup1_Startintake:
                 if (!follower.isBusy()) {
                     // follower.followPath(grabPickup1a, true);
-                    currentTargetPose = pickup1aPose;
+                    currentTargetPose = pickup1bPose;
                     robot.intake.cmdFoward();
                     currentStage = stage._60_Pickup1a;
                 }
@@ -261,7 +265,7 @@ public class ppBFAR2c_drift extends OpMode {
 
             case _60_Pickup1a:
                 if (!follower.isBusy()) {
-                    follower.followPath(grabPickup1a,0.25, true);
+                    follower.followPath(grabPickup1a,0.3, true);
                     currentStage = stage._70_ToScorePose;
                 }
                 break;
@@ -288,7 +292,7 @@ public class ppBFAR2c_drift extends OpMode {
                     robot.transitionRoller.cmdSpin();
                     robot.launcherBlocker.cmdUnBlock();
                     runtime.reset();
-                    currentStage = stage._500_End;
+                    currentStage = stage._90_launcherStop;
                 }
 
                 break;
@@ -304,7 +308,7 @@ public class ppBFAR2c_drift extends OpMode {
             case _100_parkinLoadingZone:
                 if (!follower.isBusy()) {
                     follower.followPath(parkInZone, 0.3, true);
-                    currentTargetPose = pickup1Pose;
+                    currentTargetPose = parkInLoadZonePose;
                     currentStage = stage._55_Pickup1_Startintake;
                 }
                 break;
