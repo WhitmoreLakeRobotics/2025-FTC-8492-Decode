@@ -279,7 +279,7 @@ public void NoLaunch(){
                 return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal; //- compensationAngle;
             } else if (currentTagId == 20) {
                 //compensate right
-                return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal -2; //+ compensationAngle;
+                return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal -5.5; //+ compensationAngle;
             } else {
                 return driveTrain.getCurrentHeading();
             }
