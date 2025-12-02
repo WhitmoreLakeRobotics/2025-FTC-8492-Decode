@@ -1,6 +1,6 @@
-
-
 package org.firstinspires.ftc.teamcode.pedroPathing;
+
+
 
 import static org.firstinspires.ftc.teamcode.pedroPathing.CompBotConstants.pathConstraints;
 
@@ -15,18 +15,18 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
-@Disabled
+
 @Configurable
-@Autonomous(name = "ppRNearG3Cycle", group = "PP")
+@Autonomous(name = "ppRNear3Cycle", group = "PP")
+
 // @Autonomous(...) is the other common choice
 
-public class ppRNearG3Cycle extends OpMode {
+public class ppRNear3Cycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -53,18 +53,19 @@ public class ppRNearG3Cycle extends OpMode {
     public static double powerFast = 0.8;
     // poses for pedropath
     // poses for pedropath
-    public static Pose startPose = new Pose(111.5, 135.8, Math.toRadians(0)); // Start Pose of our robot.
-    public static Pose scorePose = new Pose(81.5, 135.6, Math.toRadians(0)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose startPose = new Pose(33.5, 134, Math.toRadians(180)).mirror(); // Start Pose of our robot.
+    public static Pose scorePose = new Pose(55, 110, Math.toRadians(145)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose scorePoseAP = new Pose(132.7,83.5,Math.toRadians(0));
-    public static Pose pickup1aPose = new Pose(82.5, 80.2, Math.toRadians(0)); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(129.3, 70, Math.toRadians(90)); // (First Set) of Artifacts picked up.
-    public static Pose pickup2aPose = new Pose(111.3, 76.5, Math.toRadians(90)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup2bPose = new Pose(85.5, 85.6, Math.toRadians(45)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-public static Pose pickReturn2 = new Pose(133.8,59.5,Math.toRadians(0));
-    public static Pose pickup3aPose = new Pose(74.4, 55.6, Math.toRadians(0)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup3bPose = new Pose(86, 85.5, Math.toRadians(45)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    public static Pose endPose = new Pose(111.6,72,Math.toRadians(90));
+    public static Pose scorePoseAP =new Pose(57,100,Math.toRadians(145)).mirror();
+    public static Pose pickup1aPose = new Pose(45, 86, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1bPose = new Pose(13, 84, Math.toRadians(180)).mirror(); // (First Set) of Artifacts picked up.
+
+    public static Pose pickup2aPose = new Pose(45, 56, Math.toRadians(180)).mirror(); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2bPose = new Pose(8, 54, Math.toRadians(180)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose pickReturn2 =new Pose(20,75,180).mirror();
+    public static Pose pickup3aPose = new Pose(47, 60, Math.toRadians(180)).mirror(); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup3bPose = new Pose(15, 35, Math.toRadians(180)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose endPose = new Pose(11,58,Math.toRadians(180)).mirror();
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;
@@ -124,7 +125,7 @@ public static Pose pickReturn2 = new Pose(133.8,59.5,Math.toRadians(0));
         scorePickup2 = follower.pathBuilder()
                 .addPath(new BezierCurve(pickup2bPose, pickup2aPose, scorePoseAP))
                 .setLinearHeadingInterpolation(pickup2bPose.getHeading(), scorePose.getHeading())
-               // .addPath(new BezierLine(pickup2bPose, scorePoseAP))
+                // .addPath(new BezierLine(pickup2bPose, scorePoseAP))
                 //.setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePoseAP.getHeading())
                 .build();
         /*
@@ -253,22 +254,22 @@ public static Pose pickReturn2 = new Pose(133.8,59.5,Math.toRadians(0));
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
                     currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
-                runtime.reset();
+                    runtime.reset();
                 }
                 break;
 
             case _30_Shoot1:
                 if (!follower.isBusy()) {
                     if (runtime.milliseconds() >= 1500) {
-                        telemetryMU.addLine("wqiting to shoot 1");
-                    // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
-                    //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                    robot.intake.cmdFoward();
-                    robot.transitionRoller.cmdSpin();
-                    robot.launcherBlocker.cmdUnBlock();
-                    runtime.reset();
-                    currentStage = stage._40_LauncherStop;
-                }}
+                        telemetryMU.addLine("waiting to shoot 1");
+                        // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
+                        //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
+                        robot.intake.cmdFoward();
+                        robot.transitionRoller.cmdSpin();
+                        robot.launcherBlocker.cmdUnBlock();
+                        runtime.reset();
+                        currentStage = stage._40_LauncherStop;
+                    }}
                 break;
 
             case _40_LauncherStop:
@@ -318,7 +319,7 @@ public static Pose pickReturn2 = new Pose(133.8,59.5,Math.toRadians(0));
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
                     currentStage = stage._80_ScorePickup1; // we don't need to do the turn since heading is adjusted in path
-               runtime.reset();
+                    runtime.reset();
                 }
                 break;
 
@@ -328,12 +329,12 @@ public static Pose pickReturn2 = new Pose(133.8,59.5,Math.toRadians(0));
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                     if (runtime.milliseconds() >= 1000) {
                         telemetryMU.addLine("wqiting to shoot 2");
-                    robot.intake.cmdFoward();
-                    robot.transitionRoller.cmdSpin();
-                    robot.launcherBlocker.cmdUnBlock();
-                    runtime.reset();
-                    currentStage = stage._90_LauncherStop;
-                }}
+                        robot.intake.cmdFoward();
+                        robot.transitionRoller.cmdSpin();
+                        robot.launcherBlocker.cmdUnBlock();
+                        runtime.reset();
+                        currentStage = stage._90_LauncherStop;
+                    }}
 
             case _90_LauncherStop:
                 if (runtime.milliseconds() >= 1500) {
@@ -381,7 +382,7 @@ public static Pose pickReturn2 = new Pose(133.8,59.5,Math.toRadians(0));
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
                     currentStage = stage._150_ScorePickup2; // we don't need to do the turn since heading is adjusted in path
-                runtime.reset();
+                    runtime.reset();
                 }
                 break;
 
@@ -391,12 +392,12 @@ public static Pose pickReturn2 = new Pose(133.8,59.5,Math.toRadians(0));
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                     if (runtime.milliseconds() >= 1000) {
                         telemetryMU.addLine("wqiting to shoot 1");
-                    robot.intake.cmdFoward();
-                    robot.transitionRoller.cmdSpin();
-                    robot.launcherBlocker.cmdUnBlock();
-                    runtime.reset();
-                    currentStage = stage._450_Park;
-                }
+                        robot.intake.cmdFoward();
+                        robot.transitionRoller.cmdSpin();
+                        robot.launcherBlocker.cmdUnBlock();
+                        runtime.reset();
+                        currentStage = stage._450_Park;
+                    }
                 }
                 break;
 
