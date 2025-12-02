@@ -681,6 +681,13 @@ public class DriveTrain extends BaseHardware {
 
         return cmdComplete;
     }
+
+    public boolean isBusy() {
+
+        return cmdComplete;
+
+    }
+
     public void aprilDrive(){
         /*if (vision.getDesiredTag_staleTime_mSec() < visionThreshHold){
 
