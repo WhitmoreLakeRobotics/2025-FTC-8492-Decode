@@ -51,8 +51,8 @@ public class ppRedFarCorner3Cycle extends OpMode {
     //
     // poses for pedropath
     private final Pose startPose = new Pose(57, 9, Math.toRadians(90)).mirror(); // Start Pose of our robot.
-    public static Pose scorePose = new Pose(57, 18, Math.toRadians(114)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose scorePoseAP = new Pose(56, 20, Math.toRadians(115)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePose = new Pose(57, 15, Math.toRadians(114)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePoseAP = new Pose(56, 17, Math.toRadians(115)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH).mirror(); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose pickup1aPose = new Pose(45, 36, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
     public static Pose pickup1bPose = new Pose(10, 38, Math.toRadians(180)).mirror(); // (First Set) of Artifacts picked up.
