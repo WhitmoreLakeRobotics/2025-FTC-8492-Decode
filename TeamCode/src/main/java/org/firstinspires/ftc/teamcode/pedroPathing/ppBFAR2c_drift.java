@@ -17,7 +17,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
@@ -47,17 +46,17 @@ public class ppBFAR2c_drift extends OpMode {
     //configurables for pedro
 
     // poses for pedropath
-    private final Pose startPose = new Pose(56, 8, Math.toRadians(90)); // Start Pose of our robot.
+    private final Pose startPose = new Pose(55, 8, Math.toRadians(90)); // Start Pose of our robot.
     private final Pose targetPoint = new Pose(0,144);
     private final Pose scorePose = new Pose(56, 13, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     private final Pose scorePoseAP = new Pose(54,15,Math.toRadians(120));
-
+public static Pose wallPose1 = new Pose(3,34,-90);
     private final Pose pickup1aPose = new Pose(45, 34, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    private final Pose pickup1bPose = new Pose(5, 34, Math.toRadians(180)); // (First Set) of Artifacts picked up.
+    private final Pose pickup1bPose = new Pose(7, 34, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
     private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose parkInLoadZonePose = new Pose(5,10,Math.toRadians(-90));
+    private final Pose parkInLoadZonePose = new Pose(2,5,Math.toRadians(-90));
     private Pose currentTargetPose = new Pose(0,0,0);
     private Path scorePreload;
     //private PathChain parkInZone;
@@ -81,19 +80,19 @@ public class ppBFAR2c_drift extends OpMode {
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1aPose.getHeading())
                 .build();
         grabPickup1a = follower.pathBuilder()
-                .addPath(new BezierLine(pickup1aPose, pickup1aPose))
-                .setLinearHeadingInterpolation(pickup1bPose.getHeading(), pickup1bPose.getHeading())
+                .addPath(new BezierLine(pickup1aPose, pickup1bPose))
+                .setLinearHeadingInterpolation(pickup1aPose.getHeading(), pickup1bPose.getHeading())
                 .build();
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup1 = follower.pathBuilder()
-                .addPath(new BezierLine(pickup1aPose, scorePose))
+                .addPath(new BezierLine(pickup1bPose, scorePose))
                 .setHeadingInterpolation(HeadingInterpolator.facingPoint(targetPoint))
                 .build();
 
         parkInZone = follower.pathBuilder()
-                .addPath(new BezierCurve(scorePoseAP, pickup1aPose, pickup1bPose, parkInLoadZonePose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), parkInLoadZonePose.getHeading()).setHeadingConstraint(0.1)
+                .addPath(new BezierCurve(scorePoseAP, pickup1bPose,  wallPose1, parkInLoadZonePose))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), parkInLoadZonePose.getHeading())
                 .build();
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         /*grabPickup2 = follower.pathBuilder()
@@ -301,15 +300,15 @@ public class ppBFAR2c_drift extends OpMode {
                 if (runtime.milliseconds() >= 2000) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
-                    currentStage = stage._100_parkinLoadingZone;
+                    currentStage = stage._200_parkinLoadingZone;
                 }
                 break;
 
-            case _100_parkinLoadingZone:
+            case _200_parkinLoadingZone:
                 if (!follower.isBusy()) {
-                    follower.followPath(parkInZone, 0.3, true);
+                    follower.followPath(parkInZone, 0.8, true);
                     currentTargetPose = parkInLoadZonePose;
-                    currentStage = stage._55_Pickup1_Startintake;
+                    currentStage = stage._500_End;
                 }
                 break;
             case _500_End:
@@ -369,7 +368,8 @@ public class ppBFAR2c_drift extends OpMode {
         _75_chkDrive_to_score_P1,
         _80_ScorePickup1,
         _90_launcherStop,
-        _100_parkinLoadingZone,
+
+        _200_parkinLoadingZone,
         _500_End
 
 
