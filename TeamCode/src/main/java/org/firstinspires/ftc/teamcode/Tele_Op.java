@@ -269,6 +269,8 @@ public class Tele_Op extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad1.dpad_up, gp1_prev_dpad_up)) {
+
+            robot.uppies.cmdUp();
             // if (RBTChassis.subGrabbers.getIsDownRight()) {
             //robot.subGrabbers.cmdMoveUpRight();
             //}
@@ -340,6 +342,9 @@ public class Tele_Op extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad1.dpad_down, gp1_prev_dpad_down)) {
+
+            robot.uppies.cmdDown();
+
             //if (robot.subGrabbers.getIsUpLeft()) {
             //    robot.subGrabbers.cmdMoveDownLeft();
             //}

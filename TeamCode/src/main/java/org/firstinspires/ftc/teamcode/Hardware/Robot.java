@@ -18,6 +18,7 @@ public class Robot extends BaseHardware {
     // public Sensors sensors = new Sensors();
     public Intake intake = new Intake();
     public Launcher launcher = new Launcher();
+    public Uppies uppies = new Uppies();
     //public HuskyLens huskyLens = new HuskyLens();
     // public Spindexer spindexer = new Spindexer();
     //public Flickiteer flickiteer = new Flickiteer();
@@ -105,6 +106,10 @@ public class Robot extends BaseHardware {
         limey.setTelemetry(telemetry);
         limey.init();
 
+        uppies.hardwareMap = this.hardwareMap;
+        uppies.telemetry = this.telemetry;
+        uppies.init();
+
     }
 
     @Override
@@ -121,6 +126,7 @@ public class Robot extends BaseHardware {
         //huskyLens.init_loop();
         // Limelight3A.init_loop();
         limey.init_loop();
+        uppies.init_loop();
     }
 
     @Override
@@ -137,6 +143,7 @@ public class Robot extends BaseHardware {
         //huskyLens.start();
         //Limelight3A.start();
         limey.start();
+        uppies.start();
 
 
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
@@ -155,6 +162,7 @@ public class Robot extends BaseHardware {
         transitionRoller.loop();
         // huskyLens.loop();
         limey.loop();
+        uppies.loop();
 
 
     }
@@ -171,6 +179,7 @@ public class Robot extends BaseHardware {
         transitionRoller.loop();
         // huskyLens.loop();
         limey.loop();
+        uppies.loop();
 
 
     }
@@ -189,6 +198,7 @@ public class Robot extends BaseHardware {
         transitionRoller.stop();
         //huskyLens.stop();
         limey.stop();
+        uppies.stop();
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 
