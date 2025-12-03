@@ -9,23 +9,22 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.BezierPoint;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 @Configurable
-@Autonomous(name = "ppRedFar2Cycle", group = "PP")
+@Autonomous(name = "ppRedFarCorner3Cycle", group = "ppBlue")
 // @Autonomous(...) is the other common choice
 
-public class ppRedFar2Cycle extends OpMode {
+public class ppRedFarCorner3Cycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -52,21 +51,26 @@ public class ppRedFar2Cycle extends OpMode {
     //
     // poses for pedropath
     private final Pose startPose = new Pose(57, 9, Math.toRadians(90)).mirror(); // Start Pose of our robot.
-    public static Pose scorePose = new Pose(57, 18, Math.toRadians(112)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose scorePoseAP = new Pose(56, 20, Math.toRadians(112)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePose = new Pose(57, 18, Math.toRadians(114)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePoseAP = new Pose(56, 20, Math.toRadians(115)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH).mirror(); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose pickup1aPose = new Pose(45, 36, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
     public static Pose pickup1bPose = new Pose(10, 38, Math.toRadians(180)).mirror(); // (First Set) of Artifacts picked up.
 
     public static Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)).mirror(); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    public static Pose parkInterPose = new Pose(15,20,175).mirror();
+
+    public static Pose pickupCornera = new Pose(50,18,Math.toRadians(185)).mirror();
+    public static Pose pickupCornerb = new Pose(5,18,Math.toRadians(185)).mirror();
+    public static Pose pickupCornerc = new Pose(3,13,Math.toRadians(175)).mirror();
+    public static Pose parkInterPosea = new Pose(15,20,Math.toRadians(175)).mirror();
+
     public static Pose parkInLoadZonePose = new Pose(3,13,Math.toRadians(190)).mirror();
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;
     //private PathChain parkInZone;
-    private PathChain grabPickup1, grabPickup1a, scorePickup1, parkInZonePath; //, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
+    private PathChain grabPickup1, grabPickup1a, scorePickup1, parkInZonePath, pickupCornerPath1,pickupCornerPathF, scorePickupCorner; //, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
 
     // private Path grabPickup1a;
     public void buildPaths() {
@@ -95,12 +99,25 @@ public class ppRedFar2Cycle extends OpMode {
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup1 = follower.pathBuilder()
                 .addPath(new BezierLine(pickup1bPose, scorePoseAP))
-                .setLinearHeadingInterpolation(pickup1bPose.getHeading(), scorePoseAP.getHeading()).setHeadingConstraint(0.1)
+                .setLinearHeadingInterpolation(pickup1bPose.getHeading(), scorePoseAP.getHeading()).setHeadingConstraint(0.9)
                 .build();
-
+        pickupCornerPath1 = follower.pathBuilder()
+                .addPath(new BezierCurve(scorePoseAP, pickupCornera, pickupCornerb, pickupCornerc))
+                .setLinearHeadingInterpolation(scorePoseAP.getHeading(), pickupCornerb.getHeading())
+                .setLinearHeadingInterpolation(pickupCornerb.getHeading(), pickupCornerc.getHeading())
+                .build();
+        pickupCornerPathF = follower.pathBuilder()
+                .addPath(new BezierCurve(pickupCornerb, pickupCornerc))
+                .setLinearHeadingInterpolation(pickupCornerb.getHeading(), pickupCornerc.getHeading())
+                .build();
+        scorePickupCorner = follower.pathBuilder()
+                .addPath(new BezierCurve(pickupCornerc, parkInterPosea, scorePoseAP))
+                .setLinearHeadingInterpolation(pickupCornerc.getHeading(), scorePose.getHeading())
+                .build();
         parkInZonePath = follower.pathBuilder()
-                .addPath(new BezierCurve(scorePoseAP, pickup1aPose,parkInterPose, parkInLoadZonePose))
-                .setLinearHeadingInterpolation(scorePoseAP.getHeading(), parkInLoadZonePose.getHeading()).setHeadingConstraint(0.1)
+                .addPath(new BezierCurve(scorePoseAP, parkInterPosea, parkInLoadZonePose))
+                .setLinearHeadingInterpolation(scorePoseAP.getHeading(), pickupCornerb.getHeading()).setHeadingConstraint(0.9)
+                .setLinearHeadingInterpolation(pickupCornerb.getHeading(), parkInLoadZonePose.getHeading()).setHeadingConstraint(0.9)
                 .build();
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         /*grabPickup2 = follower.pathBuilder()
@@ -240,7 +257,7 @@ public class ppRedFar2Cycle extends OpMode {
                     // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                     if (runtime.milliseconds() >= 1000) {
-                        telemetryMU.addLine("wqiting to shoot 1");
+                        telemetryMU.addLine("waiting to shoot 1");
 
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
@@ -282,10 +299,10 @@ public class ppRedFar2Cycle extends OpMode {
                     follower.followPath(grabPickup1a,powerSlow, true);
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup1bPose;
-                    currentStage = stage._70_ToScorePose;
+                    currentStage = stage._70_ToScorePoseAP;
                 }
                 break;
-            case _70_ToScorePose:
+            case _70_ToScorePoseAP:
                 if(!follower.isBusy()){
                     follower.followPath(scorePickup1,powerNormal,true);
                     lastPose = currentTargetPose;
@@ -306,7 +323,7 @@ public class ppRedFar2Cycle extends OpMode {
                 if (!follower.isBusy()) {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                    if (runtime.milliseconds() > 750) {
+                    if (runtime.milliseconds() > 750) { // let path settle
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
@@ -321,16 +338,62 @@ public class ppRedFar2Cycle extends OpMode {
                 if (runtime.milliseconds() >= 1000) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
-                    currentStage = stage._100_parkinLoadingZone;
+                    currentStage = stage._100_ToPickup_Corner1;
+                }
+                break;
+            case _100_ToPickup_Corner1:
+                if (!follower.isBusy()) {
+                    follower.followPath(pickupCornerPath1, powerSlow, true);
+                    lastPose = currentTargetPose;
+                    currentTargetPose = pickupCornerb;
+                    currentStage = stage._105_PickupCorner1_pickup;
                 }
                 break;
 
-            case _100_parkinLoadingZone:
+            case _105_PickupCorner1_pickup:
                 if (!follower.isBusy()) {
-                    follower.followPath(parkInZonePath,powerSlow, true);
+                    // follower.followPath(grabPickup1a, true);
+                    if (runtime.milliseconds() >= 2000) // wait for path to settle and complete pickup
+                    {
+                        follower.followPath(pickupCornerPathF);
+                        currentStage = stage._110_ToScore_Corner1;
+                    }
+                }
+                break;
+
+            case _110_ToScore_Corner1:
+                if (!follower.isBusy()) {
+                    follower.followPath(scorePickupCorner,powerNormal, true);
                     lastPose = currentTargetPose;
-                    currentTargetPose = parkInLoadZonePose;
-                    currentStage = stage._500_End;
+                    currentTargetPose = pickup1bPose;
+                    currentStage = stage._120_Score_corner1;
+                    runtime.reset();
+                }
+                break;
+            case _120_Score_corner1:
+                if(!follower.isBusy()){
+                    if (runtime.milliseconds() >= 1000) {
+
+                        robot.launcher.cmdOutfar(); // spin up launcher motors
+                        currentStage = stage._130_LauncherStop;
+                    }runtime.reset();
+                }
+                break;
+            case _130_LauncherStop:
+                if (runtime.milliseconds() >= 2000) {
+                    // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
+                    robot.launcherBlocker.cmdBlock();
+                    currentStage = stage._200_parkinLoadingZone;
+                }
+                break;
+            case _200_parkinLoadingZone:
+                if (!follower.isBusy()) {
+                    if (runtime.milliseconds() >= 1000) {
+                        follower.followPath(parkInZonePath, powerSlow, true);
+                        lastPose = currentTargetPose;
+                        currentTargetPose = parkInLoadZonePose;
+                        currentStage = stage._500_End;
+                    }
                 }
                 break;
             case _500_End:
@@ -387,15 +450,22 @@ public class ppRedFar2Cycle extends OpMode {
         _50_Pickup1,
         _55_Pickup1_Startintake,
         _60_Pickup1a,
-        _70_ToScorePose,
+        _70_ToScorePoseAP,
         _75_chkDrive_to_score_P1,
         _80_ScorePickup1,
         _90_launcherStop,
-        _100_parkinLoadingZone,
+        _100_ToPickup_Corner1,
+        _105_PickupCorner1_pickup,
+        _110_ToScore_Corner1,
+        _120_Score_corner1,
+        _130_LauncherStop,
+        _200_parkinLoadingZone,
         _500_End
 
 
     }
 
 }
+
+
 
