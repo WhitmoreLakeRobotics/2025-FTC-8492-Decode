@@ -17,7 +17,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
@@ -49,19 +48,20 @@ public class ppBFAR2c_drift extends OpMode {
     // poses for pedropath
     private final Pose startPose = new Pose(56, 8, Math.toRadians(90)); // Start Pose of our robot.
     private final Pose targetPoint = new Pose(0,144);
-    private final Pose scorePose = new Pose(56, 13, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    private final Pose scorePoseAP = new Pose(54,15,Math.toRadians(120));
+    private final Pose scorePose = new Pose(56, 13); //testing to see if Facing Point will work if we don't define a heading, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    private final Pose scorePoseAP = new Pose(54,15);//,Math.toRadians(120));
 
     private final Pose pickup1aPose = new Pose(45, 34, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     private final Pose pickup1bPose = new Pose(5, 34, Math.toRadians(180)); // (First Set) of Artifacts picked up.
-
+public static Pose pickupCornerPoint = new Pose(144,0);
+public static Pose pickupLZone1 = new Pose(); //not sure if needed
     private final Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     private final Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    private final Pose parkInLoadZonePose = new Pose(5,10,Math.toRadians(-90));
+    private final Pose parkInLoadZonePose = new Pose(5,10);
     private Pose currentTargetPose = new Pose(0,0,0);
     private Path scorePreload;
     //private PathChain parkInZone;
-    private PathChain grabPickup1, grabPickup1a, scorePickup1, parkInZone; //, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
+    private PathChain grabPickup1, grabPickup1a, scorePickup1, pickupLZone, scoreLZone, parkInZone; //, grabPickup2, scorePickup2, grabPickup3, scorePickup3;
 
     // private Path grabPickup1a;
     public void buildPaths() {
@@ -90,10 +90,18 @@ public class ppBFAR2c_drift extends OpMode {
                 .addPath(new BezierLine(pickup1aPose, scorePose))
                 .setHeadingInterpolation(HeadingInterpolator.facingPoint(targetPoint))
                 .build();
-
+pickupLZone = follower.pathBuilder()
+        .addPath(new BezierLine(scorePoseAP,parkInLoadZonePose))
+        .setHeadingInterpolation(HeadingInterpolator.facingPoint(pickupCornerPoint))
+                .build();
+scoreLZone = follower.pathBuilder()
+        .addPath(new BezierLine(parkInLoadZonePose, scorePoseAP))
+        .setHeadingInterpolation(HeadingInterpolator.facingPoint(targetPoint))
+        .build();
         parkInZone = follower.pathBuilder()
                 .addPath(new BezierCurve(scorePoseAP, pickup1aPose, pickup1bPose, parkInLoadZonePose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), parkInLoadZonePose.getHeading()).setHeadingConstraint(0.1)
+               // .setLinearHeadingInterpolation(scorePose.getHeading(), parkInLoadZonePose.getHeading()).setHeadingConstraint(0.1)
+                .setHeadingInterpolation(HeadingInterpolator.facingPoint(targetPoint))
                 .build();
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         /*grabPickup2 = follower.pathBuilder()
@@ -218,7 +226,9 @@ public class ppBFAR2c_drift extends OpMode {
                     // follower.update();
                     robot.launcher.cmdOutfar(); // spin up luanch motors
                     currentStage = stage._25_checkDrivetoscore;
-                }
+                }follower.pausePathFollowing();
+                break;
+
             case _25_checkDrivetoscore:
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
@@ -234,11 +244,11 @@ public class ppBFAR2c_drift extends OpMode {
                     robot.transitionRoller.cmdSpin();
                     robot.launcherBlocker.cmdUnBlock();
                     runtime.reset();
-                    currentStage = stage._40_LauncherStop;
+                    currentStage = stage._40_LauncherStop1;
                 }
                 break;
 
-            case _40_LauncherStop:
+            case _40_LauncherStop1:
                 if (runtime.milliseconds() >= 2000) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
@@ -266,10 +276,11 @@ public class ppBFAR2c_drift extends OpMode {
             case _60_Pickup1a:
                 if (!follower.isBusy()) {
                     follower.followPath(grabPickup1a,0.3, true);
-                    currentStage = stage._70_ToScorePose;
+                    currentStage = stage._70_ToScorePose2;
                 }
                 break;
-            case _70_ToScorePose:
+
+            case _70_ToScorePose2:
                 if(!follower.isBusy()){
                     follower.followPath(scorePickup1,0.5,true);
                     currentTargetPose = scorePose;
@@ -277,6 +288,7 @@ public class ppBFAR2c_drift extends OpMode {
                     currentStage = stage._80_ScorePickup1;
                 }
                 break;
+
             case _75_chkDrive_to_score_P1:
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
@@ -288,30 +300,65 @@ public class ppBFAR2c_drift extends OpMode {
                 if (!follower.isBusy()) {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
+                    robot.launcherBlocker.cmdUnBlock();
                     robot.intake.cmdFoward();
                     robot.transitionRoller.cmdSpin();
-                    robot.launcherBlocker.cmdUnBlock();
                     runtime.reset();
                     currentStage = stage._90_launcherStop;
                 }
-
                 break;
 
             case _90_launcherStop:
                 if (runtime.milliseconds() >= 2000) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
-                    currentStage = stage._100_parkinLoadingZone;
+                    follower.followPath(parkInZone, 0.3, true);
+                    currentTargetPose = parkInLoadZonePose;
+                    currentStage = stage._100_pickupIn_LoadingZone;
+                    runtime.reset();
                 }
                 break;
 
-            case _100_parkinLoadingZone:
-                if (!follower.isBusy()) {
-                    follower.followPath(parkInZone, 0.3, true);
-                    currentTargetPose = parkInLoadZonePose;
-                    currentStage = stage._55_Pickup1_Startintake;
+            case _100_pickupIn_LoadingZone:
+                if (runtime.milliseconds() >= 2500){
+                    follower.followPath(scoreLZone);
+                    currentStage = stage._110_toScore_loadingzone;
+                } else if ((follower.atParametricEnd() ||
+                    (follower.isRobotStuck() )))  {
+                    //wiggle a bit to see if you can pickup more. Do this by
+                if ((runtime.milliseconds() % 2 )==0) {
+                    follower.turnToDegrees(-90);
+                }
+                else
+                follower.turnToDegrees(-80);
                 }
                 break;
+
+            case _110_toScore_loadingzone:
+                     if (!follower.isBusy()) {
+                    //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
+                    //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
+                    robot.launcherBlocker.cmdUnBlock();
+                    robot.intake.cmdFoward();
+                    robot.transitionRoller.cmdSpin();
+                    runtime.reset();
+                    currentStage = stage._120_laucherStop3;
+                }
+
+                break;
+
+            case _120_laucherStop3:
+                if (runtime.milliseconds() >= 2000) {
+                    // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
+                    robot.launcherBlocker.cmdBlock();
+                    follower.followPath(parkInZone, 0.8, true);
+                    currentTargetPose = parkInLoadZonePose;
+                    currentStage = stage._500_End;
+                    runtime.reset();
+                }
+                break;
+
+
             case _500_End:
             { //do nothing let the time run out
 
@@ -361,15 +408,18 @@ public class ppBFAR2c_drift extends OpMode {
         _20_DriveToScore,
         _25_checkDrivetoscore,
         _30_Shoot1,
-        _40_LauncherStop,
+        _40_LauncherStop1,
         _50_Pickup1,
         _55_Pickup1_Startintake,
         _60_Pickup1a,
-        _70_ToScorePose,
+        _70_ToScorePose2,
         _75_chkDrive_to_score_P1,
         _80_ScorePickup1,
         _90_launcherStop,
-        _100_parkinLoadingZone,
+        _100_pickupIn_LoadingZone,
+        _110_toScore_loadingzone,
+        _120_laucherStop3,
+        _200_parkinLoadingZone,
         _500_End
 
 
