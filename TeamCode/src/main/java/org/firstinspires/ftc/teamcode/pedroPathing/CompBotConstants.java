@@ -73,10 +73,11 @@ public class CompBotConstants { public static FollowerConstants followerConstant
     public static PathConstraints pathConstraints = new PathConstraints(
             0.90,
             3.0,
-            01.0,
+            02.0,
             .98,
             50,
-            1.2,10, 1);
+           1,10,1);
+   //         1.2,10, 1);
 //public static PathConstraints pathconstraints = new PathConstraints(0.97, 0.1, 50,0.09, 1.4, 1,0.2);
 
 
