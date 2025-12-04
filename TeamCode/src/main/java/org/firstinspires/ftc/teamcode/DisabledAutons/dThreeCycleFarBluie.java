@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Autons;
+package org.firstinspires.ftc.teamcode.DisabledAutons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -9,10 +9,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 @Disabled
-@Autonomous(name = "dTwoCycleFarRed", group = "Auton")
+@Autonomous(name = "dThreeCycleFarBluie", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class dTwoCycleFarRed extends OpMode {
+public class dThreeCycleFarBluie extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -90,17 +90,18 @@ public class dTwoCycleFarRed extends OpMode {
         switch (currentStage){
             case  _unknown:
                 currentStage = stage._00_preStart;
-                break;
+
             case _00_preStart:
                 currentStage = stage._05_ForwardStart;
-
                 break;
+
 
             case _05_ForwardStart:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(2,0,0.15,0);
+                    robot.driveTrain.CmdDrive(4,0,0.15,0);
                     currentStage = stage._10_PreLaunch;
                 }
+
 
                 break;
             case _10_PreLaunch:
@@ -110,6 +111,7 @@ public class dTwoCycleFarRed extends OpMode {
                     runtime.reset();
                     currentStage = stage._20_Launch;
                 }
+
                 break;
             case _20_Launch:
                 if(runtime.milliseconds() >=1500){
@@ -135,35 +137,35 @@ public class dTwoCycleFarRed extends OpMode {
                 break;
             case _30_MoveForward:
                 if (runtime.milliseconds() >=500)     {
-                    robot.driveTrain.CmdDrive(22,0,0.35,0);
+                    robot.driveTrain.CmdDrive(8,0,0.35,0);
                     currentStage = stage._40_TurnRight1;
                 }
 
                 break;
             case _40_TurnRight1:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(30,0.25);
+                    robot.driveTrain.cmdTurn(-65,0.25);
                     currentStage = stage._50_MoveForward2;
                 }
 
                 break;
             case _50_MoveForward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(16,30,0.20,30);
+                    robot.driveTrain.CmdDrive(26,-65,0.20,-65);
                     currentStage = stage._60_MoveBack;
                 }
 
                 break;
             case _60_MoveBack:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(16,210,0.20,30);
+                    robot.driveTrain.CmdDrive(26,-245,0.20,-65);   //bearing possibly -240
                     currentStage = stage._70_TurnLeft1;
                 }
 
                 break;
             case _70_TurnLeft1:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(0,0.25);
+                    robot.driveTrain.cmdTurn(-5,0.25);
                     robot.transitionRoller.cmdStop();
                     currentStage = stage._75_MoveBack2;
                 }
@@ -171,14 +173,14 @@ public class dTwoCycleFarRed extends OpMode {
                 break;
             case _75_MoveBack2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(20,180,0.35,0);
+                    robot.driveTrain.CmdDrive(8,180,0.35,-5);
                     currentStage = stage._80_PreLaunch2;
                 }
 
                 break;
             case _80_PreLaunch2:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(0,0,0.0,0);
+                    robot.driveTrain.CmdDrive(0,0,0.0,-5);
                     robot.launcher.cmdOutfar();
                     runtime.reset();
                     currentStage = stage._90_Launch2;
@@ -188,7 +190,7 @@ public class dTwoCycleFarRed extends OpMode {
                 break;
             case _90_Launch2:
                 if(runtime.milliseconds() >=1500){
-                    robot.driveTrain.CmdDrive(0,0,0.0,0);
+                    robot.driveTrain.CmdDrive(0,0,0.0,-5);
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
                     runtime.reset();
@@ -199,25 +201,88 @@ public class dTwoCycleFarRed extends OpMode {
                 break;
             case _100_StopLaunch2:
                 if (runtime.milliseconds() >=5000)     {
-                    robot.driveTrain.CmdDrive(0,0,0.0,0);
-                    robot.intake.cmdStop();
-                    robot.transitionRoller.cmdStop();
+                    robot.driveTrain.CmdDrive(0,0,0.0,-5);
                     robot.launcherBlocker.cmdBlock();
                     robot.launcher.cmdStop();
                     runtime.reset();
+                    currentStage = stage._103_TurnLeft2;
+                }
+
+                break;
+            case _103_TurnLeft2:
+                if (runtime.milliseconds() >=500)     {
+                    robot.driveTrain.cmdTurn(-70,0.35);
                     currentStage = stage._105_MoveForward3;
                 }
 
+
                 break;
             case _105_MoveForward3:
-                if (runtime.milliseconds() >=500)     {
-                    robot.driveTrain.CmdDrive(20,0,0.35,0);
-                    currentStage = stage._110_End;
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.CmdDrive(25,-70,0.25,-70);
+                    currentStage = stage._110_MoveBackward2;
+                }
+
+                break;
+            case _110_MoveBackward2:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.CmdDrive(25,-250,0.30,-70);
+                    currentStage = stage._120_TurnRight2;
+                }
+
+                break;
+            case _120_TurnRight2:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.cmdTurn(-5,0.35);
+                    robot.intake.cmdStop();
+                    robot.transitionRoller.cmdStop();
+                    currentStage = stage._130_PreLaunch3;
+                }
+
+                break;
+            case _130_PreLaunch3:
+                if(robot.driveTrain.getCmdComplete()){
+                    robot.driveTrain.CmdDrive(0,0,0.0,-5);
+                    robot.launcher.cmdOutfar();
+                    runtime.reset();
+                    currentStage = stage._140_Launch3;
+
+                }
+
+                break;
+            case _140_Launch3:
+                if(runtime.milliseconds() >=1500){
+                    robot.driveTrain.CmdDrive(0,0,0.0,-5);
+                    robot.intake.cmdFoward();
+                    robot.launcherBlocker.cmdUnBlock();
+                    robot.transitionRoller.cmdSpin();
+                    runtime.reset();
+                    currentStage = stage._150_StopLauncher;
+
+                }
+
+                break;
+            case _150_StopLauncher:
+                if (runtime.milliseconds() >=5000)     {
+                    robot.driveTrain.CmdDrive(0,0,0.0,-5);
+                    robot.launcherBlocker.cmdBlock();
+                    robot.launcher.cmdStop();
+                    robot.intake.cmdStop();
+                    robot.transitionRoller.cmdStop();
+                    runtime.reset();
+                    currentStage = stage._160_ResetGyro;
+                }
+
+                break;
+            case _160_ResetGyro:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.ResetGyro();
+                    currentStage = stage._170_End;
                 }
 
                 break;
 
-            case _110_End:
+            case _170_End:
                 if(robot.driveTrain.getCmdComplete()){
                     robot.stop();
 
@@ -261,8 +326,15 @@ public class dTwoCycleFarRed extends OpMode {
         _80_PreLaunch2,
         _90_Launch2,
         _100_StopLaunch2,
+        _103_TurnLeft2,
         _105_MoveForward3,
-        _110_End
+        _110_MoveBackward2,
+        _120_TurnRight2,
+        _130_PreLaunch3,
+        _140_Launch3,
+        _150_StopLauncher,
+        _160_ResetGyro,
+        _170_End
 
 
     }
