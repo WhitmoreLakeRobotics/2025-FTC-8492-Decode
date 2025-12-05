@@ -87,8 +87,8 @@ public class dBlueNearThreeCycleGate extends OpMode {
         telemetry.addData("Auton_Current_Stage ", currentStage);
         robot.loop();
 
-        switch (currentStage){
-            case  _unknown:
+        switch (currentStage) {
+            case _unknown:
                 currentStage = stage._00_preStart;
                 break;
             case _00_preStart:
@@ -97,23 +97,23 @@ public class dBlueNearThreeCycleGate extends OpMode {
 
 
             case _20_DriveBack:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(25,-180,0.35,0);
+                if (robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(25, -180, 0.35, 0);
                     robot.launcher.cmdOuttouch();
                     currentStage = stage._25_Turn;
                 }
                 break;
 
             case _25_Turn:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(5,0.35);
+                if (robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.cmdTurn(5, 0.35);
                     runtime.reset();
                     currentStage = stage._30_Shoot1;
                 }
 
                 break;
             case _30_Shoot1:
-                if (runtime.milliseconds() >=1500)  {
+                if (runtime.milliseconds() >= 1500) {
                     robot.intake.cmdFoward();
                     robot.transitionRoller.cmdSpin();
                     robot.launcherBlocker.cmdUnBlock();
@@ -122,8 +122,8 @@ public class dBlueNearThreeCycleGate extends OpMode {
                 }
                 break;
             case _40_LauncherStop:
-                if (runtime.milliseconds() >=1500){
-                    robot.driveTrain.cmdTurn(0,0.25);
+                if (runtime.milliseconds() >= 1500) {
+                    robot.driveTrain.cmdTurn(0, 0.25);
                     robot.launcherBlocker.cmdBlock();
                     robot.transitionRoller.cmdStop();
                     //robot.launcher.cmdStop();
@@ -132,33 +132,37 @@ public class dBlueNearThreeCycleGate extends OpMode {
                 }
                 break;
             case _45_Forward2:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(12,0,0.35,0);
+                if (robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(12, 0, 0.35, 0);
                     currentStage = stage._50_Left1;
                 }
                 break;
             case _50_Left1:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(51,-90,0.35,0);
+                if (robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(51, -90, 0.35, 0);
                     currentStage = stage._60_Foward1;
                 }
                 break;
             case _60_Foward1:
-                if (robot.driveTrain.getCmdComplete())    {
+                if (robot.driveTrain.getCmdComplete()) {
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
-                    robot.driveTrain.CmdDrive(26,0,0.20,0);
+                    robot.driveTrain.CmdDrive(26, 0, 0.20, 0);
+                    currentStage = stage._63_RuntimeReset;
+                }
+
+                break;
+            case _63_RuntimeReset:
+                if (robot.driveTrain.getCmdComplete()) {
+                    runtime.reset();
                     currentStage = stage._65_GateGone;
                 }
                 break;
             case _65_GateGone:
-                if (robot.driveTrain.getCmdComplete())    {
+                if (runtime.milliseconds() >= 750) {
+                    robot.driveTrain.cmdTurn(-90, 0.25);
                     runtime.reset();
-                    if (runtime.milliseconds() >= 750) {
-                        robot.driveTrain.cmdTurn(-90, 0.25);
-                        runtime.reset();
-                        currentStage = stage._70_Backwards1;
-                    }
+                    currentStage = stage._70_Backwards1;
                 }
                 break;
             case _70_Backwards1:
@@ -327,6 +331,7 @@ public class dBlueNearThreeCycleGate extends OpMode {
         _45_Forward2,
         _50_Left1,
         _60_Foward1,
+        _63_RuntimeReset,
         _65_GateGone,
         _70_Backwards1,
         _80_TurnToLaunch1,

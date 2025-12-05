@@ -20,10 +20,11 @@ public class Uppies extends BaseHardware{
     public boolean UP = false;
     public Servo USCC;
 
-public static final double UpUSCC = 0.1;
+public static final double UpUSCC = -1;
 public static final double DownUSCC = 1;
     public static final double UpUSC = 1;
-    public static final double DownUSC = 0.1;
+    public static final double DownUSC = -1;
+    public static final double Stop = 0.0;
     /**
      * BaseHardware constructor
      * <p>
@@ -97,8 +98,16 @@ public static final double DownUSCC = 1;
 
     }
 
+    public void cmdStop(){
+        CurrentMode = Mode.STOP;
+        USC.setPosition(Stop);
+        USCC.setPosition(Stop);
+
+    }
+
     public enum Mode{
         UP,
-        DOWN
+        DOWN,
+        STOP
     }
 }

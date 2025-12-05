@@ -55,17 +55,17 @@ public class ppBlueFarCorner3Cycle extends OpMode {
     public static Pose scorePoseAP = new Pose(56, 20, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose pickup1aPose = new Pose(45, 36, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(10, 38, Math.toRadians(180)); // (First Set) of Artifacts picked up.
+    public static Pose pickup1bPose = new Pose(3, 38, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
     public static Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
 
-    public static Pose pickupCornera = new Pose(50,18,Math.toRadians(185));
-    public static Pose pickupCornerb = new Pose(5,18,Math.toRadians(185));
-    public static Pose pickupCornerc = new Pose(3,13,Math.toRadians(175));
+    public static Pose pickupCornera = new Pose(30,38,Math.toRadians(185));
+    public static Pose pickupCornerb = new Pose(0,42,Math.toRadians(200));
+    public static Pose pickupCornerc = new Pose(-1,4,Math.toRadians(270));
     public static Pose parkInterPosea = new Pose(15,20,Math.toRadians(175));
 
-    public static Pose parkInLoadZonePose = new Pose(3,13,Math.toRadians(190));
+    public static Pose parkInLoadZonePose = new Pose(3,8,Math.toRadians(190));
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;
@@ -247,6 +247,7 @@ public class ppBlueFarCorner3Cycle extends OpMode {
             case _25_checkDrivetoscore:
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
+                    runtime.reset();
                     currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
                     runtime.reset();
                 }
@@ -314,8 +315,8 @@ public class ppBlueFarCorner3Cycle extends OpMode {
             case _75_chkDrive_to_score_P1:
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
-                    currentStage = stage._80_ScorePickup1; // we don't need to do the turn since heading is adjusted in path
                     runtime.reset();
+                    currentStage = stage._80_ScorePickup1; // we don't need to do the turn since heading is adjusted in path
                 }
                 break;
 
@@ -323,7 +324,7 @@ public class ppBlueFarCorner3Cycle extends OpMode {
                 if (!follower.isBusy()) {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                    if (runtime.milliseconds() > 750) { // let path settle
+                    if (runtime.milliseconds() >= 750) { // let path settle
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
@@ -335,7 +336,7 @@ public class ppBlueFarCorner3Cycle extends OpMode {
                 break;
 
             case _90_launcherStop:
-                if (runtime.milliseconds() >= 1000) {
+                if (runtime.milliseconds() >= 1500) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
                     currentStage = stage._100_ToPickup_Corner1;
@@ -346,6 +347,7 @@ public class ppBlueFarCorner3Cycle extends OpMode {
                     follower.followPath(pickupCornerPath1, powerSlow, true);
                     lastPose = currentTargetPose;
                     currentTargetPose = pickupCornerb;
+                    runtime.reset();
                     currentStage = stage._105_PickupCorner1_pickup;
                 }
                 break;
@@ -366,23 +368,28 @@ public class ppBlueFarCorner3Cycle extends OpMode {
                     follower.followPath(scorePickupCorner,powerNormal, true);
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup1bPose;
-                    currentStage = stage._120_Score_corner1;
+                    robot.launcher.cmdOutfar();
                     runtime.reset();
+                    currentStage = stage._120_Score_corner1;
                 }
                 break;
             case _120_Score_corner1:
                 if(!follower.isBusy()){
-                    if (runtime.milliseconds() >= 1000) {
-
-                    robot.launcher.cmdOutfar(); // spin up launcher motors
+                if(runtime.milliseconds() >= 1500){
+                    robot.launcherBlocker.cmdUnBlock();
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
+                    runtime.reset();
                     currentStage = stage._130_LauncherStop;
-                }runtime.reset();
+                }
+
                 }
                 break;
             case _130_LauncherStop:
                 if (runtime.milliseconds() >= 2000) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
+                    runtime.reset();
                     currentStage = stage._200_parkinLoadingZone;
                 }
                 break;
@@ -398,6 +405,7 @@ public class ppBlueFarCorner3Cycle extends OpMode {
                 break;
             case _500_End:
             { //do nothing let the time run out
+                //ok
 
             }
 

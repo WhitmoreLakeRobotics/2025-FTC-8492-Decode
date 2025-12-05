@@ -305,6 +305,10 @@ public class Tele_Op extends OpMode {
 
 
         }
+        if(CommonLogic.oneShotRelease(gamepad1.dpad_up, gp1_prev_dpad_up)){
+            robot.uppies.cmdStop();
+        }
+
 
         if (CommonLogic.oneShot(gamepad1.dpad_left, gp1_prev_dpad_left)) {
             //if (robot.subGrabbers.getIsDownLeft()) {
@@ -377,6 +381,9 @@ public class Tele_Op extends OpMode {
 
              */
 
+        }
+        if(CommonLogic.oneShotRelease(gamepad1.dpad_down, gp1_prev_dpad_down)){
+            robot.uppies.cmdStop();
         }
 
         //***********   Gamepad 2 controls ********
@@ -564,11 +571,16 @@ public class Tele_Op extends OpMode {
         if (gamepad2.left_trigger > 0.7) { //0.8
             robot.launcherBlocker.cmdUnBlock();
 
+        }else{
+            robot.launcherBlocker.cmdBlock();  //experiment
         }
+
+        /*
         if ((gamepad2.left_trigger <= 0.69) && (gamepad2.left_trigger > 0.0)) { //0.79
             robot.launcherBlocker.cmdBlock();
           //  robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE_VIOLET);
         }
+         */
 
         // Update the previous status for gamepad1
         gp1_prev_a = gamepad1.a;
