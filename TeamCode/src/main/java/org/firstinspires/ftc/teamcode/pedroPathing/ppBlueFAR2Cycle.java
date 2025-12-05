@@ -56,7 +56,7 @@ public class ppBlueFAR2Cycle extends OpMode {
     public static Pose scorePoseAP = new Pose(56, 20, Math.toRadians(112)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose pickup1aPose = new Pose(45, 36, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(10, 38, Math.toRadians(180)); // (First Set) of Artifacts picked up.
+    public static Pose pickup1bPose = new Pose(5, 38, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
     public static Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.

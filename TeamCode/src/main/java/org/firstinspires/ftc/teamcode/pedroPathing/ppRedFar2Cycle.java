@@ -55,8 +55,8 @@ public class ppRedFar2Cycle extends OpMode {
     public static Pose scorePose = new Pose(57, 18, Math.toRadians(112)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose scorePoseAP = new Pose(56, 20, Math.toRadians(112)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH).mirror(); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose pickup1aPose = new Pose(45, 36, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(10, 33, Math.toRadians(180)).mirror(); // (First Set) of Artifacts picked up.
+    public static Pose pickup1aPose = new Pose(45, 33, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1bPose = new Pose(5, 33, Math.toRadians(180)).mirror(); // (First Set) of Artifacts picked up.
 
     public static Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)).mirror(); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.

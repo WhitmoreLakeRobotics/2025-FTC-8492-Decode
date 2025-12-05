@@ -22,10 +22,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 @Configurable
-@Autonomous(name = "ppBNear3Cycle", group = "PP")
+@Autonomous(name = "ppBlueNear3Cycle", group = "PP")
 // @Autonomous(...) is the other common choice
 
-public class ppBNear3Cycle extends OpMode {
+public class ppBlueNear3Cycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -56,7 +56,7 @@ public class ppBNear3Cycle extends OpMode {
     public static Pose scorePose = new Pose(55, 110, Math.toRadians(145)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose scorePoseAP =new Pose(57,100,Math.toRadians(145));
-    public static Pose pickup1aPose = new Pose(45, 86, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1aPose = new Pose(50, 86, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     public static Pose pickup1bPose = new Pose(13, 84, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
     public static Pose pickup2aPose = new Pose(45, 56, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
@@ -64,7 +64,7 @@ public class ppBNear3Cycle extends OpMode {
 public static Pose pickReturn2 =new Pose(20,75,180);
     public static Pose pickup3aPose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup3bPose = new Pose(15, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    public static Pose endPose = new Pose(11,58,Math.toRadians(180));
+    public static Pose endPose = new Pose(11,50,Math.toRadians(180));
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;

@@ -11,6 +11,7 @@ import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.BezierPoint;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.HeadingInterpolator;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -52,9 +53,9 @@ public class ppBlueFarCorner3Cycle extends OpMode {
     // poses for pedropath
     private final Pose startPose = new Pose(57, 9, Math.toRadians(90)); // Start Pose of our robot.
     public static Pose scorePose = new Pose(57, 18, Math.toRadians(114)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose scorePoseAP = new Pose(56, 20, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePoseAP = new Pose(52, 20, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose pickup1aPose = new Pose(45, 36, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1aPose = new Pose(50, 36, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     public static Pose pickup1bPose = new Pose(3, 38, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
     public static Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
@@ -65,7 +66,7 @@ public class ppBlueFarCorner3Cycle extends OpMode {
     public static Pose pickupCornerc = new Pose(-1,4,Math.toRadians(270));
     public static Pose parkInterPosea = new Pose(15,20,Math.toRadians(175));
 
-    public static Pose parkInLoadZonePose = new Pose(3,8,Math.toRadians(190));
+    public static Pose parkInLoadZonePose = new Pose(5,8,Math.toRadians(190));
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;
@@ -113,10 +114,11 @@ public class ppBlueFarCorner3Cycle extends OpMode {
         scorePickupCorner = follower.pathBuilder()
                 .addPath(new BezierCurve(pickupCornerc, parkInterPosea, scorePoseAP))
                 .setLinearHeadingInterpolation(pickupCornerc.getHeading(), scorePose.getHeading())
+                .setHeadingInterpolation(HeadingInterpolator.facingPoint(0,144))
                 .build();
         parkInZonePath = follower.pathBuilder()
                 .addPath(new BezierCurve(scorePoseAP, parkInterPosea, parkInLoadZonePose))
-                .setLinearHeadingInterpolation(scorePoseAP.getHeading(), pickupCornerb.getHeading()).setHeadingConstraint(0.9)
+                //.setLinearHeadingInterpolation(scorePoseAP.getHeading(), pickupCornerb.getHeading()).setHeadingConstraint(0.9)
                 .setLinearHeadingInterpolation(pickupCornerb.getHeading(), parkInLoadZonePose.getHeading()).setHeadingConstraint(0.9)
                 .build();
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -375,18 +377,21 @@ public class ppBlueFarCorner3Cycle extends OpMode {
                 break;
             case _120_Score_corner1:
                 if(!follower.isBusy()){
-                if(runtime.milliseconds() >= 1500){
+                    runtime.reset();
+                    currentStage=stage._125_Score_corner_after_pause;
+
+                }
+            case _125_Score_corner_after_pause:
+                if(runtime.milliseconds() >= 2000){
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     runtime.reset();
                     currentStage = stage._130_LauncherStop;
                 }
-
-                }
                 break;
             case _130_LauncherStop:
-                if (runtime.milliseconds() >= 2000) {
+                if (runtime.milliseconds() >= 1500) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
                     runtime.reset();
@@ -396,7 +401,7 @@ public class ppBlueFarCorner3Cycle extends OpMode {
             case _200_parkinLoadingZone:
                 if (!follower.isBusy()) {
                     if (runtime.milliseconds() >= 1000) {
-                        follower.followPath(parkInZonePath, powerSlow, true);
+                        follower.followPath(parkInZonePath, powerNormal, true);
                         lastPose = currentTargetPose;
                         currentTargetPose = parkInLoadZonePose;
                         currentStage = stage._500_End;
@@ -466,6 +471,7 @@ public class ppBlueFarCorner3Cycle extends OpMode {
         _105_PickupCorner1_pickup,
         _110_ToScore_Corner1,
         _120_Score_corner1,
+        _125_Score_corner_after_pause,
         _130_LauncherStop,
         _200_parkinLoadingZone,
         _500_End

@@ -51,21 +51,21 @@ public class ppRedFarCorner3Cycle extends OpMode {
     //
     // poses for pedropath
     private final Pose startPose = new Pose(57, 9, Math.toRadians(90)).mirror(); // Start Pose of our robot.
-    public static Pose scorePose = new Pose(57, 15, Math.toRadians(114)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose scorePoseAP = new Pose(56, 17, Math.toRadians(115)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePose = new Pose(57, 18, Math.toRadians(114)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePoseAP = new Pose(52, 20, Math.toRadians(115)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH).mirror(); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose pickup1aPose = new Pose(45, 36, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(10, 38, Math.toRadians(180)).mirror(); // (First Set) of Artifacts picked up.
+    public static Pose pickup1aPose = new Pose(50, 36, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1bPose = new Pose(3, 38, Math.toRadians(180)).mirror(); // (First Set) of Artifacts picked up.
 
     public static Pose pickup2Pose = new Pose(47, 60, Math.toRadians(180)).mirror(); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup3Pose = new Pose(24, 35, Math.toRadians(180)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
 
-    public static Pose pickupCornera = new Pose(50,18,Math.toRadians(185)).mirror();
-    public static Pose pickupCornerb = new Pose(5,18,Math.toRadians(185)).mirror();
-    public static Pose pickupCornerc = new Pose(3,13,Math.toRadians(175)).mirror();
+    public static Pose pickupCornera = new Pose(30,38,Math.toRadians(185)).mirror();
+    public static Pose pickupCornerb = new Pose(0,42,Math.toRadians(185)).mirror();
+    public static Pose pickupCornerc = new Pose(-1,4,Math.toRadians(175)).mirror();
     public static Pose parkInterPosea = new Pose(15,20,Math.toRadians(175)).mirror();
 
-    public static Pose parkInLoadZonePose = new Pose(3,13,Math.toRadians(190)).mirror();
+    public static Pose parkInLoadZonePose = new Pose(5,8,Math.toRadians(190)).mirror();
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;
