@@ -137,8 +137,8 @@ public class Intake extends BaseHardware{
         }
 */
         if (CurrentMode == Mode.NTKforward) {
-            if ((CommonLogic.inRange(getMotorRPM(NTKM01), 850, 850))) {
-                if (runtime.milliseconds() >= 1000) {
+            if ((CommonLogic.inRange(getMotorRPM(NTKM01), 800, 800))) {
+                if (runtime.milliseconds() >= 1250) {
                     cmdStop();
                 }
             }
