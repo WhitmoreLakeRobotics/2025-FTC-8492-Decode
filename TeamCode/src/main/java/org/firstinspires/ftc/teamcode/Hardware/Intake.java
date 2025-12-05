@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
@@ -69,7 +70,10 @@ public class Intake extends BaseHardware{
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime timerun = new ElapsedTime();
 
+    public ColorSensor NTKAP2;
+    public ColorSensor NTKAP3;
 
+    private double targRange = 10.2; //in cm
     /**
      * User defined init method
      * <p>
@@ -77,8 +81,8 @@ public class Intake extends BaseHardware{
      */
     public void init() {
 
-
-
+        NTKAP3 = hardwareMap.get(ColorSensor.class, "NTKAP3");
+        NTKAP2 = hardwareMap.get(ColorSensor.class, "NTKAP2");
         NTKM01 = hardwareMap.get(DcMotorEx.class, "NTKM01");
         PeaLight = hardwareMap.get(Servo.class,"PeaLight");
         //green_PeaLight = hardwareMap.get(LED.class,"green_PeaLight");
