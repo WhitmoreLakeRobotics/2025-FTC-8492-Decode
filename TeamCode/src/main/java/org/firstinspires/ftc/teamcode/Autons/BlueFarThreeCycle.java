@@ -290,9 +290,9 @@ public class BlueFarThreeCycle extends OpMode {
 
                 break;
             case _103_stopLaunch3:
-                if (runtime.milliseconds() >= 1800)     {
+                if (runtime.milliseconds() >= 1500)     {
                     robot.driveTrain.CmdDrive(3,-168,.25,0);
-                    robot.driveTrain.cmdTurn(-50,0.25);
+                    robot.driveTrain.cmdTurn(-58,0.35);
                     robot.launcher.cmdStop();
                     robot.launcherBlocker.cmdBlock();
                     currentStage = stage._105_MoveForward3;
