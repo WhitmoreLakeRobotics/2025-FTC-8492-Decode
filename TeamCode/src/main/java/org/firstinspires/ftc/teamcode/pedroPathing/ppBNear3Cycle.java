@@ -1,5 +1,4 @@
 
-
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import static org.firstinspires.ftc.teamcode.pedroPathing.CompBotConstants.pathConstraints;
@@ -61,7 +60,7 @@ public class ppBNear3Cycle extends OpMode {
 
     public static Pose pickup2aPose = new Pose(45, 56, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup2bPose = new Pose(3, 54, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-public static Pose pickReturn2 =new Pose(20,75,180);
+    public static Pose pickReturn2 =new Pose(20,75,180);
     public static Pose pickup3aPose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup3bPose = new Pose(15, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose endPose = new Pose(45,58,Math.toRadians(180));
@@ -124,7 +123,7 @@ public static Pose pickReturn2 =new Pose(20,75,180);
         scorePickup2 = follower.pathBuilder()
                 .addPath(new BezierCurve(pickup2bPose, pickup2aPose, scorePoseAP))
                 .setLinearHeadingInterpolation(pickup2bPose.getHeading(), scorePose.getHeading())
-               // .addPath(new BezierLine(pickup2bPose, scorePoseAP))
+                // .addPath(new BezierLine(pickup2bPose, scorePoseAP))
                 //.setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePoseAP.getHeading())
                 .build();
         /*
@@ -253,7 +252,7 @@ public static Pose pickReturn2 =new Pose(20,75,180);
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
                     currentStage = stage._30_Shoot1; // we don't need to do the turn since heading is adjusted in path
-                runtime.reset();
+                    runtime.reset();
                 }
                 break;
 
@@ -261,14 +260,14 @@ public static Pose pickReturn2 =new Pose(20,75,180);
                 if (!follower.isBusy()) {
                     if (runtime.milliseconds() >= 1000) {
                         telemetryMU.addLine("wqiting to shoot 1");
-                    // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
-                    //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                    robot.intake.cmdFoward();
-                    robot.transitionRoller.cmdSpin();
-                    robot.launcherBlocker.cmdUnBlock();
-                    runtime.reset();
-                    currentStage = stage._40_LauncherStop;
-                }}
+                        // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
+                        //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
+                        robot.intake.cmdFoward();
+                        robot.transitionRoller.cmdSpin();
+                        robot.launcherBlocker.cmdUnBlock();
+                        runtime.reset();
+                        currentStage = stage._40_LauncherStop;
+                    }}
                 break;
 
             case _40_LauncherStop:
@@ -318,7 +317,7 @@ public static Pose pickReturn2 =new Pose(20,75,180);
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
                     currentStage = stage._80_ScorePickup1; // we don't need to do the turn since heading is adjusted in path
-               runtime.reset();
+                    runtime.reset();
                 }
                 break;
 
@@ -328,12 +327,12 @@ public static Pose pickReturn2 =new Pose(20,75,180);
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                     if (runtime.milliseconds() >= 1000) {
                         telemetryMU.addLine("wqiting to shoot 2");
-                    robot.intake.cmdFoward();
-                    robot.transitionRoller.cmdSpin();
-                    robot.launcherBlocker.cmdUnBlock();
-                    runtime.reset();
-                    currentStage = stage._90_LauncherStop;
-                }}
+                        robot.intake.cmdFoward();
+                        robot.transitionRoller.cmdSpin();
+                        robot.launcherBlocker.cmdUnBlock();
+                        runtime.reset();
+                        currentStage = stage._90_LauncherStop;
+                    }}
 
             case _90_LauncherStop:
                 if (runtime.milliseconds() >= 1500) {
@@ -381,7 +380,7 @@ public static Pose pickReturn2 =new Pose(20,75,180);
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
                     currentStage = stage._150_ScorePickup2; // we don't need to do the turn since heading is adjusted in path
-                runtime.reset();
+                    runtime.reset();
                 }
                 break;
 
@@ -391,12 +390,12 @@ public static Pose pickReturn2 =new Pose(20,75,180);
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                     if (runtime.milliseconds() >= 1000) {
                         telemetryMU.addLine("wqiting to shoot 1");
-                    robot.intake.cmdFoward();
-                    robot.transitionRoller.cmdSpin();
-                    robot.launcherBlocker.cmdUnBlock();
-                    runtime.reset();
-                    currentStage = stage._450_Park;
-                }
+                        robot.intake.cmdFoward();
+                        robot.transitionRoller.cmdSpin();
+                        robot.launcherBlocker.cmdUnBlock();
+                        runtime.reset();
+                        currentStage = stage._450_Park;
+                    }
                 }
                 break;
 
@@ -481,4 +480,5 @@ public static Pose pickReturn2 =new Pose(20,75,180);
     }
 
 }
+
 
