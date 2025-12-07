@@ -58,10 +58,10 @@ public class ppRNear3Cycle extends OpMode {
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose scorePoseAP =new Pose(57,100,Math.toRadians(145)).mirror();
     public static Pose pickup1aPose = new Pose(45, 86, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(10, 84, Math.toRadians(180)).mirror(); // (First Set) of Artifacts picked up.
+    public static Pose pickup1bPose = new Pose(13, 81, Math.toRadians(180)).mirror(); // (First Set) of Artifacts picked up.
 
-    public static Pose pickup2aPose = new Pose(45, 56, Math.toRadians(180)).mirror(); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup2bPose = new Pose(8, 54, Math.toRadians(180)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2aPose = new Pose(48, 56, Math.toRadians(180)).mirror(); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2bPose = new Pose(8, 52, Math.toRadians(180)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose pickReturn2 =new Pose(20,75,180).mirror();
     public static Pose pickup3aPose = new Pose(47, 60, Math.toRadians(180)).mirror(); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup3bPose = new Pose(15, 35, Math.toRadians(180)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
@@ -260,7 +260,7 @@ public class ppRNear3Cycle extends OpMode {
 
             case _30_Shoot1:
                 if (!follower.isBusy()) {
-                    if (runtime.milliseconds() >= 1500) {
+                    if (runtime.milliseconds() >= 500) {
                         telemetryMU.addLine("waiting to shoot 1");
                         // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                         //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {

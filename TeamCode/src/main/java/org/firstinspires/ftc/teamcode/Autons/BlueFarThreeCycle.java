@@ -196,7 +196,7 @@ public class BlueFarThreeCycle extends OpMode {
                 break;
             case _69_AutoAdjust2:
                 if (runtime.milliseconds() >= 500)     {
-                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()),0.40);
+                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()),0.20);
                     currentStage = stage._70_Launch2;
                 }
 
@@ -271,7 +271,7 @@ public class BlueFarThreeCycle extends OpMode {
 
             case _101_AutoAdjust3:
                 if (runtime.milliseconds() >=500) {
-                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()), 0.20);
+                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc() -2), 0.20);
                     runtime.reset();
                     currentStage = stage._102_Launch3;
                 }

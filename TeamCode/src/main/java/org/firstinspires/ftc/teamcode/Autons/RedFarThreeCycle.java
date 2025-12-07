@@ -233,7 +233,7 @@ public class RedFarThreeCycle extends OpMode {
                 break;
             case _97_backup2:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(29,245,0.35,65);
+                    robot.driveTrain.CmdDrive(30,245,0.35,65);
                     currentStage = stage._95_turn2;
                 }
 
@@ -247,7 +247,7 @@ public class RedFarThreeCycle extends OpMode {
                 break;
             case _100_BackUpFANCY:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(18,168,0.35,-4);
+                    robot.driveTrain.CmdDrive(20,168,0.35,-4);
                     robot.launcher.cmdOutfar();
                     currentStage = stage._102_Launch3;
                 }

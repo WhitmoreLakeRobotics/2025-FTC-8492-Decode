@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -13,18 +15,20 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
      */
 public class Uppies extends BaseHardware{
 
-    public HardwareMap hardwareMap = null; // will be set in Child class
+    public HardwareMap hardwareMap = null;// will be set in Child class
 
     public Mode CurrentMode;
-    public Servo USC;
+    public CRServo USC;
     public boolean UP = false;
-    public Servo USCC;
+    public CRServo USCC;
 
 public static final double UpUSCC = -1;
 public static final double DownUSCC = 1;
     public static final double UpUSC = 1;
     public static final double DownUSC = -1;
     public static final double Stop = 0.0;
+
+    public Telemetry telemetry = null;
     /**
      * BaseHardware constructor
      * <p>
@@ -41,6 +45,10 @@ public static final double DownUSCC = 1;
      * This method will be called once when the INIT button is pressed.
      */
     public void init() {
+
+
+        USCC = hardwareMap.get(CRServo.class, "USCC");
+        USC = hardwareMap.get(CRServo.class, "USC");
 
     }
 
@@ -71,6 +79,26 @@ public static final double DownUSCC = 1;
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop() {
+/*
+        switch(CurrentMode){
+            case STOP:
+                cmdStop();
+
+                break;
+            case DOWN:
+
+
+                BTargetFound = false;
+                break;
+            case UP:
+
+
+
+                break;
+            //make case for each option
+        }
+
+ */
 
     }
 
@@ -87,23 +115,29 @@ public static final double DownUSCC = 1;
 
     public void cmdUp(){
         CurrentMode = Mode.UP;
-        USC.setPosition(UpUSC);
-        USCC.setPosition(UpUSCC);
+        USC.setPower(UpUSC);
+        USCC.setPower(UpUSCC);
+        UP = true;
     }
 
     public void cmdDown(){
         CurrentMode = Mode.DOWN;
-        USC.setPosition(DownUSC);
-        USCC.setPosition(DownUSCC);
+        USC.setPower(DownUSC);
+        USCC.setPower(DownUSCC);
+        UP = false;
 
     }
+
+
 
     public void cmdStop(){
         CurrentMode = Mode.STOP;
-        USC.setPosition(Stop);
-        USCC.setPosition(Stop);
+        USC.setPower(Stop);
+        USCC.setPower(Stop);
 
     }
+
+
 
     public enum Mode{
         UP,

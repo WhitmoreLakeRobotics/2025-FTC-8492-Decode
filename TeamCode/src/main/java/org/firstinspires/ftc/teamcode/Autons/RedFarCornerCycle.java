@@ -8,10 +8,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
-@Autonomous(name = "BlueFarCornerCycle", group = "Auton")
+@Autonomous(name = "RedFarCornerCycle", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class BlueFarCornerCycle extends OpMode {
+public class RedFarCornerCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -130,7 +130,7 @@ public class BlueFarCornerCycle extends OpMode {
                 break;
             case _25_StopLaunch:
                 if (runtime.milliseconds() >=1500)     {
-                    robot.driveTrain.CmdDrive(4,-180,0.35,-58);
+                    robot.driveTrain.CmdDrive(4,-180,0.35,58);
                     robot.launcherBlocker.cmdBlock();
                     robot.launcher.cmdStop();
                     runtime.reset();
@@ -140,7 +140,7 @@ public class BlueFarCornerCycle extends OpMode {
                 break;
             case _30_MoveToWall:
                 if (runtime.milliseconds() >= 0)     {
-                    robot.driveTrain.cmdTurn(-65,0.35);
+                    robot.driveTrain.cmdTurn(65,0.35);
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     currentStage = stage._40_GoForward;
@@ -149,7 +149,7 @@ public class BlueFarCornerCycle extends OpMode {
                 break;
             case _40_GoForward:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(54,-69,0.40,-92);
+                    robot.driveTrain.CmdDrive(54,69,0.40,92);
                     runtime.reset();
                     currentStage = stage._45_ExtraTurn;
                 }
@@ -157,7 +157,7 @@ public class BlueFarCornerCycle extends OpMode {
                 break;
             case _45_ExtraTurn:
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(10, -65, 0.40, -80);
+                    robot.driveTrain.CmdDrive(10, 65, 0.40, 80);
                     robot.intake.cmdFoward();
                     runtime.reset();
                     currentStage = stage._50_MoveBackward2;
@@ -168,7 +168,7 @@ public class BlueFarCornerCycle extends OpMode {
 
             case _50_MoveBackward2:
                 if (robot.driveTrain.getCmdComplete() && runtime.milliseconds() >= 1000)     {
-                    robot.driveTrain.CmdDrive(47,118,0.35,-59);
+                    robot.driveTrain.CmdDrive(47,-118,0.35,59);
                     currentStage = stage._60_TurnToShoot;
                 }
 
@@ -185,7 +185,7 @@ public class BlueFarCornerCycle extends OpMode {
 
             case _65_align:
                 if (runtime.milliseconds() >=800) {
-                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc() -2), 0.20);
+                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()), 0.20);
                     runtime.reset();
                     currentStage = stage._70_Launch2;
                 }
@@ -195,18 +195,18 @@ public class BlueFarCornerCycle extends OpMode {
                 if (robot.driveTrain.getCmdComplete()) {
                     if (runtime.milliseconds() >= 1500){
                         robot.driveTrain.CmdDrive(3, 0, 0.25, 0);
-                        robot.launcherBlocker.cmdUnBlock();
-                        robot.transitionRoller.cmdSpin();
-                        robot.intake.cmdFoward();
-                        runtime.reset();
-                        currentStage = stage._75_StopLaunch2;
-                    }
+                    robot.launcherBlocker.cmdUnBlock();
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
+                    runtime.reset();
+                    currentStage = stage._75_StopLaunch2;
+                }
                 }
 
                 break;
             case _75_StopLaunch2:
                 if (runtime.milliseconds() >=2500)     {
-                    robot.driveTrain.CmdDrive(4,-180,0.35,-59);
+                    robot.driveTrain.CmdDrive(4,-180,0.35,59);
                     robot.launcherBlocker.cmdBlock();
                     robot.launcher.cmdStop();
                     runtime.reset();
@@ -216,7 +216,7 @@ public class BlueFarCornerCycle extends OpMode {
                 break;
             case _80_TurnToPickup:
                 if (runtime.milliseconds() >= 0)     {
-                    robot.driveTrain.cmdTurn(-65,0.35);
+                    robot.driveTrain.cmdTurn(65,0.35);
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     currentStage = stage._100_Backup2;
@@ -225,7 +225,7 @@ public class BlueFarCornerCycle extends OpMode {
                 break;
             case _100_Backup2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(54,-68,0.40,-90);
+                    robot.driveTrain.CmdDrive(54,68,0.40,90);
                     runtime.reset();
                     currentStage = stage._1_Fix1;
                 }
@@ -233,7 +233,7 @@ public class BlueFarCornerCycle extends OpMode {
                 break;
             case _1_Fix1:
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(15, -65, 0.40, -80);
+                    robot.driveTrain.CmdDrive(15, 65, 0.40, 80);
                     runtime.reset();
                     currentStage = stage._2_Fix2;
 
@@ -243,7 +243,7 @@ public class BlueFarCornerCycle extends OpMode {
 
             case _2_Fix2:
                 if (robot.driveTrain.getCmdComplete() && runtime.milliseconds() >= 1000)     {
-                    robot.driveTrain.CmdDrive(45,118,0.35,-58);
+                    robot.driveTrain.CmdDrive(45,-118,0.35,58);
                     currentStage = stage._3_Fix3;
                 }
 
@@ -268,7 +268,7 @@ public class BlueFarCornerCycle extends OpMode {
 
             case _5_Fix5:
                 if (runtime.milliseconds() >=500) {
-                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc() -2), 0.20);
+                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()), 0.20);
                     runtime.reset();
                     currentStage = stage._103_Launch3;
                 }
@@ -323,10 +323,10 @@ public class BlueFarCornerCycle extends OpMode {
                 break;
             case _103_Launch3:
                 if (runtime.milliseconds() >= 1000)     {
-                    robot.launcherBlocker.cmdUnBlock();
-                    robot.transitionRoller.cmdSpin();
-                    robot.intake.cmdFoward();
-                    runtime.reset();
+                   robot.launcherBlocker.cmdUnBlock();
+                   robot.transitionRoller.cmdSpin();
+                   robot.intake.cmdFoward();
+                   runtime.reset();
                     currentStage = stage._104_TurnToBoom;
                 }
 
@@ -336,7 +336,7 @@ public class BlueFarCornerCycle extends OpMode {
                     robot.launcherBlocker.cmdBlock();
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
-                    robot.driveTrain.cmdTurn(-58,0.30);
+                    robot.driveTrain.cmdTurn(58,0.30);
                     runtime.reset();
                     currentStage = stage._105_Boom;
 
@@ -349,7 +349,7 @@ public class BlueFarCornerCycle extends OpMode {
                     robot.launcherBlocker.cmdBlock();
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
-                    robot.driveTrain.CmdDrive(51,-65,0.50,-90);
+                    robot.driveTrain.CmdDrive(51,65,0.50,90);
                     currentStage = stage._107_ResetGyro;
                 }
 

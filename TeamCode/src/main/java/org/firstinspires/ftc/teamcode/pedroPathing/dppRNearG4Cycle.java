@@ -21,12 +21,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
-
+@Disabled
 @Configurable
-@Autonomous(name = "ppRNearG3Cycle", group = "PP")
+@Autonomous(name = "dppRNearG4Cycle", group = "PP")
 // @Autonomous(...) is the other common choice
 
-public class ppRNearG3Cycle extends OpMode {
+public class dppRNearG4Cycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -54,7 +54,7 @@ public class ppRNearG3Cycle extends OpMode {
     // poses for pedropath
     // poses for pedropath
     public static Pose startPose = new Pose(111.5, 135.8, Math.toRadians(0)); // Start Pose of our robot.
-    public static Pose scorePose = new Pose(81.5, 100.6, Math.toRadians(45)); // 100.6 was 135.6 and heading was 0   Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePose = new Pose(81.5, 90.6, Math.toRadians(45)); // 90.6 was 100.6 was 135.6 and heading was 0   Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose scorePoseAP = new Pose(132.7,83.5,Math.toRadians(0));
     public static Pose pickup1aPose = new Pose(82.5, 80.2, Math.toRadians(0)); // control point// Highest (First Set) of Artifacts from the Spike Mark.
@@ -64,11 +64,13 @@ public class ppRNearG3Cycle extends OpMode {
 public static Pose pickReturn2 = new Pose(133.8,55.5,Math.toRadians(0));
     public static Pose pickup3aPose = new Pose(74.4, 55.6, Math.toRadians(0));// control point // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup3bPose = new Pose(86, 85.5, Math.toRadians(45)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose landingPickup = new Pose(137,8,Math.toRadians(-90));
+    public static Pose landingLaunchcp = new Pose(136.3,77,Math.toRadians(-90));//control point
     public static Pose endPose = new Pose(111.6,72,Math.toRadians(90));
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;
-    private PathChain grabPickup1, gate, shoot1, grabPickup2, shoot2, endByGate, grabPickup3a,grabPickup3b, scorePickup3, endPath;
+    private PathChain grabPickup1, gate, shoot1, grabPickup2, shoot2,grabLanding,landingLaunch, endByGate, grabPickup3a,grabPickup3b, scorePickup3, endPath;
 
     // private Path grabPickup1a;
     public void buildPaths() {
@@ -111,6 +113,14 @@ public static Pose pickReturn2 = new Pose(133.8,55.5,Math.toRadians(0));
         shoot2 = follower.pathBuilder()
                 .addPath(new BezierLine(pickReturn2, pickup3bPose))
                 .setLinearHeadingInterpolation(pickReturn2.getHeading(), pickup3bPose.getHeading())
+                .build();
+        grabLanding = follower.pathBuilder()
+                .addPath(new BezierCurve(pickup3bPose,landingLaunchcp,landingPickup))
+                .setLinearHeadingInterpolation(pickup3bPose.getHeading(), landingPickup.getHeading())
+                .build();
+        landingLaunch = follower.pathBuilder()
+                .addPath(new BezierCurve(landingPickup,landingLaunchcp,pickup3bPose))
+                .setLinearHeadingInterpolation(landingPickup.getHeading(), pickup3bPose.getHeading())
                 .build();
 
         /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -402,15 +412,61 @@ public static Pose pickReturn2 = new Pose(133.8,55.5,Math.toRadians(0));
                     robot.transitionRoller.cmdSpin();
                     robot.launcherBlocker.cmdUnBlock();
                     runtime.reset();
-                    currentStage = stage._450_Park;
+                    currentStage = stage._160_pickupLanding;
                 }
                 }
+
+                break;
+
+            case _160_pickupLanding:
+                if (runtime.milliseconds() >= 1500) {
+                    follower.followPath(grabLanding, powerSlow, true);
+                    robot.launcherBlocker.cmdBlock();
+                    robot.launcher.cmdStop();
+                    //lastPose = currentTargetPose;
+                    //currentTargetPose = pickup2aPose;
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
+                    currentStage = stage._170_launchLanding;
+                }
+
+                break;
+
+            case _170_launchLanding:
+                if (!follower.isBusy()) {
+                    follower.followPath(landingLaunch, powerNormal, true);
+                    //lastPose = currentTargetPose;
+                    //currentTargetPose = pickup2aPose;
+                    robot.launcher.cmdOutnear();
+                    runtime.reset();
+                    currentStage = stage._180_Shoot4;
+                }
+
+                break;
+
+            case _180_Shoot4:
+                if (!follower.isBusy()) {
+                    //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
+                    //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
+                    if (runtime.milliseconds() >= 1000) {
+                        telemetryMU.addLine("wqiting to shoot 1");
+                        robot.intake.cmdFoward();
+                        robot.transitionRoller.cmdSpin();
+                        robot.launcherBlocker.cmdUnBlock();
+                        runtime.reset();
+                        currentStage = stage._450_Park;
+                    }
+                }
+
                 break;
 
             case _450_Park:
                 if (runtime.milliseconds() >= 1500) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
+                    robot.launcher.cmdStop();
+                    robot.transitionRoller.cmdStop();
+                    robot.intake.cmdStop();
                     follower.followPath(endPath, powerSlow,true);
                     //lastPose = currentTargetPose;
                     //currentTargetPose = pickup2bPose;
@@ -481,6 +537,9 @@ public static Pose pickReturn2 = new Pose(133.8,55.5,Math.toRadians(0));
         _130_ToScorePoseAP,
         _140_chkDrive_to_scorePoseAP,
         _150_ScorePickup2,
+        _160_pickupLanding,
+        _170_launchLanding,
+        _180_Shoot4,
         _450_Park,
         _500_End
 

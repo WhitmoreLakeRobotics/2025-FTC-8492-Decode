@@ -62,7 +62,7 @@ public class Intake extends BaseHardware{
     public static final double Green = 0.5;
     public static final double Red = 0.28;
     public static final double Yellow = 0.388;
-    public static final double Purple = 0.89;
+    public static final double Purple = 0.722;
 
     public boolean DriverHappy = false;
     public Color CurrentColor;
@@ -137,9 +137,10 @@ public class Intake extends BaseHardware{
         }
 */
         if (CurrentMode == Mode.NTKforward) {
-            if ((CommonLogic.inRange(getMotorRPM(NTKM01), 800, 800))) {
+            if ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600))) {
                 if (runtime.milliseconds() >= 1250) {
                     cmdStop();
+                   // DriverHappy = true;
                 }
             }
         }
@@ -173,18 +174,23 @@ public class Intake extends BaseHardware{
         if((transitionRoller.CurrentMode == TransitionRoller.Mode.Back) && (CurrentMode == Mode.NTKbackward) && (timerun.milliseconds() >= 250)){
             cmdGREEN();
             timerun.reset();
-        }else{
+        }else if((transitionRoller.CurrentMode == TransitionRoller.Mode.Stop) && (CurrentMode == Mode.NTKstop) && (timerun.milliseconds() >= 250)){
             cmdRED();
             timerun.reset();
         }
 
             */
 
-
-
+        /*
         if(DriverHappy){
-            cmdHappy();
+            cmdPURPLE();
+            DriverHappy = false;
         }
+         */
+
+
+
+
 /*
 
         if(transitionRoller.CurrentMode == TransitionRoller.Mode.Spin &&
@@ -231,7 +237,7 @@ public class Intake extends BaseHardware{
     public void cmdStop(){
         CurrentMode = Mode.NTKstop;
         NTKM01.setPower (stopSpeed);
-        cmdRED(); //line not needed
+        cmdRED(); //line not needed when finished
         //PeaLight.enableLight(true);
 
     }
@@ -247,26 +253,28 @@ public class Intake extends BaseHardware{
     public void cmdRED(){
         PeaLight.setPosition(Red);
         CurrentColor = Color.RED;
+        //timerun.reset();
     }
 
     public void cmdGREEN(){
         PeaLight.setPosition(Green);
         CurrentColor = Color.GREEN;
+        //timerun.reset();
     }
 
     public void cmdYELLOW(){
         PeaLight.setPosition(Yellow);
         CurrentColor = Color.YELLOW;
+        //timerun.reset();
     }
 
     public void cmdPURPLE(){
         PeaLight.setPosition(Purple);
         CurrentColor = Color.PURPLE;
+        //timerun.reset();
     }
 
-    public void cmdHappy(){
-    cmdPURPLE();
-    }
+
 
     public enum Mode {
         NTKstop,

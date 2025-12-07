@@ -54,8 +54,20 @@ public class Tele_Op extends OpMode {
     private boolean gp2_prev_start = false;
     private int tHeading = 0;
     private boolean bAutoTurn = false;
+    private boolean EndGame = false;
+    private boolean EndGame2 = false;
+    private boolean EndGame3 = false;
+    private boolean EndGame4 = false;
+    private boolean EndGameb = false;
+    private boolean EndGame2b = false;
+    private boolean EndGame3b = false;
+    private boolean EndGame4b = false;
 
     private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime Gameruntime = new ElapsedTime();
+    private ElapsedTime EndGameTime = new ElapsedTime();
+    private ElapsedTime Gameruntime2 = new ElapsedTime();
+    private ElapsedTime EndGameTime2= new ElapsedTime();
     private double HLIW = 500;
     //HowLongItWork
 
@@ -87,6 +99,9 @@ public class Tele_Op extends OpMode {
         //robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
         robot.init();
         robot.driveTrain.ResetGyro();
+        Gameruntime.reset();
+        Gameruntime2.reset();
+
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -115,6 +130,9 @@ public class Tele_Op extends OpMode {
     @Override
     public void start() {
         Runtime.getRuntime();
+        Gameruntime.reset();
+        Gameruntime2.reset();
+
 
 
         // robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GOLD);
@@ -138,6 +156,92 @@ public class Tele_Op extends OpMode {
            tHeading = (int)Math.round(robot.targetAngleCalc());
             bAutoTurn = true;
         }
+
+        if(Gameruntime.seconds() >= 85){
+            //robot.intake.cmdYELLOW();
+            Gameruntime.reset();
+            //EndGameTime.reset();
+           EndGame = true;
+        }
+
+        if(EndGame) {
+            EndGameTime.reset();
+            robot.intake.cmdYELLOW();
+            EndGame2 = true;
+            EndGame = false;
+        }
+
+         if (EndGameTime.milliseconds() >= 500 && EndGame2) {
+        if (robot.intake.CurrentMode == Intake.Mode.NTKstop) {
+            robot.intake.cmdRED();
+            EndGame3 = true;
+            EndGame2 = false;
+        } else {
+            robot.intake.cmdGREEN();
+            EndGame3 = true;
+            EndGame2 = false;
+        }
+         }
+
+        if (EndGameTime.milliseconds() >= 1000 && EndGame3) {
+            robot.intake.cmdYELLOW();
+            EndGame4 = true;
+            EndGame3 = false;
+        }
+
+        if (EndGameTime.milliseconds() >= 1500 && EndGame4) {
+            if (robot.intake.CurrentMode == Intake.Mode.NTKstop) {
+                robot.intake.cmdRED();
+                EndGame4 = false;
+            } else {
+                robot.intake.cmdGREEN();
+                EndGame4 = false;
+            }
+        }
+//------------------------------------------------------------------------------------------------
+        if(Gameruntime2.seconds() >= 100){
+            //robot.intake.cmdYELLOW();
+            Gameruntime2.reset();
+            //EndGameTime.reset();
+            EndGameb = true;
+        }
+
+        if(EndGameb) {
+            EndGameTime2.reset();
+            robot.intake.cmdPURPLE();
+            EndGame2b = true;
+            EndGameb = false;
+        }
+
+        if (EndGameTime2.milliseconds() >= 500 && EndGame2b) {
+            if (robot.intake.CurrentMode == Intake.Mode.NTKstop) {
+                robot.intake.cmdRED();
+                EndGame3b = true;
+                EndGame2b = false;
+            } else {
+                robot.intake.cmdGREEN();
+                EndGame3b = true;
+                EndGame2b = false;
+            }
+        }
+
+        if (EndGameTime2.milliseconds() >= 1000 && EndGame3b) {
+            robot.intake.cmdPURPLE();
+            EndGame4b = true;
+            EndGame3b = false;
+        }
+
+        if (EndGameTime2.milliseconds() >= 1500 && EndGame4b) {
+            if (robot.intake.CurrentMode == Intake.Mode.NTKstop) {
+                robot.intake.cmdRED();
+                EndGame4b = false;
+            } else {
+                robot.intake.cmdGREEN();
+                EndGame4b = false;
+            }
+        }
+
+
 
         //***********   Gamepad 1 controls ********
         if (bAutoTurn) {

@@ -12,17 +12,18 @@ import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
-
+@Disabled
 @Configurable
-@Autonomous(name = "ppCSBlueNearTwoCycle", group = "PP")
+@Autonomous(name = "dppCSBlueNearTwoCycle", group = "PP")
 // @Autonomous(...) is the other common choice
 
-public class ppCSBlueNearTwoCycle extends OpMode {
+public class dppCSBlueNearTwoCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
