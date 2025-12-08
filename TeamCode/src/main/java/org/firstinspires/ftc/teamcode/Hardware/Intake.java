@@ -63,6 +63,7 @@ public class Intake extends BaseHardware{
     public static final double Red = 0.28;
     public static final double Yellow = 0.388;
     public static final double Purple = 0.722;
+    public static final double Blue = 0.6111;
 
     public boolean DriverHappy = false;
     public Color CurrentColor;
