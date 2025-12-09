@@ -250,7 +250,7 @@ public class ppBlueFar3Cycle extends OpMode {
                     currentTargetPose = scorePose;
 
                     // follower.update();
-                    robot.launcher.cmdOuttouch();
+                    robot.launcher.cmdOutfar();
                     currentStage = stage._25_checkDrivetoscore;
                 }
             case _25_checkDrivetoscore:
@@ -314,7 +314,7 @@ public class ppBlueFar3Cycle extends OpMode {
                     follower.followPath(scorePickup1,powerNormal,true);
                     lastPose = currentTargetPose;
                     currentTargetPose = scorePose;
-                    robot.launcher.cmdOuttouch();
+                    robot.launcher.cmdOutfar();
                     currentStage = stage._75_chkDrive_to_score_P1;
                 }
                 break;
@@ -380,7 +380,7 @@ public class ppBlueFar3Cycle extends OpMode {
                 if(!follower.isBusy()){
                     follower.followPath(scorePickup2,powerNormal,true);
                     currentTargetPose = scorePose;
-                    robot.launcher.cmdOuttouch();
+                    robot.launcher.cmdOutfar();
                     currentStage = stage._140_chkDrive_to_scorePoseAP;
                 }
                 break;
