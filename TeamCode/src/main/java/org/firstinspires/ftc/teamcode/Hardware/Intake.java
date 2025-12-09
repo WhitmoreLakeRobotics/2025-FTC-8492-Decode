@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -10,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 
 
@@ -45,6 +47,7 @@ public class Intake extends BaseHardware{
     //public LED yellow_Pealight; //transitionroller of intake running
 
     public Mode CurrentMode;
+    public Distance CurrentDistance;
 
     private Servo PeaLight;
 
@@ -65,14 +68,18 @@ public class Intake extends BaseHardware{
     public static final double Purple = 0.722;
     public static final double Blue = 0.6111;
 
+    private double NTKAP2distance;
+    private double NTKAP3distance;
+
     public boolean DriverHappy = false;
     public Color CurrentColor;
     public boolean AtIntakeStop = true;
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime timerun = new ElapsedTime();
+    private ElapsedTime sensorTime= new ElapsedTime();
 
-    public ColorSensor NTKAP2;
-    public ColorSensor NTKAP3;
+    public ColorRangeSensor NTKAP2;
+    public ColorRangeSensor NTKAP3;
 
     private double targRange = 10.2; //in cm
     /**
@@ -82,14 +89,16 @@ public class Intake extends BaseHardware{
      */
     public void init() {
 
-        NTKAP3 = hardwareMap.get(ColorSensor.class, "NTKAP3");
-        NTKAP2 = hardwareMap.get(ColorSensor.class, "NTKAP2");
+        NTKAP3 = hardwareMap.get(ColorRangeSensor.class, "NTKAP3");
+        NTKAP2 = hardwareMap.get(ColorRangeSensor.class, "NTKAP2");
         NTKM01 = hardwareMap.get(DcMotorEx.class, "NTKM01");
         PeaLight = hardwareMap.get(Servo.class,"PeaLight");
         //green_PeaLight = hardwareMap.get(LED.class,"green_PeaLight");
         //yellow_PeaLight = hardwareMap.get(LED.class,"yellow_PeaLight");
 
         //cmdRED();
+
+        sensorTime.reset();
 
     }
 
@@ -113,6 +122,8 @@ public class Intake extends BaseHardware{
      * Example usage: Starting another thread.
      */
     public void start(){
+
+        sensorTime.reset();
 
     }
 
@@ -138,12 +149,26 @@ public class Intake extends BaseHardware{
         }
 */
         if (CurrentMode == Mode.NTKforward) {
+            if (CurrentDistance == Distance.FILLED){
             if ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600))) {
-                if (runtime.milliseconds() >= 1250) {
+                if (runtime.milliseconds() >= 1000) {
                     cmdStop();
-                   // DriverHappy = true;
+                    // DriverHappy = true;
                 }
+              }
             }
+          }
+
+        //possibly put 400 time with sensortime for less glitching if glitching occurs.
+        //if(sensorTime.milliseconds() >= 400) {
+            getDistNTKCRS();
+        //}
+        if(NTKAP2distance <= 7 && NTKAP3distance <= 5 && sensorTime.milliseconds() >= 500){ //maybe 750
+            CurrentDistance = Distance.FILLED;
+            sensorTime.reset();
+        }else{
+            CurrentDistance = Distance.MISSING;
+            sensorTime.reset();
         }
 
            /*
@@ -181,6 +206,8 @@ public class Intake extends BaseHardware{
         }
 
             */
+
+
 
         /*
         if(DriverHappy){
@@ -275,6 +302,20 @@ public class Intake extends BaseHardware{
         //timerun.reset();
     }
 
+    public void cmdBLUE(){
+        PeaLight.setPosition(Blue);
+        CurrentColor = Color.BLUE;
+    }
+
+    private void getDistNTKCRS() {
+        NTKAP2distance = NTKAP2.getDistance(DistanceUnit.CM);
+        NTKAP3distance = NTKAP3.getDistance(DistanceUnit.CM);
+    }
+
+    public enum Distance {
+        FILLED,
+        MISSING
+    }
 
 
     public enum Mode {
@@ -288,7 +329,8 @@ public class Intake extends BaseHardware{
         GREEN,
         RED,
         YELLOW,
-        PURPLE
+        PURPLE,
+        BLUE
     }
 
     public double getMotorRPM(DcMotorEx motor){

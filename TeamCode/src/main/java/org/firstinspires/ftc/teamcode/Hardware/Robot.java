@@ -164,6 +164,11 @@ public class Robot extends BaseHardware {
         limey.loop();
         uppies.loop();
 
+        if(transitionRoller.CurrentMode == TransitionRoller.Mode.Stop
+                && intake.CurrentMode == Intake.Mode.NTKforward){
+            intake.cmdBLUE();
+        }
+
 
     }
 
