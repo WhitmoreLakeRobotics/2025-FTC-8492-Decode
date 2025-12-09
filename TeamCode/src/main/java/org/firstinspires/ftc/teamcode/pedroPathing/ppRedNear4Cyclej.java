@@ -326,7 +326,7 @@ public class ppRedNear4Cyclej extends OpMode {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                     if (runtime.milliseconds() >= 1000) {
-                        telemetryMU.addLine("wqiting to shoot 2");
+                        telemetryMU.addLine("waiting to shoot 2");
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
@@ -378,11 +378,23 @@ public class ppRedNear4Cyclej extends OpMode {
                 break;
             case _140_chkDrive_to_scorePoseAP:
                 if (!follower.isBusy()) {
-                    telemetryMU.addData("Drive Complete?", follower.isBusy());
-                    currentStage = stage._142_Pickup3; // we don't need to do the turn since heading is adjusted in path
+                    if (runtime.milliseconds() >=750)
+                        telemetryMU.addData("Drive Complete?", follower.isBusy());
+                    robot.intake.cmdFoward();
+                    robot.transitionRoller.cmdSpin();
+                    robot.launcherBlocker.cmdUnBlock();
                     runtime.reset();
+                    currentStage = ppRedNear4Cyclej.stage._141_LauncherStop; // we don't need to do the turn since heading is adjusted in path
                 }
 
+                break;
+
+            case _141_LauncherStop:
+                if (runtime.milliseconds() >= 1500) {
+                    // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
+                    robot.launcherBlocker.cmdBlock();
+                    currentStage = ppRedNear4Cyclej.stage._142_Pickup3;
+                }
                 break;
 
             case _142_Pickup3:
@@ -516,6 +528,7 @@ public class ppRedNear4Cyclej extends OpMode {
         _120_Pickupa2,
         _130_ToScorePoseAP,
         _140_chkDrive_to_scorePoseAP,
+        _141_LauncherStop,
         _142_Pickup3,
         _143_Pickup3_Startintake,
         _144_Pickupa2,
