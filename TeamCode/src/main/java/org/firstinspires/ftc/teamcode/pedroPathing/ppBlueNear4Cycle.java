@@ -1,4 +1,3 @@
-
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import static org.firstinspires.ftc.teamcode.pedroPathing.CompBotConstants.pathConstraints;
@@ -20,11 +19,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
+
+
 @Configurable
 @Autonomous(name = "ppBlueNear3Cycle", group = "PP")
 // @Autonomous(...) is the other common choice
 
-public class ppBlueNear3Cycle extends OpMode {
+public class ppBlueNear4Cycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -62,8 +63,9 @@ public class ppBlueNear3Cycle extends OpMode {
     public static Pose pickup2bPose = new Pose(3, 52, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose pickReturn2 =new Pose(20,75,180);
     public static Pose pickup3aPose = new Pose(47, 35, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup3bPose = new Pose(15, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose pickup3bPose = new Pose(3, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose endPose = new Pose(45,58,Math.toRadians(180));
+
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;
@@ -127,17 +129,21 @@ public class ppBlueNear3Cycle extends OpMode {
                 //.setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePoseAP.getHeading())
                 .build();
         /*
-         *//* This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. *//*
-        grabPickup3 = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup3Pose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3Pose.getHeading())
+         *///This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. *//*
+        grabPickup3a = follower.pathBuilder()
+                .addPath(new BezierLine(scorePoseAP, pickup3aPose))
+                .setLinearHeadingInterpolation(scorePoseAP.getHeading(), pickup3bPose.getHeading())
+                .build();
+        grabPickup3b = follower.pathBuilder()
+                .addPath(new BezierLine(pickup3bPose,scorePose))
+                .setLinearHeadingInterpolation(pickup3bPose.getHeading(), pickup3bPose.getHeading())
                 .build();
 
-        *//* This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. *//*
+        //This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. *//*
         scorePickup3 = follower.pathBuilder()
-                .addPath(new BezierLine(pickup3Pose, scorePose))
-                .setLinearHeadingInterpolation(pickup3Pose.getHeading(), scorePose.getHeading())
-                .build();*/
+                .addPath(new BezierLine(pickup3bPose, scorePose))
+                .setLinearHeadingInterpolation(pickup3bPose.getHeading(), scorePose.getHeading())
+                .build();
         endPath = follower.pathBuilder()
                 .addPath(new BezierCurve(scorePoseAP, pickup2aPose, endPose))
                 //.setLinearHeadingInterpolation(scorePoseAP.getHeading(), pickup2aPose.getHeading())
@@ -394,10 +400,67 @@ public class ppBlueNear3Cycle extends OpMode {
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
                         runtime.reset();
-                        currentStage = stage._450_Park;
+                        currentStage = stage._160_pickup3;
                     }
                 }
                 break;
+
+            case _160_pickup3:
+                if(!follower.isBusy()) {
+                    follower.followPath(grabPickup1a, powerNormal, true);
+                    lastPose = currentTargetPose;
+                    currentTargetPose = pickup3aPose;
+                    currentStage = stage._170_pickup3_startintake;
+                }
+            break;
+
+                case _170_pickup3_startintake:
+                    if (!follower.isBusy()) {
+                        currentTargetPose = pickup3bPose;
+                        robot.intake.cmdFoward();
+                        currentStage = stage._180_pickupa3;
+                    }
+                break;
+
+            case _180_pickupa3:
+                if (!follower.isBusy()) {
+                    follower.followPath(grabPickup3b ,powerSlow, true);
+                    lastPose = currentTargetPose;
+                    currentTargetPose= pickup3bPose;
+                    currentStage = stage._190_ToScorePoseAP2;
+                }
+            break;
+
+                case _190_ToScorePoseAP2:
+                if (!follower.isBusy()) {
+                    follower.followPath(scorePickup3,powerNormal,true);
+                    currentTargetPose = scorePoseAP;
+                    robot.launcher.cmdOuttouch();
+                    currentStage = stage._200_chkDrive_to_scorePoseAP2;
+                }
+             break;
+
+            case _200_chkDrive_to_scorePoseAP2:
+                if (!follower.isBusy()) {
+                    telemetryMU.addData("Drive Complete?", follower.isBusy());
+                    currentStage = stage._210_ScorePickup3; // we don't need to do the turn since heading is adjusted in path
+                    runtime.reset();
+                }
+            break;
+
+            case _210_ScorePickup3:
+                if (!follower.isBusy()) {
+                   //
+                    //
+                    if (runtime.milliseconds() >= 1000) {
+                        telemetryMU.addLine("wqiting to shoot 1");
+                        robot.intake.cmdFoward();
+                        robot.transitionRoller.cmdSpin();
+                        robot.launcherBlocker.cmdUnBlock();
+                        runtime.reset();
+                        currentStage = stage._450_Park;
+                    }
+                }
 
             case _450_Park:
                 if (runtime.milliseconds() >= 1500) {
@@ -473,6 +536,12 @@ public class ppBlueNear3Cycle extends OpMode {
         _130_ToScorePoseAP,
         _140_chkDrive_to_scorePoseAP,
         _150_ScorePickup2,
+        _160_pickup3,
+        _170_pickup3_startintake,
+        _180_pickupa3,
+        _190_ToScorePoseAP2,
+        _200_chkDrive_to_scorePoseAP2,
+        _210_ScorePickup3,
         _450_Park,
         _500_End
 
