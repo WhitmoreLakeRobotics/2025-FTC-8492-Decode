@@ -13,19 +13,18 @@ import com.pedropathing.paths.HeadingInterpolator;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
-@Disabled
+//@Disabled
 @Configurable
-@Autonomous(name = "dppBluFAR_njPlay", group = "ppBlue")
+@Autonomous(name = "ppBluFAR_njPlay", group = "ppBlue")
 // @Autonomous(...) is the other common choice
 
-public class dppBluFAR_njPlay extends OpMode {
+public class ppBluFAR_njPlay extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -262,7 +261,8 @@ public static Pose LZPoint = new Pose(0,0);
                 if (!follower.isBusy()) {
                     // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                    if (runtime.milliseconds() >= 1000) {
+                   follower.turnToDegrees(robot.targetAngleCalc());
+                if (runtime.milliseconds() >= 1000) {
                         telemetryMU.addLine("waiting to shoot 1");
 
                         robot.intake.cmdFoward();
@@ -330,6 +330,7 @@ public static Pose LZPoint = new Pose(0,0);
                 if (!follower.isBusy()) {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
+                    follower.turnToDegrees(robot.targetAngleCalc());
                     if (runtime.milliseconds() > 750) { // let path settle
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();

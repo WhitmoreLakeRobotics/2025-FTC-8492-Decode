@@ -58,10 +58,10 @@ public class ppBlueNear4Cyclej extends OpMode {
     public static Pose pickup1aPose = new Pose(50, 86, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     public static Pose pickup1bPose = new Pose(13, 81, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
-    public static Pose pickup2aPose = new Pose(48, 54, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup2bPose = new Pose(3, 52, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2aPose = new Pose(48, 52, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2bPose = new Pose(3, 50, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose pickReturn2 =new Pose(20,75,(180));
-    public static Pose pickup3aPose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup3aPose = new Pose(47, 35, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup3bPose = new Pose(15, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose endPose = new Pose(45,58,Math.toRadians(180));
     private Pose currentTargetPose = startPose;
