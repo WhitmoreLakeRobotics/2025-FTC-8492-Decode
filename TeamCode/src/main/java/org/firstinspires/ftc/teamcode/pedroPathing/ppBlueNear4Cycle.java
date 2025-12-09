@@ -135,7 +135,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 .setLinearHeadingInterpolation(scorePoseAP.getHeading(), pickup3bPose.getHeading())
                 .build();
         grabPickup3b = follower.pathBuilder()
-                .addPath(new BezierLine(pickup3bPose,scorePose))
+                .addPath(new BezierLine(pickup3aPose,pickup3bPose))
                 .setLinearHeadingInterpolation(pickup3bPose.getHeading(), pickup3bPose.getHeading())
                 .build();
 
@@ -407,7 +407,7 @@ public class ppBlueNear4Cycle extends OpMode {
 
             case _160_pickup3:
                 if(!follower.isBusy()) {
-                    follower.followPath(grabPickup1a, powerNormal, true);
+                    follower.followPath(grabPickup3a, powerNormal, true);
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup3aPose;
                     currentStage = stage._170_pickup3_startintake;
