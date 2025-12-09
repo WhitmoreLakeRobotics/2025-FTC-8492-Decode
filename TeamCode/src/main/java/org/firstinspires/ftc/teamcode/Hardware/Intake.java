@@ -149,8 +149,9 @@ public class Intake extends BaseHardware{
         }
 */
         if (CurrentMode == Mode.NTKforward) {
-            if (CurrentDistance == Distance.FILLED){
-            if ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600))) {
+            if (CurrentDistance == Distance.FILLED || ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600)))){
+                if(CurrentColor == Color.BLUE){
+            //if ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600))) {
                 //if (runtime.milliseconds() >= 1000) {
                     cmdStop();
                     // DriverHappy = true;
