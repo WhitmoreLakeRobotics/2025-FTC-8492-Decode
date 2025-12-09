@@ -151,10 +151,10 @@ public class Intake extends BaseHardware{
         if (CurrentMode == Mode.NTKforward) {
             if (CurrentDistance == Distance.FILLED){
             if ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600))) {
-                if (runtime.milliseconds() >= 1000) {
+                //if (runtime.milliseconds() >= 1000) {
                     cmdStop();
                     // DriverHappy = true;
-                }
+               // }
               }
             }
           }
@@ -163,12 +163,10 @@ public class Intake extends BaseHardware{
         //if(sensorTime.milliseconds() >= 400) {
             getDistNTKCRS();
         //}
-        if(NTKAP2distance <= 7 && NTKAP3distance <= 5 && sensorTime.milliseconds() >= 500){ //maybe 750
+        if(NTKAP2distance <= 7 && NTKAP3distance <= 5 && sensorTime.milliseconds() >= 1000){ //maybe 750
             CurrentDistance = Distance.FILLED;
-            sensorTime.reset();
         }else{
             CurrentDistance = Distance.MISSING;
-            sensorTime.reset();
         }
 
            /*
@@ -256,7 +254,7 @@ public class Intake extends BaseHardware{
     public void cmdFoward(){
         CurrentMode = Mode.NTKforward;
         NTKM01.setPower (inSpeed);
-        runtime.reset();
+        sensorTime.reset();
         cmdGREEN();
         //PeaLight.setPosition(Green);
         //PeaLight.enableLight(false);

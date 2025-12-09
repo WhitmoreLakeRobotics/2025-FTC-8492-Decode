@@ -333,7 +333,7 @@ public class ppBlueNear4Cyclej extends OpMode {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                     if (runtime.milliseconds() >= 1000) {
-                        telemetryMU.addLine("wqiting to shoot 2");
+                        telemetryMU.addLine("waiting to shoot 2");
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
