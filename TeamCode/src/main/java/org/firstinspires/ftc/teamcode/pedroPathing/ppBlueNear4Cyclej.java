@@ -385,13 +385,14 @@ public class ppBlueNear4Cyclej extends OpMode {
                 break;
             case _140_chkDrive_to_scorePoseAP:
                 if (!follower.isBusy()) {
-                    if (runtime.milliseconds() >=750)
-                    telemetryMU.addData("Drive Complete?", follower.isBusy());
-                    robot.intake.cmdFoward();
-                    robot.transitionRoller.cmdSpin();
-                    robot.launcherBlocker.cmdUnBlock();
+                    if (runtime.milliseconds() >=750) {
+                        telemetryMU.addData("Drive Complete?", follower.isBusy());
+                        robot.intake.cmdFoward();
+                        robot.transitionRoller.cmdSpin();
+                        robot.launcherBlocker.cmdUnBlock();
                         runtime.reset();
-                    currentStage = stage._142_Pickup3; // we don't need to do the turn since heading is adjusted in path
+                        currentStage = stage._142_Pickup3; // we don't need to do the turn since heading is adjusted in path
+                    }
                 }
 
                 break;
