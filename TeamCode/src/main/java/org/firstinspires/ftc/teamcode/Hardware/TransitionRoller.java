@@ -98,7 +98,7 @@ public class TransitionRoller extends BaseHardware{
      public void loop(){
 
          if (CurrentMode == Mode.Spin) {
-             if ((CommonLogic.inRange(getMotorRPM(TRM01), 950, 950))) {
+             if ((CommonLogic.inRange(getMotorRPM(TRM01), 600, 600))) {
                  if (runtime.milliseconds() >= 1100) {
                      cmdStop();
                  }
