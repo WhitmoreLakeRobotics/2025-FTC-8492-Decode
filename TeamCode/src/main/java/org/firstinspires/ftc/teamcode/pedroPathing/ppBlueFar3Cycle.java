@@ -58,19 +58,20 @@ public class ppBlueFar3Cycle extends OpMode {
     //public static Pose scorePoseAP =new Pose(57,100,Math.toRadians(145));
     public static Pose pickup1aPose = new Pose(16, 9, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     public static Pose pickup1bPose = new Pose(7, 10, Math.toRadians(230)); // (First Set) of Artifacts picked up.
-    public static Pose pickup1bPoseC = new Pose(13, 23, Math.toRadians(180));
+    public static Pose pickup1bPoseC = new Pose(13, 23, Math.toRadians(230));
     public static Pose pickup1cPose = new Pose(7, 10, Math.toRadians(180));
 
     public static Pose pickup2aPose = new Pose(9, 35.5, Math.toRadians(200)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup2aPoseC = new Pose(71, 39, Math.toRadians(200)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    public static Pose pickReturn2 =new Pose(20,75,(180));
-    public static Pose pickup3aPose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup3bPose = new Pose(15, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    public static Pose endPose = new Pose(45,58,Math.toRadians(180));
+    //public static Pose pickReturn2 =new Pose(20,75,(180));
+    //public static Pose pickup3aPose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    //public static Pose pickup3bPose = new Pose(15, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose endPose = new Pose(11,11,Math.toRadians(200));
+    public static Pose endPose2 = new Pose(11,11,Math.toRadians(180));
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;
-    private PathChain grabPickup1a, grabPickup1b, scorePickup1, grabPickup2a,grabPickup2b, scorePickup2, grabPickup3a,grabPickup3b, scorePickup3, endPath;
+    private PathChain grabPickup1a, grabPickup1b, scorePickup1, grabPickup2a,grabPickup2b, scorePickup2 ,goEndPose, goEndPose2, endPath;
 
     // private Path grabPickup1a;
     public void buildPaths() {
@@ -79,7 +80,7 @@ public class ppBlueFar3Cycle extends OpMode {
         scorePreload.setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading());
         scorePreload.setHeadingConstraint(0.1);
         scorePreload.setVelocityConstraint(2.0);*/
-/*
+
         scorePreload = follower.pathBuilder()
                 .addPath (new BezierLine(startPose, scorePose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), scorePose.getHeading())
@@ -107,13 +108,14 @@ public class ppBlueFar3Cycle extends OpMode {
 
         /* This is our grabPickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         grabPickup2a = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup2aPose))
+                .addPath(new BezierCurve(scorePose,pickup2aPoseC,pickup2aPose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup2aPose.getHeading())
                 .build();
-        grabPickup2b = follower.pathBuilder()
-                .addPath(new BezierLine(pickup2aPose, pickup2aPoseC))
-                .setLinearHeadingInterpolation(pickup2aPose.getHeading(), pickup2aPoseC.getHeading())
-                .build();
+
+        //grabPickup2b = follower.pathBuilder()
+        //        .addPath(new BezierLine(pickup2aPose, pickup2aPoseC))
+         //       .setLinearHeadingInterpolation(pickup2aPose.getHeading(), pickup2aPoseC.getHeading())
+         //       .build();
 /*
         /* This is our scorePickup2 PathChain. We are using a single path with a BezierLine, which is a straight line. */
       /*  scorePickup2 = follower.pathBuilder()
@@ -124,29 +126,29 @@ public class ppBlueFar3Cycle extends OpMode {
                 .build();*/
         //tring a curve
         scorePickup2 = follower.pathBuilder()
-                .addPath(new BezierCurve(pickup2aPoseC, pickup2aPose, scorePose))
-                .setLinearHeadingInterpolation(pickup2aPoseC.getHeading(), scorePose.getHeading())
+                .addPath(new BezierLine(pickup2aPose,scorePose))
+                .setLinearHeadingInterpolation(pickup2aPose.getHeading(), scorePose.getHeading())
                 // .addPath(new BezierLine(pickup2bPose, scorePoseAP))
                 //.setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePoseAP.getHeading())
                 .build();
 
         // This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. *//*
-        grabPickup3a = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup3aPose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), pickup3aPose.getHeading())
+        goEndPose= follower.pathBuilder()
+                .addPath(new BezierLine(scorePose,endPose))
+                .setLinearHeadingInterpolation(scorePose.getHeading(), endPose.getHeading())
                 .build();
 
         // This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. *//*
-        grabPickup3b = follower.pathBuilder()
-                .addPath(new BezierLine(pickup3bPose, scorePose))
-                .setLinearHeadingInterpolation(pickup3bPose.getHeading(), scorePose.getHeading())
+         goEndPose2= follower.pathBuilder()
+                .addPath(new BezierLine(endPose,endPose2))
+                .setLinearHeadingInterpolation(endPose.getHeading(), endPose2.getHeading())
                 .build();
-        endPath = follower.pathBuilder()
-                .addPath(new BezierCurve(scorePose, pickup2aPose, endPose))
+        //endPath = follower.pathBuilder()
+          //      .addPath(new BezierCurve(scorePose, pickup2aPose, endPose))
                 //.setLinearHeadingInterpolation(scorePoseAP.getHeading(), pickup2aPose.getHeading())
                 //.addPath(new BezierLine(pickup2aPose, pickup2bPose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(),endPose.getHeading())
-                .build();
+         //       .setLinearHeadingInterpolation(scorePose.getHeading(),endPose.getHeading())
+          //      .build();
     }
 
 
@@ -303,7 +305,7 @@ public class ppBlueFar3Cycle extends OpMode {
                 if (!follower.isBusy()) {
                     follower.followPath(grabPickup1b,powerSlow, true);
                     lastPose = currentTargetPose;
-                    currentTargetPose = pickup1aPose;
+                    currentTargetPose = pickup1bPose;
                     currentStage = stage._70_ToScorePoseAP;
                 }
                 break;
@@ -359,17 +361,20 @@ public class ppBlueFar3Cycle extends OpMode {
                     // follower.followPath(grabPickup1a, true);
                     currentTargetPose = pickup2aPose;
                     robot.intake.cmdFoward();
-                    currentStage = stage._120_Pickupa2;
+                    currentStage = stage._130_ToScorePoseAP;
                 }
+                /*
                 break;
 
             case _120_Pickupa2:
                 if (!follower.isBusy()) {
-                    follower.followPath(grabPickup2b ,powerSlow, true);
+                    follower.followPath(scorePickup2 ,powerSlow, true);
                     lastPose = currentTargetPose;
-                    currentTargetPose= pickup2aPoseC;
+                    currentTargetPose= pickup2aPose;
                     currentStage = stage._130_ToScorePoseAP;
                 }
+
+                 */
                 break;
             case _130_ToScorePoseAP:
                 if(!follower.isBusy()){
@@ -386,13 +391,15 @@ public class ppBlueFar3Cycle extends OpMode {
                     runtime.reset();
                 }
 
+
+                /*
                 break;
 
             case _142_Pickup3:
                 if (!follower.isBusy()) {
-                    follower.followPath(grabPickup3a, powerNormal, true);
+                    follower.followPath(goEndPose, powerNormal, true);
                     lastPose = currentTargetPose;
-                    currentTargetPose = pickup3aPose;
+                    currentTargetPose = endPose;
                     currentStage = stage._143_Pickup3_Startintake;
                 }
                 break;
@@ -400,7 +407,7 @@ public class ppBlueFar3Cycle extends OpMode {
             case _143_Pickup3_Startintake:
                 if (!follower.isBusy()) {
                     // follower.followPath(grabPickup1a, true);
-                    currentTargetPose = pickup3aPose;
+                    currentTargetPose = endPose;
                     robot.intake.cmdFoward();
                     currentStage = stage._144_Pickupa2;
                 }
@@ -408,15 +415,15 @@ public class ppBlueFar3Cycle extends OpMode {
 
             case _144_Pickupa2:
                 if (!follower.isBusy()) {
-                    follower.followPath(grabPickup3b ,powerSlow, true);
+                    follower.followPath(goEndPose ,powerSlow, true);
                     lastPose = currentTargetPose;
-                    currentTargetPose= pickup3bPose;
+                    currentTargetPose= endPose2;
                     currentStage = stage._146_ToScorePoseAP;
                 }
                 break;
             case _146_ToScorePoseAP:
                 if(!follower.isBusy()){
-                    follower.followPath(scorePickup3,powerNormal,true);
+                    follower.followPath(goEndPose2,powerNormal,true);
                     currentTargetPose = scorePose;
                     robot.launcher.cmdOuttouch();
                     currentStage = stage._148_chkDrive_to_scorePoseAP;
@@ -428,6 +435,8 @@ public class ppBlueFar3Cycle extends OpMode {
                     currentStage = stage._150_ScorePickup2; // we don't need to do the turn since heading is adjusted in path
                     runtime.reset();
                 }
+
+                 */
 
                 break;
 
@@ -450,11 +459,24 @@ public class ppBlueFar3Cycle extends OpMode {
                 if (runtime.milliseconds() >= 1500) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
-                    follower.followPath(endPath, powerNormal,true);
+                    follower.followPath(goEndPose, powerNormal,true);
                     lastPose = currentTargetPose;
-                    currentTargetPose = pickup2aPoseC;
+                    currentTargetPose = endPose;
+                    currentStage = stage._475_ParkToBeContinued;
+                }
+
+                break;
+
+            case _475_ParkToBeContinued:
+                if (runtime.milliseconds() >= 1500) {
+                    // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
+                    robot.launcherBlocker.cmdBlock();
+                    follower.followPath(goEndPose2, powerNormal,true);
+                    lastPose = currentTargetPose;
+                    currentTargetPose = endPose2;
                     currentStage = stage._500_End;
                 }
+
                 break;
             case _500_End:
             { //do nothing let the time run out
@@ -526,8 +548,8 @@ public class ppBlueFar3Cycle extends OpMode {
         _148_chkDrive_to_scorePoseAP,
         _150_ScorePickup2,
         _450_Park,
+        _475_ParkToBeContinued,
         _500_End
-
 
     }
 

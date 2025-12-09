@@ -163,7 +163,7 @@ public class Intake extends BaseHardware{
         //if(sensorTime.milliseconds() >= 400) {
             getDistNTKCRS();
         //}
-        if(NTKAP2distance <= 7 && NTKAP3distance <= 5 && sensorTime.milliseconds() >= 1000){ //maybe 750
+        if(NTKAP2distance <= 10 && NTKAP3distance <= 10 && sensorTime.milliseconds() >= 1000){ //maybe 750
             CurrentDistance = Distance.FILLED;
         }else{
             CurrentDistance = Distance.MISSING;
