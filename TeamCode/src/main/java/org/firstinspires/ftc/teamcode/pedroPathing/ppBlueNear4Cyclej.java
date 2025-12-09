@@ -266,7 +266,7 @@ public class ppBlueNear4Cyclej extends OpMode {
             case _30_Shoot1:
                 if (!follower.isBusy()) {
                     if (runtime.milliseconds() >= 500) {
-                        telemetryMU.addLine("wqiting to shoot 1");
+                        telemetryMU.addLine("waiting to shoot 1");
                         // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                         //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                         robot.intake.cmdFoward();
@@ -332,7 +332,7 @@ public class ppBlueNear4Cyclej extends OpMode {
                 if (!follower.isBusy()) {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                    if (runtime.milliseconds() >= 1000) {
+                    if (runtime.milliseconds() >= 750) {
                         telemetryMU.addLine("waiting to shoot 2");
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
@@ -385,15 +385,28 @@ public class ppBlueNear4Cyclej extends OpMode {
                 break;
             case _140_chkDrive_to_scorePoseAP:
                 if (!follower.isBusy()) {
+                    if (runtime.milliseconds() >=750)
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
+                    robot.intake.cmdFoward();
+                    robot.transitionRoller.cmdSpin();
+                    robot.launcherBlocker.cmdUnBlock();
+                        runtime.reset();
                     currentStage = stage._142_Pickup3; // we don't need to do the turn since heading is adjusted in path
-                    runtime.reset();
                 }
 
                 break;
 
+            case _141_LauncherStop:
+                if (runtime.milliseconds() >= 1500) {
+                    // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
+                    robot.launcherBlocker.cmdBlock();
+                    currentStage = stage._142_Pickup3;
+                }
+                break;
+
             case _142_Pickup3:
                 if (!follower.isBusy()) {
+
                     follower.followPath(grabPickup3a, powerNormal, true);
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup3aPose;
@@ -429,18 +442,18 @@ public class ppBlueNear4Cyclej extends OpMode {
             case _148_chkDrive_to_scorePoseAP:
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
-                    currentStage = stage._150_ScorePickup2; // we don't need to do the turn since heading is adjusted in path
+                    currentStage = stage._150_ScorePickup3; // we don't need to do the turn since heading is adjusted in path
                     runtime.reset();
                 }
 
                 break;
 
-            case _150_ScorePickup2:
+            case _150_ScorePickup3:
                 if (!follower.isBusy()) {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                     if (runtime.milliseconds() >= 1000) {
-                        telemetryMU.addLine("wqiting to shoot 1");
+                        telemetryMU.addLine("waiting to shoot 3");
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
@@ -523,12 +536,13 @@ public class ppBlueNear4Cyclej extends OpMode {
         _120_Pickupa2,
         _130_ToScorePoseAP,
         _140_chkDrive_to_scorePoseAP,
+        _141_LauncherStop,
         _142_Pickup3,
         _143_Pickup3_Startintake,
         _144_Pickupa2,
         _146_ToScorePoseAP,
         _148_chkDrive_to_scorePoseAP,
-        _150_ScorePickup2,
+        _150_ScorePickup3,
         _450_Park,
         _500_End
 
