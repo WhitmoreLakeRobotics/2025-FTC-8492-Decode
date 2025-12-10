@@ -39,12 +39,12 @@ public class ppBlueNear4Cycle extends OpMode {
     private String RTAG = "8492-Auton";
 // Set up stuff for pedro path
 
-    private String thisUpdate = "11";
+    private String thisUpdate = "20";
     private TelemetryManager telemetryMU;
     //Private Follower follower;
     public static Follower follower;
-    private Timer pathTimer, actionTimer, opmodeTimer;
-    private ElapsedTime pTimer;// this is for pausing at the end of a path
+    private Timer  actionTimer, opmodeTimer;
+    private ElapsedTime pTimer, pathTimer;// this is for pausing at the end of a path
     //configurables for pedro
     public static double powerCreeper = 0.15;
     public  static  double powerSlow = 0.3;
@@ -53,17 +53,17 @@ public class ppBlueNear4Cycle extends OpMode {
     // poses for pedropath
     // poses for pedropath
     public static Pose startPose = new Pose(33.5, 134, Math.toRadians(180)); // Start Pose of our robot.
-    public static Pose scorePose = new Pose(53, 110, Math.toRadians(145)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePose = new Pose(57, 110, Math.toRadians(145)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose scorePoseAP =new Pose(55,100,Math.toRadians(145));
-    public static Pose pickup1aPose = new Pose(45, 90, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(13, 93, Math.toRadians(180)); // (First Set) of Artifacts picked up.
+    public static Pose scorePoseAP =new Pose(57,100,Math.toRadians(145));
+    public static Pose pickup1aPose = new Pose(45, 86, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1bPose = new Pose(13, 87, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
-    public static Pose pickup2aPose = new Pose(45, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup2bPose = new Pose(3, 60, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2aPose = new Pose(45, 53, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2bPose = new Pose(3, 52, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose pickReturn2 =new Pose(20,75,180);
-    public static Pose pickup3aPose = new Pose(47, 40, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup3bPose = new Pose(3, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose pickup3aPose = new Pose(47, 34, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup3bPose = new Pose(3, 31, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose endPose = new Pose(45,58,Math.toRadians(180));
 
     private Pose currentTargetPose = startPose;
@@ -182,7 +182,7 @@ public class ppBlueNear4Cycle extends OpMode {
 
         //Initialize Gyro
         robot.driveTrain.ResetGyro();
-        pathTimer = new Timer();
+        pathTimer = new ElapsedTime();
         opmodeTimer = new Timer();
         opmodeTimer.resetTimer();
         pTimer = new ElapsedTime();
@@ -307,11 +307,12 @@ public class ppBlueNear4Cycle extends OpMode {
                     follower.followPath(grabPickup1b,powerSlow, true);
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup1aPose;
+                    pathTimer.reset();
                     currentStage = stage._70_ToScorePoseAP;
                 }
                 break;
             case _70_ToScorePoseAP:
-                if(!follower.isBusy()){
+                if(!follower.isBusy() || pathTimer.milliseconds() >= 3000){
                     follower.followPath(scorePickup1,powerNormal,true);
                     lastPose = currentTargetPose;
                     currentTargetPose = scorePose;
@@ -371,12 +372,13 @@ public class ppBlueNear4Cycle extends OpMode {
                     follower.followPath(grabPickup2b ,powerSlow, true);
                     lastPose = currentTargetPose;
                     currentTargetPose= pickup2bPose;
+                    pathTimer.reset();
                     currentStage = stage._130_ToScorePoseAP;
                 }
                 break;
             case _130_ToScorePoseAP:
-                if(!follower.isBusy()){
-                    follower.followPath(scorePickup2,powerNormal,true);
+                if(!follower.isBusy() || pathTimer.milliseconds() >= 3000){
+                    follower.followPath(scorePickup2,powerFast,true);
                     currentTargetPose = scorePoseAP;
                     robot.launcher.cmdOuttouch();
                     currentStage = stage._140_chkDrive_to_scorePoseAP;
@@ -434,12 +436,13 @@ public class ppBlueNear4Cycle extends OpMode {
                     follower.followPath(grabPickup3b ,powerSlow, true);
                     lastPose = currentTargetPose;
                     currentTargetPose= pickup3bPose;
+                    pathTimer.reset();
                     currentStage = stage._190_ToScorePoseAP2;
                 }
             break;
 
                 case _190_ToScorePoseAP2:
-                if (!follower.isBusy()) {
+                if (!follower.isBusy() || pathTimer.milliseconds() >= 3000) {
                     follower.followPath(scorePickup3,powerNormal,true);
                     currentTargetPose = scorePoseAP;
                     robot.launcher.cmdOuttouch();

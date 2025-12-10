@@ -261,11 +261,12 @@ public static Pose LZPoint = new Pose(0,0);
                 if (!follower.isBusy()) {
                     // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                   follower.turnToDegrees(robot.targetAngleCalc());
+                  // follower.turnToDegrees(Math.toDegrees(follower.getPose().getHeading() + robot.targetAngleCalc()));
                 if (runtime.milliseconds() >= 1000) {
-                        telemetryMU.addLine("waiting to shoot 1");
+                    follower.turnToDegrees(Math.toDegrees(follower.getPose().getHeading() + robot.targetAngleCalc()));
 
-                        robot.intake.cmdFoward();
+
+                    robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
                         runtime.reset();
@@ -330,8 +331,8 @@ public static Pose LZPoint = new Pose(0,0);
                 if (!follower.isBusy()) {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                    follower.turnToDegrees(robot.targetAngleCalc());
-                    if (runtime.milliseconds() > 750) { // let path settle
+                     if (runtime.milliseconds() > 750) { // let path settle
+                        follower.turnToDegrees(Math.toDegrees(follower.getPose().getHeading() + robot.targetAngleCalc()));
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
@@ -444,8 +445,10 @@ public static Pose LZPoint = new Pose(0,0);
     private void updateTelemetry() {
         telemetryMU.addData("Current Stage", currentStage);
         telemetryMU.addData("follower is busy? ", follower.isBusy());
+telemetryMU.addData("Target angle Calc", robot.targetAngleCalc());
+telemetryMU.addData("AP angle",(Math.toDegrees(follower.getPose().getHeading() + robot.targetAngleCalc())));
 
-       // telemetryMU.addData("follower parametric end? ", follower.atParametricEnd());
+        // telemetryMU.addData("follower parametric end? ", follower.atParametricEnd());
         telemetryMU.addData("follower is stuck? ", follower.isRobotStuck());
         telemetryMU.addData("x", follower.getPose().getX());
         telemetryMU.addData("y", follower.getPose().getY());
