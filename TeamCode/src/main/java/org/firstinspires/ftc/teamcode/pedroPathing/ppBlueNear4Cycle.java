@@ -62,8 +62,8 @@ public class ppBlueNear4Cycle extends OpMode {
     public static Pose pickup2aPose = new Pose(45, 53, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup2bPose = new Pose(5, 52, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose pickReturn2 =new Pose(20,75,180);
-    public static Pose pickup3aPose = new Pose(47, 34, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup3bPose = new Pose(5, 31, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose pickup3aPose = new Pose(47, 33.5, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup3bPose = new Pose(6, 31.5, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose endPose = new Pose(45,58,Math.toRadians(180));
 
     private Pose currentTargetPose = startPose;
@@ -265,7 +265,7 @@ public class ppBlueNear4Cycle extends OpMode {
             case _30_Shoot1:
                 if (!follower.isBusy()) {
                     if (runtime.milliseconds() >= 500) {
-                        telemetryMU.addLine("wqiting to shoot 1");
+                        telemetryMU.addLine("waiting to shoot 1");
                         // if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                         //         CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                         robot.intake.cmdFoward();
@@ -333,7 +333,7 @@ public class ppBlueNear4Cycle extends OpMode {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                     if (runtime.milliseconds() >= 1000) {
-                        telemetryMU.addLine("wqiting to shoot 2");
+                        telemetryMU.addLine("waiting to shoot 2");
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
@@ -387,8 +387,9 @@ public class ppBlueNear4Cycle extends OpMode {
             case _140_chkDrive_to_scorePoseAP:
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
-                    currentStage = stage._150_ScorePickup2; // we don't need to do the turn since heading is adjusted in path
                     runtime.reset();
+                    currentStage = stage._150_ScorePickup2; // we don't need to do the turn since heading is adjusted in path
+
                 }
                 break;
 
@@ -397,7 +398,7 @@ public class ppBlueNear4Cycle extends OpMode {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
                     if (runtime.milliseconds() >= 1000) {
-                        telemetryMU.addLine("wqiting to shoot 1");
+                        telemetryMU.addLine("waiting to shoot 3");
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
@@ -411,6 +412,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 if (runtime.milliseconds() >= 1500) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
+                    runtime.reset();
                     currentStage = stage._160_pickup3;
                 }
                 break;
@@ -453,8 +455,9 @@ public class ppBlueNear4Cycle extends OpMode {
             case _200_chkDrive_to_scorePoseAP2:
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
-                    currentStage = stage._210_ScorePickup3; // we don't need to do the turn since heading is adjusted in path
                     runtime.reset();
+                    currentStage = stage._210_ScorePickup3; // we don't need to do the turn since heading is adjusted in path
+
                 }
             break;
 
@@ -463,7 +466,7 @@ public class ppBlueNear4Cycle extends OpMode {
                    //
                     //
                     if (runtime.milliseconds() >= 1000) {
-                        telemetryMU.addLine("wqiting to shoot 1");
+                        telemetryMU.addLine("waiting to shoot 4");
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
