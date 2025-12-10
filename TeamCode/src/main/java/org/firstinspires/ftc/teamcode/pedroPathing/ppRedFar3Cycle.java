@@ -13,7 +13,6 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -22,10 +21,10 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 //@Disabled
 @Configurable
-@Autonomous(name = "ppBlueFar3Cycle", group = "PP")
+@Autonomous(name = "ppRedFar3Cycle", group = "PP")
 // @Autonomous(...) is the other common choice
 
-public class ppBlueFar3Cycle extends OpMode {
+public class ppRedFar3Cycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -52,22 +51,22 @@ public class ppBlueFar3Cycle extends OpMode {
     public static double powerFast = 0.8;
     // poses for pedropath
     // poses for pedropath
-    public static Pose startPose = new Pose(57, 9, Math.toRadians(90)); // Start Pose of our robot.
-    public static Pose scorePose = new Pose(57, 18, Math.toRadians(110)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose startPose = new Pose(57, 9, Math.toRadians(90)).mirror(); // Start Pose of our robot.
+    public static Pose scorePose = new Pose(57, 18, Math.toRadians(110)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //public static Pose scorePoseAP =new Pose(57,100,Math.toRadians(145));
-    public static Pose pickup1aPose = new Pose(16, 9, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(7, 10, Math.toRadians(230)); // (First Set) of Artifacts picked up.
-    public static Pose pickup1bPoseC = new Pose(13, 23, Math.toRadians(230));
-    public static Pose pickup1cPose = new Pose(7, 10, Math.toRadians(180));
+    public static Pose pickup1aPose = new Pose(16, 9, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1bPose = new Pose(7, 10, Math.toRadians(230)).mirror(); // (First Set) of Artifacts picked up.
+    public static Pose pickup1bPoseC = new Pose(13, 23, Math.toRadians(230)).mirror();
+    public static Pose pickup1cPose = new Pose(7, 10, Math.toRadians(180)).mirror();
 
-    public static Pose pickup2aPose = new Pose(9, 35.5, Math.toRadians(200)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup2aPoseC = new Pose(71, 39, Math.toRadians(200)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2aPose = new Pose(9, 35.5, Math.toRadians(200)).mirror(); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2aPoseC = new Pose(71, 39, Math.toRadians(200)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
     //public static Pose pickReturn2 =new Pose(20,75,(180));
     //public static Pose pickup3aPose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     //public static Pose pickup3bPose = new Pose(15, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    public static Pose endPose = new Pose(11,11,Math.toRadians(200));
-    public static Pose endPose2 = new Pose(11,11,Math.toRadians(180));
+    public static Pose endPose = new Pose(11,11,Math.toRadians(200)).mirror();
+    public static Pose endPose2 = new Pose(11,11,Math.toRadians(180)).mirror();
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;

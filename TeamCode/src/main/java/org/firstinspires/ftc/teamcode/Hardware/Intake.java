@@ -42,14 +42,17 @@ public class Intake extends BaseHardware{
      * multiple op modes have the same name, only one will be available.
      */
     private DcMotorEx NTKM01;
+    private Servo PeaLight;
+    public ColorRangeSensor NTKAP2;
+    public ColorRangeSensor NTKAP3;
     //public LED PeaLight;  //off
     //public LED green_PeaLight; //on
     //public LED yellow_Pealight; //transitionroller of intake running
 
     public Mode CurrentMode;
-    public Distance CurrentDistance;
-
-    private Servo PeaLight;
+    public Distance2 CurrentDistance2;
+    public Distance3 CurrentDistance3;
+    public Color CurrentColor;
 
     private double NTKM01Power;
 
@@ -72,14 +75,12 @@ public class Intake extends BaseHardware{
     private double NTKAP3distance;
 
     public boolean DriverHappy = false;
-    public Color CurrentColor;
     public boolean AtIntakeStop = true;
+
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime timerun = new ElapsedTime();
     private ElapsedTime sensorTime= new ElapsedTime();
-
-    public ColorRangeSensor NTKAP2;
-    public ColorRangeSensor NTKAP3;
+    private ElapsedTime loopTime= new ElapsedTime();
 
     private double targRange = 10.2; //in cm
     /**
@@ -123,7 +124,7 @@ public class Intake extends BaseHardware{
      */
     public void start(){
 
-        sensorTime.reset();
+        loopTime.reset();
 
     }
 
@@ -148,26 +149,43 @@ public class Intake extends BaseHardware{
             AtIntakeStop = true;
         }
 */
-        if (CurrentMode == Mode.NTKforward) {
-            if (CurrentDistance == Distance.FILLED || ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600)))){
-                if(CurrentColor == Color.BLUE){
-            //if ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600))) {
-                //if (runtime.milliseconds() >= 1000) {
-                    cmdStop();
-                    // DriverHappy = true;
-               // }
-              }
-            }
-          }
+        if(loopTime.milliseconds() >= 250) {
 
-        //possibly put 400 time with sensortime for less glitching if glitching occurs.
-        //if(sensorTime.milliseconds() >= 400) {
-            getDistNTKCRS();
-        //}
-        if(NTKAP2distance <= 10 && NTKAP3distance <= 10 && sensorTime.milliseconds() >= 1000){ //maybe 750
-            CurrentDistance = Distance.FILLED;
-        }else{
-            CurrentDistance = Distance.MISSING;
+            if (CurrentMode == Mode.NTKforward) {
+                if (CurrentDistance2 == Distance2.FILLED2 && CurrentDistance3 == Distance3.FILLED3 || ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600)))) {
+                    if (CurrentColor == Color.BLUE) {
+                        //if ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600))) {
+                        //if (runtime.milliseconds() >= 1000) {
+                        cmdStop();
+                        // DriverHappy = true;
+                        // }
+                    }
+                }
+            }
+
+            if (CurrentMode == Mode.NTKforward) {
+                sensorTime.reset();
+            }
+
+            //possibly put 400 time with sensortime for less glitching if glitching occurs.
+            //if(sensorTime.milliseconds() >= 400) {
+            getDistNTKAP2();
+            getDistNTKAP3();
+            //}
+            if (NTKAP2distance <= 10 && sensorTime.milliseconds() >= 1000) {
+                CurrentDistance2 = Distance2.FILLED2;
+            } else {
+                CurrentDistance2 = Distance2.MISSING2;
+            }
+
+            if (NTKAP3distance <= 10 && sensorTime.milliseconds() >= 1000) {
+                CurrentDistance3 = Distance3.FILLED3;
+            } else {
+                CurrentDistance3 = Distance3.MISSING3;
+            }
+
+            loopTime.reset();
+
         }
 
            /*
@@ -306,14 +324,21 @@ public class Intake extends BaseHardware{
         CurrentColor = Color.BLUE;
     }
 
-    private void getDistNTKCRS() {
+    private void getDistNTKAP2() {
         NTKAP2distance = NTKAP2.getDistance(DistanceUnit.CM);
+    }
+    private void getDistNTKAP3() {
         NTKAP3distance = NTKAP3.getDistance(DistanceUnit.CM);
     }
 
-    public enum Distance {
-        FILLED,
-        MISSING
+    public enum Distance3 {
+        FILLED3,
+        MISSING3
+    }
+
+    public enum Distance2 {
+        FILLED2,
+        MISSING2
     }
 
 

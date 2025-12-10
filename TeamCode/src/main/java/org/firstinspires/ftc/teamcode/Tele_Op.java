@@ -68,6 +68,7 @@ public class Tele_Op extends OpMode {
     private ElapsedTime EndGameTime = new ElapsedTime();
     private ElapsedTime Gameruntime2 = new ElapsedTime();
     private ElapsedTime EndGameTime2= new ElapsedTime();
+    private ElapsedTime uppiesInhibitor = new ElapsedTime();
     private double HLIW = 500;
     //HowLongItWork
 
@@ -239,6 +240,7 @@ public class Tele_Op extends OpMode {
                 robot.intake.cmdGREEN();
                 EndGame4b = false;
             }
+
         }
 
 
@@ -374,7 +376,11 @@ public class Tele_Op extends OpMode {
 
         if (CommonLogic.oneShot(gamepad1.dpad_up, gp1_prev_dpad_up)) {
 
-            robot.uppies.cmdUp();
+            if(uppiesInhibitor.seconds() >= 100){
+                robot.uppies.cmdUp();
+            }
+
+
             // if (RBTChassis.subGrabbers.getIsDownRight()) {
             //robot.subGrabbers.cmdMoveUpRight();
             //}
@@ -451,7 +457,9 @@ public class Tele_Op extends OpMode {
 
         if (CommonLogic.oneShot(gamepad1.dpad_down, gp1_prev_dpad_down)) {
 
-            robot.uppies.cmdDown();
+            if(uppiesInhibitor.seconds() >= 100){
+                robot.uppies.cmdDown();
+            }
 
             //if (robot.subGrabbers.getIsUpLeft()) {
             //    robot.subGrabbers.cmdMoveDownLeft();

@@ -67,7 +67,7 @@ public class ppBlueNear4Cyclej extends OpMode {
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;
-    private PathChain grabPickup1a, grabPickup1b, scorePickup1, grabPickup2a,grabPickup2b, scorePickup2, grabPickup3a,grabPickup3b, scorePickup3, endPath;
+    private PathChain grabPickup1a, grabPickup1b, scorePickup1, grabPickup2a,grabPickup2b, scorePickup2, grabPickup3a,grabPickup3a2,grabPickup3b, scorePickup3, endPath;
 
     // private Path grabPickup1a;
     public void buildPaths() {
@@ -133,20 +133,21 @@ public class ppBlueNear4Cyclej extends OpMode {
                 .setLinearHeadingInterpolation(scorePoseAP.getHeading(), pickup3aPose.getHeading())
                 .build();
 
-        // This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. *//*
-        grabPickup3b = follower.pathBuilder()
-                .addPath(new BezierLine(pickup3bPose, scorePoseAP))
-                .setLinearHeadingInterpolation(pickup3bPose.getHeading(), scorePoseAP.getHeading())
+        grabPickup3a2 = follower.pathBuilder()
+                .addPath(new BezierLine(pickup3aPose, pickup3bPose))
+                .setLinearHeadingInterpolation(pickup3aPose.getHeading(), pickup3bPose.getHeading())
                 .build();
 
+        // This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. *//*
+
         scorePickup3 = follower.pathBuilder()
-                .addPath(new BezierCurve(pickup3bPose, pickup3aPose, scorePoseAP))
-                .setLinearHeadingInterpolation(pickup3bPose.getHeading(), scorePose.getHeading())
+                .addPath(new BezierLine(pickup3bPose, scorePoseAP))
+                .setLinearHeadingInterpolation(scorePoseAP.getHeading(), scorePoseAP.getHeading())
                 // .addPath(new BezierLine(pickup2bPose, scorePoseAP))
                 //.setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePoseAP.getHeading())
                 .build();
         endPath = follower.pathBuilder()
-                .addPath(new BezierCurve(scorePoseAP, pickup2aPose, endPose))
+                .addPath(new BezierLine(scorePoseAP, endPose))
                 //.setLinearHeadingInterpolation(scorePoseAP.getHeading(), pickup2aPose.getHeading())
                 //.addPath(new BezierLine(pickup2aPose, pickup2bPose))
                 .setLinearHeadingInterpolation(scorePoseAP.getHeading(),endPose.getHeading())
@@ -407,7 +408,6 @@ public class ppBlueNear4Cyclej extends OpMode {
 
             case _142_Pickup3:
                 if (!follower.isBusy()) {
-
                     follower.followPath(grabPickup3a, powerNormal, true);
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup3aPose;
@@ -420,13 +420,14 @@ public class ppBlueNear4Cyclej extends OpMode {
                     // follower.followPath(grabPickup1a, true);
                     currentTargetPose = pickup3aPose;
                     robot.intake.cmdFoward();
-                    currentStage = stage._144_Pickupa2;
+                    currentStage = stage._144_Pickupa3;
                 }
+
                 break;
 
-            case _144_Pickupa2:
+            case _144_Pickupa3:
                 if (!follower.isBusy()) {
-                    follower.followPath(grabPickup3b ,powerSlow, true);
+                    follower.followPath(grabPickup3a2 ,powerSlow, true);
                     lastPose = currentTargetPose;
                     currentTargetPose= pickup3bPose;
                     currentStage = stage._146_ToScorePoseAP;
@@ -470,7 +471,7 @@ public class ppBlueNear4Cyclej extends OpMode {
                     robot.launcherBlocker.cmdBlock();
                     follower.followPath(endPath, powerNormal,true);
                     lastPose = currentTargetPose;
-                    currentTargetPose = pickup2bPose;
+                    currentTargetPose = endPose;
                     currentStage = stage._500_End;
                 }
                 break;
@@ -540,7 +541,8 @@ public class ppBlueNear4Cyclej extends OpMode {
         _141_LauncherStop,
         _142_Pickup3,
         _143_Pickup3_Startintake,
-        _144_Pickupa2,
+        _143_5_Pickup3a2,
+        _144_Pickupa3,
         _146_ToScorePoseAP,
         _148_chkDrive_to_scorePoseAP,
         _150_ScorePickup3,

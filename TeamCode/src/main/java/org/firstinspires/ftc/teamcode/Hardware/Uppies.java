@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -29,6 +30,8 @@ public static final double DownUSCC = 1;
     public static final double Stop = 0.0;
 
     public Telemetry telemetry = null;
+
+
     /**
      * BaseHardware constructor
      * <p>
@@ -79,6 +82,12 @@ public static final double DownUSCC = 1;
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop() {
+
+
+
+
+
+
 /*
         switch(CurrentMode){
             case STOP:
