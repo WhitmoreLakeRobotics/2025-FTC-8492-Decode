@@ -71,7 +71,7 @@ public class CompBotConstants { public static FollowerConstants followerConstant
     //retuned 11/30
 
     public static PathConstraints pathConstraints = new PathConstraints(
-            0.90,
+            0.98,
             3.0,
             02.0,
             .98,
