@@ -48,6 +48,7 @@ public class ppBlueNear4Cycle extends OpMode {
     //configurables for pedro
     public static double powerCreeper = 0.15;
     public  static  double powerSlow = 0.3;
+    public static double powerStart = 0.5;
     public static double powerNormal = 0.65;
     public static double powerFast = 0.8;
     // poses for pedropath
@@ -57,7 +58,7 @@ public class ppBlueNear4Cycle extends OpMode {
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose scorePoseAP =new Pose(57,100,Math.toRadians(145));
     public static Pose pickup1aPose = new Pose(50, 86, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(15, 87, Math.toRadians(180)); // (First Set) of Artifacts picked up.
+    public static Pose pickup1bPose = new Pose(15, 88, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
     public static Pose pickup2aPose = new Pose(49, 53, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup2bPose = new Pose(5, 52, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
@@ -246,7 +247,7 @@ public class ppBlueNear4Cycle extends OpMode {
 
             case _20_DriveToScore:
                 if (!follower.isBusy()) {
-                    follower.followPath(scorePreload, powerSlow, true);
+                    follower.followPath(scorePreload, powerStart, true);
                     lastPose = startPose;
                     currentTargetPose = scorePose;
 
@@ -277,7 +278,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 break;
 
             case _40_LauncherStop:
-                if (runtime.milliseconds() >= 1500) {
+                if (runtime.milliseconds() >= 1400) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
                     currentStage = stage._50_Pickup1;
@@ -342,7 +343,7 @@ public class ppBlueNear4Cycle extends OpMode {
                     }}
 
             case _90_LauncherStop:
-                if (runtime.milliseconds() >= 1500) {
+                if (runtime.milliseconds() >= 1400) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
                     currentStage = stage._100_Pickup2;
@@ -409,7 +410,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 break;
 
             case _155_LauncherStop:
-                if (runtime.milliseconds() >= 1500) {
+                if (runtime.milliseconds() >= 1400) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
                     runtime.reset();
@@ -476,7 +477,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 }
 
             case _450_Park:
-                if (runtime.milliseconds() >= 1500) {
+                if (runtime.milliseconds() >= 1400) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
                     follower.followPath(endPath, powerNormal,true);
