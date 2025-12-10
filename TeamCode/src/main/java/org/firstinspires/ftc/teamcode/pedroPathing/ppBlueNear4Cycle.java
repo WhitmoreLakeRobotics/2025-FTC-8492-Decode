@@ -59,10 +59,10 @@ public class ppBlueNear4Cycle extends OpMode {
     public static Pose pickup1aPose = new Pose(50, 86, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     public static Pose pickup1bPose = new Pose(15, 87, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
-    public static Pose pickup2aPose = new Pose(45, 53, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2aPose = new Pose(49, 53, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup2bPose = new Pose(5, 52, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose pickReturn2 =new Pose(20,75,180);
-    public static Pose pickup3aPose = new Pose(47, 33.5, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup3aPose = new Pose(49, 33.5, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup3bPose = new Pose(6, 31.5, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose endPose = new Pose(45,58,Math.toRadians(180));
 
@@ -246,7 +246,7 @@ public class ppBlueNear4Cycle extends OpMode {
 
             case _20_DriveToScore:
                 if (!follower.isBusy()) {
-                    follower.followPath(scorePreload, powerNormal, true);
+                    follower.followPath(scorePreload, powerSlow, true);
                     lastPose = startPose;
                     currentTargetPose = scorePose;
 
@@ -312,7 +312,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 }
                 break;
             case _70_ToScorePoseAP:
-                if(!follower.isBusy() || pathTimer.milliseconds() >= 3000){
+                if(!follower.isBusy() || pathTimer.milliseconds() >= 2500){
                     follower.followPath(scorePickup1,powerNormal,true);
                     lastPose = currentTargetPose;
                     currentTargetPose = scorePose;
@@ -332,7 +332,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 if (!follower.isBusy()) {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                    if (runtime.milliseconds() >= 1000) {
+                    if (runtime.milliseconds() >= 500) {
                         telemetryMU.addLine("waiting to shoot 2");
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
@@ -377,7 +377,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 }
                 break;
             case _130_ToScorePoseAP:
-                if(!follower.isBusy() || pathTimer.milliseconds() >= 3000){
+                if(!follower.isBusy() || pathTimer.milliseconds() >= 2500){
                     follower.followPath(scorePickup2,powerFast,true);
                     currentTargetPose = scorePoseAP;
                     robot.launcher.cmdOuttouch();
@@ -397,7 +397,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 if (!follower.isBusy()) {
                     //                   if (CommonLogic.inRange(follower.getPose().getX(), wallScoreX, xTol) &&
                     //                           CommonLogic.inRange(follower.getPose().getY(), wallScoreY, yTol)) {
-                    if (runtime.milliseconds() >= 1000) {
+                    if (runtime.milliseconds() >= 500) {
                         telemetryMU.addLine("waiting to shoot 3");
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
@@ -444,7 +444,7 @@ public class ppBlueNear4Cycle extends OpMode {
             break;
 
                 case _190_ToScorePoseAP2:
-                if (!follower.isBusy() || pathTimer.milliseconds() >= 3000) {
+                if (!follower.isBusy() || pathTimer.milliseconds() >= 2500) {
                     follower.followPath(scorePickup3,powerNormal,true);
                     currentTargetPose = scorePoseAP;
                     robot.launcher.cmdOuttouch();
@@ -465,7 +465,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 if (!follower.isBusy()) {
                    //
                     //
-                    if (runtime.milliseconds() >= 1000) {
+                    if (runtime.milliseconds() >= 500) {
                         telemetryMU.addLine("waiting to shoot 4");
                         robot.intake.cmdFoward();
                         robot.transitionRoller.cmdSpin();
