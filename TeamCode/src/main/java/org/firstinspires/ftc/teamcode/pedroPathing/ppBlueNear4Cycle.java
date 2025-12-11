@@ -47,9 +47,9 @@ public class ppBlueNear4Cycle extends OpMode {
     private ElapsedTime pTimer, pathTimer;// this is for pausing at the end of a path
     //configurables for pedro
     public static double powerCreeper = 0.15;
-    public  static  double powerSlow = 0.3;
+    public  static  double powerSlow = 0.35;
     public static double powerStart = 0.5;
-    public static double powerNormal = 0.65;
+    public static double powerNormal = 0.68;
     public static double powerFast = 0.8;
     // poses for pedropath
     // poses for pedropath
@@ -472,7 +472,7 @@ public class ppBlueNear4Cycle extends OpMode {
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
                         runtime.reset();
-                        currentStage = stage._500_End;
+                        currentStage = stage._450_Park;
                     }
                 }
 
