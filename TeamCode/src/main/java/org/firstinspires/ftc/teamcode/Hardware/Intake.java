@@ -144,6 +144,8 @@ public class Intake extends BaseHardware{
      * Example usage: Starting another thread.
      */
     public void start(){
+        initLight1 = false;
+        initLight2 = false;
         cmdRED();
         loopTime.reset();
 

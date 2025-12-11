@@ -99,7 +99,7 @@ public class Tele_Op extends OpMode {
         robot.telemetry = telemetry;
         //robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
         robot.init();
-        robot.driveTrain.ResetGyro();
+        //robot.driveTrain.ResetGyro();
         //Gameruntime.reset();
         //Gameruntime2.reset();
 
