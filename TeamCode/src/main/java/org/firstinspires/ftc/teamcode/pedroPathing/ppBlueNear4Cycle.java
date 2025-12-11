@@ -54,17 +54,17 @@ public class ppBlueNear4Cycle extends OpMode {
     // poses for pedropath
     // poses for pedropath
     public static Pose startPose = new Pose(33.5, 134, Math.toRadians(180)); // Start Pose of our robot.
-    public static Pose scorePose = new Pose(57, 110, Math.toRadians(145)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePose = new Pose(57, 105, Math.toRadians(143)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose scorePoseAP =new Pose(57,100,Math.toRadians(145));
-    public static Pose pickup1aPose = new Pose(50, 86, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(15, 88, Math.toRadians(180)); // (First Set) of Artifacts picked up.
+    public static Pose scorePoseAP =new Pose(58,105,Math.toRadians(145));
+    public static Pose pickup1aPose = new Pose(50, 84, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1bPose = new Pose(15, 84, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
-    public static Pose pickup2aPose = new Pose(49, 53, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup2bPose = new Pose(5, 52, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2aPose = new Pose(49, 55, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2bPose = new Pose(5, 51.5, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose pickReturn2 =new Pose(20,75,180);
-    public static Pose pickup3aPose = new Pose(49, 33.5, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup3bPose = new Pose(6, 31.5, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose pickup3aPose = new Pose(49, 35, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup3bPose = new Pose(6, 28, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose endPose = new Pose(45,58,Math.toRadians(180));
 
     private Pose currentTargetPose = startPose;
@@ -278,7 +278,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 break;
 
             case _40_LauncherStop:
-                if (runtime.milliseconds() >= 1400) {
+                if (runtime.milliseconds() >= 1350) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
                     currentStage = stage._50_Pickup1;
@@ -313,7 +313,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 }
                 break;
             case _70_ToScorePoseAP:
-                if(!follower.isBusy() || pathTimer.milliseconds() >= 2500){
+                if(!follower.isBusy() || pathTimer.milliseconds() >= 2300){
                     follower.followPath(scorePickup1,powerNormal,true);
                     lastPose = currentTargetPose;
                     currentTargetPose = scorePose;
@@ -324,8 +324,8 @@ public class ppBlueNear4Cycle extends OpMode {
             case _75_chkDrive_to_score_P1:
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
-                    currentStage = stage._80_ScorePickup1; // we don't need to do the turn since heading is adjusted in path
                     runtime.reset();
+                    currentStage = stage._80_ScorePickup1; // we don't need to do the turn since heading is adjusted in path
                 }
                 break;
 
@@ -343,7 +343,7 @@ public class ppBlueNear4Cycle extends OpMode {
                     }}
 
             case _90_LauncherStop:
-                if (runtime.milliseconds() >= 1400) {
+                if (runtime.milliseconds() >= 1350) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
                     currentStage = stage._100_Pickup2;
@@ -378,7 +378,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 }
                 break;
             case _130_ToScorePoseAP:
-                if(!follower.isBusy() || pathTimer.milliseconds() >= 2500){
+                if(!follower.isBusy() || pathTimer.milliseconds() >= 2450){
                     follower.followPath(scorePickup2,powerFast,true);
                     currentTargetPose = scorePoseAP;
                     robot.launcher.cmdOuttouch();
@@ -472,7 +472,7 @@ public class ppBlueNear4Cycle extends OpMode {
                         robot.transitionRoller.cmdSpin();
                         robot.launcherBlocker.cmdUnBlock();
                         runtime.reset();
-                        currentStage = stage._450_Park;
+                        currentStage = stage._500_End;
                     }
                 }
 
