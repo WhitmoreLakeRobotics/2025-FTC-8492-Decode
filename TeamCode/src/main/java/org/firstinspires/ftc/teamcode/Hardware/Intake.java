@@ -119,14 +119,14 @@ public class Intake extends BaseHardware{
      */
     public void init_loop(){
 
-        if(initLight1 && initLightTime.milliseconds() >= 250){
+        if(initLight1 && initLightTime.milliseconds() >= 750){
             cmdORANGE();
             initLight1 = false;
             initLightTime.reset();
             initLight2 = true;
         }
 
-        if(initLight2 && initLightTime.milliseconds() >= 250){
+        if(initLight2 && initLightTime.milliseconds() >= 750){
             cmdOFF();
             initLight2 = false;
             initLightTime.reset();

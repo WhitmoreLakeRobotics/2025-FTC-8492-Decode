@@ -100,8 +100,8 @@ public class Tele_Op extends OpMode {
         //robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
         robot.init();
         robot.driveTrain.ResetGyro();
-        Gameruntime.reset();
-        Gameruntime2.reset();
+        //Gameruntime.reset();
+        //Gameruntime2.reset();
 
 
         // Initialize the hardware variables. Note that the strings used here as parameters
