@@ -56,11 +56,11 @@ public class ppBlueFar3Cycle extends OpMode {
     public static Pose startPose = new Pose(57, 9, Math.toRadians(90)); // Start Pose of our robot.
     public static Pose scorePose = new Pose(57, 15, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose scorePoseAP =new Pose(50,13,Math.toRadians(110));
+    public static Pose scorePoseAP =new Pose(52,16,Math.toRadians(110));
     public static Pose pickup1aPose = new Pose(16, 20, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(11, 13, Math.toRadians(190)); // (First Set) of Artifacts picked up.
+    public static Pose pickup1bPose = new Pose(12, 13, Math.toRadians(190)); // (First Set) of Artifacts picked up.
     public static Pose pickup1bPoseC = new Pose(23, 27, Math.toRadians(200));
-    public static Pose pickup1cPose = new Pose(4, 12.5, Math.toRadians(210));
+    public static Pose pickup1cPose = new Pose(4, 14, Math.toRadians(210));
 
     public static Pose pickup2aPose = new Pose(9, 35.5, Math.toRadians(190)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup2aPoseC = new Pose(71, 39, Math.toRadians(190)); // Lowest (Third Set) of Artifacts from the Spike Mark.
@@ -329,7 +329,7 @@ public class ppBlueFar3Cycle extends OpMode {
             case _65_Pickup1b:
                 if (!follower.isBusy()) {
                     follower.followPath(grabPickup1c,powerSlow, true);
-                    if (runtime.milliseconds() < 700 ){
+                    if (runtime.milliseconds() < 300 ){
                         follower.turnToDegrees(185);
                     }
                     else{
@@ -352,7 +352,7 @@ public class ppBlueFar3Cycle extends OpMode {
                 }
                 if (!follower.isBusy()) {
                    // follower.followPath(grabPickup1c, powerSlow, true);
-                    if (runtime.milliseconds() < 700) {
+                    if (runtime.milliseconds() < 300) {
                         follower.turnToDegrees(185);
                     } else {
                         follower.turnToDegrees(175); //wiggle to pick up more

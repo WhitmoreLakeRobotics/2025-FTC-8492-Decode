@@ -56,7 +56,7 @@ public class ppBlueNear4Cycle extends OpMode {
     public static Pose startPose = new Pose(33.5, 134, Math.toRadians(180)); // Start Pose of our robot.
     public static Pose scorePose = new Pose(57, 105, Math.toRadians(143)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose scorePoseAP =new Pose(58,105,Math.toRadians(145));
+    public static Pose scorePoseAP =new Pose(57,105,Math.toRadians(142));
     public static Pose pickup1aPose = new Pose(50, 84, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     public static Pose pickup1bPose = new Pose(15, 84, Math.toRadians(180)); // (First Set) of Artifacts picked up.
 
