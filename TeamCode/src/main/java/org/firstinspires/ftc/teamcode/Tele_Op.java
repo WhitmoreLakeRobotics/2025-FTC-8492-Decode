@@ -504,7 +504,7 @@ public class Tele_Op extends OpMode {
         if (( gamepad2.left_bumper == true)) {
 
 
-            LaunchTouch();
+            LaunchTelleTouch();
 
             //   robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
 /*
@@ -817,6 +817,19 @@ public class Tele_Op extends OpMode {
 //
 //
 
+    }
+
+    public void LaunchTelleTouch() {         //wait for launcher to spin up to speed.
+        robot.launcher.cmdOuttelletouch();
+        if (robot.launcher.bAtSpeed) {
+            if(robot.launcherBlocker.AtUnBlocked == true){
+                robot.transitionRoller.cmdSpin();
+            }
+            if(robot.launcherBlocker.AtUnBlocked == false) {
+                robot.transitionRoller.cmdStop();
+            }
+
+        }
     }
 
     public void LaunchTouch() {         //wait for launcher to spin up to speed.

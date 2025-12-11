@@ -70,17 +70,22 @@ public class Intake extends BaseHardware{
     public static final double Yellow = 0.388;
     public static final double Purple = 0.722;
     public static final double Blue = 0.6111;
+    public static final double Orange = 0.333;
+    public static final double Off = 0;
 
     private double NTKAP2distance;
     private double NTKAP3distance;
 
     public boolean DriverHappy = false;
     public boolean AtIntakeStop = true;
+    public boolean initLight1 = false;
+    public boolean initLight2 = false;
 
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime timerun = new ElapsedTime();
     private ElapsedTime sensorTime= new ElapsedTime();
     private ElapsedTime loopTime= new ElapsedTime();
+    private ElapsedTime initLightTime = new ElapsedTime();
 
     private double targRange = 10.2; //in cm
     /**
@@ -100,6 +105,9 @@ public class Intake extends BaseHardware{
         //cmdRED();
 
         sensorTime.reset();
+        initLightTime.reset();
+
+        initLight1 = true;
 
     }
 
@@ -111,6 +119,19 @@ public class Intake extends BaseHardware{
      */
     public void init_loop(){
 
+        if(initLight1 && initLightTime.milliseconds() >= 250){
+            cmdORANGE();
+            initLight1 = false;
+            initLightTime.reset();
+            initLight2 = true;
+        }
+
+        if(initLight2 && initLightTime.milliseconds() >= 250){
+            cmdOFF();
+            initLight2 = false;
+            initLightTime.reset();
+            initLight1 = true;
+        }
 
 
     }
@@ -123,7 +144,7 @@ public class Intake extends BaseHardware{
      * Example usage: Starting another thread.
      */
     public void start(){
-
+        cmdRED();
         loopTime.reset();
 
     }
@@ -324,6 +345,18 @@ public class Intake extends BaseHardware{
         CurrentColor = Color.BLUE;
     }
 
+    public void cmdORANGE(){
+        PeaLight.setPosition(Orange);
+        CurrentColor = Color.ORANGE;
+        //timerun.reset();
+    }
+
+    public void cmdOFF(){
+        PeaLight.setPosition(Off);
+        CurrentColor = Color.OFF;
+        //timerun.reset();
+    }
+
     private void getDistNTKAP2() {
         NTKAP2distance = NTKAP2.getDistance(DistanceUnit.CM);
     }
@@ -354,7 +387,9 @@ public class Intake extends BaseHardware{
         RED,
         YELLOW,
         PURPLE,
-        BLUE
+        BLUE,
+        ORANGE,
+        OFF
     }
 
     public double getMotorRPM(DcMotorEx motor){

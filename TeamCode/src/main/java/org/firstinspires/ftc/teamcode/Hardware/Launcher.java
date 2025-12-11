@@ -43,6 +43,7 @@ public class Launcher extends BaseHardware{
     private DcMotorEx LaunchM02 ;
 
     public Mode CurrentMode;
+    public Position CurrentPosition;
 
     private double LaunchM01Power;
     private double LaunchM02Power;
@@ -66,7 +67,8 @@ public class Launcher extends BaseHardware{
     public static double bottomMotorfar = 4650; //was4600
     public static double topMotorRPMtouch = 2300; //was 2300
     public static double bottomMotortouch = 4000; //was 3800
-
+    public static double topMotorRPMTelletouch = 2300;
+    public static double bottomMotorRPMTelletouch = 4000;
 
     private double targetRPM1 = 0;
     private double targetRPM2 = 0;
@@ -170,12 +172,20 @@ public class Launcher extends BaseHardware{
 
     public void cmdOuttouch(){
         CurrentMode = Mode.LaunchMout;
+        CurrentPosition = Position.LaunchNear;
         targetRPM1 = topMotorRPMtouch;
         targetRPM2 = bottomMotortouch;
+    }
+    public void cmdOuttelletouch(){
+        CurrentMode = Mode.LaunchMout;
+        CurrentPosition = Position.LaunchNear;
+        targetRPM1 = topMotorRPMTelletouch;
+        targetRPM2 = bottomMotorRPMTelletouch;
     }
 
     public void cmdOutnear(){
         CurrentMode = Mode.LaunchMout;
+        CurrentPosition = Position.LaunchNear;
         //LaunchM01.setPower (topSpeednear);
        // LaunchM02.setPower (bottomSpeednear);
         targetRPM1 = topMotorRPMnear; //3500;
@@ -185,6 +195,7 @@ public class Launcher extends BaseHardware{
 
     public void cmdOutfar(){
         CurrentMode = Mode.LaunchMout;
+        CurrentPosition = Position.LaunchFar;
       //  LaunchM01.setPower (topSpeedfar);
        // LaunchM02.setPower (bottomSpeedfar);
         targetRPM1 = topMotorRPMfar; //3250;
@@ -283,6 +294,12 @@ public class Launcher extends BaseHardware{
         LaunchMout,
         LaunchMstop;
     }
+
+    public enum Position {
+        LaunchFar,
+        LaunchNear;
+    }
+
 
 
 
