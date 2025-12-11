@@ -290,6 +290,7 @@ public class Intake extends BaseHardware{
         CurrentMode = Mode.NTKbackward;
         NTKM01.setPower (outSpeed);
         cmdGREEN();
+        loopTime.reset();
         //PeaLight.setPosition(Green);
         //PeaLight.enableLight(false);
     }
@@ -297,6 +298,7 @@ public class Intake extends BaseHardware{
         CurrentMode = Mode.NTKforward;
         NTKM01.setPower (inSpeed);
         sensorTime.reset();
+        loopTime.reset();
         cmdGREEN();
         //PeaLight.setPosition(Green);
         //PeaLight.enableLight(false);
@@ -306,6 +308,7 @@ public class Intake extends BaseHardware{
         CurrentMode = Mode.NTKstop;
         NTKM01.setPower (stopSpeed);
         cmdRED(); //line not needed when finished
+        loopTime.reset();
         //PeaLight.enableLight(true);
 
     }
