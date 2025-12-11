@@ -330,7 +330,7 @@ public void NoLaunch(){
                 //  return -defaultAngle;
                 if (currentTagId == 24) {
                     //compensate left
-                    return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal -4; //- compensationAngle;
+                    return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal -5; //- compensationAngle;
                 } else if (currentTagId == 20) {
                     //compensate right
                     return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal ; //+ compensationAngle;

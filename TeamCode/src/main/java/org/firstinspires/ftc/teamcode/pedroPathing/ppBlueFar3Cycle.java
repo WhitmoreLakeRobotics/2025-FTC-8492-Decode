@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Common.Settings;
+import org.firstinspires.ftc.teamcode.Hardware.Intake;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 //@Disabled
@@ -55,19 +56,19 @@ public class ppBlueFar3Cycle extends OpMode {
     public static Pose startPose = new Pose(57, 9, Math.toRadians(90)); // Start Pose of our robot.
     public static Pose scorePose = new Pose(57, 15, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    //public static Pose scorePoseAP =new Pose(57,100,Math.toRadians(145));
-    public static Pose pickup1aPose = new Pose(16, 11, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(7, 11, Math.toRadians(190)); // (First Set) of Artifacts picked up.
-    public static Pose pickup1bPoseC = new Pose(13, 23, Math.toRadians(200));
-    public static Pose pickup1cPose = new Pose(0, 11, Math.toRadians(210));
+    public static Pose scorePoseAP =new Pose(50,13,Math.toRadians(110));
+    public static Pose pickup1aPose = new Pose(16, 20, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1bPose = new Pose(11, 13, Math.toRadians(190)); // (First Set) of Artifacts picked up.
+    public static Pose pickup1bPoseC = new Pose(23, 27, Math.toRadians(200));
+    public static Pose pickup1cPose = new Pose(4, 12.5, Math.toRadians(210));
 
     public static Pose pickup2aPose = new Pose(9, 35.5, Math.toRadians(190)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup2aPoseC = new Pose(71, 39, Math.toRadians(190)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     //public static Pose pickReturn2 =new Pose(20,75,(180));
     //public static Pose pickup3aPose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     //public static Pose pickup3bPose = new Pose(15, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
-    public static Pose endPose = new Pose(11,11,Math.toRadians(180));
-    public static Pose endPose2 = new Pose(11,11,Math.toRadians(180));
+    public static Pose endPose = new Pose(11,15,Math.toRadians(180));
+    public static Pose endPose2 = new Pose(11,15,Math.toRadians(180));
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;
@@ -111,7 +112,7 @@ public class ppBlueFar3Cycle extends OpMode {
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
         scorePickup1 = follower.pathBuilder()
-                .addPath(new BezierLine(pickup1bPose, scorePose))
+                .addPath(new BezierLine(pickup1bPose, scorePoseAP))
                 .setLinearHeadingInterpolation(pickup1bPose.getHeading(), scorePose.getHeading()).setHeadingConstraint(0.1)
                 .build();
 
@@ -135,7 +136,7 @@ public class ppBlueFar3Cycle extends OpMode {
                 .build();*/
         //tring a curve
         scorePickup2 = follower.pathBuilder()
-                .addPath(new BezierLine(pickup2aPose,scorePose))
+                .addPath(new BezierLine(pickup2aPose,scorePoseAP))
                 .setLinearHeadingInterpolation(pickup2aPose.getHeading(), scorePose.getHeading())
                 // .addPath(new BezierLine(pickup2bPose, scorePoseAP))
                 //.setLinearHeadingInterpolation(pickup1Pose.getHeading(), scorePoseAP.getHeading())
@@ -294,8 +295,8 @@ public class ppBlueFar3Cycle extends OpMode {
 
             case _50_Pickup1:
                 if (!follower.isBusy()) {
-                   follower.followPath(grabPickup1a, powerNormal, true);
-                    //follower.followPath(grabPickup1,powerNormal,true);
+                  // follower.followPath(grabPickup1a, powerNormal, true);
+                    follower.followPath(grabPickup1,powerNormal,true);
                     robot.intake.cmdFoward();
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup1cPose;
@@ -305,8 +306,8 @@ public class ppBlueFar3Cycle extends OpMode {
 
             case _55_Pickup1_Startintake:
                 if (!follower.isBusy()) {
-                    follower.followPath(grabPickup1a, true);
-                    currentTargetPose = pickup1aPose;
+                  //  follower.followPath(grabPickup1a, true);
+                   // currentTargetPose = pickup1aPose;
                     robot.intake.cmdFoward();
                     runtime.reset();
                     currentStage = stage._60_Pickup1a;
@@ -318,8 +319,9 @@ public class ppBlueFar3Cycle extends OpMode {
                   follower.followPath(grabPickup1b,powerSlow, true);
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup1bPose;
-                    currentStage = stage._65_Pickup1b;
                     runtime.reset();
+                    currentStage = stage._65_Pickup1b;
+
                 }
 
                 break;
@@ -335,11 +337,32 @@ public class ppBlueFar3Cycle extends OpMode {
                     }
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup1cPose;
-                    currentStage = stage._70_ToScorePoseAP;
+                    currentStage = stage._66_PickupWiggle;
                     runtime.reset();
                 }
 
                 break;
+            case _66_PickupWiggle:
+                //if we have 3 artifacts stop the path and go to next stage
+                if (robot.intake.CurrentColor == Intake.Color.RED){
+                    follower.breakFollowing();
+                    currentStage = stage._70_ToScorePoseAP;
+                    runtime.reset();
+
+                }
+                if (!follower.isBusy()) {
+                   // follower.followPath(grabPickup1c, powerSlow, true);
+                    if (runtime.milliseconds() < 700) {
+                        follower.turnToDegrees(185);
+                    } else {
+                        follower.turnToDegrees(175); //wiggle to pick up more
+                    }
+
+                    currentStage = stage._70_ToScorePoseAP;
+                    runtime.reset();
+                }
+                break;
+
             case _70_ToScorePoseAP:
                 if(!follower.isBusy() && runtime.milliseconds() > 1000){
                     follower.followPath(scorePickup1,powerNormal,true);
@@ -564,6 +587,7 @@ public class ppBlueFar3Cycle extends OpMode {
         _55_Pickup1_Startintake,
         _60_Pickup1a,
         _65_Pickup1b,
+        _66_PickupWiggle,
         _70_ToScorePoseAP,
         _75_chkDrive_to_score_P1,
         _80_ScorePickup1,
