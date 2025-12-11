@@ -47,7 +47,7 @@ public class ppBlueNear4Cycle extends OpMode {
     private ElapsedTime pTimer, pathTimer;// this is for pausing at the end of a path
     //configurables for pedro
     public static double powerCreeper = 0.15;
-    public  static  double powerSlow = 0.35;
+    public  static  double powerSlow = 0.36;
     public static double powerStart = 0.5;
     public static double powerNormal = 0.68;
     public static double powerFast = 0.8;
@@ -63,8 +63,8 @@ public class ppBlueNear4Cycle extends OpMode {
     public static Pose pickup2aPose = new Pose(49, 55, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup2bPose = new Pose(5, 51.5, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose pickReturn2 =new Pose(20,75,180);
-    public static Pose pickup3aPose = new Pose(49, 35, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup3bPose = new Pose(6, 28, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose pickup3aPose = new Pose(49, 34, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup3bPose = new Pose(6, 27, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose endPose = new Pose(45,58,Math.toRadians(180));
 
     private Pose currentTargetPose = startPose;
@@ -480,7 +480,7 @@ public class ppBlueNear4Cycle extends OpMode {
                 if (runtime.milliseconds() >= 1400) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
-                    follower.followPath(endPath, powerNormal,true);
+                    follower.followPath(endPath, powerFast,true);
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup2bPose;
                     currentStage = stage._500_End;

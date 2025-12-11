@@ -57,8 +57,8 @@ public class ppBlueFar3Cycle extends OpMode {
     public static Pose scorePose = new Pose(57, 15, Math.toRadians(115)); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose scorePoseAP =new Pose(52,16,Math.toRadians(110));
-    public static Pose pickup1aPose = new Pose(16, 20, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(12, 13, Math.toRadians(190)); // (First Set) of Artifacts picked up.
+    public static Pose pickup1aPose = new Pose(20, 20, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1bPose = new Pose(12, 15, Math.toRadians(190)); // (First Set) of Artifacts picked up.
     public static Pose pickup1bPoseC = new Pose(23, 27, Math.toRadians(200));
     public static Pose pickup1cPose = new Pose(4, 14, Math.toRadians(210));
 
@@ -296,7 +296,8 @@ public class ppBlueFar3Cycle extends OpMode {
             case _50_Pickup1:
                 if (!follower.isBusy()) {
                   // follower.followPath(grabPickup1a, powerNormal, true);
-                    follower.followPath(grabPickup1,powerNormal,true);
+                  //  follower.followPath(grabPickup1,powerNormal,true);
+                    follower.followPath(grabPickup1);
                     robot.intake.cmdFoward();
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup1cPose;
