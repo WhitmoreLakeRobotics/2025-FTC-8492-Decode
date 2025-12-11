@@ -62,6 +62,7 @@ public class Tele_Op extends OpMode {
     private boolean EndGame2b = false;
     private boolean EndGame3b = false;
     private boolean EndGame4b = false;
+    private boolean UppiesOverrideEnabled = false;
 
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime Gameruntime = new ElapsedTime();
@@ -306,6 +307,10 @@ public class Tele_Op extends OpMode {
             tHeading = 0;
         }
 
+        if (CommonLogic.oneShot(gamepad1.start, gp1_prev_start)) {
+            UppiesOverrideEnabled = true;
+        }
+
         if (gamepad1.right_trigger > 0.8) {
 
         }
@@ -376,7 +381,7 @@ public class Tele_Op extends OpMode {
 
         if (CommonLogic.oneShot(gamepad1.dpad_up, gp1_prev_dpad_up)) {
 
-            if(uppiesInhibitor.seconds() >= 100){
+            if(uppiesInhibitor.seconds() >= 100 || UppiesOverrideEnabled){
                 robot.uppies.cmdUp();
             }
 
@@ -457,7 +462,7 @@ public class Tele_Op extends OpMode {
 
         if (CommonLogic.oneShot(gamepad1.dpad_down, gp1_prev_dpad_down)) {
 
-            if(uppiesInhibitor.seconds() >= 100){
+            if(uppiesInhibitor.seconds() >= 100 || UppiesOverrideEnabled){
                 robot.uppies.cmdDown();
             }
 
