@@ -49,6 +49,7 @@ public class ppBlueFar4Cycle extends OpMode {
     //configurables for pedro
     public static double powerCreeper = 0.15;
     public  static  double powerSlow = 0.3;
+    public static double powerMedium = 0.5;
     public static double powerNormal = 0.65;
     public static double powerFast = 0.8;
     // poses for pedropath
@@ -60,9 +61,9 @@ public class ppBlueFar4Cycle extends OpMode {
     public static Pose pickup1aPose = new Pose(20, 20, Math.toRadians(180)); // Highest (First Set) of Artifacts from the Spike Mark.
     public static Pose pickup1bPose = new Pose(12, 15, Math.toRadians(190)); // (First Set) of Artifacts picked up.
     public static Pose pickup1bPoseC = new Pose(23, 27, Math.toRadians(200));
-    public static Pose pickup1cPose = new Pose(4, 13.5, Math.toRadians(180));
+    public static Pose pickup1cPose = new Pose(4, 13.5, Math.toRadians(190));
 
-    public static Pose pickup2aPose = new Pose(9, 35.5, Math.toRadians(190)); // Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2aPose = new Pose(8, 35.5, Math.toRadians(190)); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup2aPoseC = new Pose(71, 39, Math.toRadians(190)); // Lowest (Third Set) of Artifacts from the Spike Mark.
     //public static Pose pickReturn2 =new Pose(20,75,(180));
     //public static Pose pickup3aPose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
@@ -384,7 +385,7 @@ break;
 
             case _100_Pickup2:
                 if (!follower.isBusy()) {
-                    follower.followPath(grabPickup2a, powerNormal, true);
+                    follower.followPath(grabPickup2a, powerMedium, true);
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup2aPose;
                     currentStage = stage._110_Pickup2_Startintake;
