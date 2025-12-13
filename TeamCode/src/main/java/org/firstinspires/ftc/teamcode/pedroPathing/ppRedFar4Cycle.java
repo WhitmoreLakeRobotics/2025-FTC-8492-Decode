@@ -53,12 +53,12 @@ public class ppRedFar4Cycle extends OpMode {
     public static double powerFast = 0.8;
     // poses for pedropath
     // poses for pedropath
-    public static Pose startPose = new Pose(57, 9, Math.toRadians(90)).mirror(); // Start Pose of our robot.
+    public static Pose startPose = new Pose(57, 10.5, Math.toRadians(90)).mirror(); // Start Pose of our robot.
     public static Pose scorePose = new Pose(57, 15, Math.toRadians(112)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose scorePoseAP =new Pose(52,18,Math.toRadians(10)).mirror();
-    public static Pose pickup1aPose = new Pose(20, 20, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(12, 15, Math.toRadians(190)).mirror(); // (First Set) of Artifacts picked up.
+    public static Pose scorePoseAP =new Pose(56,15,Math.toRadians(11)).mirror();
+    public static Pose pickup1aPose = new Pose(20, 8, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1bPose = new Pose(12, 3, Math.toRadians(190)).mirror(); // (First Set) of Artifacts picked up.
     public static Pose pickup1bPoseC = new Pose(23, 27, Math.toRadians(200)).mirror();
     public static Pose pickup1cPose = new Pose(4, 13.5, Math.toRadians(190)).mirror();
 
@@ -72,7 +72,7 @@ public class ppRedFar4Cycle extends OpMode {
     private Pose currentTargetPose = startPose;
     private Pose lastPose = startPose;
     private PathChain scorePreload;
-    private PathChain grabPickup1, grabPickup1a, grabPickup1b, grabPickup1c, scorePickup1, grabPickup2a,grabPickup2b, scorePickup2 ,goEndPose, goEndPose2, endPath;
+    private PathChain grabPickup1, grabPickup1a, grabPickup1b, grabPickup1c,grabPickup3a, scorePickup1, grabPickup2a,grabPickup2b, scorePickup2 ,goEndPose, goEndPose2, endPath;
 
     // private Path grabPickup1a;
     public void buildPaths() {
@@ -99,6 +99,10 @@ public class ppRedFar4Cycle extends OpMode {
         grabPickup1a = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup1aPose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), Math.toRadians((190)))//pickup1aPose.getHeading())
+                .build();
+        grabPickup3a = follower.pathBuilder()
+                .addPath(new BezierLine(scorePose, pickup1cPose))
+                .setConstantHeadingInterpolation(Math.toRadians((-10)))//pickup1aPose.getHeading())
                 .build();
         grabPickup1b = follower.pathBuilder()
                 .addPath(new BezierCurve(pickup1aPose,pickup1bPoseC,pickup1bPose))
@@ -299,7 +303,7 @@ public class ppRedFar4Cycle extends OpMode {
                     // follower.followPath(grabPickup1a, powerNormal, true);
                     //  follower.followPath(grabPickup1,powerNormal,true);
                     follower.turnToDegrees(-10); // was 190
-                    follower.followPath(grabPickup1,powerFast,true);
+                    follower.followPath(grabPickup1,powerNormal,true);
                     robot.intake.cmdFoward();
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup1cPose;
@@ -448,7 +452,7 @@ break;
                     // follower.followPath(grabPickup1a, powerNormal, true);
                     //  follower.followPath(grabPickup1,powerNormal,true);
                     follower.turnToDegrees(-10); // was 190
-                    follower.followPath(grabPickup1,powerNormal,true);
+                    follower.followPath(grabPickup3a,powerNormal,true);
                     robot.intake.cmdFoward();
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup1cPose;

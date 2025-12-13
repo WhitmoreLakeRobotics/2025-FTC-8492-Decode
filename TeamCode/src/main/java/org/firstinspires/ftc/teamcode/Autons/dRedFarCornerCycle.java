@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -8,10 +9,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
-@Autonomous(name = "RedFarCornerCycle", group = "Auton")
+@Autonomous(name = "dRedFarCornerCycle", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class RedFarCornerCycle extends OpMode {
+public class dRedFarCornerCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();

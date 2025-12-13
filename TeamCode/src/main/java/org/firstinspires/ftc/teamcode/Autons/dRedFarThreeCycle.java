@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -8,10 +9,10 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
-@Autonomous(name = "RedFarThreeCycle", group = "Auton")
+@Autonomous(name = "dRedFarThreeCycle", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class RedFarThreeCycle extends OpMode {
+public class dRedFarThreeCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -287,7 +288,7 @@ public class RedFarThreeCycle extends OpMode {
             case _106_LastTurn:
                 if (robot.driveTrain.getCmdComplete())     {
                     robot.driveTrain.CmdDrive(25,110,0.40,65);
-                    currentStage = RedFarThreeCycle.stage._107_ResetGyro;
+                    currentStage = dRedFarThreeCycle.stage._107_ResetGyro;
 
                 }
 
