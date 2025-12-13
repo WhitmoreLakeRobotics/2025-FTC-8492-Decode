@@ -502,7 +502,7 @@ break;
                 }
                 break;
             case _220_chkDrive_to_score_P1:
-                if(runtime.milliseconds() >= 150){
+                if(runtime.milliseconds() >= 250){
                     robot.intake.cmdStop();
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
