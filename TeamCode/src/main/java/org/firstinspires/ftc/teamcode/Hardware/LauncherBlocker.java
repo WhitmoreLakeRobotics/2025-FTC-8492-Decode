@@ -23,7 +23,7 @@ public class LauncherBlocker extends BaseHardware{
 
     public Servo LBS01;
 
-    public static final double Blocked = 0.50;     //make have constant power while blocking.
+    public static final double Blocked = 0.53;     //make have constant power while blocking.
     public static final double UnBlocked = 0.40;
 
     public boolean AtUnBlocked = false;

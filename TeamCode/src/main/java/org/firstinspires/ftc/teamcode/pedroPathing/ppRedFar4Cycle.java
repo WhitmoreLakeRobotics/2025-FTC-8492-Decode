@@ -57,10 +57,10 @@ public class ppRedFar4Cycle extends OpMode {
     public static Pose scorePose = new Pose(57, 15, Math.toRadians(112)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose scorePoseAP =new Pose(53.5,15,Math.toRadians(12.5)).mirror();
-    public static Pose pickup1aPose = new Pose(20, 0, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(12, -5, Math.toRadians(199)).mirror(); // (First Set) of Artifacts picked up.
+    public static Pose pickup1aPose = new Pose(20, 0, Math.toRadians(210)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1bPose = new Pose(12, -8, Math.toRadians(199)).mirror(); // (First Set) of Artifacts picked up.
     public static Pose pickup1bPoseC = new Pose(23, 27, Math.toRadians(200)).mirror();
-    public static Pose pickup1cPose = new Pose(4, 8.5, Math.toRadians(190)).mirror();
+    public static Pose pickup1cPose = new Pose(8, 3, Math.toRadians(215)).mirror();
 
     public static Pose pickup2aPose = new Pose(10, 36, Math.toRadians(190)).mirror(); // 10 was 8 Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup2aPoseC = new Pose(71, 38, Math.toRadians(190)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
@@ -302,7 +302,7 @@ public class ppRedFar4Cycle extends OpMode {
                 if (!follower.isBusy()) {
                     // follower.followPath(grabPickup1a, powerNormal, true);
                     //  follower.followPath(grabPickup1,powerNormal,true);
-                    follower.turnToDegrees(-10); // was 190
+                    follower.turnToDegrees(-15); // was 190
                     follower.followPath(grabPickup1,powerMedium,true);
                     robot.intake.cmdFoward();
                     lastPose = currentTargetPose;
@@ -313,7 +313,7 @@ public class ppRedFar4Cycle extends OpMode {
                 break;
 
             case _60_Pickup1a:
-                if (!follower.isBusy() || runtime.milliseconds() > 3500) {
+                if (!follower.isBusy() || runtime.milliseconds() > 2000) {
                     // follower.followPath(grabPickup1c,powerSlow, true);
                     //if we have 3 artifacts stop the path and go to next stage
                     if (robot.intake.CurrentColor == Intake.Color.RED){
@@ -339,9 +339,9 @@ public class ppRedFar4Cycle extends OpMode {
                 if (!follower.isBusy()) {
                     // follower.followPath(grabPickup1c, powerSlow, true);
                     if (runtime.milliseconds() < 100) {
-                        follower.turnToDegrees(-5); // was 185
+                        follower.turnToDegrees(-10); // was 185
                     } else {
-                        follower.turnToDegrees(5); //wiggle to pick up more     was 175
+                        follower.turnToDegrees(10); //wiggle to pick up more     was 175
                     }
 
                     currentStage = stage._70_ToScorePoseAP;
@@ -451,7 +451,7 @@ break;
                 if (!follower.isBusy()) {
                     // follower.followPath(grabPickup1a, powerNormal, true);
                     //  follower.followPath(grabPickup1,powerNormal,true);
-                    follower.turnToDegrees(-10); // was 190
+                    follower.turnToDegrees(-15); // was 190
                     follower.followPath(grabPickup3a,powerMedium,true);
                     robot.intake.cmdFoward();
                     lastPose = currentTargetPose;
@@ -462,7 +462,7 @@ break;
                 break;
 
             case _190_Pickup1a:
-                if (!follower.isBusy() || runtime.milliseconds() > 3500) {
+                if (!follower.isBusy() || runtime.milliseconds() > 2000) {
                     // follower.followPath(grabPickup1c,powerSlow, true);
                     //if we have 3 artifacts stop the path and go to next stage
                     if (robot.intake.CurrentColor == Intake.Color.RED){
@@ -493,17 +493,22 @@ break;
             case _210_ToScorePoseAP:
                 if(!follower.isBusy() || runtime.milliseconds() > 1000){
                     follower.followPath(scorePickup1,powerNormal,true);
+                    robot.intake.cmdBackward();
                     lastPose = currentTargetPose;
                     currentTargetPose = scorePose;
                     robot.launcher.cmdOutfar();
+                    runtime.reset();
                     currentStage = stage._220_chkDrive_to_score_P1;
                 }
                 break;
             case _220_chkDrive_to_score_P1:
+                if(runtime.milliseconds() >= 150){
+                    robot.intake.cmdStop();
                 if (!follower.isBusy()) {
                     telemetryMU.addData("Drive Complete?", follower.isBusy());
                     currentStage = stage._230_ScorePickup1; // we don't need to do the turn since heading is adjusted in path
                     runtime.reset();
+                }
                 }
                 break;
 
@@ -629,6 +634,7 @@ break;
         _180_Pickup1_Startintake,
         _190_Pickup1a,
         _200_PickupWiggle,
+        _205_OutTemp1,
         _210_ToScorePoseAP,
         _220_chkDrive_to_score_P1,
         _230_ScorePickup1,
