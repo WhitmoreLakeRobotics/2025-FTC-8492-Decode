@@ -52,18 +52,18 @@ public class ppRedFar4Cycle extends OpMode {
     public static double powerNormal = 0.65;
     public static double powerFast = 0.8;
     // poses for pedropath
-    // poses for pedropath
+    // poses for pedropathlopk
     public static Pose startPose = new Pose(57, 10.5, Math.toRadians(90)).mirror(); // Start Pose of our robot.
     public static Pose scorePose = new Pose(57, 15, Math.toRadians(112)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
-    public static Pose scorePoseAP =new Pose(56,15,Math.toRadians(11)).mirror();
-    public static Pose pickup1aPose = new Pose(20, 8, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
-    public static Pose pickup1bPose = new Pose(12, 3, Math.toRadians(190)).mirror(); // (First Set) of Artifacts picked up.
+    public static Pose scorePoseAP =new Pose(53.5,15,Math.toRadians(12.5)).mirror();
+    public static Pose pickup1aPose = new Pose(20, 0, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
+    public static Pose pickup1bPose = new Pose(12, -5, Math.toRadians(199)).mirror(); // (First Set) of Artifacts picked up.
     public static Pose pickup1bPoseC = new Pose(23, 27, Math.toRadians(200)).mirror();
-    public static Pose pickup1cPose = new Pose(4, 13.5, Math.toRadians(190)).mirror();
+    public static Pose pickup1cPose = new Pose(4, 8.5, Math.toRadians(190)).mirror();
 
-    public static Pose pickup2aPose = new Pose(10, 37, Math.toRadians(190)).mirror(); // 10 was 8 Middle (Second Set) of Artifacts from the Spike Mark.
-    public static Pose pickup2aPoseC = new Pose(71, 39, Math.toRadians(190)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2aPose = new Pose(10, 36, Math.toRadians(190)).mirror(); // 10 was 8 Middle (Second Set) of Artifacts from the Spike Mark.
+    public static Pose pickup2aPoseC = new Pose(71, 38, Math.toRadians(190)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
     //public static Pose pickReturn2 =new Pose(20,75,(180));
     //public static Pose pickup3aPose = new Pose(47, 60, Math.toRadians(180)); // Middle (Second Set) of Artifacts from the Spike Mark.
     //public static Pose pickup3bPose = new Pose(15, 35, Math.toRadians(180)); // Lowest (Third Set) of Artifacts from the Spike Mark.
@@ -303,7 +303,7 @@ public class ppRedFar4Cycle extends OpMode {
                     // follower.followPath(grabPickup1a, powerNormal, true);
                     //  follower.followPath(grabPickup1,powerNormal,true);
                     follower.turnToDegrees(-10); // was 190
-                    follower.followPath(grabPickup1,powerNormal,true);
+                    follower.followPath(grabPickup1,powerMedium,true);
                     robot.intake.cmdFoward();
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup1cPose;
@@ -452,7 +452,7 @@ break;
                     // follower.followPath(grabPickup1a, powerNormal, true);
                     //  follower.followPath(grabPickup1,powerNormal,true);
                     follower.turnToDegrees(-10); // was 190
-                    follower.followPath(grabPickup3a,powerNormal,true);
+                    follower.followPath(grabPickup3a,powerMedium,true);
                     robot.intake.cmdFoward();
                     lastPose = currentTargetPose;
                     currentTargetPose = pickup1cPose;
