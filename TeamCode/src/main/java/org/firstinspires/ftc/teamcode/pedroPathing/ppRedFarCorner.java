@@ -54,13 +54,13 @@ public class ppRedFarCorner extends OpMode {
     // poses for pedropath
     // poses for pedropathlopk
     public static Pose startPose = new Pose(57, 10.5, Math.toRadians(90)).mirror(); // Start Pose of our robot.
-    public static Pose scorePose = new Pose(57, 15, Math.toRadians(112)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
+    public static Pose scorePose = new Pose(57, 15, Math.toRadians(110)).mirror(); // Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     //private final Pose scorePose = new Pose(wallScoreX, wallScoreY, wallScoreH); // seeing if configurables work for this. Scoring Pose of our robot. It is facing the goal at a 135 degree angle.
     public static Pose scorePoseAP =new Pose(53.5,15,Math.toRadians(12.5)).mirror();
     public static Pose pickup1aPose = new Pose(20, 0, Math.toRadians(210)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
     public static Pose pickup1bPose = new Pose(12, -8, Math.toRadians(199)).mirror(); // (First Set) of Artifacts picked up.
     public static Pose pickup1bPoseC = new Pose(23, 27, Math.toRadians(200)).mirror();
-    public static Pose pickup1cPose = new Pose(8, 3, Math.toRadians(215)).mirror();
+    public static Pose pickup1cPose = new Pose(9, 3, Math.toRadians(215)).mirror(); //8.5 possible for 9
 
     //public static Pose pickup2aPose = new Pose(10, 36, Math.toRadians(190)).mirror(); // 10 was 8 Middle (Second Set) of Artifacts from the Spike Mark.
     //public static Pose pickup2aPoseC = new Pose(71, 38, Math.toRadians(190)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
@@ -96,23 +96,23 @@ public class ppRedFarCorner extends OpMode {
                 .addPath(new BezierLine(scorePose, pickup1cPose))
                 .setLinearHeadingInterpolation(scorePose.getHeading(), pickup1cPose.getHeading())
                 .build();
-        grabPickup1a = follower.pathBuilder()
-                .addPath(new BezierLine(scorePose, pickup1aPose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), Math.toRadians((190)))//pickup1aPose.getHeading())
-                .build();
+       // grabPickup1a = follower.pathBuilder()
+       //         .addPath(new BezierLine(scorePose, pickup1aPose))
+        //        .setLinearHeadingInterpolation(scorePose.getHeading(), Math.toRadians((190)))//pickup1aPose.getHeading())
+       //         .build();
         grabPickup3a = follower.pathBuilder()
                 .addPath(new BezierLine(scorePose, pickup1cPose))
                 .setConstantHeadingInterpolation(Math.toRadians((-15)))//pickup1aPose.getHeading()) waas -10
                 .build();
-        grabPickup1b = follower.pathBuilder()
-                .addPath(new BezierCurve(pickup1aPose,pickup1bPoseC,pickup1bPose))
-                .setLinearHeadingInterpolation(pickup1aPose.getHeading(), pickup1bPose.getHeading())
-                .build();
+       // grabPickup1b = follower.pathBuilder()
+        //        .addPath(new BezierCurve(pickup1aPose,pickup1bPoseC,pickup1bPose))
+        //        .setLinearHeadingInterpolation(pickup1aPose.getHeading(), pickup1bPose.getHeading())
+        //        .build();
 
-        grabPickup1c = follower.pathBuilder()
-                .addPath(new BezierLine(pickup1bPose,pickup1cPose))
-                .setLinearHeadingInterpolation(pickup1bPose.getHeading(), pickup1cPose.getHeading())
-                .build();
+       // grabPickup1c = follower.pathBuilder()
+        //        .addPath(new BezierLine(pickup1bPose,pickup1cPose))
+          //      .setLinearHeadingInterpolation(pickup1bPose.getHeading(), pickup1cPose.getHeading())
+          //      .build();
 
 
         /* This is our scorePickup1 PathChain. We are using a single path with a BezierLine, which is a straight line. */
@@ -149,13 +149,13 @@ public class ppRedFarCorner extends OpMode {
 
         // This is our grabPickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. *//*
         goEndPose= follower.pathBuilder()
-                .addPath(new BezierLine(scorePose,endPose))
-                .setLinearHeadingInterpolation(scorePose.getHeading(), endPose.getHeading())
+                .addPath(new BezierLine(scorePoseAP,endPose))
+                .setLinearHeadingInterpolation(scorePoseAP.getHeading(), endPose.getHeading())
                 .build();
 
         // This is our scorePickup3 PathChain. We are using a single path with a BezierLine, which is a straight line. *//*
         goEndPose2= follower.pathBuilder()
-                .addPath(new BezierLine(endPose,endPose2))
+                .addPath(new BezierLine(endPose,pickup1cPose))
                 .setLinearHeadingInterpolation(endPose.getHeading(), endPose2.getHeading())
                 .build();
         //endPath = follower.pathBuilder()
@@ -545,13 +545,13 @@ break;
                     follower.turnToDegrees(-15); // was 190
                     lastPose = currentTargetPose;
                     currentTargetPose = endPose;
-                    currentStage = stage._500_End; //   75_ParkToBeContinued;
+                    currentStage = stage._475_ParkToBeContinued; //   75_ParkToBeContinued;
                 }
 
                 break;
 
             case _475_ParkToBeContinued:
-                if (runtime.milliseconds() >= 1500) {
+                if (runtime.milliseconds() >= 1000) {
                     // robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
                     robot.launcherBlocker.cmdBlock();
                     follower.followPath(goEndPose2, powerNormal,true);
