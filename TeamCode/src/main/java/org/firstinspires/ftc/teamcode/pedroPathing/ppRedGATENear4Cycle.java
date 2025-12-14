@@ -58,7 +58,7 @@ public class ppRedGATENear4Cycle extends OpMode {
     public static Pose scorePoseAP =new Pose(57,105,Math.toRadians(142)).mirror();
     public static Pose pickup1aPose = new Pose(50, 84.5, Math.toRadians(180)).mirror(); // Highest (First Set) of Artifacts from the Spike Mark.
     //public static Pose gatePose = new Pose(13 , 70,Math.toRadians(-90)) ;   //This pos will have robot hit gate After First Spike
-    public static Pose pickup1bPose = new Pose(14, 71.5, Math.toRadians(180)).mirror(); // was 84y (First Set) of Artifacts picked up.
+    public static Pose pickup1bPose = new Pose(14, 72, Math.toRadians(180)).mirror(); // was 84y (First Set) of Artifacts picked up.
     public static Pose pickup2aPose = new Pose(49, 55, Math.toRadians(180)).mirror(); // Middle (Second Set) of Artifacts from the Spike Mark.
     public static Pose pickup2bPose = new Pose(6, 51.5, Math.toRadians(180)).mirror(); // Lowest (Third Set) of Artifacts from the Spike Mark.
     public static Pose pickReturn2 =new Pose(20,75,180).mirror();

@@ -99,7 +99,7 @@ public class dRedFarCornerCycle extends OpMode {
 
             case _05_ForwardStart:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(4,0,0.2,0);
+                    robot.driveTrain.CmdDrive(4,0,0.25,0);
                     robot.launcher.cmdOutfar();
                     runtime.reset();
                     currentStage = stage._20_Launch;
@@ -131,7 +131,7 @@ public class dRedFarCornerCycle extends OpMode {
                 break;
             case _25_StopLaunch:
                 if (runtime.milliseconds() >=1500)     {
-                    robot.driveTrain.CmdDrive(4,-180,0.35,58);
+                    robot.driveTrain.CmdDrive(4,-180,0.40,58);
                     robot.launcherBlocker.cmdBlock();
                     robot.launcher.cmdStop();
                     runtime.reset();
@@ -141,7 +141,7 @@ public class dRedFarCornerCycle extends OpMode {
                 break;
             case _30_MoveToWall:
                 if (runtime.milliseconds() >= 0)     {
-                    robot.driveTrain.cmdTurn(65,0.35);
+                    robot.driveTrain.cmdTurn(65,0.40);
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     currentStage = stage._40_GoForward;
@@ -169,7 +169,7 @@ public class dRedFarCornerCycle extends OpMode {
 
             case _50_MoveBackward2:
                 if (robot.driveTrain.getCmdComplete() && runtime.milliseconds() >= 1000)     {
-                    robot.driveTrain.CmdDrive(47,-118,0.35,59);
+                    robot.driveTrain.CmdDrive(47,-118,0.40,59);
                     currentStage = stage._60_TurnToShoot;
                 }
 
@@ -177,7 +177,7 @@ public class dRedFarCornerCycle extends OpMode {
             case _60_TurnToShoot:
                 if (robot.driveTrain.getCmdComplete())     {
                     robot.launcher.cmdOutfar();
-                    robot.driveTrain.cmdTurn(0,0.30);
+                    robot.driveTrain.cmdTurn(0,0.35);
                     runtime.reset();
                     currentStage = stage._65_align;
                 }
@@ -186,7 +186,7 @@ public class dRedFarCornerCycle extends OpMode {
 
             case _65_align:
                 if (runtime.milliseconds() >=800) {
-                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()), 0.20);
+                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()), 0.25);
                     runtime.reset();
                     currentStage = stage._70_Launch2;
                 }
@@ -194,8 +194,8 @@ public class dRedFarCornerCycle extends OpMode {
                 break;
             case _70_Launch2:
                 if (robot.driveTrain.getCmdComplete()) {
-                    if (runtime.milliseconds() >= 1500){
-                        robot.driveTrain.CmdDrive(3, 0, 0.25, 0);
+                    if (runtime.milliseconds() >= 800){
+                        robot.driveTrain.CmdDrive(3, 0, 0.30, 0);
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
@@ -206,8 +206,8 @@ public class dRedFarCornerCycle extends OpMode {
 
                 break;
             case _75_StopLaunch2:
-                if (runtime.milliseconds() >=2500)     {
-                    robot.driveTrain.CmdDrive(4,-180,0.35,59);
+                if (runtime.milliseconds() >=1500)     {
+                    robot.driveTrain.CmdDrive(4,-180,0.40,59);
                     robot.launcherBlocker.cmdBlock();
                     robot.launcher.cmdStop();
                     runtime.reset();
@@ -217,7 +217,7 @@ public class dRedFarCornerCycle extends OpMode {
                 break;
             case _80_TurnToPickup:
                 if (runtime.milliseconds() >= 0)     {
-                    robot.driveTrain.cmdTurn(65,0.35);
+                    robot.driveTrain.cmdTurn(65,0.40);
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     currentStage = stage._100_Backup2;
@@ -244,7 +244,7 @@ public class dRedFarCornerCycle extends OpMode {
 
             case _2_Fix2:
                 if (robot.driveTrain.getCmdComplete() && runtime.milliseconds() >= 1000)     {
-                    robot.driveTrain.CmdDrive(45,-118,0.35,58);
+                    robot.driveTrain.CmdDrive(45,-118,0.40,58);
                     currentStage = stage._3_Fix3;
                 }
 
@@ -252,14 +252,14 @@ public class dRedFarCornerCycle extends OpMode {
             case _3_Fix3:
                 if (robot.driveTrain.getCmdComplete())     {
                     robot.launcher.cmdOutfar();
-                    robot.driveTrain.cmdTurn(0,0.30);
+                    robot.driveTrain.cmdTurn(0,0.35);
                     currentStage = stage._4_Fix4;
                 }
 
                 break;
             case _4_Fix4:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(4,0,0.25,0);
+                    robot.driveTrain.CmdDrive(4,0,0.30,0);
                     robot.intake.cmdFoward();
                     runtime.reset();
                     currentStage = stage._5_Fix5;
@@ -269,7 +269,7 @@ public class dRedFarCornerCycle extends OpMode {
 
             case _5_Fix5:
                 if (runtime.milliseconds() >=500) {
-                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()), 0.20);
+                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()), 0.25);
                     runtime.reset();
                     currentStage = stage._103_Launch3;
                 }
@@ -323,7 +323,7 @@ public class dRedFarCornerCycle extends OpMode {
 
                 break;
             case _103_Launch3:
-                if (runtime.milliseconds() >= 1000)     {
+                if (runtime.milliseconds() >= 800)     {
                    robot.launcherBlocker.cmdUnBlock();
                    robot.transitionRoller.cmdSpin();
                    robot.intake.cmdFoward();
@@ -337,7 +337,7 @@ public class dRedFarCornerCycle extends OpMode {
                     robot.launcherBlocker.cmdBlock();
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
-                    robot.driveTrain.cmdTurn(58,0.30);
+                    robot.driveTrain.cmdTurn(58,0.35);
                     runtime.reset();
                     currentStage = stage._105_Boom;
 
@@ -351,10 +351,79 @@ public class dRedFarCornerCycle extends OpMode {
                     robot.transitionRoller.cmdSpin();
                     robot.intake.cmdFoward();
                     robot.driveTrain.CmdDrive(51,65,0.50,90);
+                    currentStage = stage._6_Fix1;
+                }
+
+                break;
+
+            case _6_Fix1:
+                if (robot.driveTrain.getCmdComplete() && runtime.milliseconds() >= 1000)     {
+                    robot.driveTrain.CmdDrive(45,-118,0.40,58);
+                    currentStage = stage._7_Fix2;
+                }
+
+                break;
+            case _7_Fix2:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.launcher.cmdOutfar();
+                    robot.driveTrain.cmdTurn(0,0.35);
+                    currentStage = stage._8_Fix3;
+                }
+
+                break;
+            case _8_Fix3:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.CmdDrive(4,0,0.30,0);
+                    robot.intake.cmdFoward();
+                    runtime.reset();
+                    currentStage = stage._9_Fix4;
+                }
+
+                break;
+
+            case _9_Fix4:
+                if (runtime.milliseconds() >=500) {
+                    robot.driveTrain.cmdTurn((int)Math.round(robot.targetAngleCalc()), 0.25);
+                    runtime.reset();
+                    currentStage = stage._10_Fix5;
+                }
+
+                break;
+            case _10_Fix5:
+                if (runtime.milliseconds() >= 800)     {
+                    robot.launcherBlocker.cmdUnBlock();
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
+                    runtime.reset();
+                    currentStage = stage._11_Fix6;
+                }
+
+                break;
+            case _11_Fix6:
+                if(runtime.milliseconds() >= 1500){
+                    robot.launcherBlocker.cmdBlock();
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
+                    robot.driveTrain.cmdTurn(58,0.35);
+                    runtime.reset();
+                    currentStage = stage._12_Fix7;
+
+                }
+
+
+                break;
+            case _12_Fix7:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.launcherBlocker.cmdBlock();
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
+                    robot.driveTrain.CmdDrive(51,65,0.50,90);
                     currentStage = stage._107_ResetGyro;
                 }
 
                 break;
+
+
             case _107_ResetGyro:
                 if (robot.driveTrain.getCmdComplete())     {
                     robot.driveTrain.ResetGyro();
@@ -418,6 +487,13 @@ public class dRedFarCornerCycle extends OpMode {
         _103_Launch3,
         _104_TurnToBoom,
         _105_Boom,
+        _6_Fix1,
+        _7_Fix2,
+        _8_Fix3,
+        _9_Fix4,
+        _10_Fix5,
+        _11_Fix6,
+        _12_Fix7,
         _107_ResetGyro,
         _110_End
 
