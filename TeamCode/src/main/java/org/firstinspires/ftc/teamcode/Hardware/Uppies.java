@@ -83,32 +83,6 @@ public static final double DownUSCC = 1;
      */
     public void loop() {
 
-
-
-
-
-
-/*
-        switch(CurrentMode){
-            case STOP:
-                cmdStop();
-
-                break;
-            case DOWN:
-
-
-                BTargetFound = false;
-                break;
-            case UP:
-
-
-
-                break;
-            //make case for each option
-        }
-
- */
-
     }
 
     /**

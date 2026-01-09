@@ -60,10 +60,10 @@ public class Intake extends BaseHardware{
     public final double maxPower = 1.0;
 
     public static final double stopSpeed = 0;
-    public static final double inSpeed = -1;  // use to be 0.5,then 0.75;
+    public static final double inSpeed = -1;
     public static final double outSpeed = 0.65;
     public static final double autoSpeed = -1.0;
-  //  public static final double snailoutSpeed = -0.25;
+
 
     public static final double Green = 0.5;
     public static final double Red = 0.28;
@@ -76,7 +76,7 @@ public class Intake extends BaseHardware{
     private double NTKAP2distance;
     private double NTKAP3distance;
 
-    public boolean DriverHappy = false;
+
     public boolean AtIntakeStop = true;
     public boolean initLight1 = false;
     public boolean initLight2 = false;
@@ -157,31 +157,12 @@ public class Intake extends BaseHardware{
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop(){
-/*
-        if(CurrentMode == Mode.NTKforward){
-            AtIntakeStop = false;
 
-        }else{
-            AtIntakeStop = true;
-        }
-
-        if(CurrentMode == Mode.NTKbackward){
-            AtIntakeStop = false;
-
-        }else{
-            AtIntakeStop = true;
-        }
-*/
         if(loopTime.milliseconds() >= 250) {
-
             if (CurrentMode == Mode.NTKforward) {
                 if (CurrentDistance2 == Distance2.FILLED2 && CurrentDistance3 == Distance3.FILLED3 || ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600)))) {
                     if (CurrentColor == Color.BLUE) {
-                        //if ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600))) {
-                        //if (runtime.milliseconds() >= 1000) {
                         cmdStop();
-                        // DriverHappy = true;
-                        // }
                     }
                 }
             }
@@ -195,6 +176,7 @@ public class Intake extends BaseHardware{
             getDistNTKAP2();
             getDistNTKAP3();
             //}
+
             if (NTKAP2distance <= 10 && sensorTime.milliseconds() >= 1000) {
                 CurrentDistance2 = Distance2.FILLED2;
             } else {
@@ -211,67 +193,12 @@ public class Intake extends BaseHardware{
 
         }
 
-           /*
-        if((transitionRoller.CurrentMode == TransitionRoller.Mode.Spin) && (CurrentMode == Mode.NTKforward) && (timerun.milliseconds() >= 250)){
-           cmdGREEN();
-           timerun.reset();
-        }else
-
-        if((transitionRoller.CurrentMode == TransitionRoller.Mode.Stop) && (CurrentMode == Mode.NTKforward) && (timerun.milliseconds() >= 250)){
-           cmdYELLOW();
-           timerun.reset();
-        }else
-
-        if((transitionRoller.CurrentMode == TransitionRoller.Mode.Back) && (CurrentMode == Mode.NTKforward) && (timerun.milliseconds() >= 250)){
-            cmdGREEN();
-            timerun.reset();
-        }else
-
-        if((transitionRoller.CurrentMode == TransitionRoller.Mode.Spin) && (CurrentMode == Mode.NTKbackward) && (timerun.milliseconds() >= 250)){
-            cmdGREEN();
-            timerun.reset();
-        }else
-
-        if((transitionRoller.CurrentMode == TransitionRoller.Mode.Stop) && (CurrentMode == Mode.NTKbackward) && (timerun.milliseconds() >= 250)){
-            cmdYELLOW();
-            timerun.reset();
-        }else
-
-        if((transitionRoller.CurrentMode == TransitionRoller.Mode.Back) && (CurrentMode == Mode.NTKbackward) && (timerun.milliseconds() >= 250)){
-            cmdGREEN();
-            timerun.reset();
-        }else if((transitionRoller.CurrentMode == TransitionRoller.Mode.Stop) && (CurrentMode == Mode.NTKstop) && (timerun.milliseconds() >= 250)){
-            cmdRED();
-            timerun.reset();
-        }
-
-            */
-
-
-
-        /*
-        if(DriverHappy){
-            cmdPURPLE();
-            DriverHappy = false;
-        }
-         */
-
-
-
-
-/*
-
         if(transitionRoller.CurrentMode == TransitionRoller.Mode.Spin &&
         CurrentMode == Mode.NTKforward){
 
-        DriverHappy = true;
-        }else {
-                DriverHappy = false;
+
 
         }
-
- */
-
 
     }
 
@@ -291,8 +218,7 @@ public class Intake extends BaseHardware{
         NTKM01.setPower (outSpeed);
         cmdGREEN();
         loopTime.reset();
-        //PeaLight.setPosition(Green);
-        //PeaLight.enableLight(false);
+
     }
     public void cmdFoward(){
         CurrentMode = Mode.NTKforward;
@@ -300,8 +226,7 @@ public class Intake extends BaseHardware{
         sensorTime.reset();
         loopTime.reset();
         cmdGREEN();
-        //PeaLight.setPosition(Green);
-        //PeaLight.enableLight(false);
+
     }
 
     public void cmdStop(){
@@ -309,40 +234,39 @@ public class Intake extends BaseHardware{
         NTKM01.setPower (stopSpeed);
         cmdRED(); //line not needed when finished
         loopTime.reset();
-        //PeaLight.enableLight(true);
+
 
     }
 
     public void cmdAutoFoward(){
         CurrentMode = Mode.NTKautoIn;
         NTKM01.setPower (autoSpeed);
-        //runtime.reset();
-        //PeaLight.enableLight(false);
+
 
     }
 
     public void cmdRED(){
         PeaLight.setPosition(Red);
         CurrentColor = Color.RED;
-        //timerun.reset();
+
     }
 
     public void cmdGREEN(){
         PeaLight.setPosition(Green);
         CurrentColor = Color.GREEN;
-        //timerun.reset();
+
     }
 
     public void cmdYELLOW(){
         PeaLight.setPosition(Yellow);
         CurrentColor = Color.YELLOW;
-        //timerun.reset();
+
     }
 
     public void cmdPURPLE(){
         PeaLight.setPosition(Purple);
         CurrentColor = Color.PURPLE;
-        //timerun.reset();
+
     }
 
     public void cmdBLUE(){
@@ -353,13 +277,13 @@ public class Intake extends BaseHardware{
     public void cmdORANGE(){
         PeaLight.setPosition(Orange);
         CurrentColor = Color.ORANGE;
-        //timerun.reset();
+
     }
 
     public void cmdOFF(){
         PeaLight.setPosition(Off);
         CurrentColor = Color.OFF;
-        //timerun.reset();
+
     }
 
     private void getDistNTKAP2() {

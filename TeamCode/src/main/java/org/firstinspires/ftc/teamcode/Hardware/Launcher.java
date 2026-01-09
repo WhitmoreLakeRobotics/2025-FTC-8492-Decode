@@ -193,20 +193,18 @@ public class Launcher extends BaseHardware{
     public void cmdOutnear(){
         CurrentMode = Mode.LaunchMout;
         CurrentPosition = Position.LaunchNear;
-        //LaunchM01.setPower (topSpeednear);
-       // LaunchM02.setPower (bottomSpeednear);
-        targetRPM1 = topMotorRPMnear; //3500;
-        targetRPM2 = bottomMotornear; //4000;
+
+        targetRPM1 = topMotorRPMnear;
+        targetRPM2 = bottomMotornear;
 
     }
 
     public void cmdOutfar(){
         CurrentMode = Mode.LaunchMout;
         CurrentPosition = Position.LaunchFar;
-      //  LaunchM01.setPower (topSpeedfar);
-       // LaunchM02.setPower (bottomSpeedfar);
-        targetRPM1 = topMotorRPMfar; //3250;
-        targetRPM2 = bottomMotorfar; //5000;
+
+        targetRPM1 = topMotorRPMfar;
+        targetRPM2 = bottomMotorfar;
 
     }
 
@@ -214,8 +212,7 @@ public class Launcher extends BaseHardware{
 
     public void cmdStop(){
         CurrentMode = Mode.LaunchMstop;
-        //LaunchM01.setPower (stopSpeed);
-        //LaunchM02.setPower (stopSpeed);
+
         targetRPM1 = 0;
         targetRPM2 = 0;
 
@@ -247,7 +244,7 @@ public class Launcher extends BaseHardware{
         double nominalVoltage = 12.0;
         double currentVoltage = Pikachu.getVoltage();
         double compensatedPower = (targetRPM/6000) * nominalVoltage / currentVoltage;
-      //  LaunchM01.setPower(compensatedPower);
+
 
         return compensatedPower+proportional + integral + derivative;
     }
@@ -268,7 +265,7 @@ public class Launcher extends BaseHardware{
         double nominalVoltage = 12.0;
         double currentVoltage = Pikachu.getVoltage();
         double compensatedPower1 = (targetRPM/6000) * nominalVoltage / currentVoltage;
-      //  LaunchM02.setPower(compensatedPower1);
+
 
         return compensatedPower1+proportional + integral + derivative;
     }

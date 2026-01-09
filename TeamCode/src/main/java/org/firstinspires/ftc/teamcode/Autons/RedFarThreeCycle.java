@@ -1,18 +1,17 @@
-package org.firstinspires.ftc.teamcode.DisabledAutons;
+package org.firstinspires.ftc.teamcode.Autons;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
-@Disabled
-@Autonomous(name = "dTwoCycleFarBluie", group = "Auton")
+
+@Autonomous(name = "RedFarThreeCycle", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class dTwoCycleFarBluie extends OpMode {
+public class RedFarThreeCycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -98,15 +97,7 @@ public class dTwoCycleFarBluie extends OpMode {
 
             case _05_ForwardStart:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(2,0,0.15,0);
-                    currentStage = stage._10_PreLaunch;
-                }
-
-
-                break;
-            case _10_PreLaunch:
-                if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(0, 0, 0.0, 0);
+                    robot.driveTrain.CmdDrive(4,0,0.15,0);
                     robot.launcher.cmdOutfar();
                     runtime.reset();
                     currentStage = stage._20_Launch;
@@ -114,7 +105,7 @@ public class dTwoCycleFarBluie extends OpMode {
 
                 break;
             case _20_Launch:
-                if(runtime.milliseconds() >=1500){
+                if  (runtime.milliseconds() >=1500){
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
@@ -126,7 +117,7 @@ public class dTwoCycleFarBluie extends OpMode {
 
                 break;
             case _25_StopLaunch:
-                if (runtime.milliseconds() >=5000)     {
+                if (runtime.milliseconds() >=2000)     {
                     robot.driveTrain.CmdDrive(0,0,0.0,0);
                     robot.launcherBlocker.cmdBlock();
                     robot.launcher.cmdStop();
@@ -136,84 +127,174 @@ public class dTwoCycleFarBluie extends OpMode {
 
                 break;
             case _30_MoveForward:
-                if (runtime.milliseconds() >=500)     {
-                    robot.driveTrain.CmdDrive(22,0,0.35,0);
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.CmdDrive(35,-5,0.35,-5);
                     currentStage = stage._40_TurnRight1;
                 }
 
                 break;
             case _40_TurnRight1:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(-30,0.25);
+                    robot.driveTrain.cmdTurn(65,0.30);
+                    robot.intake.cmdFoward();
+                    robot.transitionRoller.cmdSpin();
                     currentStage = stage._50_MoveForward2;
                 }
 
                 break;
             case _50_MoveForward2:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(16,-30,0.20,-30);
+                    robot.driveTrain.CmdDrive(35,65,0.20,65);
                     currentStage = stage._60_MoveBack;
                 }
+
+                /*
+                break;
+            case _53_TurnToGate:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.cmdTurn(-155,0.30);
+                    currentStage = stage._57_UnturnToGate;
+                }
+
+
+                break;
+            case _57_UnturnToGate:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.cmdTurn(-45,0.30);
+                    currentStage = stage._60_MoveBack;
+                 */
 
                 break;
             case _60_MoveBack:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(16,-210,0.20,-30);
-                    currentStage = stage._70_TurnLeft1;
+                    robot.driveTrain.CmdDrive(27,245,0.35,65); //was
+
+                    currentStage = stage._65_UnturnCause;
                 }
 
                 break;
-            case _70_TurnLeft1:
+            case _65_UnturnCause:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.cmdTurn(0,0.25);
-                    robot.transitionRoller.cmdStop();
-                    currentStage = stage._75_MoveBack2;
+                    robot.driveTrain.cmdTurn(15,0.30);
+                    currentStage = stage._66_Driveback;
                 }
 
                 break;
-            case _75_MoveBack2:
+            case _66_Driveback:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(20,180,0.35,0);
-                    currentStage = stage._80_PreLaunch2;
-                }
-
-                break;
-            case _80_PreLaunch2:
-                if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(0,0,0.0,0);
+                    robot.driveTrain.CmdDrive(42,-180,0.35,0);
                     robot.launcher.cmdOutfar();
-                    runtime.reset();
-                    currentStage = stage._90_Launch2;
-
+                    currentStage = stage._68_Alighn;
                 }
 
                 break;
-            case _90_Launch2:
-                if(runtime.milliseconds() >=1500){
-                    robot.driveTrain.CmdDrive(0,0,0.0,0);
+            case _68_Alighn:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.cmdTurn(0,0.30); //was negative
+                    currentStage = stage._70_Launch2;
+                }
+
+                break;
+            case _70_Launch2:
+                if (robot.driveTrain.getCmdComplete())    {
                     robot.launcherBlocker.cmdUnBlock();
                     robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
                     runtime.reset();
-                    currentStage = stage._100_StopLaunch2;
+                    currentStage = stage._75_MoveForward2;
+                }
+
+                break;
+            case _75_MoveForward2:
+                if (runtime.milliseconds() >= 1500)   {
+                    robot.launcher.cmdStop();
+                    robot.launcherBlocker.cmdBlock();
+                    robot.driveTrain.CmdDrive(17,0,0.35,0);
+                    currentStage = stage._80_TurnToArtifact2;
+                }
+
+                break;
+            case _80_TurnToArtifact2:
+                if(robot.driveTrain.getCmdComplete()){
+                    robot.driveTrain.cmdTurn(65,0.30);
+                    robot.intake.cmdFoward();
+                    robot.transitionRoller.cmdSpin();
+                    currentStage = stage._90_Forward3;
 
                 }
 
                 break;
-            case _100_StopLaunch2:
-                if (runtime.milliseconds() >=5000)     {
-                    robot.driveTrain.CmdDrive(0,0,0.0,0);
-                    robot.intake.cmdStop();
-                    robot.transitionRoller.cmdStop();
-                    robot.launcherBlocker.cmdBlock();
-                    robot.launcher.cmdStop();
+            case _90_Forward3:
+                if(robot.driveTrain.getCmdComplete()){
+                    robot.driveTrain.CmdDrive(42,65,0.30,65);
+                    currentStage = stage._97_backup2;
+                }
+
+                break;
+            case _97_backup2:
+                if(robot.driveTrain.getCmdComplete()){
+                    robot.driveTrain.CmdDrive(30,245,0.35,65);
+                    currentStage = stage._95_turn2;
+                }
+
+                break;
+            case _95_turn2:
+                if(robot.driveTrain.getCmdComplete()){
+                    robot.driveTrain.cmdTurn(-15,0.25);
+                    currentStage = stage._100_BackUpFANCY;
+                }
+
+                break;
+            case _100_BackUpFANCY:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.CmdDrive(20,168,0.35,-4);
+                    robot.launcher.cmdOutfar();
+                    currentStage = stage._102_Launch3;
+                }
+
+                break;
+            case _102_Launch3:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.launcherBlocker.cmdUnBlock();
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
                     runtime.reset();
+                    currentStage = stage._103_stopLaunch3;
+                }
+
+                break;
+            case _103_stopLaunch3:
+                if (runtime.milliseconds() >= 2000)     {
+                    robot.driveTrain.CmdDrive(3,-168,.25,0);
+                    robot.driveTrain.cmdTurn(50,0.25);
+                    robot.launcher.cmdStop();
+                    robot.launcherBlocker.cmdBlock();
                     currentStage = stage._105_MoveForward3;
                 }
 
+
                 break;
             case _105_MoveForward3:
-                if (runtime.milliseconds() >=500)     {
-                    robot.driveTrain.CmdDrive(20,0,0.35,0);
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.CmdDrive(50,60,0.40,90); // possibly SLAM into wall with MORE speed!
+                    robot.transitionRoller.cmdSpin();
+                    robot.intake.cmdFoward();
+                    currentStage = stage._106_LastTurn;
+                }
+
+                break;
+
+            case _106_LastTurn:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.CmdDrive(25,110,0.40,65);
+                    currentStage = RedFarThreeCycle.stage._107_ResetGyro;
+
+                }
+
+                break;
+            case _107_ResetGyro:
+                if (robot.driveTrain.getCmdComplete())     {
+                    robot.driveTrain.ResetGyro();
                     currentStage = stage._110_End;
                 }
 
@@ -257,13 +338,24 @@ public class dTwoCycleFarBluie extends OpMode {
         _30_MoveForward,
         _40_TurnRight1,
         _50_MoveForward2,
+        _53_TurnToGate,
+        _57_UnturnToGate,
         _60_MoveBack,
-        _70_TurnLeft1,
-        _75_MoveBack2,
-        _80_PreLaunch2,
-        _90_Launch2,
-        _100_StopLaunch2,
+        _65_UnturnCause,
+        _66_Driveback,
+        _68_Alighn,
+        _70_Launch2,
+        _75_MoveForward2,
+        _80_TurnToArtifact2,
+        _90_Forward3,
+        _95_turn2,
+        _97_backup2,
+        _100_BackUpFANCY,
+        _102_Launch3,
+        _103_stopLaunch3,
         _105_MoveForward3,
+        _106_LastTurn,
+        _107_ResetGyro,
         _110_End
 
 
