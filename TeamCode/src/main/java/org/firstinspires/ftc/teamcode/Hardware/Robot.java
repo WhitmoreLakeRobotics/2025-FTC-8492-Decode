@@ -20,6 +20,7 @@ public class Robot extends BaseHardware {
     public TransitionRoller transitionRoller = new TransitionRoller();
     public LauncherBlocker launcherBlocker = new LauncherBlocker();
     public Limey limey = new Limey();
+    public Lighting lighting = new Lighting();
 
 
     private Follower follower;
@@ -56,9 +57,9 @@ public class Robot extends BaseHardware {
         driveTrain.init();
 
 
-        //  lighting.hardwareMap = this.hardwareMap;
-        //lighting.telemetry = this.telemetry;
-        // lighting.init();
+         lighting.hardwareMap = this.hardwareMap;
+         lighting.telemetry = this.telemetry;
+         lighting.init();
 
         // sensors.hardwareMap = this.hardwareMap;
         // sensors.telemetry = this.telemetry;
@@ -94,7 +95,7 @@ public class Robot extends BaseHardware {
     @Override
     public void init_loop() {
         driveTrain.init_loop();
-        //lighting.init_loop();
+        lighting.init_loop();
         // sensors.init_loop();
         intake.init_loop();
         launcher.init_loop();
@@ -107,7 +108,7 @@ public class Robot extends BaseHardware {
     @Override
     public void start() {
         driveTrain.start();
-        // lighting.start();
+        lighting.start();
         // sensors.start();
         intake.start();
         launcher.start();
@@ -123,7 +124,7 @@ public class Robot extends BaseHardware {
     @Override
     public void loop() {
         driveTrain.loop();
-        //. lighting.loop();
+        lighting.loop();
         // sensors.loop();
         intake.loop();
         launcher.loop();
@@ -134,7 +135,7 @@ public class Robot extends BaseHardware {
 
         if (transitionRoller.CurrentMode == TransitionRoller.Mode.Stop
                 && intake.CurrentMode == Intake.Mode.NTKforward) {
-            intake.cmdBLUE();
+            lighting.cmdBLUE();
         }
 
 
@@ -142,7 +143,7 @@ public class Robot extends BaseHardware {
 
     public void autonLoop() {
         //driveTrain.loop();
-        //. lighting.loop();
+        lighting.loop();
         // sensors.loop();
         intake.loop();
         launcher.loop();
@@ -158,7 +159,7 @@ public class Robot extends BaseHardware {
     @Override
     public void stop() {
         driveTrain.stop();
-        // lighting.stop();
+        lighting.stop();
         // sensors.stop();
         intake.stop();
         launcher.stop();

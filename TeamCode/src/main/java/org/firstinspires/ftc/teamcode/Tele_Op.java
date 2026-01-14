@@ -48,21 +48,21 @@ public class Tele_Op extends OpMode {
     private boolean gp2_prev_start = false;
     private int tHeading = 0;
     private boolean bAutoTurn = false;
-    private boolean EndGame = false;
-    private boolean EndGame2 = false;
-    private boolean EndGame3 = false;
-    private boolean EndGame4 = false;
-    private boolean EndGameb = false;
-    private boolean EndGame2b = false;
-    private boolean EndGame3b = false;
-    private boolean EndGame4b = false;
+    //private boolean EndGame = false;
+    //private boolean EndGame2 = false;
+    //private boolean EndGame3 = false;
+    //private boolean EndGame4 = false;
+    //private boolean EndGameb = false;
+    //private boolean EndGame2b = false;
+    //private boolean EndGame3b = false;
+    //private boolean EndGame4b = false;
     private boolean UppiesOverrideEnabled = false;
 
     private ElapsedTime runtime = new ElapsedTime();
-    private ElapsedTime Gameruntime = new ElapsedTime();
-    private ElapsedTime EndGameTime = new ElapsedTime();
-    private ElapsedTime Gameruntime2 = new ElapsedTime();
-    private ElapsedTime EndGameTime2= new ElapsedTime();
+    //private ElapsedTime Gameruntime = new ElapsedTime();
+    //private ElapsedTime EndGameTime = new ElapsedTime();
+    //private ElapsedTime Gameruntime2 = new ElapsedTime();
+    //private ElapsedTime EndGameTime2= new ElapsedTime();
     private ElapsedTime uppiesInhibitor = new ElapsedTime();
     private double HLIW = 500;
     //HowLongItWork
@@ -123,8 +123,8 @@ public class Tele_Op extends OpMode {
     @Override
     public void start() {
         Runtime.getRuntime();
-        Gameruntime.reset();
-        Gameruntime2.reset();
+        //Gameruntime.reset();           <<<<<<<< lights
+        //Gameruntime2.reset();              <<<<<<<<<<
 
         // robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GOLD);
         //robot.signalSign.doUP();

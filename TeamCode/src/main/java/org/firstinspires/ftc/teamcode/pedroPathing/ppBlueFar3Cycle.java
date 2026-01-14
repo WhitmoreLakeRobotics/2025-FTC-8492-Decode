@@ -19,6 +19,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Common.Settings;
 import org.firstinspires.ftc.teamcode.Hardware.Intake;
+import org.firstinspires.ftc.teamcode.Hardware.Lighting;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 
@@ -332,7 +333,7 @@ public class ppBlueFar3Cycle extends OpMode {
                 if (!follower.isBusy() || runtime.milliseconds() > 3500) {
                    // follower.followPath(grabPickup1c,powerSlow, true);
                     //if we have 3 artifacts stop the path and go to next stage
-                    if (robot.intake.CurrentColor == Intake.Color.RED){
+                    if (robot.lighting.CurrentColor == Lighting.Color.RED){
                         follower.breakFollowing();
                         currentStage = stage._70_ToScorePoseAP;
                         runtime.reset();

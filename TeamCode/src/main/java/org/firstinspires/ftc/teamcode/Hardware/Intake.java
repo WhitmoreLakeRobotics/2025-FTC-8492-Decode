@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.Common.CommonLogic;
  */
 public class Intake extends BaseHardware{
 
-
+    Robot robot = new Robot();
     /**
      * The {@link #telemetry} field contains an object in which a user may accumulate data which
      * is to be transmitted to the driver station. This data is automatically transmitted to the
@@ -42,7 +42,7 @@ public class Intake extends BaseHardware{
      * multiple op modes have the same name, only one will be available.
      */
     private DcMotorEx NTKM01;
-    private Servo PeaLight;
+    //private Servo PeaLight;
     public ColorRangeSensor NTKAP2;
     public ColorRangeSensor NTKAP3;
     //public LED PeaLight;  //off
@@ -52,7 +52,7 @@ public class Intake extends BaseHardware{
     public Mode CurrentMode;
     public Distance2 CurrentDistance2;
     public Distance3 CurrentDistance3;
-    public Color CurrentColor;
+    //public Color CurrentColor;
 
     private double NTKM01Power;
 
@@ -64,7 +64,7 @@ public class Intake extends BaseHardware{
     public static final double outSpeed = 0.65;
     public static final double autoSpeed = -1.0;
 
-
+      /*
     public static final double Green = 0.5;
     public static final double Red = 0.28;
     public static final double Yellow = 0.388;
@@ -72,20 +72,21 @@ public class Intake extends BaseHardware{
     public static final double Blue = 0.6111;
     public static final double Orange = 0.333;
     public static final double Off = 0;
+    */
 
     private double NTKAP2distance;
     private double NTKAP3distance;
 
 
     public boolean AtIntakeStop = true;
-    public boolean initLight1 = false;
-    public boolean initLight2 = false;
+    //public boolean initLight1 = false;
+    //public boolean initLight2 = false;
 
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime timerun = new ElapsedTime();
     private ElapsedTime sensorTime= new ElapsedTime();
     private ElapsedTime loopTime= new ElapsedTime();
-    private ElapsedTime initLightTime = new ElapsedTime();
+    //private ElapsedTime initLightTime = new ElapsedTime();
 
     private double targRange = 10.2; //in cm
     /**
@@ -98,16 +99,16 @@ public class Intake extends BaseHardware{
         NTKAP3 = hardwareMap.get(ColorRangeSensor.class, "NTKAP3");
         NTKAP2 = hardwareMap.get(ColorRangeSensor.class, "NTKAP2");
         NTKM01 = hardwareMap.get(DcMotorEx.class, "NTKM01");
-        PeaLight = hardwareMap.get(Servo.class,"PeaLight");
+        //PeaLight = hardwareMap.get(Servo.class,"PeaLight");
         //green_PeaLight = hardwareMap.get(LED.class,"green_PeaLight");
         //yellow_PeaLight = hardwareMap.get(LED.class,"yellow_PeaLight");
 
         //cmdRED();
 
         sensorTime.reset();
-        initLightTime.reset();
+        //initLightTime.reset();
 
-        initLight1 = true;
+        //initLight1 = true;
 
     }
 
@@ -119,6 +120,7 @@ public class Intake extends BaseHardware{
      */
     public void init_loop(){
 
+        /*
         if(initLight1 && initLightTime.milliseconds() >= 750){
             cmdORANGE();
             initLight1 = false;
@@ -133,6 +135,8 @@ public class Intake extends BaseHardware{
             initLight1 = true;
         }
 
+         */
+
 
     }
 
@@ -144,9 +148,9 @@ public class Intake extends BaseHardware{
      * Example usage: Starting another thread.
      */
     public void start(){
-        initLight1 = false;
-        initLight2 = false;
-        cmdRED();
+        //initLight1 = false;
+        //initLight2 = false;
+        //cmdRED();
         loopTime.reset();
 
     }
@@ -158,10 +162,10 @@ public class Intake extends BaseHardware{
      */
     public void loop(){
 
-        if(loopTime.milliseconds() >= 250) {
+        if(loopTime.milliseconds() >= 250) { //probably should be commented out
             if (CurrentMode == Mode.NTKforward) {
                 if (CurrentDistance2 == Distance2.FILLED2 && CurrentDistance3 == Distance3.FILLED3 || ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600)))) {
-                    if (CurrentColor == Color.BLUE) {
+                    if (robot.lighting.CurrentColor == Lighting.Color.BLUE) {
                         cmdStop();
                     }
                 }
@@ -189,16 +193,16 @@ public class Intake extends BaseHardware{
                 CurrentDistance3 = Distance3.MISSING3;
             }
 
-            loopTime.reset();
+            loopTime.reset(); //should shut down
 
-        }
+        }  //should no
 
-        if(transitionRoller.CurrentMode == TransitionRoller.Mode.Spin &&
-        CurrentMode == Mode.NTKforward){
+       // if(transitionRoller.CurrentMode == TransitionRoller.Mode.Spin &&
+       // CurrentMode == Mode.NTKforward){
 
 
 
-        }
+       // }
 
     }
 
@@ -216,7 +220,7 @@ public class Intake extends BaseHardware{
     public void cmdBackward(){
         CurrentMode = Mode.NTKbackward;
         NTKM01.setPower (outSpeed);
-        cmdGREEN();
+        robot.lighting.cmdGREEN();
         loopTime.reset();
 
     }
@@ -225,14 +229,14 @@ public class Intake extends BaseHardware{
         NTKM01.setPower (inSpeed);
         sensorTime.reset();
         loopTime.reset();
-        cmdGREEN();
+        robot.lighting.cmdGREEN();
 
     }
 
     public void cmdStop(){
         CurrentMode = Mode.NTKstop;
         NTKM01.setPower (stopSpeed);
-        cmdRED(); //line not needed when finished
+        robot.lighting.cmdRED();
         loopTime.reset();
 
 
@@ -244,7 +248,7 @@ public class Intake extends BaseHardware{
 
 
     }
-
+/*
     public void cmdRED(){
         PeaLight.setPosition(Red);
         CurrentColor = Color.RED;
@@ -285,6 +289,7 @@ public class Intake extends BaseHardware{
         CurrentColor = Color.OFF;
 
     }
+ */
 
     private void getDistNTKAP2() {
         NTKAP2distance = NTKAP2.getDistance(DistanceUnit.CM);
@@ -311,6 +316,7 @@ public class Intake extends BaseHardware{
         NTKbackward
     }
 
+    /*
     public enum Color {
         GREEN,
         RED,
@@ -320,6 +326,7 @@ public class Intake extends BaseHardware{
         ORANGE,
         OFF
     }
+     */
 
     public double getMotorRPM(DcMotorEx motor){
         double ticksPerRevolution = 28; //update and double check
