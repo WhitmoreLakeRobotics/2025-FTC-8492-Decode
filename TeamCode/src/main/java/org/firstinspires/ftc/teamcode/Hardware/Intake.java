@@ -32,7 +32,7 @@ public class Intake extends BaseHardware{
      * Hardware Mappings
      */
     public HardwareMap hardwareMap = null; // will be set in Child class
-    private TransitionRoller transitionRoller = new TransitionRoller();
+    //private TransitionRoller transitionRoller = new TransitionRoller();
 
 
     /**
@@ -43,15 +43,15 @@ public class Intake extends BaseHardware{
      */
     private DcMotorEx NTKM01;
     //private Servo PeaLight;
-    public ColorRangeSensor NTKAP2;
-    public ColorRangeSensor NTKAP3;
+    //public ColorRangeSensor NTKAP2;
+    //public ColorRangeSensor NTKAP3;
     //public LED PeaLight;  //off
     //public LED green_PeaLight; //on
     //public LED yellow_Pealight; //transitionroller of intake running
 
     public Mode CurrentMode;
-    public Distance2 CurrentDistance2;
-    public Distance3 CurrentDistance3;
+    //public Distance2 CurrentDistance2;
+    //public Distance3 CurrentDistance3;
     //public Color CurrentColor;
 
     private double NTKM01Power;
@@ -74,8 +74,8 @@ public class Intake extends BaseHardware{
     public static final double Off = 0;
     */
 
-    private double NTKAP2distance;
-    private double NTKAP3distance;
+    //private double NTKAP2distance;
+    //private double NTKAP3distance;
 
 
     public boolean AtIntakeStop = true;
@@ -84,8 +84,8 @@ public class Intake extends BaseHardware{
 
     private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime timerun = new ElapsedTime();
-    private ElapsedTime sensorTime= new ElapsedTime();
-    private ElapsedTime loopTime= new ElapsedTime();
+    //private ElapsedTime sensorTime= new ElapsedTime();
+    //private ElapsedTime loopTime= new ElapsedTime();             probably not needed
     //private ElapsedTime initLightTime = new ElapsedTime();
 
     private double targRange = 10.2; //in cm
@@ -96,8 +96,8 @@ public class Intake extends BaseHardware{
      */
     public void init() {
 
-        NTKAP3 = hardwareMap.get(ColorRangeSensor.class, "NTKAP3");
-        NTKAP2 = hardwareMap.get(ColorRangeSensor.class, "NTKAP2");
+        //NTKAP3 = hardwareMap.get(ColorRangeSensor.class, "NTKAP3");
+        //NTKAP2 = hardwareMap.get(ColorRangeSensor.class, "NTKAP2");
         NTKM01 = hardwareMap.get(DcMotorEx.class, "NTKM01");
         //PeaLight = hardwareMap.get(Servo.class,"PeaLight");
         //green_PeaLight = hardwareMap.get(LED.class,"green_PeaLight");
@@ -105,7 +105,7 @@ public class Intake extends BaseHardware{
 
         //cmdRED();
 
-        sensorTime.reset();
+        //sensorTime.reset();
         //initLightTime.reset();
 
         //initLight1 = true;
@@ -151,7 +151,7 @@ public class Intake extends BaseHardware{
         //initLight1 = false;
         //initLight2 = false;
         //cmdRED();
-        loopTime.reset();
+        //loopTime.reset();                                                    <probably not nessacary
 
     }
 
@@ -162,25 +162,26 @@ public class Intake extends BaseHardware{
      */
     public void loop(){
 
-        if(loopTime.milliseconds() >= 250) { //probably should be commented out
+        //if(loopTime.milliseconds() >= 250) { //probably should be commented out
             if (CurrentMode == Mode.NTKforward) {
-                if (CurrentDistance2 == Distance2.FILLED2 && CurrentDistance3 == Distance3.FILLED3 || ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600)))) {
+                if (robot.sensors.CurrentDistance2 == Sensors.Distance2.FILLED2 && robot.sensors.CurrentDistance3 == Sensors.Distance3.FILLED3 || ((CommonLogic.inRange(getMotorRPM(NTKM01), 600, 600)))) {
                     if (robot.lighting.CurrentColor == Lighting.Color.BLUE) {
                         cmdStop();
                     }
                 }
             }
 
-            if (CurrentMode == Mode.NTKforward) {
-                sensorTime.reset();
-            }
+            //if (CurrentMode == Mode.NTKforward) {
+           //     sensorTime.reset();
+           // }
 
             //possibly put 400 time with sensortime for less glitching if glitching occurs.
             //if(sensorTime.milliseconds() >= 400) {
-            getDistNTKAP2();
-            getDistNTKAP3();
+            //getDistNTKAP2();
+            //getDistNTKAP3();
             //}
 
+            /*
             if (NTKAP2distance <= 10 && sensorTime.milliseconds() >= 1000) {
                 CurrentDistance2 = Distance2.FILLED2;
             } else {
@@ -193,9 +194,11 @@ public class Intake extends BaseHardware{
                 CurrentDistance3 = Distance3.MISSING3;
             }
 
-            loopTime.reset(); //should shut down
+             */
 
-        }  //should no
+            //loopTime.reset(); //should shut down
+
+        //}  //should no
 
        // if(transitionRoller.CurrentMode == TransitionRoller.Mode.Spin &&
        // CurrentMode == Mode.NTKforward){
@@ -221,14 +224,14 @@ public class Intake extends BaseHardware{
         CurrentMode = Mode.NTKbackward;
         NTKM01.setPower (outSpeed);
         robot.lighting.cmdGREEN();
-        loopTime.reset();
+        //loopTime.reset();
 
     }
     public void cmdFoward(){
         CurrentMode = Mode.NTKforward;
         NTKM01.setPower (inSpeed);
-        sensorTime.reset();
-        loopTime.reset();
+        //sensorTime.reset();              might be needed or do with oneshot
+        //loopTime.reset();
         robot.lighting.cmdGREEN();
 
     }
@@ -237,7 +240,7 @@ public class Intake extends BaseHardware{
         CurrentMode = Mode.NTKstop;
         NTKM01.setPower (stopSpeed);
         robot.lighting.cmdRED();
-        loopTime.reset();
+        //loopTime.reset();
 
 
     }
@@ -291,6 +294,7 @@ public class Intake extends BaseHardware{
     }
  */
 
+    /*
     private void getDistNTKAP2() {
         NTKAP2distance = NTKAP2.getDistance(DistanceUnit.CM);
     }
@@ -307,6 +311,8 @@ public class Intake extends BaseHardware{
         FILLED2,
         MISSING2
     }
+
+     */
 
 
     public enum Mode {
