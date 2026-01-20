@@ -1,20 +1,41 @@
-//package org.firstinspires.ftc.robotcontroller.external.samples;
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
-
-import org.firstinspires.ftc.teamcode.Hardware.Intake;
-
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import com.bylazar.configurables.PanelsConfigurables;
+import com.bylazar.configurables.annotations.Configurable;
+import com.bylazar.telemetry.PanelsTelemetry;
+import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.BezierCurve;
+import com.pedropathing.geometry.BezierLine;
+import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.Path;
+import com.pedropathing.paths.PathChain;
+import com.pedropathing.util.Timer;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Tele_Op", group = "TeleOp")
+import java.util.function.Supplier;
+
+
+//package org.firstinspires.ftc.robotcontroller.external.samples;
+
+
+
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "ppTeleop", group = "ppTeleop")
 //@Disabled
-public class Tele_Op extends OpMode {
+public class ppTeleop extends OpMode {
+    private Follower follower;
+    public static Pose startingPose; //See ExampleAuto to understand how to use this
+    private boolean automatedDrive;
+    //private Supplier Teleoppath pathChain;
+    private TelemetryManager telemetryM;
+    private boolean slowMode = false;
+    private double slowModeMultiplier = 0.5;
+
     private static final String TAGTeleop = "8492-Teleop";
     //RobotTest robot = new RobotTest();
     Robot robot = new Robot();
@@ -48,21 +69,21 @@ public class Tele_Op extends OpMode {
     private boolean gp2_prev_start = false;
     private int tHeading = 0;
     private boolean bAutoTurn = false;
-    private boolean EndGame = false;
-    private boolean EndGame2 = false;
-    private boolean EndGame3 = false;
-    private boolean EndGame4 = false;
-    private boolean EndGameb = false;
-    private boolean EndGame2b = false;
-    private boolean EndGame3b = false;
-    private boolean EndGame4b = false;
+    //private boolean EndGame = false;
+    //private boolean EndGame2 = false;
+    //private boolean EndGame3 = false;
+    //private boolean EndGame4 = false;
+    //private boolean EndGameb = false;
+    //private boolean EndGame2b = false;
+    //private boolean EndGame3b = false;
+    //private boolean EndGame4b = false;
     private boolean UppiesOverrideEnabled = false;
 
     private ElapsedTime runtime = new ElapsedTime();
-    private ElapsedTime Gameruntime = new ElapsedTime();
-    private ElapsedTime EndGameTime = new ElapsedTime();
-    private ElapsedTime Gameruntime2 = new ElapsedTime();
-    private ElapsedTime EndGameTime2= new ElapsedTime();
+    //private ElapsedTime Gameruntime = new ElapsedTime();
+    //private ElapsedTime EndGameTime = new ElapsedTime();
+    //private ElapsedTime Gameruntime2 = new ElapsedTime();
+    //private ElapsedTime EndGameTime2= new ElapsedTime();
     private ElapsedTime uppiesInhibitor = new ElapsedTime();
     private double HLIW = 500;
     //HowLongItWork
@@ -105,6 +126,10 @@ public class Tele_Op extends OpMode {
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
 
+        follower = CompBotConstants.createFollower(hardwareMap);
+        follower.setStartingPose(startingPose == null ? new Pose() : startingPose);
+        follower.update();
+
     }
 
     //*********************************************************************************************
@@ -123,8 +148,8 @@ public class Tele_Op extends OpMode {
     @Override
     public void start() {
         Runtime.getRuntime();
-        Gameruntime.reset();
-        Gameruntime2.reset();
+        //Gameruntime.reset();           <<<<<<<< lights
+        //Gameruntime2.reset();              <<<<<<<<<<
 
     }
 
@@ -141,7 +166,7 @@ public class Tele_Op extends OpMode {
             bAutoTurn = false;
         }
         if (gamepad1.right_trigger > 0.4) {
-           tHeading = (int)Math.round(robot.targetAngleCalc());
+            tHeading = (int)Math.round(robot.targetAngleCalc());
             bAutoTurn = true;
         }
 
@@ -227,13 +252,13 @@ public class Tele_Op extends OpMode {
         //if (CommonLogic.oneShot(gamepad1.right_bumper, gp1_prev_right_bumper)) {
         //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_SLOWSPEED);
         // }
-         if (gamepad1.right_bumper) {
-        //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_TURBOSPEED);
-       // RobotLog.aa(TAGTeleop,"GamepadRB: " + gamepad1.right_bumper);
-        //    telemetry.addData (TAGTeleop, "GamepadRB: " + gamepad1.right_bumper);
-        //  } else if(gamepad1.right_bumper == false)
-        // {
-        //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
+        if (gamepad1.right_bumper) {
+            //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_TURBOSPEED);
+            // RobotLog.aa(TAGTeleop,"GamepadRB: " + gamepad1.right_bumper);
+            //    telemetry.addData (TAGTeleop, "GamepadRB: " + gamepad1.right_bumper);
+            //  } else if(gamepad1.right_bumper == false)
+            // {
+            //  robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
         }
 
         //***********  Grabbers
@@ -317,17 +342,17 @@ public class Tele_Op extends OpMode {
 
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
 
-        if (robot.intake.AtIntakeStop = false) {
-            robot.intake.cmdStop();
-            robot.intake.AtIntakeStop = true;
-        }
-        if (robot.intake.AtIntakeStop = true) {
-            robot.intake.cmdBackward();
-            robot.intake.AtIntakeStop = false;
-        }
+            if (robot.intake.AtIntakeStop = false) {
+                robot.intake.cmdStop();
+                robot.intake.AtIntakeStop = true;
+            }
+            if (robot.intake.AtIntakeStop = true) {
+                robot.intake.cmdBackward();
+                robot.intake.AtIntakeStop = false;
+            }
 
-        //robot.transitionRoller.cmdBack();
-    }
+            //robot.transitionRoller.cmdBack();
+        }
 
 
 
@@ -362,7 +387,7 @@ public class Tele_Op extends OpMode {
         if (gamepad2.right_trigger > 0.8){
             LaunchFar();
             robot.bCkSenors = false;
-            }
+        }
 
         if ((gamepad2.right_trigger <= 0.79) && (gamepad2.right_trigger > 0.10)){
         }
@@ -404,7 +429,7 @@ public class Tele_Op extends OpMode {
 
     //*********************************************************************************************
 
-      //Code to run ONCE after the driver hits STOP
+    //Code to run ONCE after the driver hits STOP
 
     @Override
     public void stop() {
@@ -419,32 +444,32 @@ public class Tele_Op extends OpMode {
         boolean RDP = gamepad1.dpad_right;
         boolean LDP = gamepad1.dpad_left;
 
-    if(a){
-        bAutoTurn = true;
+        if(a){
+            bAutoTurn = true;
 
             return 59;
 
-    }
-    else if (b){
-        bAutoTurn = true;
-        if (y){
-            return -135;
-        }else {
-            return -45;
         }
-    }
-    else if (y){
-        bAutoTurn = true;
-        if(x){
-            return 135;
-        }else{
-            return -59;
+        else if (b){
+            bAutoTurn = true;
+            if (y){
+                return -135;
+            }else {
+                return -45;
+            }
         }
-    }
-    else if(x){
-        bAutoTurn = true;
-       return 45;
-    }
+        else if (y){
+            bAutoTurn = true;
+            if(x){
+                return 135;
+            }else{
+                return -59;
+            }
+        }
+        else if(x){
+            bAutoTurn = true;
+            return 45;
+        }
 
     /*else if(RDP){
         bAutoTurn = true;
@@ -454,9 +479,9 @@ public class Tele_Op extends OpMode {
         bAutoTurn = true;
         return 6;
     }*/
-    else {
-        return tHeading;
-    }
+        else {
+            return tHeading;
+        }
     }
 
     //*********************************************************************************************
@@ -504,8 +529,8 @@ public class Tele_Op extends OpMode {
     public void LaunchNear(){         //wait for launcher to spin up to speed.
         robot.launcher.cmdOutnear();
         if (robot.launcher.bAtSpeed) {
-           if(robot.launcherBlocker.AtUnBlocked == true){
-                        robot.transitionRoller.cmdSpin();
+            if(robot.launcherBlocker.AtUnBlocked == true){
+                robot.transitionRoller.cmdSpin();
             }
             if(robot.launcherBlocker.AtUnBlocked == false) {
                 robot.transitionRoller.cmdStop();
@@ -522,8 +547,8 @@ public class Tele_Op extends OpMode {
             else{
                 robot.transitionRoller.cmdStop();
             }
-            }
         }
+    }
 
     public void NoLaunch(){
         robot.transitionRoller.cmdStop();
