@@ -21,7 +21,6 @@ public class Robot extends BaseHardware {
     public LauncherBlocker launcherBlocker = new LauncherBlocker();
     public Limey limey = new Limey();
     public Lighting lighting = new Lighting();
-    public Sensors sensors = new Sensors();
 
 
     private Follower follower;
@@ -62,9 +61,9 @@ public class Robot extends BaseHardware {
          lighting.telemetry = this.telemetry;
          lighting.init();
 
-        sensors.hardwareMap = this.hardwareMap;
-        sensors.telemetry = this.telemetry;
-        sensors.init();
+        // sensors.hardwareMap = this.hardwareMap;
+        // sensors.telemetry = this.telemetry;
+        // sensors.init();
 
         intake.hardwareMap = this.hardwareMap;
         intake.telemetry = this.telemetry;
@@ -97,7 +96,7 @@ public class Robot extends BaseHardware {
     public void init_loop() {
         driveTrain.init_loop();
         lighting.init_loop();
-        sensors.init_loop();
+        // sensors.init_loop();
         intake.init_loop();
         launcher.init_loop();
         launcherBlocker.init_loop();
@@ -110,7 +109,7 @@ public class Robot extends BaseHardware {
     public void start() {
         driveTrain.start();
         lighting.start();
-        sensors.start();
+        // sensors.start();
         intake.start();
         launcher.start();
         launcherBlocker.start();
@@ -126,7 +125,7 @@ public class Robot extends BaseHardware {
     public void loop() {
         driveTrain.loop();
         lighting.loop();
-        sensors.loop();
+        // sensors.loop();
         intake.loop();
         launcher.loop();
         launcherBlocker.loop();
@@ -145,7 +144,7 @@ public class Robot extends BaseHardware {
     public void autonLoop() {
         //driveTrain.loop();
         lighting.loop();
-        sensors.loop();
+        // sensors.loop();
         intake.loop();
         launcher.loop();
         launcherBlocker.loop();
@@ -161,7 +160,7 @@ public class Robot extends BaseHardware {
     public void stop() {
         driveTrain.stop();
         lighting.stop();
-        sensors.stop();
+        // sensors.stop();
         intake.stop();
         launcher.stop();
         launcherBlocker.stop();
@@ -170,6 +169,11 @@ public class Robot extends BaseHardware {
         uppies.stop();
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
+
+    public void safteyCheck() {
+        //when called comfirm flicker is in safe position before spindexing.
+    }
+
 
     public double targetDistanceCalc() {
 
@@ -279,3 +283,20 @@ public class Robot extends BaseHardware {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
