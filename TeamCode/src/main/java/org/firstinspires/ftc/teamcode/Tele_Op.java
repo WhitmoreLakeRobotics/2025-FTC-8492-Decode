@@ -275,7 +275,7 @@ public class Tele_Op extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad2.right_bumper, gp2_prev_right_bumper)) {
-            robot.bCkSenors = false;
+            //robot.bCkSenors = false;
 
         }
         if (gamepad2.right_bumper) {
@@ -302,7 +302,7 @@ public class Tele_Op extends OpMode {
 
         if (CommonLogic.oneShot(gamepad2.a, gp2_prev_a)) {
             robot.intake.cmdFoward();
-            robot.bCkSenors = true;
+            //robot.bCkSenors = true;
             robot.transitionRoller.cmdSpin();
         }
 
@@ -321,7 +321,7 @@ public class Tele_Op extends OpMode {
             robot.intake.cmdStop();
             robot.intake.AtIntakeStop = true;
         }
-        if (robot.intake.AtIntakeStop = true) {
+        if (robot.intake.AtIntakeStop = true) {       //write right
             robot.intake.cmdBackward();
             robot.intake.AtIntakeStop = false;
         }
@@ -347,7 +347,7 @@ public class Tele_Op extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_up, gp2_prev_dpad_up)) {
-            LaunchLaser();
+            //LaunchLaser();
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_down, gp2_prev_dpad_down)) {
@@ -361,7 +361,7 @@ public class Tele_Op extends OpMode {
 
         if (gamepad2.right_trigger > 0.8){
             LaunchFar();
-            robot.bCkSenors = false;
+            //robot.bCkSenors = false;
             }
 
         if ((gamepad2.right_trigger <= 0.79) && (gamepad2.right_trigger > 0.10)){
@@ -465,6 +465,7 @@ public class Tele_Op extends OpMode {
 
     }
 
+    /*
     public void LaunchLaser() {         //wait for launcher to spin up to speed.
         robot.launcher.cmdoutlaser();
         if (robot.launcher.bAtSpeed) {
@@ -476,6 +477,8 @@ public class Tele_Op extends OpMode {
             }
         }
     }
+
+     */
 
     public void LaunchTelleTouch() {         //wait for launcher to spin up to speed.
         robot.launcher.cmdOuttelletouch();

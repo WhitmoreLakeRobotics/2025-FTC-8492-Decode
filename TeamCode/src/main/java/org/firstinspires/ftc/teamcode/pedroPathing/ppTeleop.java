@@ -372,7 +372,7 @@ public class ppTeleop extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_up, gp2_prev_dpad_up)) {
-            LaunchLaser();
+            //LaunchLaser();
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_down, gp2_prev_dpad_down)) {
@@ -490,6 +490,7 @@ public class ppTeleop extends OpMode {
 
     }
 
+    /*
     public void LaunchLaser() {         //wait for launcher to spin up to speed.
         robot.launcher.cmdoutlaser();
         if (robot.launcher.bAtSpeed) {
@@ -499,8 +500,10 @@ public class ppTeleop extends OpMode {
             if(robot.launcherBlocker.AtUnBlocked == false) {
                 robot.transitionRoller.cmdStop();
             }
-        }
+        };
     }
+
+     */
 
     public void LaunchTelleTouch() {         //wait for launcher to spin up to speed.
         robot.launcher.cmdOuttelletouch();
