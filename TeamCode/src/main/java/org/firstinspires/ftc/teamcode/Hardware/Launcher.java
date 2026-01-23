@@ -42,6 +42,8 @@ public class Launcher extends BaseHardware{
     private DcMotorEx LaunchM01 ;
     private DcMotorEx LaunchM02 ;
 
+    private Limey limey;
+
     public Mode CurrentMode;
     public Position CurrentPosition;
 
