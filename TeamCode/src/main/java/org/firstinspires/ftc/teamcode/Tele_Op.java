@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
+import org.firstinspires.ftc.teamcode.Autons.TestAuton;
 import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 
@@ -65,6 +66,7 @@ public class Tele_Op extends OpMode {
     private ElapsedTime EndGameTime2= new ElapsedTime();
     private ElapsedTime uppiesInhibitor = new ElapsedTime();
     private double HLIW = 500;
+    public Alliance CurrentAlliance;
     //HowLongItWork
 
 
@@ -105,6 +107,16 @@ public class Tele_Op extends OpMode {
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
 
+        if(TestAuton.Alliance == "Red"){
+            CurrentAlliance = Alliance.Red;
+        } else if(TestAuton.Alliance == "Blue"){
+            CurrentAlliance = Alliance.Blue;
+        }else if(TestAuton.Alliance == "Unknown"){
+            CurrentAlliance = Alliance.Unknown;
+        }else{
+            CurrentAlliance = Alliance.NoAuto;
+        }
+
     }
 
     //*********************************************************************************************
@@ -125,6 +137,18 @@ public class Tele_Op extends OpMode {
         Runtime.getRuntime();
         Gameruntime.reset();
         Gameruntime2.reset();
+
+        if(CurrentAlliance == Alliance.Red){
+            robot.intake.cmdRED();
+        }else if(CurrentAlliance == Alliance.Blue){
+            robot.intake.cmdBLUE();
+        }else if(CurrentAlliance == Alliance.Unknown){
+            robot.intake.cmdPURPLE();
+        }else if(CurrentAlliance == Alliance.NoAuto){
+            robot.intake.cmdYELLOW();
+        }else{
+
+        }
 
         // robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GOLD);
         //robot.signalSign.doUP();
@@ -652,7 +676,12 @@ public class Tele_Op extends OpMode {
     }
 
 
-
+public enum Alliance{
+        Red,
+        Blue,
+        Unknown,
+        NoAuto
+}
 
 
 

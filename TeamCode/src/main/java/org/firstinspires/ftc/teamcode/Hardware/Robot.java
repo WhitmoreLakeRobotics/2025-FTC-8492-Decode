@@ -280,6 +280,18 @@ public class Robot extends BaseHardware {
 
         return driveTrain.getCurrentHeading();
     }
+    /*
+    public void findAlliance{
+        double currentTagId = limey.getTagID();
+        if(currentTagId == 24){
+
+        }else if(currentTagId == 20){
+
+        }else{
+
+        }
+    }
+     */
 
 }
 
