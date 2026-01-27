@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 
 import org.firstinspires.ftc.teamcode.Hardware.Intake;
 
+import org.firstinspires.ftc.teamcode.Hardware.LimeyLaunch;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Tele_Op", group = "TeleOp")
@@ -69,6 +70,9 @@ public class Tele_Op extends OpMode {
     public Alliance CurrentAlliance;
     //HowLongItWork
 
+    private LimeyLaunch visionController;
+
+
 
     //*********************************************************************************************
 
@@ -96,6 +100,7 @@ public class Tele_Op extends OpMode {
         robot.telemetry = telemetry;
         //robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
         robot.init();
+        visionController = new LimeyLaunch(robot.limey, robot.launcher);  //adding auto RPM control to launcher
         //robot.driveTrain.ResetGyro();
         //Gameruntime.reset();
         //Gameruntime2.reset();
@@ -162,6 +167,10 @@ public class Tele_Op extends OpMode {
     @Override
     public void loop() {
         robot.loop();
+        robot.limey.loop();          // updates tx, ty, yaw
+        visionController.update();   // computes RPMs from vision
+        robot.launcher.loop();       // runs PID
+
         write2Log();
         tHeading = getTurnDirection();
         if (Math.abs(gamepad1.right_stick_x) > 0.04) {

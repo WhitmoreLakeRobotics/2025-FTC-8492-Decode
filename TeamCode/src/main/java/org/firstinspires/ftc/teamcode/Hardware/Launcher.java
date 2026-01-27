@@ -170,6 +170,12 @@ public class Launcher extends BaseHardware{
      * <p>
      * The stop method is optional. By default this method takes no action.
      */
+
+    public void setTargetRPMs(double top, double bottom) {
+        targetRPM1 = top;
+        targetRPM2 = bottom;
+    }
+
     void stop(){
 
     }

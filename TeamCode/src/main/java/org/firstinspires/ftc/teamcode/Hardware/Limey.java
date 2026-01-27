@@ -127,10 +127,9 @@ public class Limey extends BaseHardware {
             AprilTagID = result.getFiducialResults().get(0).getFiducialId();
             ty = result.getFiducialResults().get(0).getTargetYDegrees();
             tx = result.getFiducialResults().get(0).getTargetXDegrees();
-            TagAngle = TagPose.getOrientation().getYaw();
             corners = result.getFiducialResults().get(0).getTargetCorners();
             TagPose = result.getFiducialResults().get(0).getTargetPoseCameraSpace();
-            TagAngle = TagPose.getOrientation().getYaw();
+            TagAngle = TagPose.getOrientation ().getYaw();
             TagDistance = TagPose.getPosition().z;
 
             //Rich telemetry when tag is visible
