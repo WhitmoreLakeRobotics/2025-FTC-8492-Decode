@@ -53,8 +53,16 @@ public class Limey extends BaseHardware {
 
             Pose3D pose = tag.getTargetPoseCameraSpace();
             if (pose != null) {
+                double x = pose.getPosition().x;
+                double y = pose.getPosition().y;
+                double z = pose.getPosition().z;
+
                 tagDistance = pose.getPosition().z;
                 tagAngle = pose.getOrientation().getYaw();
+
+                double fullDistance = Math.sqrt(x*x + y*y +z*z);
+
+                telemetry.addData("Full 3D Distance", "%.2f", fullDistance);
             }
 
             telemetry.addData("Limelight", "VALID TARGET");
