@@ -9,8 +9,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
 public class Limey extends BaseHardware {
 
-    private Telemetry telemetry;
-    private HardwareMap hardwareMap;
+    public Telemetry telemetry;
+    public HardwareMap hardwareMap;
 
     private Limelight3A limelight;
     private LLResult result;
