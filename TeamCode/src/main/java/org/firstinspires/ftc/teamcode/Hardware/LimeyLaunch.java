@@ -1,6 +1,15 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
+//import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 public class LimeyLaunch {
+
+    public Telemetry telemetry = null;
+
+    public HardwareMap hardwareMap = null;
+
 
     //private Limey limey;
     //private Launcher launcher;
@@ -8,6 +17,26 @@ public class LimeyLaunch {
     public Launcher launcher = new Launcher();
 
     public boolean shouldMeasure = false;
+
+    public void init(){
+
+    }
+
+    public void init_loop(){
+
+    }
+
+    public void start(){
+
+    }
+
+    public void loop(){
+
+    }
+
+    public void stop(){
+
+    }
 
 
     public LimeyLaunch(Limey limey,Launcher launcher){

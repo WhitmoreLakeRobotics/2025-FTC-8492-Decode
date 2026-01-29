@@ -21,6 +21,7 @@ public class Robot extends BaseHardware {
     public LauncherBlocker launcherBlocker = new LauncherBlocker();
     public Limey limey = new Limey();
     public LimeyLaunch limeyLaunch = new LimeyLaunch(limey,launcher);
+    public Turret turret = new Turret();
 
 
 
@@ -91,9 +92,13 @@ public class Robot extends BaseHardware {
         uppies.telemetry = this.telemetry;
         uppies.init();
 
-        //limeyLaunch.hardwareMap = this.hardwareMap;
-        //limeyLaunch.telemetry = this.telemetry;
-        limey.init();
+        limeyLaunch.hardwareMap = this.hardwareMap;
+        limeyLaunch.telemetry = this.telemetry;
+        limeyLaunch.init();
+
+        turret.hardwareMap = this.hardwareMap;
+        turret.telemetry = this.telemetry;
+        turret.init();
 
     }
 
@@ -108,7 +113,8 @@ public class Robot extends BaseHardware {
         transitionRoller.init_loop();
         limey.init_loop();
         uppies.init_loop();
-        //limeyLaunch.init_loop();
+        limeyLaunch.init_loop();
+        turret.init_loop();
     }
 
     @Override
@@ -122,7 +128,8 @@ public class Robot extends BaseHardware {
         transitionRoller.start();
         limey.start();
         uppies.start();
-        //limeyLaunch.start();
+        limeyLaunch.start();
+        turret.start();
 
 
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
@@ -139,7 +146,8 @@ public class Robot extends BaseHardware {
         transitionRoller.loop();
         limey.loop();
         uppies.loop();
-        //limeyLaunch.loop();
+        limeyLaunch.loop();
+        turret.loop();
 
         if (transitionRoller.CurrentMode == TransitionRoller.Mode.Stop
                 && intake.CurrentMode == Intake.Mode.NTKforward) {
@@ -175,7 +183,8 @@ public class Robot extends BaseHardware {
         transitionRoller.stop();
         limey.stop();
         uppies.stop();
-        //limeyLaunch.stop();
+        limeyLaunch.stop();
+        turret.stop();
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 
