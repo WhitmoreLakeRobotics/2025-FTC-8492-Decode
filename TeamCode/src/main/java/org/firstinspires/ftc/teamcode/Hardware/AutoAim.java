@@ -1,10 +1,5 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
-//import androidx.xr.runtime.math.Vector3;
-
-import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
-//import org.firstinspires.ftc.robotcore.external.navigation.Vector3;
-import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 
 public class AutoAim {
     //auto aim for turret

@@ -15,8 +15,8 @@ public class AutoRPM {
 
     //private Limey limey;
     //private Launcher launcher;
-    public Limey limey = new Limey();
-    public Launcher launcher = new Launcher();
+    public Limey limey;
+    public Launcher launcher;
 
     public boolean shouldMeasure = false;
     public double MeasureRPMTOP = 0;
@@ -56,11 +56,9 @@ public class AutoRPM {
 
         double[] rpms = calculateRPMs(tx, ty, yaw);
 
-        //launcher.setTargetRPMs(rpms[0],rpms[1]);
+        launcher.setTargetRPMs(rpms[0],rpms[1]);
     }
     public double[] calculateRPMs(double tx, double ty, double yaw){
-
-
 
         double distance = limey.getTagDistance();
 

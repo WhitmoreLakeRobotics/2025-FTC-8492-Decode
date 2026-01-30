@@ -479,6 +479,7 @@ public class Tele_Op extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_down, gp2_prev_dpad_down)) {
+            LaunchAutoRPM();
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_right, gp2_prev_dpad_right)) {
@@ -675,6 +676,26 @@ public class Tele_Op extends OpMode {
             }
             }
         }
+
+    public void LaunchAutoRPM() {
+        double[] rpms = visionController.calculateRPMs(
+                robot.limey.getTx(),
+                robot.limey.getTy(),
+                robot.limey.getTagAngle()
+        );
+
+        robot.launcher.setTargetRPMs(rpms[0], rpms[1]);
+
+        if (robot.launcher.bAtSpeed) {
+            if (robot.launcherBlocker.AtUnBlocked) {
+                robot.transitionRoller.cmdSpin();
+            } else {
+                robot.transitionRoller.cmdStop();
+            }
+        }
+    }
+
+
 
     public void NoLaunch(){
         robot.transitionRoller.cmdStop();
