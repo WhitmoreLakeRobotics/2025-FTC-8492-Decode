@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 //import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-public class LimeyLaunch {
+//Auto calculates RPM for launcher
+public class AutoRPM {
 
     public Telemetry telemetry = null;
 
     public HardwareMap hardwareMap = null;
+
+
 
 
     //private Limey limey;
@@ -17,6 +19,7 @@ public class LimeyLaunch {
     public Launcher launcher = new Launcher();
 
     public boolean shouldMeasure = false;
+    public double MeasureRPMTOP = 0;
 
     public void init(){
 
@@ -39,13 +42,9 @@ public class LimeyLaunch {
     }
 
 
-    public LimeyLaunch(Limey limey,Launcher launcher){
+    public AutoRPM(Limey limey, Launcher launcher){
         this.limey = limey;
         this.launcher = launcher;
-
-    }
-
-    public void cmdAutoMeasure(){
 
     }
 
@@ -59,7 +58,9 @@ public class LimeyLaunch {
 
         //launcher.setTargetRPMs(rpms[0],rpms[1]);
     }
-    private double[] calculateRPMs(double tx, double ty, double yaw){
+    public double[] calculateRPMs(double tx, double ty, double yaw){
+
+
 
         double distance = limey.getTagDistance();
 
@@ -72,11 +73,11 @@ public class LimeyLaunch {
 
         */
         // Top motor
-        double d1 = 18;    //in inches
-        double r1top = 5999;    //need to update test
+        double d1 = 0.5;    //in meters
+        double r1top = 2000;    //need to update test
 
-        double d2 = 168;    //in inches currently 14 feet
-        double r2top = 4078;
+        double d2 = 2.9;    //in meters
+        double r2top = 3600;
 
         double m_top = (r2top - r1top) / (d2 - d1);
         double b_top = r1top - m_top * d1;
@@ -85,10 +86,10 @@ public class LimeyLaunch {
 
         // bottom motor
        // double d1b = 18;
-        double r1bottom = 666;
+        double r1bottom = 4100;
 
        // double d2b = 180;
-        double r2bottom = 3227;
+        double r2bottom = 5750;
 
         double m_bottom = (r2bottom - r1bottom) / (d2 - d1);
         double b_bottom = r1bottom - m_bottom * d1;
@@ -98,6 +99,9 @@ public class LimeyLaunch {
         return new double[]{targetTopRPM, targetBottomRPM};
 
     }
+
+
+
 
 
 

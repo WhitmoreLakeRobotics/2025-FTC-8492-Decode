@@ -38,6 +38,7 @@ public class Launcher extends BaseHardware{
      * multiple op modes have the same name, only one will be available.
      */
 
+    Robot robot = new Robot();
 
     private DcMotorEx LaunchM01 ;
     private DcMotorEx LaunchM02 ;
@@ -161,6 +162,8 @@ public class Launcher extends BaseHardware{
 
 
 
+
+
     }
 
     /**
@@ -216,7 +219,18 @@ public class Launcher extends BaseHardware{
 
     }
 
+/*
+    public void cmdAutoRPM(){
+        CurrentMode = Mode.LaunchMout;
+        CurrentPosition = Position.LaunchCalc;
 
+        targetRPM1 = robot.autoRPM
+
+
+
+    }
+
+ */
 
 
 
@@ -312,7 +326,8 @@ public class Launcher extends BaseHardware{
 
     public enum Position {
         LaunchFar,
-        LaunchNear;
+        LaunchNear,
+        LaunchCalc;
     }
 
 

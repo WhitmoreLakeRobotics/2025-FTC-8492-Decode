@@ -20,7 +20,7 @@ public class Robot extends BaseHardware {
     public TransitionRoller transitionRoller = new TransitionRoller();
     public LauncherBlocker launcherBlocker = new LauncherBlocker();
     public Limey limey = new Limey();
-    public LimeyLaunch limeyLaunch = new LimeyLaunch(limey,launcher);
+    public AutoRPM autoRPM = new AutoRPM(limey,launcher);
     public Turret turret = new Turret();
 
 
@@ -92,9 +92,9 @@ public class Robot extends BaseHardware {
         uppies.telemetry = this.telemetry;
         uppies.init();
 
-        limeyLaunch.hardwareMap = this.hardwareMap;
-        limeyLaunch.telemetry = this.telemetry;
-        limeyLaunch.init();
+        autoRPM.hardwareMap = this.hardwareMap;
+        autoRPM.telemetry = this.telemetry;
+        autoRPM.init();
 
         turret.hardwareMap = this.hardwareMap;
         turret.telemetry = this.telemetry;
@@ -113,7 +113,7 @@ public class Robot extends BaseHardware {
         transitionRoller.init_loop();
         limey.init_loop();
         uppies.init_loop();
-        limeyLaunch.init_loop();
+        autoRPM.init_loop();
         turret.init_loop();
     }
 
@@ -128,7 +128,7 @@ public class Robot extends BaseHardware {
         transitionRoller.start();
         limey.start();
         uppies.start();
-        limeyLaunch.start();
+        autoRPM.start();
         turret.start();
 
 
@@ -146,7 +146,7 @@ public class Robot extends BaseHardware {
         transitionRoller.loop();
         limey.loop();
         uppies.loop();
-        limeyLaunch.loop();
+        autoRPM.loop();
         turret.loop();
 
         if (transitionRoller.CurrentMode == TransitionRoller.Mode.Stop
@@ -183,7 +183,7 @@ public class Robot extends BaseHardware {
         transitionRoller.stop();
         limey.stop();
         uppies.stop();
-        limeyLaunch.stop();
+        autoRPM.stop();
         turret.stop();
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
