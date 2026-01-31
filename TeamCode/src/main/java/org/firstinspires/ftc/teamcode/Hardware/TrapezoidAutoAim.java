@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Disabled
 public class TrapezoidAutoAim {
 
-    Robot robot = new Robot();
+    //Robot robot = new Robot();
 
     public Telemetry telemetry = null;
     public HardwareMap hardwareMap = null;
@@ -30,7 +30,7 @@ public class TrapezoidAutoAim {
     }
 
     public void loop(){
-        runtime.log("Position");
+        //runtime.log("Position");
 
 
     }

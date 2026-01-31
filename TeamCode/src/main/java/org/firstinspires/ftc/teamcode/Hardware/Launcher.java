@@ -4,6 +4,7 @@ import com.bylazar.configurables.PanelsConfigurables;
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -38,7 +39,7 @@ public class Launcher extends BaseHardware{
      * multiple op modes have the same name, only one will be available.
      */
 
-    Robot robot = new Robot();
+    //Robot robot = new Robot();
 
     private DcMotorEx LaunchM01 ;
     private DcMotorEx LaunchM02 ;
@@ -238,6 +239,9 @@ public class Launcher extends BaseHardware{
     public void cmdStop(){
         CurrentMode = Mode.LaunchMstop;
 
+        LaunchM01.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        LaunchM01.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
         targetRPM1 = 0;
         targetRPM2 = 0;
 
@@ -326,9 +330,9 @@ public class Launcher extends BaseHardware{
 
     public enum Position {
         LaunchFar,
-        LaunchNear,
-        LaunchCalc;
-    }
+        LaunchNear;
+
+            }
 
 
 

@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Disabled
 public class Turret extends BaseHardware{
 
-    Robot robot = new Robot();
+    //Robot robot = new Robot();
 
 
     /**
@@ -24,8 +24,8 @@ public class Turret extends BaseHardware{
      */
     public Telemetry telemetry = null;
 
-    private Servo rightyTighty;
-    private Servo leftyLoosy;
+    //private Servo rightyTighty;
+    //private Servo leftyLoosy;
 
     // tunable pid constants
     private double kP = 0.012;
@@ -64,11 +64,11 @@ public class Turret extends BaseHardware{
 
     @Override
     public void init(){
-        leftyLoosy = hardwareMap.get(Servo.class, "leftyLoosy");
-        rightyTighty = hardwareMap.get(Servo.class, "rightyTighty");
+        //leftyLoosy = hardwareMap.get(Servo.class, "leftyLoosy");
+       // rightyTighty = hardwareMap.get(Servo.class, "rightyTighty");
 
-        leftyLoosy.setDirection(Servo.Direction.FORWARD);  //may need to be changed later.
-        rightyTighty.setDirection(Servo.Direction.FORWARD);   //may need to be changed later.
+        //leftyLoosy.setDirection(Servo.Direction.FORWARD);  //may need to be changed later.
+        //rightyTighty.setDirection(Servo.Direction.FORWARD);   //may need to be changed later.
 
         currentAngle = 0;
         targetAngle = 0;
@@ -115,15 +115,18 @@ public class Turret extends BaseHardware{
         double pos = (currentAngle - MIN_DEG) / (MAX_DEG - MIN_DEG);
         pos = clamp(pos, MIN_POS, MAX_POS);
 
-        leftyLoosy.setPosition(pos);
-        rightyTighty.setPosition(pos);
+        //leftyLoosy.setPosition(pos);
+        //rightyTighty.setPosition(pos);
 
         // --- TELEMETRY ---
+
         telemetry.addData("Turret Target", targetAngle);
         telemetry.addData("Turret Angle", currentAngle);
         telemetry.addData("Turret Pos", pos);
         telemetry.addData("Error", error);
         telemetry.addData("Output", output);
+
+
 
     }
 

@@ -138,8 +138,8 @@ public class Tele_Op extends OpMode {
     @Override
     public void start() {
         Runtime.getRuntime();
-        Gameruntime.reset();
-        Gameruntime2.reset();
+       // Gameruntime.reset();
+        //Gameruntime2.reset();
 
         if(CurrentAlliance == Alliance.Red){
             robot.intake.cmdRED();
@@ -166,7 +166,7 @@ public class Tele_Op extends OpMode {
     public void loop() {
         robot.loop();
         robot.limey.loop();          // updates tx, ty, yaw
-        visionController.update();   // computes RPMs from vision
+        robot.autoRPM.update();   // computes RPMs from vision
         robot.launcher.loop();       // runs PID
 
         write2Log();
@@ -438,6 +438,7 @@ public class Tele_Op extends OpMode {
 
         if (CommonLogic.oneShot(gamepad2.y, gp2_prev_y)) {
             NoLaunch();
+            robot.autoRPM.Measure = false;
         }
 
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
@@ -479,7 +480,14 @@ public class Tele_Op extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_down, gp2_prev_dpad_down)) {
-            LaunchAutoRPM();
+            if(robot.autoRPM.Measure == false){
+                robot.autoRPM.Measure = true;
+                LaunchAutoRPM();
+            }else{
+                robot.autoRPM.Measure = false;
+                robot.launcher.cmdStop();
+            }
+
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_right, gp2_prev_dpad_right)) {

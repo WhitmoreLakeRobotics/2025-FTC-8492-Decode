@@ -6,8 +6,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'androidx.xr.runtime:runtime:1.0.0-alpha09'
-    implementation 'com.google.ar.sceneform:sceneform-base:1.17.1'
+    //implementation 'androidx.xr.runtime:runtime:1.0.0-alpha09'
+    //implementation 'com.google.ar.sceneform:sceneform-base:1.17.1'
     implementation 'org.firstinspires.ftc:Inspection:11.0.0'
     implementation 'org.firstinspires.ftc:Blocks:11.0.0'
     implementation 'org.firstinspires.ftc:RobotCore:11.0.0'
