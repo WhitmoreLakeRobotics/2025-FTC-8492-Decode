@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 
 import org.firstinspires.ftc.teamcode.Hardware.AutoRPM;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.Hardware.AutoAim;
 import org.firstinspires.ftc.teamcode.Hardware.TrapezoidAutoAim;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Tele_Op", group = "TeleOp")
@@ -71,6 +72,8 @@ public class Tele_Op extends OpMode {
 
     private AutoRPM visionController;
 
+    private AutoAim turretAutoAim;
+
 
 
     //*********************************************************************************************
@@ -100,6 +103,7 @@ public class Tele_Op extends OpMode {
         //robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
         robot.init();
         visionController = new AutoRPM(robot.limey, robot.launcher);  //adding auto RPM control to launcher
+        turretAutoAim = new org.firstinspires.ftc.teamcode.Hardware.AutoAim(robot.limey, robot.turret);
         //robot.driveTrain.ResetGyro();
         //Gameruntime.reset();
         //Gameruntime2.reset();
@@ -179,6 +183,17 @@ public class Tele_Op extends OpMode {
            tHeading = (int)Math.round(robot.targetAngleCalc());
             bAutoTurn = true;
         }
+
+        double turretStick = gamepad2.right_stick_x;
+
+        if (Math.abs(turretStick) > 0.1) {
+            turretAutoAim.setDriverOverride(true);
+            robot.turret.manualControl(turretStick);
+        } else {
+            turretAutoAim.setDriverOverride(false);
+            turretAutoAim.update();
+        }
+
 
         if(CurrentAlliance == Alliance.Red){
             robot.turret.trapezoidAutoAim.CurrentTurretColor = TrapezoidAutoAim.TurretColor.Red;

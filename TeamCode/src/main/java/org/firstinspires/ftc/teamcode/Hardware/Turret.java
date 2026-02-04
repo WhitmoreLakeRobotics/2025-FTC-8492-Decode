@@ -160,6 +160,19 @@ public class Turret extends BaseHardware{
         trapezoidAutoAim.runtime.reset();
     }
 
+    // Manual driver control for turret (joystick override)
+    public void manualControl(double stick) {
+        double speedDegPerLoop = 3.0;   // adjust sensitivity
+        double newAngle = currentAngle + (stick * speedDegPerLoop);
+
+        // clamp to turret limits
+        newAngle = clamp(newAngle, MIN_DEG, MAX_DEG);
+
+        // update PID target
+        setTargetAngle(newAngle);
+    }
+
+
     public void setTargetAngle(double angle){
         targetAngle = clamp(angle, MIN_DEG, MAX_DEG);
     }

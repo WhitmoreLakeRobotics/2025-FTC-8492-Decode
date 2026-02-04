@@ -97,10 +97,7 @@ public class Limey extends BaseHardware {
 
     }
 
-    // ------------------------------------------------------------
-    // Added: FTC-compatible botpose getter for turret auto-aim
     // Returns: [x, y, z, roll, pitch, yaw]
-    // ------------------------------------------------------------
     public double[] getBotPose() {
         if (result == null) return null;
 

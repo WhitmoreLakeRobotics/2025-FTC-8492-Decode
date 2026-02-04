@@ -22,6 +22,7 @@ public class Robot extends BaseHardware {
     public Limey limey = new Limey();
     public AutoRPM autoRPM = new AutoRPM(limey,launcher);
     public Turret turret = new Turret();
+    public AutoAim autoAim = new AutoAim(limey, turret);
 
 
 
@@ -115,6 +116,7 @@ public class Robot extends BaseHardware {
         uppies.init_loop();
         autoRPM.init_loop();
         turret.init_loop();
+        autoAim.init_loop();
     }
 
     @Override
