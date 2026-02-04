@@ -60,7 +60,7 @@ public class Limey extends BaseHardware {
                 tagDistance = pose.getPosition().z;
                 tagAngle = pose.getOrientation().getYaw();
 
-                double fullDistance = Math.sqrt(x*x + y*y +z*z);
+                double fullDistance = Math.sqrt(x*x + y*y + z*z);
 
                 telemetry.addData("Full 3D Distance", "%.2f", fullDistance);
             }
@@ -95,6 +95,26 @@ public class Limey extends BaseHardware {
     @Override
     void stop() {
 
+    }
+
+    // ------------------------------------------------------------
+    // Added: FTC-compatible botpose getter for turret auto-aim
+    // Returns: [x, y, z, roll, pitch, yaw]
+    // ------------------------------------------------------------
+    public double[] getBotPose() {
+        if (result == null) return null;
+
+        Pose3D bot = result.getBotpose();
+        if (bot == null) return null;
+
+        return new double[]{
+                bot.getPosition().x,
+                bot.getPosition().y,
+                bot.getPosition().z,
+                bot.getOrientation().getRoll(),
+                bot.getOrientation().getPitch(),
+                bot.getOrientation().getYaw()
+        };
     }
 
     // Getters
