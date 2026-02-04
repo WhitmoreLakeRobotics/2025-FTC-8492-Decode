@@ -19,17 +19,20 @@ public class TrapezoidAutoAim {
     private Limey limey;
     private Turret turret;
 
+    public TurretColor CurrentTurretColor;
     public Mode CurrentMode;
 
     public Telemetry telemetry = null;
     public HardwareMap hardwareMap = null;
     public ElapsedTime runtime = new ElapsedTime();
+    public boolean PrimitiveDriver = false;
 
     public void init(){
 
     }
 
     public void init_loop(){
+
 
     }
 
@@ -39,14 +42,40 @@ public class TrapezoidAutoAim {
 
     public void loop(){
         //runtime.log("Position");
-        limey.getTx();
-        if(limey.getTx() >= 72){
-            turret.cmdLeft();
-        } else if (limey.getTx() <= 72){
-            turret.cmdRight();
-        }else{
-            turret.cmdNo();
+        //limey.getTx();
+        if(PrimitiveDriver == false) {
+            if (CurrentTurretColor == TurretColor.Red) {
+                if (limey.getTagID() == 24) {
+                    if (limey.getTx() >= 72) {
+                        turret.cmdLeft();
+                    } else if (limey.getTx() <= 72) {
+                        turret.cmdRight();
+                    } else {
+                        turret.cmdNo();
+                    }
+                } else {
+                    turret.cmdNo();
+                }
+            }
+            if (CurrentTurretColor == TurretColor.Blue) {
+                if (limey.getTagID() == 20) {
+                    if (limey.getTx() >= 72) {
+                        turret.cmdLeft();
+                    } else if (limey.getTx() <= 72) {
+                        turret.cmdRight();
+                    } else {
+                        turret.cmdNo();
+                    }
+                } else {
+                    turret.cmdNo();
+                }
+            }
         }
+
+        if(CurrentTurretColor == TurretColor.NoAuto || CurrentTurretColor == TurretColor.Unknown){
+            PrimitiveDriver = true;
+        }
+
 
         if(CurrentMode == Mode.Targeting && limey.getTagID() == -1){
             CurrentMode = Mode.Target_NotFound;
@@ -70,6 +99,13 @@ public class TrapezoidAutoAim {
         Target_NotFound,
         NotTrying
 
+    }
+
+    public enum TurretColor{
+        Red,
+        Blue,
+        NoAuto,
+        Unknown
     }
 
 }

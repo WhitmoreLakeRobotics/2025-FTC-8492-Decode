@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Common.Settings;
 
 import org.firstinspires.ftc.teamcode.Hardware.AutoRPM;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.Hardware.TrapezoidAutoAim;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Tele_Op", group = "TeleOp")
 //@Disabled
@@ -177,6 +178,18 @@ public class Tele_Op extends OpMode {
         if (gamepad1.right_trigger > 0.4) {
            tHeading = (int)Math.round(robot.targetAngleCalc());
             bAutoTurn = true;
+        }
+
+        if(CurrentAlliance == Alliance.Red){
+            robot.turret.trapezoidAutoAim.CurrentTurretColor = TrapezoidAutoAim.TurretColor.Red;
+        } else if(CurrentAlliance == Alliance.Blue) {
+            robot.turret.trapezoidAutoAim.CurrentTurretColor = TrapezoidAutoAim.TurretColor.Blue;
+        } else if(CurrentAlliance == Alliance.NoAuto) {
+            robot.turret.trapezoidAutoAim.CurrentTurretColor = TrapezoidAutoAim.TurretColor.NoAuto;
+        } else if(CurrentAlliance == Alliance.Unknown) {
+            robot.turret.trapezoidAutoAim.CurrentTurretColor = TrapezoidAutoAim.TurretColor.Unknown;
+        }else{
+            robot.turret.trapezoidAutoAim.CurrentTurretColor = TrapezoidAutoAim.TurretColor.Unknown;
         }
 
 
