@@ -159,6 +159,7 @@ public class ppTeleop extends OpMode {
 
     @Override
     public void loop() {
+        follower.update();
         robot.loop();
         write2Log();
         tHeading = getTurnDirection();
@@ -342,14 +343,14 @@ public class ppTeleop extends OpMode {
 
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
 
-            if (robot.intake.AtIntakeStop = false) {
+            if (!robot.intake.AtIntakeStop) {
                 robot.intake.cmdStop();
                 robot.intake.AtIntakeStop = true;
-            }
-            if (robot.intake.AtIntakeStop = true) {
+            } else {
                 robot.intake.cmdBackward();
                 robot.intake.AtIntakeStop = false;
             }
+
 
             //robot.transitionRoller.cmdBack();
         }

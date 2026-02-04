@@ -67,7 +67,9 @@ public class TransitionRoller extends BaseHardware{
      public void init(){
 
          TRM01 = hardwareMap.get(DcMotorEx.class,"TRM01");
-    }
+         CurrentMode = Mode.Stop;
+
+     }
 
     /**
      * User defined init_loop method

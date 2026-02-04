@@ -4,7 +4,6 @@ import android.icu.util.Measure;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-//import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 //Auto calculates RPM for launcher
 
@@ -14,14 +13,10 @@ public class AutoRPM {
 
     public HardwareMap hardwareMap = null;
 
-
     public boolean Measure = false;
 
-    //private Limey limey;
-    //private Launcher launcher;
     public Limey limey;
     public Launcher launcher;
-
 
     public void init() {
 
@@ -37,21 +32,17 @@ public class AutoRPM {
 
     public void loop() {
 
-/*
-            if (Measure == true){
-                double tx = limey.getTx();
-                double ty = limey.getTy();
-                double yaw = limey.getTagAngle();
+        /*
+        if (Measure == true){
+            double tx = limey.getTx();
+            double ty = limey.getTy();
+            double yaw = limey.getTagAngle();
 
+            double[] rpms = calculateRPMs(tx, ty, yaw);
 
-                double[] rpms = calculateRPMs(tx, ty, yaw);
-
-                launcher.setTargetRPMs(rpms[0], rpms[1]);
-            }
-
- */
-
-
+            launcher.setTargetRPMs(rpms[0], rpms[1]);
+        }
+        */
 
     }
 
@@ -59,41 +50,34 @@ public class AutoRPM {
 
     }
 
-
     public AutoRPM(Limey limey, Launcher launcher) {
         this.limey = limey;
         this.launcher = launcher;
-
     }
 
     public void update() {
-        if (Measure == true){
+
+        if (Measure == true) {
+
+            // Null safety
+            if (limey == null || launcher == null) {
+                return;
+            }
+
             double tx = limey.getTx();
-        double ty = limey.getTy();
-        double yaw = limey.getTagAngle();
+            double ty = limey.getTy();
+            double yaw = limey.getTagAngle();
 
+            double[] rpms = calculateRPMs(tx, ty, yaw);
 
-        double[] rpms = calculateRPMs(tx, ty, yaw);
-
-        launcher.setTargetRPMs(rpms[0], rpms[1]);
+            launcher.setTargetRPMs(rpms[0], rpms[1]);
+        }
     }
-    }
-
-
-
 
     public double[] calculateRPMs(double tx, double ty, double yaw) {
 
         double distance = limey.getTagDistance();
 
-       /* double baseTop = 5970;
-        double baseBottom = 5980;
-
-        double distanceAdjust = ty * -25;
-        double angleAdjust = Math.abs(tx) * 10;
-        double yawAdjust = Math.abs(yaw) * 5;
-
-        */
         // Top motor
         double d1 = 0.5;    //in meters
         double r1top = 1900;    //need to update test
@@ -113,22 +97,11 @@ public class AutoRPM {
         // double d2b = 180;
         double r2bottom = 5500;
 
+        double m_bottom = (r2bottom - r1bottom) / (d2 - d1);
+        double b_bottom = r1bottom - m_bottom * d1;
 
+        double targetBottomRPM = m_bottom * distance + b_bottom;
 
-
-            double m_bottom = (r2bottom - r1bottom) / (d2 - d1);
-            double b_bottom = r1bottom - m_bottom * d1;
-
-
-            double targetBottomRPM = m_bottom * distance + b_bottom;
-
-
-            return new double[]{targetTopRPM, targetBottomRPM};
-
-
-        }
-
-
+        return new double[]{targetTopRPM, targetBottomRPM};
     }
-
-
+}

@@ -38,8 +38,6 @@ public class Launcher extends BaseHardware{
      * multiple op modes have the same name, only one will be available.
      */
 
-    Robot robot = new Robot();
-
     private DcMotorEx LaunchM01 ;
     private DcMotorEx LaunchM02 ;
 
@@ -241,6 +239,8 @@ public class Launcher extends BaseHardware{
         double dt = timer1.seconds();
         timer1.reset();
 
+        if (dt <= 0) dt = 0.001;
+
         double p = LkP * error;
 
         integral1 += error * dt;
@@ -261,6 +261,8 @@ public class Launcher extends BaseHardware{
         double error = targetRPM2 - currentRPM;
         double dt = timer2.seconds();
         timer2.reset();
+
+        if (dt <= 0) dt = 0.001;
 
         double p = LkP * error;
 

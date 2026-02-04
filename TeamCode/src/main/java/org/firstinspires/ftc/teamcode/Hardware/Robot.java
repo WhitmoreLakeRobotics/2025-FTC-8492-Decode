@@ -13,18 +13,17 @@ import java.util.function.Supplier;
 public class Robot extends BaseHardware {
 
     private static final Logger log = LoggerFactory.getLogger(Robot.class);
-    public DriveTrain driveTrain = new DriveTrain();
-    public Intake intake = new Intake();
-    public Launcher launcher = new Launcher();
-    public Uppies uppies = new Uppies();
-    public TransitionRoller transitionRoller = new TransitionRoller();
-    public LauncherBlocker launcherBlocker = new LauncherBlocker();
-    public Limey limey = new Limey();
-    public AutoRPM autoRPM = new AutoRPM(limey,launcher);
-    public Turret turret = new Turret();
-    public AutoAim autoAim = new AutoAim(limey, turret);
 
-
+    public DriveTrain driveTrain;
+    public Intake intake;
+    public Launcher launcher;
+    public Uppies uppies;
+    public TransitionRoller transitionRoller;
+    public LauncherBlocker launcherBlocker;
+    public Limey limey;
+    public AutoRPM autoRPM;
+    public Turret turret;
+    public AutoAim autoAim;
 
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
@@ -42,7 +41,6 @@ public class Robot extends BaseHardware {
     public double maxTargetVertPos = 169;
     public double maxTargetDist = 78;
 
-
     public double nominalTagWidthRatio = 0.95;
     public double nominalTagAngle = 0;
     public double extremeTagWidthRatio = 0.6829;
@@ -54,53 +52,54 @@ public class Robot extends BaseHardware {
 
     @Override
     public void init() {
-        // Must set Hardware Map and telemetry before calling init
+
+        driveTrain = new DriveTrain();
         driveTrain.hardwareMap = this.hardwareMap;
         driveTrain.telemetry = this.telemetry;
         driveTrain.init();
 
-
-        //  lighting.hardwareMap = this.hardwareMap;
-        //lighting.telemetry = this.telemetry;
-        // lighting.init();
-
-        // sensors.hardwareMap = this.hardwareMap;
-        // sensors.telemetry = this.telemetry;
-        // sensors.init();
-
+        intake = new Intake();
         intake.hardwareMap = this.hardwareMap;
         intake.telemetry = this.telemetry;
         intake.init();
 
+        launcher = new Launcher();
         launcher.hardwareMap = this.hardwareMap;
         launcher.telemetry = this.telemetry;
         launcher.init();
 
+        launcherBlocker = new LauncherBlocker();
         launcherBlocker.hardwareMap = this.hardwareMap;
         launcherBlocker.telemetry = this.telemetry;
         launcherBlocker.init();
 
+        transitionRoller = new TransitionRoller();
         transitionRoller.hardwareMap = this.hardwareMap;
         transitionRoller.telemetry = this.telemetry;
         transitionRoller.init();
 
+        limey = new Limey();
         limey.hardwareMap = this.hardwareMap;
         limey.telemetry = this.telemetry;
         limey.setTelemetry(telemetry);
         limey.init();
 
+        uppies = new Uppies();
         uppies.hardwareMap = this.hardwareMap;
         uppies.telemetry = this.telemetry;
         uppies.init();
 
+        autoRPM = new AutoRPM(limey, launcher);
         autoRPM.hardwareMap = this.hardwareMap;
         autoRPM.telemetry = this.telemetry;
         autoRPM.init();
 
+        turret = new Turret();
         turret.hardwareMap = this.hardwareMap;
         turret.telemetry = this.telemetry;
         turret.init();
 
+        autoAim = new AutoAim(limey, turret);
     }
 
     @Override
@@ -116,7 +115,6 @@ public class Robot extends BaseHardware {
         uppies.init_loop();
         autoRPM.init_loop();
         turret.init_loop();
-        autoAim.init_loop();
     }
 
     @Override
@@ -132,7 +130,6 @@ public class Robot extends BaseHardware {
         uppies.start();
         autoRPM.start();
         turret.start();
-
 
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
@@ -156,6 +153,7 @@ public class Robot extends BaseHardware {
             intake.cmdBLUE();
         }
 
+        autoAim.update();
 
     }
 
@@ -169,10 +167,7 @@ public class Robot extends BaseHardware {
         transitionRoller.loop();
         limey.loop();
         uppies.loop();
-
-
     }
-
 
     @Override
     public void stop() {
@@ -194,7 +189,6 @@ public class Robot extends BaseHardware {
         //when called comfirm flicker is in safe position before spindexing.
     }
 
-
     public double targetDistanceCalc() {
 
         double targetOffsetAngle_Vertical = limey.getTy();
@@ -215,19 +209,15 @@ public class Robot extends BaseHardware {
         double distanceFromLimelightToGoalInches = (goalHeightInches - limelightLensHeightInches) / Math.tan(angleToGoalRadians);
         double distanceFromRobotToGoalInches = distanceFromLimelightToGoalInches + 0;  //shouldn't this be not zero?
         return distanceFromRobotToGoalInches;
-
-
     }
 
     public double targetAngleCalc() {
 
         if (launcher.CurrentPosition == Launcher.Position.LaunchFar) {
 
-
             double currentTagId = limey.getTagID();
             if (currentTagId != -1) {
                 double targetOffsetAngle_Horizontal = limey.getTx();
-
 
                 double tagAngle = limey.getTagAngle() + 90;
                 double targetDistanceCalc = targetDistanceCalc();
@@ -235,16 +225,9 @@ public class Robot extends BaseHardware {
 
                 double compensationAngle = 180 - tagAngle - Math.toDegrees(Math.asin(Math.sin(Math.toRadians(tagAngle)) * targetDistanceCalc) / hypotenuse);
 
-
-                // if (driveTrain.getCurrentHeading() >= 90) {
-                //   return defaultAngle;
-                //} else if (driveTrain.getCurrentHeading() <= -90) {
-                //  return -defaultAngle;
                 if (currentTagId == 24) {
-                    //compensate left
                     return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal; //- compensationAngle;
                 } else if (currentTagId == 20) {
-                    //compensate right
                     return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal - 5; //+ compensationAngle;
                 } else {
                     return driveTrain.getCurrentHeading();
@@ -255,16 +238,14 @@ public class Robot extends BaseHardware {
                     return defaultAngle;
                 } else if (driveTrain.getCurrentHeading() <= -90) {
                     return -defaultAngle;
-
                 }
             }
-            //return driveTrain.getCurrentHeading();
 
         } else {
+
             double currentTagId = limey.getTagID();
             if (currentTagId != -1) {
                 double targetOffsetAngle_Horizontal = limey.getTx();
-
 
                 double tagAngle = limey.getTagAngle() + 90;
                 double targetDistanceCalc = targetDistanceCalc();
@@ -272,17 +253,10 @@ public class Robot extends BaseHardware {
 
                 double compensationAngle = 180 - tagAngle - Math.toDegrees(Math.asin(Math.sin(Math.toRadians(tagAngle)) * targetDistanceCalc) / hypotenuse);
 
-
-                // if (driveTrain.getCurrentHeading() >= 90) {
-                //   return defaultAngle;
-                //} else if (driveTrain.getCurrentHeading() <= -90) {
-                //  return -defaultAngle;
                 if (currentTagId == 24) {
-                    //compensate left
-                    return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal -4; //- compensationAngle;
+                    return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal - 4; //- compensationAngle;
                 } else if (currentTagId == 20) {
-                    //compensate right
-                    return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal ; //+ compensationAngle;
+                    return driveTrain.getCurrentHeading() + targetOffsetAngle_Horizontal; //+ compensationAngle;
                 } else {
                     return driveTrain.getCurrentHeading();
                 }
@@ -292,15 +266,13 @@ public class Robot extends BaseHardware {
                     return defaultAngle;
                 } else if (driveTrain.getCurrentHeading() <= -90) {
                     return -defaultAngle;
-
                 }
             }
-            //return driveTrain.getCurrentHeading();
-
         }
 
         return driveTrain.getCurrentHeading();
     }
+
     /*
     public void findAlliance{
         double currentTagId = limey.getTagID();
@@ -315,20 +287,3 @@ public class Robot extends BaseHardware {
      */
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

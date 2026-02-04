@@ -10,6 +10,7 @@ import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Common.Settings;
 
 import org.firstinspires.ftc.teamcode.Hardware.AutoRPM;
+import org.firstinspires.ftc.teamcode.Hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Hardware.AutoAim;
 import org.firstinspires.ftc.teamcode.Hardware.TrapezoidAutoAim;
@@ -72,9 +73,6 @@ public class Tele_Op extends OpMode {
 
     private AutoRPM visionController;
 
-    private AutoAim turretAutoAim;
-
-
 
     //*********************************************************************************************
 
@@ -103,7 +101,6 @@ public class Tele_Op extends OpMode {
         //robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
         robot.init();
         visionController = new AutoRPM(robot.limey, robot.launcher);  //adding auto RPM control to launcher
-        turretAutoAim = new org.firstinspires.ftc.teamcode.Hardware.AutoAim(robot.limey, robot.turret);
         //robot.driveTrain.ResetGyro();
         //Gameruntime.reset();
         //Gameruntime2.reset();
@@ -170,9 +167,6 @@ public class Tele_Op extends OpMode {
     @Override
     public void loop() {
         robot.loop();
-        robot.limey.loop();          // updates tx, ty, yaw
-        robot.autoRPM.update();   // computes RPMs from vision
-        robot.launcher.loop();       // runs PID
 
         write2Log();
         tHeading = getTurnDirection();
@@ -183,19 +177,35 @@ public class Tele_Op extends OpMode {
            tHeading = (int)Math.round(robot.targetAngleCalc());
             bAutoTurn = true;
         }
+        //AutoAim tied to Y hold
+        if (gamepad1.y) {
+            double angle = robot.autoAim.computeAimAngle();
+
+            if (!Double.isNaN(angle)) {
+                int heading = (int)Math.round(angle);
+
+                robot.driveTrain.cmdTeleOp(
+                        CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
+                        CommonLogic.joyStickMath(gamepad1.left_stick_x),
+                        robot.driveTrain.autoTurn(heading),
+                        DriveTrain.DTrain_NORMALSPEED
+                );
+            }
+        }
+
 
         double turretStick = gamepad2.right_stick_x;
 
         if (Math.abs(turretStick) > 0.1) {
-            turretAutoAim.setDriverOverride(true);
+            robot.autoAim.setDriverOverride(true);
             robot.turret.manualControl(turretStick);
         } else {
-            turretAutoAim.setDriverOverride(false);
-            turretAutoAim.update();
+            robot.autoAim.setDriverOverride(false);
         }
 
 
-        if(CurrentAlliance == Alliance.Red){
+
+        /*if(CurrentAlliance == Alliance.Red){
             robot.turret.trapezoidAutoAim.CurrentTurretColor = TrapezoidAutoAim.TurretColor.Red;
         } else if(CurrentAlliance == Alliance.Blue) {
             robot.turret.trapezoidAutoAim.CurrentTurretColor = TrapezoidAutoAim.TurretColor.Blue;
@@ -206,7 +216,7 @@ public class Tele_Op extends OpMode {
         }else{
             robot.turret.trapezoidAutoAim.CurrentTurretColor = TrapezoidAutoAim.TurretColor.Unknown;
         }
-
+    */
 
 
 
@@ -474,17 +484,16 @@ public class Tele_Op extends OpMode {
 
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
 
-        if (robot.intake.AtIntakeStop = false) {
-            robot.intake.cmdStop();
-            robot.intake.AtIntakeStop = true;
-        }
-        if (robot.intake.AtIntakeStop = true) {
-            robot.intake.cmdBackward();
-            robot.intake.AtIntakeStop = false;
+            if (robot.intake.AtIntakeStop == false) {
+                robot.intake.cmdStop();
+                robot.intake.AtIntakeStop = true;
+            }
+            else {
+                robot.intake.cmdBackward();
+                robot.intake.AtIntakeStop = false;
+            }
         }
 
-        //robot.transitionRoller.cmdBack();
-    }
 
         //robot.swing_arm_and_lift.SwingPos(robot.swing_arm_and_lift.LASTSWINGPOSITION + (int)(gamepad2.left_stick_x) * 5);
 
