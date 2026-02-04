@@ -5,6 +5,8 @@ import static java.lang.Math.clamp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 
@@ -24,8 +26,8 @@ public class Turret extends BaseHardware{
      */
     public Telemetry telemetry = null;
 
-    //private Servo rightyTighty;
-    //private Servo leftyLoosy;
+    private Servo rightyTighty;
+    private Servo leftyLoosy;
 
     // tunable pid constants
     private double kP = 0.012;
@@ -47,11 +49,15 @@ public class Turret extends BaseHardware{
     private final double MAX_POS =0.95;
 
     // saftey: max angle change per loop (deg)
-    private final double MAX_VELOCITY = 4.0;  //smooth but responsive (ADJUST LATER)
+    private final double MAX_VELOCITY = 4.0;//smooth but responsive (ADJUST LATER)
+    private ElapsedTime runtime = new ElapsedTime();
+    private boolean shouldAim = false;
 
     /**
      * Hardware Mappings
      */
+
+    public TrapezoidAutoAim trapezoidAutoAim;
 
     public HardwareMap hardwareMap = null; // will be set in Child class
 
@@ -128,10 +134,30 @@ public class Turret extends BaseHardware{
 
 
 
+
+
     }
 
     public void stop(){
 
+    }
+
+    public void cmdLeft(){
+            rightyTighty.setPosition(0.5);
+            leftyLoosy.setPosition(0.5);
+            trapezoidAutoAim.runtime.reset();
+    }
+
+    public void cmdRight(){
+            rightyTighty.setPosition(-0.5);
+            leftyLoosy.setPosition(-0.5);
+            trapezoidAutoAim.runtime.reset();
+    }
+
+    public void cmdNo(){
+        rightyTighty.setPosition(0);
+        leftyLoosy.setPosition(0);
+        trapezoidAutoAim.runtime.reset();
     }
 
     public void setTargetAngle(double angle){

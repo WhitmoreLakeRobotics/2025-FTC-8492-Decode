@@ -179,6 +179,9 @@ public class Tele_Op extends OpMode {
             bAutoTurn = true;
         }
 
+
+
+
         /*
         if(Gameruntime.seconds() >= 85){
             //robot.intake.cmdYELLOW();
@@ -701,6 +704,10 @@ public class Tele_Op extends OpMode {
                 robot.transitionRoller.cmdStop();
             }
         }
+    }
+
+    public void TurretAutoAim() {
+
     }
 
 

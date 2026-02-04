@@ -7,15 +7,23 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Autons.TestAuton;
+import org.firstinspires.ftc.teamcode.Tele_Op;
+
+import java.util.MissingFormatWidthException;
+import java.util.Objects;
 
 @Disabled
 public class TrapezoidAutoAim {
 
-    //Robot robot = new Robot();
+    private Limey limey;
+    private Turret turret;
+
+    public Mode CurrentMode;
 
     public Telemetry telemetry = null;
     public HardwareMap hardwareMap = null;
-    private ElapsedTime runtime = new ElapsedTime();
+    public ElapsedTime runtime = new ElapsedTime();
 
     public void init(){
 
@@ -31,6 +39,21 @@ public class TrapezoidAutoAim {
 
     public void loop(){
         //runtime.log("Position");
+        limey.getTx();
+        if(limey.getTx() >= 72){
+            turret.cmdLeft();
+        } else if (limey.getTx() <= 72){
+            turret.cmdRight();
+        }else{
+            turret.cmdNo();
+        }
+
+        if(CurrentMode == Mode.Targeting && limey.getTagID() == -1){
+            CurrentMode = Mode.Target_NotFound;
+        }
+
+
+
 
 
     }
@@ -38,6 +61,8 @@ public class TrapezoidAutoAim {
     public void stop(){
 
     }
+
+
 
     public enum Mode{
         Targeting,
