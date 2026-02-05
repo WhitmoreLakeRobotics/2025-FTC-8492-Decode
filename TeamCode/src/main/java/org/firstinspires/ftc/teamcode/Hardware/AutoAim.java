@@ -28,17 +28,16 @@ public class AutoAim {
             return Double.NaN;
         }
 
-        // Get botpose from Limey
-        double[] botpose = limey.getBotPose();
-        if (botpose == null || botpose.length < 6) {
-            return Double.NaN;
+        // MJD — get tag pose in camera space (correct source)
+        double[] tagpose = limey.getTagPoseCameraSpace();   // MJD
+        if (tagpose == null || tagpose.length < 3) {        // MJD
+            return Double.NaN;                              // MJD
         }
 
-        // Extract pose values
-        double tagX = botpose[0];   // meters
-        double tagY = botpose[1];   // meters
-        double tagZ = botpose[2];   // meters
-        double tagYawDeg = botpose[5];
+        // Extract pose values (camera space)
+        double tagX = tagpose[0];   // meters
+        double tagZ = tagpose[1];   // meters
+        double tagYawDeg = tagpose[2];
 
         // Convert yaw to radians
         double tagYawRad = Math.toRadians(tagYawDeg);

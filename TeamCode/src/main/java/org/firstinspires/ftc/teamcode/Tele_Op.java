@@ -179,11 +179,16 @@ public class Tele_Op extends OpMode {
         }
         //AutoAim tied to Y hold
         if (gamepad1.y) {
+
+            // MJD — allow auto aim to run
+            robot.autoAim.setDriverOverride(false);
+
             double angle = robot.autoAim.computeAimAngle();
 
             if (!Double.isNaN(angle)) {
                 int heading = (int)Math.round(angle);
 
+                // MJD — auto-turn robot chassis toward tag
                 robot.driveTrain.cmdTeleOp(
                         CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                         CommonLogic.joyStickMath(gamepad1.left_stick_x),
@@ -191,7 +196,16 @@ public class Tele_Op extends OpMode {
                         DriveTrain.DTrain_NORMALSPEED
                 );
             }
+
+        } else {
+
+            // MJD — driver regains full control when Y released
+            robot.autoAim.setDriverOverride(true);
+
+            // (your normal manual drive code continues below untouched)
         }
+    
+
 
 
         double turretStick = gamepad2.right_stick_x;

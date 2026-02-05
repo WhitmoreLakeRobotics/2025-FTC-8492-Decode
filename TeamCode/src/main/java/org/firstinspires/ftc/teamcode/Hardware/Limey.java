@@ -21,6 +21,10 @@ public class Limey extends BaseHardware {
     private double tagAngle = 0;
     private int tagID = -1;
 
+    // MJD — store tag pose in camera space for AutoAim
+    private double tagXCam = 0;   // MJD
+    private double tagZCam = 0;   // MJD
+
     @Override
     public void init() {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
@@ -59,6 +63,10 @@ public class Limey extends BaseHardware {
 
                 tagDistance = pose.getPosition().z;
                 tagAngle = pose.getOrientation().getYaw();
+
+                // MJD — store camera‑space tag position for AutoAim
+                tagXCam = x;   // MJD
+                tagZCam = z;   // MJD
 
                 double fullDistance = Math.sqrt(x*x + y*y + z*z);
 
@@ -112,6 +120,17 @@ public class Limey extends BaseHardware {
                 bot.getOrientation().getPitch(),
                 bot.getOrientation().getYaw()
         };
+    }
+
+    // MJD — returns tag pose in camera space for AutoAim
+    // [xCam, zCam, yawDeg]
+    public double[] getTagPoseCameraSpace() {   // MJD
+        if (tagID == -1) return null;           // MJD
+        return new double[]{                    // MJD
+                tagXCam,                        // MJD
+                tagZCam,                        // MJD
+                tagAngle                        // MJD
+        };                                      // MJD
     }
 
     // Getters
