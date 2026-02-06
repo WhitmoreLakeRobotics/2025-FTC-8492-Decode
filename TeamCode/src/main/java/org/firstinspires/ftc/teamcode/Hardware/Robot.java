@@ -24,6 +24,7 @@ public class Robot extends BaseHardware {
     public AutoRPM autoRPM;
     public Turret turret;
     public AutoAim autoAim;
+    public TrapezoidAutoAim trapezoidAutoAim;
 
     private Follower follower;
     public static Pose startingPose; //See ExampleAuto to understand how to use this
@@ -100,6 +101,11 @@ public class Robot extends BaseHardware {
         turret.init();
 
         autoAim = new AutoAim(limey, turret);
+
+        trapezoidAutoAim = new TrapezoidAutoAim();
+        trapezoidAutoAim.hardwareMap = this.hardwareMap;
+        trapezoidAutoAim.telemetry = this.telemetry;
+        trapezoidAutoAim.init();
     }
 
     @Override
@@ -115,6 +121,7 @@ public class Robot extends BaseHardware {
         uppies.init_loop();
         autoRPM.init_loop();
         turret.init_loop();
+        trapezoidAutoAim.init_loop();
     }
 
     @Override
@@ -130,6 +137,7 @@ public class Robot extends BaseHardware {
         uppies.start();
         autoRPM.start();
         turret.start();
+        trapezoidAutoAim.start();
 
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
@@ -147,6 +155,7 @@ public class Robot extends BaseHardware {
         uppies.loop();
         autoRPM.loop();
         turret.loop();
+        trapezoidAutoAim.loop();
 
         if (transitionRoller.CurrentMode == TransitionRoller.Mode.Stop
                 && intake.CurrentMode == Intake.Mode.NTKforward) {
@@ -182,6 +191,7 @@ public class Robot extends BaseHardware {
         uppies.stop();
         autoRPM.stop();
         turret.stop();
+        trapezoidAutoAim.stop();
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 

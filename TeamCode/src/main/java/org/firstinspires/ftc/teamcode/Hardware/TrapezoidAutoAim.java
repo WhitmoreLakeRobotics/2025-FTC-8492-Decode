@@ -13,11 +13,12 @@ import org.firstinspires.ftc.teamcode.Tele_Op;
 import java.util.MissingFormatWidthException;
 import java.util.Objects;
 
-@Disabled
+
 public class TrapezoidAutoAim {
 
     private Limey limey;
-    private Turret turret;
+   // private Turret turret;
+    private DriveTrain driveTrain;
 
     public TurretColor CurrentTurretColor;
     public Mode CurrentMode;
@@ -46,35 +47,40 @@ public class TrapezoidAutoAim {
         if(PrimitiveDriver == false) {
             if (CurrentTurretColor == TurretColor.Red) {
                 if (limey.getTagID() == 24) {
-                    if (limey.getTx() >= 72) {
-                        turret.cmdLeft();
-                    } else if (limey.getTx() <= 72) {
-                        turret.cmdRight();
+                    if (limey.getTx() >= 0) {
+                       // turret.cmdLeft();
+                       driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1),0.35);
+                    } else if (limey.getTx() <= 0) {
+                       // turret.cmdRight();
+                        driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1),0.35);
                     } else {
-                        turret.cmdNo();
+                       // turret.cmdNo();
+
                     }
                 } else {
-                    turret.cmdNo();
+                   // turret.cmdNo();
                 }
             }
             if (CurrentTurretColor == TurretColor.Blue) {
                 if (limey.getTagID() == 20) {
-                    if (limey.getTx() >= 72) {
-                        turret.cmdLeft();
-                    } else if (limey.getTx() <= 72) {
-                        turret.cmdRight();
+                    if (limey.getTx() >= 0) {
+                        //turret.cmdLeft();
+                        driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1),0.35);
+                    } else if (limey.getTx() <= 0) {
+                        //turret.cmdRight();
+                        driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1),0.35);
                     } else {
-                        turret.cmdNo();
+                       // turret.cmdNo();
                     }
                 } else {
-                    turret.cmdNo();
+                   // turret.cmdNo();
                 }
             }
         }
 
-        if(CurrentTurretColor == TurretColor.NoAuto || CurrentTurretColor == TurretColor.Unknown){
-            PrimitiveDriver = true;
-        }
+       // if(CurrentTurretColor == TurretColor.NoAuto || CurrentTurretColor == TurretColor.Unknown){
+        //    PrimitiveDriver = true;
+       // }
 
 
         if(CurrentMode == Mode.Targeting && limey.getTagID() == -1){

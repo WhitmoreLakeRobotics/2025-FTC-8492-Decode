@@ -169,7 +169,7 @@ public class Tele_Op extends OpMode {
         robot.loop();
 
         write2Log();
-        tHeading = getTurnDirection();
+       // tHeading = getTurnDirection();                                        put back
         if (Math.abs(gamepad1.right_stick_x) > 0.04) {
             bAutoTurn = false;
         }
@@ -209,13 +209,15 @@ public class Tele_Op extends OpMode {
 
 
         double turretStick = gamepad2.right_stick_x;
-
+/*
         if (Math.abs(turretStick) > 0.1) {
             robot.autoAim.setDriverOverride(true);
             robot.turret.manualControl(turretStick);
         } else {
             robot.autoAim.setDriverOverride(false);
         }
+
+ */
 
 
 
@@ -384,8 +386,13 @@ public class Tele_Op extends OpMode {
         }
 
         if (gamepad1.right_trigger > 0.8) {
+            robot.trapezoidAutoAim.PrimitiveDriver = false;
 
+        }else{
+            robot.trapezoidAutoAim.PrimitiveDriver = true;
         }
+
+
         if ((gamepad1.right_trigger <= 0.79) && (gamepad1.right_trigger > 0.10)) {
 
         }
@@ -601,7 +608,7 @@ public class Tele_Op extends OpMode {
     public void stop() {
         robot.stop();
     }
-
+/*
     private int getTurnDirection(){
         boolean a = gamepad1.a;
         boolean b = gamepad1.b;
@@ -637,18 +644,19 @@ public class Tele_Op extends OpMode {
        return 45;
     }
 
-    /*else if(RDP){
+    /*else if(RDP){ //comment
         bAutoTurn = true;
         return -6;
     }
     else if(LDP){
-        bAutoTurn = true;
+        bAutoTurn = true;           put back
         return 6;
-    }*/
+    }//comment
     else {
         return tHeading;
     }
-    }
+   }
+    */
 
     //*********************************************************************************************
     private void  write2Log() {

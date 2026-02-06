@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
+
 public class AutoAim {
 
     private final Limey limey;
     private final Turret turret;
 
-    private boolean driverOverride = false;
+    private boolean driverOverride = true;
 
     // Distance behind the tag to aim at
     // (your original comment preserved — but now using 8 inches)

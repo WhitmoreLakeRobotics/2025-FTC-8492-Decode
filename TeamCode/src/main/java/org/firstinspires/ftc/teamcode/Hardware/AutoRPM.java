@@ -44,6 +44,8 @@ public class AutoRPM {
         }
         */
 
+        update();
+
     }
 
     public void stop() {
