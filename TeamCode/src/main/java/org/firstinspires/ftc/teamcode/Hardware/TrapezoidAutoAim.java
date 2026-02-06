@@ -47,7 +47,7 @@ public class TrapezoidAutoAim {
         if(PrimitiveDriver == false) {
             if (CurrentTurretColor == TurretColor.Red) {
                 if (limey.getTagID() == 24) {
-                    if (limey.getTx() >= 0) {
+                    if (limey.getTx() >= 0) { //maybe change to ty
                        // turret.cmdLeft();
                        driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1),0.35);
                     } else if (limey.getTx() <= 0) {
