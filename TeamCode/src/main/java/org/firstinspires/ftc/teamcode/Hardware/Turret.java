@@ -46,7 +46,7 @@ public class Turret extends BaseHardware{
 
     // servo limits
     private final double MIN_POS = 0.05;
-    private final double MAX_POS =0.95;
+    private final double MAX_POS = 0.95;
 
     // saftey: max angle change per loop (deg)
     private final double MAX_VELOCITY = 4.0;//smooth but responsive (ADJUST LATER)
