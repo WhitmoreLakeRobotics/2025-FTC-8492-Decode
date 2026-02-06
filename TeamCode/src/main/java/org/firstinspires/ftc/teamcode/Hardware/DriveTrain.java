@@ -81,6 +81,8 @@ public class DriveTrain extends BaseHardware {
     private double sensorRangeRear = 4000.0;
     private final double sensorTol = 0.25;
     private SensorSel sensorSelection = SensorSel.UNKNOWN;
+    private double lastTurnPower = 0;   // MJD
+
 
     /**
      * BaseHardware constructor
@@ -417,13 +419,38 @@ public class DriveTrain extends BaseHardware {
 
 
 
-    public double calcTurn(int tHeading){
+   /* public double calcTurn(int tHeading){
 
        //double turn = CommonLogic.goToPosStag(Gyro.getGyroHeading(),tHeading, Gyro_Tol,1.0, stagPos, stagPow);
        double turn = CommonLogic.PIDcalcTurn(stagPos,0.05,Gyro.getGyroHeading(),tHeading);
         telemetry.addData(TAGChassis,"turn power " + turn);
         return turn;
-    }
+    }*/
+   public double calcTurn(int tHeading){
+
+       double current = Gyro.getGyroHeading();
+       double error = tHeading - current;
+
+       // Normalize error to [-180, 180]
+       error = ((error + 540) % 360) - 180;
+
+       // MJD — deadband to stop jitter near target
+       if (Math.abs(error) < 3.0) {
+           lastTurnPower = 0;
+           return 0;
+       }
+
+       // Original P controller (tuned gain)
+       double turn = CommonLogic.PIDcalcTurn(stagPos, 0.04, current, tHeading);
+
+       // MJD — smoothing filter to prevent oscillation
+       turn = 0.55 * turn + 0.45 * lastTurnPower;
+       lastTurnPower = turn;
+
+       telemetry.addData(TAGChassis,"turn power " + turn);
+       return turn;
+   }
+
 
     public void cmdTurn(int newHeading, double speed){
         speed_AA = 0.0;

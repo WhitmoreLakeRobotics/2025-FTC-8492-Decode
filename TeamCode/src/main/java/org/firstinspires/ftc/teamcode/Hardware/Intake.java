@@ -81,6 +81,10 @@ public class Intake extends BaseHardware {
         NTKAP2 = hardwareMap.get(ColorRangeSensor.class, "NTKAP2");
         NTKM01 = hardwareMap.get(DcMotorEx.class, "NTKM01");
         PeaLight = hardwareMap.get(Servo.class, "PeaLight");
+        NTKM01.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        NTKM01.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        NTKM01.setPower(0); // safe default
+
 
         sensorTime.reset();
         initLightTime.reset();
@@ -139,13 +143,13 @@ public class Intake extends BaseHardware {
     public void loop() {
 
         // Update sensors every 250 ms
-        if (loopTime.milliseconds() >= 250) {
+        if (loopTime.milliseconds() >= 50) {
 
             // Read distance sensors
             getDistNTKAP2();
             getDistNTKAP3();
 
-            boolean sensorStable = sensorTime.milliseconds() >= 1000;
+            boolean sensorStable = sensorTime.milliseconds() >= 250;
 
             if (NTKAP2distance <= targRange && sensorStable) {
                 CurrentDistance2 = Distance2.FILLED2;

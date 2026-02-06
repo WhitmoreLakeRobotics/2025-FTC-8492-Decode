@@ -100,7 +100,7 @@ public class Robot extends BaseHardware {
         turret.telemetry = this.telemetry;
         turret.init();
 
-        autoAim = new AutoAim(limey, turret);
+        autoAim = new AutoAim(limey, turret, driveTrain);
 
         trapezoidAutoAim = new TrapezoidAutoAim();
         trapezoidAutoAim.hardwareMap = this.hardwareMap;

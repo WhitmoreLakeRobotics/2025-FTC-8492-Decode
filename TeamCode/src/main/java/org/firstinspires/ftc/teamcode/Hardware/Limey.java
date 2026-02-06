@@ -122,17 +122,6 @@ public class Limey extends BaseHardware {
         };
     }
 
-    // MJD — returns tag pose in camera space for AutoAim
-    // [xCam, zCam, yawDeg]
-    public double[] getTagPoseCameraSpace() {   // MJD
-        if (tagID == -1) return null;           // MJD
-        return new double[]{                    // MJD
-                tagXCam,                        // MJD
-                tagZCam,                        // MJD
-                tagAngle                        // MJD
-        };                                      // MJD
-    }
-
     // Getters
     public double getTx() { return tx; }
     public double getTy() { return ty; }

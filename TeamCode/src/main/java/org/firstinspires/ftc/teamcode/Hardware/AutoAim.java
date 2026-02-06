@@ -7,17 +7,18 @@ public class AutoAim {
 
     private final Limey limey;
     private final Turret turret;
+    private final DriveTrain driveTrain;   // MJD — added so we can read robot heading
 
     private boolean driverOverride = true;
 
     // Distance behind the tag to aim at
-    // (your original comment preserved — but now using 8 inches)
     private static final double OFFSET_INCHES = 8.0;
     private static final double OFFSET = OFFSET_INCHES * 0.0254;  // convert to meters for botpose
 
-    public AutoAim(Limey limey, Turret turret) {
+    public AutoAim(Limey limey, Turret turret, DriveTrain driveTrain) {
         this.limey = limey;
         this.turret = turret;
+        this.driveTrain = driveTrain;   // MJD — store drivetrain reference
     }
 
     public void setDriverOverride(boolean override) {
@@ -31,38 +32,42 @@ public class AutoAim {
             return Double.NaN;
         }
 
-        // MJD — get tag pose in camera space (correct source)
-        double[] tagpose = limey.getTagPoseCameraSpace();   // MJD
-        if (tagpose == null || tagpose.length < 3) {        // MJD
-            return Double.NaN;                              // MJD
+        // Horizontal angle to tag (degrees)
+        double tx = limey.getTx();
+        if (Double.isNaN(tx)) {
+            return Double.NaN;
         }
 
-        // Extract pose values (camera space)
-        double tagX = tagpose[0];   // meters
-        double tagZ = tagpose[1];   // meters
-        double tagYawDeg = tagpose[2];
+        // Vertical angle to tag (degrees)
+        double ty = limey.getTy();
+        if (Double.isNaN(ty)) {
+            return Double.NaN;
+        }
+        // distance = (targetHeight - cameraHeight) / tan(cameraAngle + ty)
+        // You MUST set these to match your robot:
+        double cameraHeight = 11.0;      // inches — adjust for your robot
+        double targetHeight = 14.375;    // inches — FTC backdrop tag height
+        double cameraAngle = 25.0;       // degrees — adjust for your mount
 
-        // Convert yaw to radians
-        double tagYawRad = Math.toRadians(tagYawDeg);
+        double cameraAngleRad = Math.toRadians(cameraAngle + ty);
+        double distanceInches = (targetHeight - cameraHeight) / Math.tan(cameraAngleRad);
 
-        // Compute point behind the tag (8-inch offset)
-        // Tag forward direction in robot space:
-        //   forward = (sin(yaw), cos(yaw)) in X/Z plane
-        double offsetX = -Math.sin(tagYawRad) * OFFSET;
-        double offsetZ = -Math.cos(tagYawRad) * OFFSET;
+        // offsetAngle = atan(offset / distance)
+        double offsetAngleDeg = Math.toDegrees(Math.atan(OFFSET_INCHES / distanceInches));
 
-        // Offset target point behind the tag
-        double behindX = tagX + offsetX;
-        double behindZ = tagZ + offsetZ;
+        // If we want to aim BEHIND the tag, we subtract the correction
+        double correctedTx = tx - offsetAngleDeg;
 
-        // Compute desired yaw angle
-        double desiredYaw = Math.toDegrees(Math.atan2(behindX, behindZ));
+        double robotHeading = driveTrain.getCurrentHeading();
+        double desiredHeading = robotHeading + correctedTx;
 
-        return desiredYaw;
+        // Normalize to [-180, 180]
+        desiredHeading = ((desiredHeading + 540) % 360) - 180;
+
+        return desiredHeading;
     }
 
     // AutoAim drives the turret ONLY when override is off.
-
     public void update() {
 
         // If driver override OR turret is missing, do nothing

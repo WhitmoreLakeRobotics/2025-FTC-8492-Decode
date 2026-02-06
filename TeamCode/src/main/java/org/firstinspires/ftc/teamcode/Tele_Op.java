@@ -177,8 +177,8 @@ public class Tele_Op extends OpMode {
            tHeading = (int)Math.round(robot.targetAngleCalc());
             bAutoTurn = true;
         }
-        //AutoAim tied to Y hold
-        if (gamepad1.y) {
+        //AutoAim tied to Left Trigger hold
+        if (gamepad1.left_trigger > 0.2) {
 
             // MJD — allow auto aim to run
             robot.autoAim.setDriverOverride(false);
@@ -199,12 +199,12 @@ public class Tele_Op extends OpMode {
 
         } else {
 
-            // MJD — driver regains full control when Y released
+            // MJD — driver regains full control when trigger released
             robot.autoAim.setDriverOverride(true);
 
-            // (your normal manual drive code continues below untouched)
         }
-    
+
+
 
 
 
