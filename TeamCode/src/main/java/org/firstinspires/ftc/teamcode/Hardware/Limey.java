@@ -105,6 +105,14 @@ public class Limey extends BaseHardware {
 
     }
 
+    public void method(){
+
+    }
+    public double [] tp = getBotposeTargetSpace();
+
+
+
+
     // Returns: [x, y, z, roll, pitch, yaw]
     public double[] getBotPose() {
         if (result == null) return null;
@@ -122,12 +130,59 @@ public class Limey extends BaseHardware {
         };
     }
 
+    public double [] getBotposeTargetSpace() {
+        if(result == null) return null;
+        if (tagID == -1) return null;
+
+        Pose3D bot = result.getBotpose();
+        if (bot == null) return null;
+
+        double robotX = bot.getPosition().x;
+        double robotY = bot.getPosition().y;
+        double robotHeadingDeg = bot.getOrientation().getYaw();
+
+        double tagX = tagXCam;
+        double tagZ = tagZCam;
+
+        double headingRad = Math.toRadians(robotHeadingDeg);
+
+        double dx = tagZ * Math.cos(headingRad) - tagX * Math.sin(headingRad);
+        double dy = tagZ * Math.cos(headingRad) - tagX * Math.sin(headingRad);
+
+        double tagFieldX = robotX + dx;
+        double tagFieldY = robotY + dy;
+
+        double relX = robotX - tagFieldX;
+        double relY = robotY - tagFieldY;
+
+        double Yaw = Math.toDegrees(Math.atan2(relY, relX));
+
+        return new double[]{
+                relX,
+                relY,
+                0,
+                0, 0,
+                Yaw
+        };
+
+
+
+
+    }
+
     // Getters
     public double getTx() { return tx; }
     public double getTy() { return ty; }
     public int getTagID() { return tagID; }
     public double getTagDistance() { return tagDistance; }
-    public double getTagAngle() { return tagAngle; }
+    public double getTagAngle() {
+
+        if(result == null) return Double.NaN;
+        if(!result.isValid()) return Double.NaN;
+        if(tagID == -1) return Double.NaN;
+
+        return tagAngle;
+    }
 
     public void setTelemetry(Telemetry telemetry) {
         this.telemetry = telemetry;

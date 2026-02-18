@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Autons.TestAuton;
+import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 import org.firstinspires.ftc.teamcode.Tele_Op;
 
 import java.util.MissingFormatWidthException;
@@ -27,6 +28,7 @@ public class TrapezoidAutoAim {
     public HardwareMap hardwareMap = null;
     public ElapsedTime runtime = new ElapsedTime();
     public boolean PrimitiveDriver = false;
+    public double YawDif = 0;
 
     public void init(){
 
@@ -44,13 +46,32 @@ public class TrapezoidAutoAim {
     public void loop(){
         //runtime.log("Position");
         //limey.getTx();
+
+        if(CommonLogic.inRange(limey.getTagAngle(), 12.25,11.25)){
+            YawDif = 7;
+        }else
+        if(CommonLogic.inRange(limey.getTagAngle(), -12.25,11.25)){
+            YawDif = -7;
+        }else
+        if(CommonLogic.inRange(limey.getTagAngle(), 33.75,10.25)){
+            YawDif = 14;
+        }else
+        if(CommonLogic.inRange(limey.getTagAngle(), -33.75,10.25)){
+            YawDif = -14;
+        }else
+       {
+            YawDif = 0;
+        }
+
+
+
         if(PrimitiveDriver == false) {
             if (CurrentTurretColor == TurretColor.Red) {
                 if (limey.getTagID() == 24) {
-                    if (limey.getTx() >= 0) { //maybe change to ty
+                    if (limey.getTx() >= YawDif) { //maybe change to ty
                        // turret.cmdRight();
                        driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1),0.35);
-                    } else if (limey.getTx() <= 0) {
+                    } else if (limey.getTx() <= YawDif) {
                        // turret.cmdLeft();
                         driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1),0.35);
                     } else {
@@ -63,10 +84,10 @@ public class TrapezoidAutoAim {
             }
             if (CurrentTurretColor == TurretColor.Blue) {
                 if (limey.getTagID() == 20) {
-                    if (limey.getTx() >= 0) {
+                    if (limey.getTx() >= YawDif) {
                         //turret.cmdRight();
                         driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1),0.35);
-                    } else if (limey.getTx() <= 0) {
+                    } else if (limey.getTx() <= YawDif) {
                         //turret.cmdLeft();
                         driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1),0.35);
                     } else {
