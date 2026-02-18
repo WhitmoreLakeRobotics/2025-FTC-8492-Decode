@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Tele_Op;
 import java.util.MissingFormatWidthException;
 import java.util.Objects;
 
-
+@Disabled
 public class TrapezoidAutoAim {
 
     private Limey limey;
@@ -28,7 +28,7 @@ public class TrapezoidAutoAim {
     public HardwareMap hardwareMap = null;
     public ElapsedTime runtime = new ElapsedTime();
     public boolean PrimitiveDriver = false;
-    public double YawDif = 0;
+    public double YawDif = 72;
 
     public void init(){
 
@@ -47,6 +47,8 @@ public class TrapezoidAutoAim {
         //runtime.log("Position");
         //limey.getTx();
 
+        if(limey == null) return;
+
         if(CommonLogic.inRange(limey.getTagAngle(), 12.25,11.25)){
             YawDif = 7;
         }else
@@ -58,9 +60,10 @@ public class TrapezoidAutoAim {
         }else
         if(CommonLogic.inRange(limey.getTagAngle(), -33.75,10.25)){
             YawDif = -14;
-        }else
-       {
+        }else if(CommonLogic.inRange(limey.getTagAngle(), 0,0.99)){
             YawDif = 0;
+        }else {
+
         }
 
 
@@ -68,10 +71,10 @@ public class TrapezoidAutoAim {
         if(PrimitiveDriver == false) {
             if (CurrentTurretColor == TurretColor.Red) {
                 if (limey.getTagID() == 24) {
-                    if (limey.getTx() >= YawDif) { //maybe change to ty
+                    if (limey.getTx() >= 72 + YawDif) { //maybe change to ty
                        // turret.cmdRight();
                        driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1),0.35);
-                    } else if (limey.getTx() <= YawDif) {
+                    } else if (limey.getTx() <= 72 + YawDif) {
                        // turret.cmdLeft();
                         driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1),0.35);
                     } else {
@@ -84,10 +87,10 @@ public class TrapezoidAutoAim {
             }
             if (CurrentTurretColor == TurretColor.Blue) {
                 if (limey.getTagID() == 20) {
-                    if (limey.getTx() >= YawDif) {
+                    if (limey.getTx() >= 72 + YawDif) {
                         //turret.cmdRight();
                         driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1),0.35);
-                    } else if (limey.getTx() <= YawDif) {
+                    } else if (limey.getTx() <= 72 + YawDif) {
                         //turret.cmdLeft();
                         driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1),0.35);
                     } else {

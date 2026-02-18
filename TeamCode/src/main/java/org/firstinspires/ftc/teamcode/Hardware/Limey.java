@@ -73,6 +73,13 @@ public class Limey extends BaseHardware {
                 telemetry.addData("Full 3D Distance", "%.2f", fullDistance);
             }
 
+            double[] tp = getBotposeTargetSpace();
+            if(tp != null) {
+                double x = tp[0];
+                double y = tp[1];
+                double yaw = tp[5];
+            }
+
             telemetry.addData("Limelight", "VALID TARGET");
             telemetry.addData("Tag ID", tagID);
             telemetry.addData("tx", "%.2f°", tx);
@@ -108,7 +115,7 @@ public class Limey extends BaseHardware {
     public void method(){
 
     }
-    public double [] tp = getBotposeTargetSpace();
+
 
 
 
