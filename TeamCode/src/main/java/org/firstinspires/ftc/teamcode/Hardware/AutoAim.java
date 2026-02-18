@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-
 public class AutoAim {
 
     private final Limey limey;
@@ -27,6 +26,7 @@ public class AutoAim {
 
     public double computeAimAngle() {
 
+        /*
         // No tag detected
         if (limey.getTagID() == -1) {
             return Double.NaN;
@@ -43,8 +43,7 @@ public class AutoAim {
         if (Double.isNaN(ty)) {
             return Double.NaN;
         }
-        // distance = (targetHeight - cameraHeight) / tan(cameraAngle + ty)
-        // You MUST set these to match your robot:
+
         double cameraHeight = 11.0;      // inches — adjust for your robot
         double targetHeight = 14.375;    // inches — FTC backdrop tag height
         double cameraAngle = 25.0;       // degrees — adjust for your mount
@@ -52,19 +51,42 @@ public class AutoAim {
         double cameraAngleRad = Math.toRadians(cameraAngle + ty);
         double distanceInches = (targetHeight - cameraHeight) / Math.tan(cameraAngleRad);
 
-        // offsetAngle = atan(offset / distance)
         double offsetAngleDeg = Math.toDegrees(Math.atan(OFFSET_INCHES / distanceInches));
 
-        // If we want to aim BEHIND the tag, we subtract the correction
         double correctedTx = tx - offsetAngleDeg;
 
         double robotHeading = driveTrain.getCurrentHeading();
         double desiredHeading = robotHeading + correctedTx;
 
-        // Normalize to [-180, 180]
         desiredHeading = ((desiredHeading + 540) % 360) - 180;
 
         return desiredHeading;
+        */
+
+        double[] tp = limey.getBotposeTargetSpace();  // MJD
+        if (tp == null || tp.length < 6) return Double.NaN;  // MJD
+
+        double x = tp[0];   // robot X relative to tag (meters) — MJD
+        double y = tp[1];   // robot Y relative to tag (meters) — MJD
+        double tagYaw = tp[5]; // robot yaw relative to tag (degrees) — MJD
+
+        double angleToTag = Math.toDegrees(Math.atan2(y, x));  // MJD
+
+        double offsetX = OFFSET * Math.cos(Math.toRadians(tagYaw));  // MJD
+        double offsetY = OFFSET * Math.sin(Math.toRadians(tagYaw));  // MJD
+
+        double aimX = x - offsetX;  // MJD
+        double aimY = y - offsetY;  // MJD
+
+        double angleToAimPoint = Math.toDegrees(Math.atan2(aimY, aimX));  // MJD
+
+        double robotHeading = driveTrain.getCurrentHeading();  // MJD
+
+        double desiredHeading = robotHeading + angleToAimPoint;  // MJD
+
+        desiredHeading = ((desiredHeading + 540) % 360) - 180;  // MJD
+
+        return desiredHeading;  // MJD
     }
 
     // AutoAim drives the turret ONLY when override is off.
