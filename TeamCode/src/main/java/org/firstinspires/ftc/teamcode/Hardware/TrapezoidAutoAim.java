@@ -48,10 +48,10 @@ public class TrapezoidAutoAim {
             if (CurrentTurretColor == TurretColor.Red) {
                 if (limey.getTagID() == 24) {
                     if (limey.getTx() >= 0) { //maybe change to ty
-                       // turret.cmdLeft();
+                       // turret.cmdRight();
                        driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1),0.35);
                     } else if (limey.getTx() <= 0) {
-                       // turret.cmdRight();
+                       // turret.cmdLeft();
                         driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1),0.35);
                     } else {
                        // turret.cmdNo();
@@ -64,10 +64,10 @@ public class TrapezoidAutoAim {
             if (CurrentTurretColor == TurretColor.Blue) {
                 if (limey.getTagID() == 20) {
                     if (limey.getTx() >= 0) {
-                        //turret.cmdLeft();
+                        //turret.cmdRight();
                         driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1),0.35);
                     } else if (limey.getTx() <= 0) {
-                        //turret.cmdRight();
+                        //turret.cmdLeft();
                         driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1),0.35);
                     } else {
                        // turret.cmdNo();
