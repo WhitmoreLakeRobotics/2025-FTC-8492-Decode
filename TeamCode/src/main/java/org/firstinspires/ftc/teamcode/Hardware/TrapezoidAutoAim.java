@@ -28,7 +28,7 @@ public class TrapezoidAutoAim {
     public HardwareMap hardwareMap = null;
     public ElapsedTime runtime = new ElapsedTime();
     public boolean PrimitiveDriver = false;
-    public double YawDif = limey.getTagAngle() * 0.125;
+    public double YawDif = 0;
 
     public void init(){
 
@@ -47,7 +47,11 @@ public class TrapezoidAutoAim {
         //runtime.log("Position");
         //limey.getTx();
 
-        if(limey == null) return;
+
+       if(limey == null) return;
+       if(limey.getTagID() > -1) {
+           YawDif = limey.getTagAngle() * 0.125;
+       }
 /*
         if(CommonLogic.inRange(limey.getTagAngle(), 12.25,11.25)){
             YawDif = 7;
