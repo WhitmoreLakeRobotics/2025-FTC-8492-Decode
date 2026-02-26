@@ -29,8 +29,25 @@ public class TrapezoidAutoAim {
     public ElapsedTime runtime = new ElapsedTime();
     public boolean PrimitiveDriver = false;
     public double YawDif = 0;
+    /*
+    public TrapezoidAutoAim(Limey limey,DriveTrain driveTrain, Telemetry telemetry,HardwareMap hardwareMap){
+        this.limey = limey;
+        this.driveTrain = driveTrain;
+        this.telemetry = telemetry;
+        this.hardwareMap =hardwareMap;
+        this.CurrentMode = Mode.NotTrying;
+        //this.CurrentTurretColor = TurretColor.Unknown;
+    }
+
+     */
 
     public void init(){
+
+        //this.limey = limey;
+        //this.driveTrain = driveTrain;
+        //this.telemetry = telemetry;
+       // this.hardwareMap =hardwareMap;
+        this.CurrentMode = Mode.NotTrying;
 
     }
 
@@ -47,32 +64,12 @@ public class TrapezoidAutoAim {
         //runtime.log("Position");
         //limey.getTx();
 
+        if(limey == null) return;
+        if(driveTrain == null) return;
 
-       if(limey == null) return;
        if(limey.getTagID() > -1) {
            YawDif = limey.getTagAngle() * 0.125;
        }
-/*
-        if(CommonLogic.inRange(limey.getTagAngle(), 12.25,11.25)){
-            YawDif = 7;
-        }else
-        if(CommonLogic.inRange(limey.getTagAngle(), -12.25,11.25)){
-            YawDif = -7;
-        }else
-        if(CommonLogic.inRange(limey.getTagAngle(), 33.75,10.25)){
-            YawDif = 14;
-        }else
-        if(CommonLogic.inRange(limey.getTagAngle(), -33.75,10.25)){
-            YawDif = -14;
-        }else if(CommonLogic.inRange(limey.getTagAngle(), 0,0.99)){
-            YawDif = 0;
-        }else {
-
-        }
-
- */
-
-
 
         if(PrimitiveDriver == false) {
             if (CurrentTurretColor == TurretColor.Red) {
