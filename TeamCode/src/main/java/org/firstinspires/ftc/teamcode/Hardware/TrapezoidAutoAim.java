@@ -47,7 +47,7 @@ public class TrapezoidAutoAim {
         //this.driveTrain = driveTrain;
         //this.telemetry = telemetry;
        // this.hardwareMap =hardwareMap;
-        this.CurrentMode = Mode.NotTrying;
+        CurrentMode = Mode.NotTrying;
 
     }
 
@@ -68,10 +68,13 @@ public class TrapezoidAutoAim {
         if(driveTrain == null) return;
 
        if(limey.getTagID() > -1) {
-           YawDif = limey.getTagAngle() * 0.125;
+           YawDif = limey.getTagAngle() * 0.125;//maybe 0.500 or 0.250
        }
 
         if(PrimitiveDriver == false) {
+            double targetTx = YawDif;
+                    double errorTx = limey.getTx() - targetTx;
+
             if (CurrentTurretColor == TurretColor.Red) {
                 if (limey.getTagID() == 24) {
                     if (limey.getTx() >= 72 + YawDif) { //maybe change to ty
