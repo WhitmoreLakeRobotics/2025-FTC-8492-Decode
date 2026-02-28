@@ -178,6 +178,7 @@ public class Tele_Op extends OpMode {
             bAutoTurn = true;
         }
         //AutoAim tied to Left Trigger hold
+        /*
         if (gamepad1.left_trigger > 0.2) {
 
             // MJD — allow auto aim to run
@@ -203,6 +204,8 @@ public class Tele_Op extends OpMode {
             robot.autoAim.setDriverOverride(true);
 
         }
+
+         */
 
 
 
@@ -386,10 +389,11 @@ public class Tele_Op extends OpMode {
         }
 
         if (gamepad1.right_trigger > 0.8) {
-            robot.trapezoidAutoAim.PrimitiveDriver = false;
+           // robot.trapezoidAutoAim.PrimitiveDriver = false;
 
         }else{
-            robot.trapezoidAutoAim.PrimitiveDriver = true;
+           // robot.trapezoidAutoAim.PrimitiveDriver = true;
+
         }
 
 
@@ -537,7 +541,7 @@ public class Tele_Op extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_up, gp2_prev_dpad_up)) {
-            LaunchLaser();
+            //LaunchLaser();
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_down, gp2_prev_dpad_down)) {
