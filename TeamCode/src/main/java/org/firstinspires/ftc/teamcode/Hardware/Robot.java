@@ -4,6 +4,7 @@ import com.bylazar.telemetry.TelemetryManager;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ public class Robot extends BaseHardware {
     public AutoRPM autoRPM;
     public Turret turret;
     public AutoAim autoAim;
+    public Lighting lighting;
     public TrapezoidAutoAim trapezoidAutoAim;
 
     private Follower follower;
@@ -34,6 +36,9 @@ public class Robot extends BaseHardware {
     private boolean slowMode = false;
     private double slowModeMultiplier = 0.5;
     public boolean bCkSenors = false;
+    public boolean TeleOpRunning = false;
+
+
 
     //auto align constants
 
@@ -100,6 +105,11 @@ public class Robot extends BaseHardware {
         turret.telemetry = this.telemetry;
         turret.init();
 
+        lighting = new Lighting();
+        lighting.hardwareMap = this.hardwareMap;
+        lighting.telemetry = this.telemetry;
+        lighting.init();
+
         autoAim = new AutoAim(limey, turret, driveTrain);
 
         trapezoidAutoAim = new TrapezoidAutoAim();
@@ -122,6 +132,7 @@ public class Robot extends BaseHardware {
         autoRPM.init_loop();
         turret.init_loop();
         trapezoidAutoAim.init_loop();
+        lighting.init_loop();
     }
 
     @Override
@@ -138,6 +149,7 @@ public class Robot extends BaseHardware {
         autoRPM.start();
         turret.start();
         trapezoidAutoAim.start();
+        lighting.start();
 
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
@@ -156,13 +168,12 @@ public class Robot extends BaseHardware {
         autoRPM.loop();
         turret.loop();
         trapezoidAutoAim.loop();
+        lighting.loop();
 
         if (transitionRoller.CurrentMode == TransitionRoller.Mode.Stop
                 && intake.CurrentMode == Intake.Mode.NTKforward) {
-            intake.cmdBLUE();
+            lighting.cmdBLUEi();
         }
-
-        autoAim.update();
 
     }
 
@@ -176,6 +187,7 @@ public class Robot extends BaseHardware {
         transitionRoller.loop();
         limey.loop();
         uppies.loop();
+        lighting.loop();
     }
 
     @Override
@@ -192,6 +204,7 @@ public class Robot extends BaseHardware {
         autoRPM.stop();
         turret.stop();
         trapezoidAutoAim.stop();
+        lighting.stop();
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 

@@ -14,11 +14,11 @@ import org.firstinspires.ftc.teamcode.Tele_Op;
 import java.util.MissingFormatWidthException;
 import java.util.Objects;
 
-@Disabled
+
 public class TrapezoidAutoAim {
 
     private Limey limey;
-   // private Turret turret;
+    // private Turret turret;
     private DriveTrain driveTrain;
 
     public TurretColor CurrentTurretColor;
@@ -27,8 +27,10 @@ public class TrapezoidAutoAim {
     public Telemetry telemetry = null;
     public HardwareMap hardwareMap = null;
     public ElapsedTime runtime = new ElapsedTime();
-    public boolean PrimitiveDriver = true;
+    public boolean PrimitiveDriver = false;
     public double YawDif = 0;
+    public boolean JackHappy = false;
+    public static double heading = 0;
     /*
     public TrapezoidAutoAim(Limey limey,DriveTrain driveTrain, Telemetry telemetry,HardwareMap hardwareMap){
         this.limey = limey;
@@ -46,8 +48,9 @@ public class TrapezoidAutoAim {
         //this.limey = limey;
         //this.driveTrain = driveTrain;
         //this.telemetry = telemetry;
-       // this.hardwareMap =hardwareMap;
-        CurrentMode = Mode.NotTrying;
+        // this.hardwareMap =hardwareMap;
+        this.CurrentMode = Mode.NotTrying;
+
 
     }
 
@@ -66,59 +69,116 @@ public class TrapezoidAutoAim {
 
         if(limey == null) return;
         if(driveTrain == null) return;
-/*
-       if(limey.getTagID() > -1) {
-           YawDif = limey.getTagAngle() * 0.125;//maybe 0.500 or 0.250
-       }
 
- */
+        if(limey.getTagID() > -1) {
+            YawDif = limey.getTagAngle() * 0.250;
+        }
 
-        if(PrimitiveDriver == false) {
-            //double targetTx = YawDif;
-                    //double errorTx = limey.getTx() - targetTx;
-            YawDif = limey.getTagAngle() * 0.500;//maybe 0.500 or 0.250
-
+        if(!PrimitiveDriver) {
             if (CurrentTurretColor == TurretColor.Red) {
                 if (limey.getTagID() == 24) {
-                    if (limey.getTx() >= 72 + YawDif) { //maybe change to ty
-                       // turret.cmdRight();
-                       driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1),0.35);
-                    } else if (limey.getTx() <= 72 + YawDif) {
-                       // turret.cmdLeft();
-                        driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1),0.35);
+                    if (limey.getTx() > 72 + YawDif) {
+                        JackHappy = false;
+                        CurrentMode = Mode.Targeting;
+                        //maybe change to ty
+                        if(limey.getTx() <= 36 || limey.getTx() >= 108){
+                            driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 4),0.35);
+                            heading = heading - 4;
+                            // turret.cmdRight();
+                        }else{
+                            driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1), 0.35);
+                            heading = heading - 1;
+                        }
+                    } else if (limey.getTx() < 72 + YawDif) {
+                        JackHappy = false;
+                        CurrentMode = Mode.Targeting;
+                        if(limey.getTx() <= 36 || limey.getTx() >= 108){
+                            driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 4),0.35);
+                            heading = heading + 4;
+                            // turret.cmdLeft();
+                        }else{
+                            driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1), 0.35);
+                            heading = heading + 1;
+                        }
                     } else {
-                       // turret.cmdNo();
+                        // turret.cmdNo();
+                        if(limey.getTx() == 72 + YawDif) {
+                            JackHappy = true;
+                            CurrentMode = Mode.Target_Acquired;
+                        }
 
                     }
                 } else {
-                   // turret.cmdNo();
+                    // turret.cmdNo();   >:3
+                    CurrentMode = Mode.Target_NotFound;
+
+
+
                 }
             }
             if (CurrentTurretColor == TurretColor.Blue) {
                 if (limey.getTagID() == 20) {
-                    if (limey.getTx() >= 72 + YawDif) {
+                    if (limey.getTx() > 72 + YawDif) {
+                        JackHappy = false;
+                        CurrentMode = Mode.Targeting;
                         //turret.cmdRight();
-                        driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1),0.35);
-                    } else if (limey.getTx() <= 72 + YawDif) {
+                        if(limey.getTx() <= 36 || limey.getTx() >= 108){
+                            driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 4),0.35);
+                            heading = heading - 4;
+                            // turret.cmdRight();
+                        }else{
+                            driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1), 0.35);
+                            heading = heading - 1;
+                        }
+                    } else if (limey.getTx() < 72 + YawDif) {
+                        JackHappy = false;
+                        CurrentMode = Mode.Targeting;
                         //turret.cmdLeft();
-                        driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1),0.35);
+                        if(limey.getTx() <= 36 || limey.getTx() >= 108){
+                            driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 4),0.35);
+                            heading = heading + 4;
+                            // turret.cmdRight();
+                        }else{
+                            driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1), 0.35);
+                            heading = heading + 1;
+                        }
                     } else {
-                       // turret.cmdNo();
+                        // turret.cmdNo();
+                        if(limey.getTx() == 72 + YawDif){
+                            JackHappy = true;
+                            CurrentMode = Mode.Target_Acquired;
+                        }
+
                     }
                 } else {
-                   // turret.cmdNo();
+                    // turret.cmdNo();
+                    CurrentMode = Mode.Target_NotFound;
                 }
             }
         }
 
-       // if(CurrentTurretColor == TurretColor.NoAuto || CurrentTurretColor == TurretColor.Unknown){
+        // if(CurrentTurretColor == TurretColor.NoAuto || CurrentTurretColor == TurretColor.Unknown){
         //    PrimitiveDriver = true;
-       // }
+        // }
 
 
         if(CurrentMode == Mode.Targeting && limey.getTagID() == -1){
             CurrentMode = Mode.Target_NotFound;
         }
+/*
+        if(heading > 170){
+            driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 340),0.70);
+            heading = heading + 340;
+        } else if (heading < -170){
+            driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 340),0.70);
+            heading = heading - 340;
+        }else {
+
+        }
+
+ */
+
+
 
 
 
