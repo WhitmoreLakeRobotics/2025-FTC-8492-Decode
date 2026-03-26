@@ -50,8 +50,8 @@ public class Lighting extends BaseHardware {
 
     public boolean initLight1 = false;
     public boolean initLight2 = false;
-
-    private RevBlinkinLedDriver blinkinLedDriver;
+/*
+   // private RevBlinkinLedDriver blinkinLedDriver;
     private RevBlinkinLedDriver.BlinkinPattern pattern = RevBlinkinLedDriver.BlinkinPattern.BLACK;
     private RevBlinkinLedDriver.BlinkinPattern baseColor = RevBlinkinLedDriver.BlinkinPattern.BLACK;
     private Telemetry.Item patternName;
@@ -59,6 +59,8 @@ public class Lighting extends BaseHardware {
     //private RevBlinkinLedDriver.BlinkinPattern displayKind;
     private Deadline ledCycleDeadline;
     private Deadline gamepadRateLimit;
+
+ */
 
     private enum DisplayKind {
         MANUAL,
@@ -87,12 +89,12 @@ public class Lighting extends BaseHardware {
      * This method will be called once when the INIT button is pressed.
      */
     public void init(){
-        blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "LEDC");
-        pattern = RevBlinkinLedDriver.BlinkinPattern.WHITE;
-        blinkinLedDriver.setPattern(pattern);
+        //blinkinLedDriver = hardwareMap.get(RevBlinkinLedDriver.class, "LEDC");
+        //pattern = RevBlinkinLedDriver.BlinkinPattern.WHITE;
+        //blinkinLedDriver.setPattern(pattern);
 
         //display = telemetry.addData("Display Kind: ", displayKind.toString());
-        patternName = telemetry.addData("Pattern: ", pattern.toString());
+        //patternName = telemetry.addData("Pattern: ", pattern.toString());
 
         //AllianceState = hardwareMap.get(Servo.class, "AllianceState");
         IntakeState = hardwareMap.get(Servo.class, "IntakeState");
@@ -160,7 +162,7 @@ public class Lighting extends BaseHardware {
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop(){
-        ReturnToBaseColor();
+        ///ReturnToBaseColor();
     }
 
     /**
@@ -173,7 +175,7 @@ public class Lighting extends BaseHardware {
     void stop(){
 
     }
-
+/*
     public void UpdateBaseColor (RevBlinkinLedDriver.BlinkinPattern newColor){
         // pattern = RevBlinkinLedDriver.BlinkinPattern.RED;
         baseColor = newColor;
@@ -190,6 +192,8 @@ public class Lighting extends BaseHardware {
         }
 
     }
+
+ */
 /*
     public void cmdREDa()    { AllianceState.setPosition(Red);    CurrentColorA = ColorAlliance.RED; }
     public void cmdGREENa()  { AllianceState.setPosition(Green);  CurrentColorA = ColorAlliance.GREEN; }

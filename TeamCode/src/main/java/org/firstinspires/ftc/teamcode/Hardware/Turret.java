@@ -132,10 +132,6 @@ public class Turret extends BaseHardware{
         telemetry.addData("Error", error);
         telemetry.addData("Output", output);
 
-
-
-
-
     }
 
     public void stop(){

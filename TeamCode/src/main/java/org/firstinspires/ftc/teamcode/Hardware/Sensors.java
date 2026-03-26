@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Common.CommonLogic;
 /**
  * Base class for FTC Team 8492 defined hardware
  */
-@Disabled
+
 public class Sensors extends BaseHardware {
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -69,6 +69,7 @@ public class Sensors extends BaseHardware {
      * This method will be called once when the INIT button is pressed.
      */
     public void init(){
+        bothFilled = false;
         //DeliverySensor = hardwareMap.get(ColorSensor.class, "DeliveryS");
 
         NTKAP3 = hardwareMap.get(ColorRangeSensor.class, "NTKAP3");
