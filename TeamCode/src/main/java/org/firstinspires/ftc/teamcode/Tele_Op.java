@@ -23,7 +23,7 @@ public class Tele_Op extends OpMode {
     private static final String TAGTeleop = "8492-Teleop";
     //RobotTest robot = new RobotTest();
     Robot robot = new Robot();
-    SystemX systemX = new SystemX();
+    //SystemX systemX = new SystemX();
     //private SystemX systemX;
     //    // Declare OpMode members.
     private boolean gp1_prev_a = false;
@@ -181,7 +181,7 @@ public class Tele_Op extends OpMode {
         // Gameruntime.reset();
         //Gameruntime2.reset();
         robot.TeleOpRunning = true;
-        systemX.main = false;
+       // systemX.main = false;
 
         // robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GOLD);
         //robot.signalSign.doUP();
@@ -215,21 +215,6 @@ public class Tele_Op extends OpMode {
 
     @Override
     public void loop() {
-        systemX.loop();
-        if(SystemXActive){
-            systemX.main = true;
-        }else{
-            systemX.main = false;
-        }
-
-        if(systemXTolTime.milliseconds() >= 500){
-            systemXReady = false;
-        }
-
-
-
-
-
         robot.loop();
 
         write2Log();
@@ -433,7 +418,7 @@ public class Tele_Op extends OpMode {
         //if (CommonLogic.oneShot(gamepad1.a, gp1_prev_a)) {
         if (gamepad1.a) {
             if(systemXReady){
-                systemX.goToFarLaunch = true;
+             //   systemX.goToFarLaunch = true;
             }
             //robot.subPushers.cmdMoveAllDown();
             //      robot.cmdStrafeIntake();
@@ -442,7 +427,7 @@ public class Tele_Op extends OpMode {
 
         if (gamepad1.b) {
             if(systemXReady){
-                systemX.goToPickTunnel = true;
+              //  systemX.goToPickTunnel = true;
             }
             //robot.subPushers.cmdMoveAllUp();
             //  robot.cmdStrafeDelivery();

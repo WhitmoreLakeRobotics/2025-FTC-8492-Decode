@@ -12,6 +12,7 @@ public class Intake extends BaseHardware {
     private Lighting lighting;
     private Sensors sensors;
     private LauncherBlocker launcherBlocker;
+    private Limey limey;
 
     private DcMotorEx NTKM01;
 
@@ -25,7 +26,7 @@ public class Intake extends BaseHardware {
     public static final double autoSpeed = -1.0;
 
     //private ElapsedTime loopTime = new ElapsedTime();
-    private final double targRange = 6;
+    //private final double targRange = 6;
 
     public void init() {
 
@@ -48,42 +49,50 @@ public class Intake extends BaseHardware {
 
     public void loop() {
 
-        if(sensors.bothFilled && !launcherBlocker.AtUnBlocked){
-            cmdStop();
-        }
+        if(limey == null) return;
+        if(lighting == null) return;
+       // if(driveTrain == null) return;
+
+       // if(sensors.bothFilled && !launcherBlocker.AtUnBlocked){
+          //  cmdStop();
+       // }
 
     }
 
 
     @Override
     public void stop() {
+        if(lighting == null) return;
         cmdStop();
     }
 
     // COMMANDS
 
     public void cmdBackward() {
+        //if(lighting == null) return;
         CurrentMode = Mode.NTKbackward;
         NTKM01.setPower(outSpeed);
-        lighting.cmdGREENi();
-        sensors.cmdResetSensor();
+        //lighting.cmdGREENi();
+       // sensors.cmdResetSensor();
         //loopTime.reset();
     }
 
     public void cmdFoward() {
+       // if(lighting == null) return;
         CurrentMode = Mode.NTKforward;
         NTKM01.setPower(inSpeed);
         //sensorTime.reset();
         //loopTime.reset();
         // MJD: LED feedback for intake running
-        sensors.cmdResetSensor();
-        lighting.cmdGREENi();
+       // sensors.cmdResetSensor();
+        //lighting.cmdGREENi();
     }
 
     public void cmdStop() {
+      //  if(lighting == null) return;
         CurrentMode = Mode.NTKstop;
         NTKM01.setPower(stopSpeed);
-        lighting.cmdREDi(); // MJD: LED feedback for intake stopped
+       // lighting.cmdREDi(); // MJD: LED feedback for intake stopped
         //loopTime.reset();
     }
 

@@ -33,7 +33,7 @@ public class Lighting extends BaseHardware {
 
     private final static int GAMEPAD_LOCKOUT = 500;
 
-    public ColorAlliance CurrentColorA = ColorAlliance.OFF;
+    //public ColorAlliance CurrentColorA = ColorAlliance.OFF;
     public ColorIntake CurrentColorI = ColorIntake.OFF;
     public Team CurrentTeam = Team.UNKNOWN;
 
@@ -106,7 +106,7 @@ public class Lighting extends BaseHardware {
         initLight2 = false;
 
         CurrentColorI = ColorIntake.OFF;
-        CurrentColorA = ColorAlliance.OFF;
+        //CurrentColorA = ColorAlliance.OFF;
         cmdOFFi();
 
 
@@ -150,6 +150,8 @@ public class Lighting extends BaseHardware {
      * Example usage: Starting another thread.
      */
     public void start(){
+
+        cmdOFFi();
 
         initLight1 = false;
         initLight2 = false;
@@ -212,10 +214,10 @@ public class Lighting extends BaseHardware {
     public void cmdPURPLEi() { IntakeState.setPosition(Purple); CurrentColorI = ColorIntake.PURPLE; }
     public void cmdBLUEi()   { IntakeState.setPosition(Blue);   CurrentColorI = ColorIntake.BLUE; }
     public void cmdORANGEi() { IntakeState.setPosition(Orange); CurrentColorI = ColorIntake.ORANGE; }
-    public void cmdWHITEi() { IntakeState.setPosition(White); CurrentColorI = ColorIntake.WHITE; }
+    public void cmdWHITEi()  { IntakeState.setPosition(White);  CurrentColorI = ColorIntake.WHITE; }
     public void cmdOFFi()    { IntakeState.setPosition(Off);    CurrentColorI = ColorIntake.OFF; }
 
-    public enum ColorAlliance { GREEN, RED, YELLOW, PURPLE, BLUE, ORANGE, WHITE, OFF }
+    //public enum ColorAlliance { GREEN, RED, YELLOW, PURPLE, BLUE, ORANGE, WHITE, OFF }
 
     public enum ColorIntake { GREEN, RED, YELLOW, PURPLE, BLUE, ORANGE, WHITE, OFF }
 

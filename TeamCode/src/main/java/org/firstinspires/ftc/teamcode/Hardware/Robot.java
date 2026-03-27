@@ -60,6 +60,11 @@ public class Robot extends BaseHardware {
     @Override
     public void init() {
 
+        lighting = new Lighting();
+        lighting.hardwareMap = this.hardwareMap;
+        lighting.telemetry = this.telemetry;
+        lighting.init();
+
         driveTrain = new DriveTrain();
         driveTrain.hardwareMap = this.hardwareMap;
         driveTrain.telemetry = this.telemetry;
@@ -106,11 +111,6 @@ public class Robot extends BaseHardware {
         turret.telemetry = this.telemetry;
         turret.init();
 
-        lighting = new Lighting();
-        lighting.hardwareMap = this.hardwareMap;
-        lighting.telemetry = this.telemetry;
-        lighting.init();
-
         sensors = new Sensors();
         sensors.hardwareMap = this.hardwareMap;
         sensors.telemetry = this.telemetry;
@@ -127,7 +127,7 @@ public class Robot extends BaseHardware {
     @Override
     public void init_loop() {
         driveTrain.init_loop();
-        //lighting.init_loop();
+        lighting.init_loop();
          sensors.init_loop();
         intake.init_loop();
         launcher.init_loop();
@@ -138,13 +138,13 @@ public class Robot extends BaseHardware {
         autoRPM.init_loop();
         turret.init_loop();
         trapezoidAutoAim.init_loop();
-        lighting.init_loop();
+        //lighting.init_loop();
     }
 
     @Override
     public void start() {
         driveTrain.start();
-        // lighting.start();
+         lighting.start();
          sensors.start();
         intake.start();
         launcher.start();
@@ -155,7 +155,7 @@ public class Robot extends BaseHardware {
         autoRPM.start();
         turret.start();
         trapezoidAutoAim.start();
-        lighting.start();
+
 
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
@@ -163,8 +163,8 @@ public class Robot extends BaseHardware {
     @Override
     public void loop() {
         driveTrain.loop();
-        //. lighting.loop();
-         sensors.loop();
+         lighting.loop();
+        sensors.loop();
         intake.loop();
         launcher.loop();
         launcherBlocker.loop();
@@ -174,7 +174,7 @@ public class Robot extends BaseHardware {
         autoRPM.loop();
         turret.loop();
         trapezoidAutoAim.loop();
-        lighting.loop();
+        // lighting.loop();
 
         if (transitionRoller.CurrentMode == TransitionRoller.Mode.Stop
                 && intake.CurrentMode == Intake.Mode.NTKforward) {
@@ -185,21 +185,21 @@ public class Robot extends BaseHardware {
 
     public void autonLoop() {
         //driveTrain.loop();
-        //. lighting.loop();
-         sensors.loop();
+         lighting.loop();
+        sensors.loop();
         intake.loop();
         launcher.loop();
         launcherBlocker.loop();
         transitionRoller.loop();
         limey.loop();
         uppies.loop();
-        lighting.loop();
+        //lighting.loop();
     }
 
     @Override
     public void stop() {
         driveTrain.stop();
-        // lighting.stop();
+         lighting.stop();
          sensors.stop();
         intake.stop();
         launcher.stop();
@@ -210,7 +210,7 @@ public class Robot extends BaseHardware {
         autoRPM.stop();
         turret.stop();
         trapezoidAutoAim.stop();
-        lighting.stop();
+        //lighting.stop();
         // lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 

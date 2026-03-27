@@ -190,6 +190,30 @@ public class TrapezoidAutoAim {
 
     }
 
+    public void followMe1(){
+
+        if(limey == null) return;
+        if(driveTrain == null) return;
+
+        if(limey.getTagID() >= 0){
+            if (limey.getTx() > 72){
+                driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() - 1),0.35);
+            }else if(limey.getTx() < 72){
+                driveTrain.cmdTurn(Math.abs(driveTrain.getCurrentHeading() + 1),0.35);
+            }else{
+
+            }
+
+           // if(limey.getTagDistance() > 1 && limey.getTagDistance() < 2){
+            //    driveTrain.cmdDriveBySensors(6,driveTrain.getCurrentHeading(),0.35,driveTrain.getCurrentHeading());
+            //}else if(limey.getTagDistance() > 2 && limey.getTagDistance() > 1){
+                driveTrain.CmdDrive(12,driveTrain.getCurrentHeading(),0.60,driveTrain.getCurrentHeading());
+           // }else{
+
+           // }
+        }
+    }
+
 
 
     public enum Mode{
