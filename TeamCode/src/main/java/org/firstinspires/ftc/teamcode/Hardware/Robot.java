@@ -159,7 +159,7 @@ public class Robot extends BaseHardware {
 
         if (transitionRoller.CurrentMode == TransitionRoller.Mode.Stop
                 && intake.CurrentMode == Intake.Mode.NTKforward) {
-            intake.cmdBLUE();
+           // intake.cmdBLUE();
         }
 
         autoAim.update();

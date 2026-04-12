@@ -30,7 +30,7 @@ public class Intake extends BaseHardware {
     // private TransitionRoller transitionRoller = new TransitionRoller();
 
     private DcMotorEx NTKM01;
-    private Servo PeaLight;
+   // private Servo PeaLight;
     public ColorRangeSensor NTKAP2;
     public ColorRangeSensor NTKAP3;
 
@@ -80,7 +80,7 @@ public class Intake extends BaseHardware {
         NTKAP3 = hardwareMap.get(ColorRangeSensor.class, "NTKAP3");
         NTKAP2 = hardwareMap.get(ColorRangeSensor.class, "NTKAP2");
         NTKM01 = hardwareMap.get(DcMotorEx.class, "NTKM01");
-        PeaLight = hardwareMap.get(Servo.class, "PeaLight");
+        //PeaLight = hardwareMap.get(Servo.class, "PeaLight");
         NTKM01.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
         NTKM01.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         NTKM01.setPower(0); // safe default
@@ -95,7 +95,7 @@ public class Intake extends BaseHardware {
         // Ensure safe defaults
         CurrentMode = Mode.NTKstop;
         CurrentColor = Color.OFF;
-        cmdOFF();
+        //cmdOFF();
     }
 
     /**
@@ -107,14 +107,14 @@ public class Intake extends BaseHardware {
     public void init_loop() {
 
         if (initLight1 && initLightTime.milliseconds() >= 750) {
-            cmdORANGE();
+            //cmdORANGE();
             initLight1 = false;
             initLight2 = true;
             initLightTime.reset();
         }
 
         if (initLight2 && initLightTime.milliseconds() >= 750) {
-            cmdOFF();
+            //cmdOFF();
             initLight2 = false;
             initLight1 = true;
             initLightTime.reset();
@@ -131,7 +131,7 @@ public class Intake extends BaseHardware {
     public void start() {
         initLight1 = false;
         initLight2 = false;
-        cmdRED();
+      //  cmdRED();
         loopTime.reset();
     }
 
@@ -204,7 +204,7 @@ public class Intake extends BaseHardware {
     public void cmdBackward() {
         CurrentMode = Mode.NTKbackward;
         NTKM01.setPower(outSpeed);
-        cmdGREEN();
+       // cmdGREEN();
         loopTime.reset();
     }
 
@@ -213,13 +213,13 @@ public class Intake extends BaseHardware {
         NTKM01.setPower(inSpeed);
         sensorTime.reset(); // Start debounce timer
         loopTime.reset();
-        cmdGREEN();
+       // cmdGREEN();
     }
 
     public void cmdStop() {
         CurrentMode = Mode.NTKstop;
         NTKM01.setPower(stopSpeed);
-        cmdRED();
+       // cmdRED();
         loopTime.reset();
     }
 
@@ -230,13 +230,13 @@ public class Intake extends BaseHardware {
 
     // LED COMMANDS
 
-    public void cmdRED()    { PeaLight.setPosition(Red);    CurrentColor = Color.RED; }
-    public void cmdGREEN()  { PeaLight.setPosition(Green);  CurrentColor = Color.GREEN; }
-    public void cmdYELLOW() { PeaLight.setPosition(Yellow); CurrentColor = Color.YELLOW; }
-    public void cmdPURPLE() { PeaLight.setPosition(Purple); CurrentColor = Color.PURPLE; }
-    public void cmdBLUE()   { PeaLight.setPosition(Blue);   CurrentColor = Color.BLUE; }
-    public void cmdORANGE() { PeaLight.setPosition(Orange); CurrentColor = Color.ORANGE; }
-    public void cmdOFF()    { PeaLight.setPosition(Off);    CurrentColor = Color.OFF; }
+    //public void cmdRED()    { PeaLight.setPosition(Red);    CurrentColor = Color.RED; }
+    //public void cmdGREEN()  { PeaLight.setPosition(Green);  CurrentColor = Color.GREEN; }
+   // public void cmdYELLOW() { PeaLight.setPosition(Yellow); CurrentColor = Color.YELLOW; }
+    //public void cmdPURPLE() { PeaLight.setPosition(Purple); CurrentColor = Color.PURPLE; }
+    //public void cmdBLUE()   { PeaLight.setPosition(Blue);   CurrentColor = Color.BLUE; }
+    //public void cmdORANGE() { PeaLight.setPosition(Orange); CurrentColor = Color.ORANGE; }
+    //public void cmdOFF()    { PeaLight.setPosition(Off);    CurrentColor = Color.OFF; }
 
     // SENSOR READS
 

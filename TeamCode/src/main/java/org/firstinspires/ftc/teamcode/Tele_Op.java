@@ -144,13 +144,13 @@ public class Tele_Op extends OpMode {
         //Gameruntime2.reset();
 
         if(CurrentAlliance == Alliance.Red){
-            robot.intake.cmdRED();
+            //robot.intake.cmdRED();
         }else if(CurrentAlliance == Alliance.Blue){
-            robot.intake.cmdBLUE();
+            //robot.intake.cmdBLUE();
         }else if(CurrentAlliance == Alliance.Unknown){
-            robot.intake.cmdPURPLE();
+           // robot.intake.cmdPURPLE();
         }else if(CurrentAlliance == Alliance.NoAuto){
-            robot.intake.cmdYELLOW();
+            //robot.intake.cmdYELLOW();
         }else{
 
         }
@@ -178,6 +178,7 @@ public class Tele_Op extends OpMode {
             bAutoTurn = true;
         }
         //AutoAim tied to Left Trigger hold
+        /*
         if (gamepad1.left_trigger > 0.2) {
 
             // MJD — allow auto aim to run
@@ -203,6 +204,10 @@ public class Tele_Op extends OpMode {
             robot.autoAim.setDriverOverride(true);
 
         }
+
+         */
+
+        robot.autoAim.setDriverOverride(true);
 
 
 
@@ -386,10 +391,10 @@ public class Tele_Op extends OpMode {
         }
 
         if (gamepad1.right_trigger > 0.8) {
-            robot.trapezoidAutoAim.PrimitiveDriver = false;
+            //robot.trapezoidAutoAim.PrimitiveDriver = false;
 
         }else{
-            robot.trapezoidAutoAim.PrimitiveDriver = true;
+            //robot.trapezoidAutoAim.PrimitiveDriver = true;
         }
 
 
